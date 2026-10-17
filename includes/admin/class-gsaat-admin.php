@@ -52,6 +52,14 @@ class GSAAT_Admin {
 		self::$hooks['edit'] = add_submenu_page( self::PAGE_LIST, __( 'New Automation', 'glocalsaino-actions-automation-based-on-trigger' ), __( 'New Automation', 'glocalsaino-actions-automation-based-on-trigger' ), self::CAP, self::PAGE_EDIT, array( __CLASS__, 'render_edit' ) );
 		self::$hooks['logs'] = add_submenu_page( self::PAGE_LIST, __( 'Logs', 'glocalsaino-actions-automation-based-on-trigger' ), __( 'Logs', 'glocalsaino-actions-automation-based-on-trigger' ), self::CAP, self::PAGE_LOGS, array( __CLASS__, 'render_logs' ) );
 		self::$hooks['webhook'] = add_submenu_page( self::PAGE_LIST, __( 'Webhook Logs', 'glocalsaino-actions-automation-based-on-trigger' ), __( 'Webhook Logs', 'glocalsaino-actions-automation-based-on-trigger' ), self::CAP, self::PAGE_WEBHOOK, array( __CLASS__, 'render_webhook_logs' ) );
+		/**
+		 * Fires before the Settings submenu is added, so add-ons can add their own pages
+		 * under the Automations menu.
+		 *
+		 * @param string $parent_slug Parent menu slug.
+		 */
+		do_action( 'glocalsaino_aat_admin_menu', self::PAGE_LIST );
+
 		self::$hooks['settings'] = add_submenu_page( self::PAGE_LIST, __( 'Settings', 'glocalsaino-actions-automation-based-on-trigger' ), __( 'Settings', 'glocalsaino-actions-automation-based-on-trigger' ), self::CAP, self::PAGE_SETTING, array( __CLASS__, 'render_settings' ) );
 
 		add_action( 'load-' . self::$hooks['list'], array( __CLASS__, 'process_automations_bulk' ) );
@@ -71,7 +79,23 @@ class GSAAT_Admin {
 			return;
 		}
 
-		wp_enqueue_script( 'glocalsaino-aat-editor', GSAAT_URL . 'assets/js/admin-editor.js', array(), GSAAT_VERSION, true );
+		wp_register_script( 'glocalsaino-aat-editor-api', GSAAT_URL . 'assets/js/admin-editor-api.js', array(), GSAAT_VERSION, true );
+
+		/**
+		 * Fires before the automation editor script is enqueued. Add-ons register their editor
+		 * scripts here (depending on 'glocalsaino-aat-editor-api') and add their handles with
+		 * the glocalsaino_aat_editor_script_dependencies filter.
+		 */
+		do_action( 'glocalsaino_aat_enqueue_editor_assets' );
+
+		/**
+		 * Filters the scripts loaded before the automation editor.
+		 *
+		 * @param string[] $handles Script handles.
+		 */
+		$dependencies = apply_filters( 'glocalsaino_aat_editor_script_dependencies', array( 'glocalsaino-aat-editor-api' ) );
+
+		wp_enqueue_script( 'glocalsaino-aat-editor', GSAAT_URL . 'assets/js/admin-editor.js', $dependencies, GSAAT_VERSION, true );
 		wp_add_inline_script(
 			'glocalsaino-aat-editor',
 			'window.glocalsainoAatEditor = ' . wp_json_encode( self::editor_data() ) . ';',
@@ -175,12 +199,29 @@ class GSAAT_Admin {
 
 	public static function sanitize_settings( $input ) {
 		$input = is_array( $input ) ? $input : array();
-		return array(
+		$clean = array(
 			'logs_retention_days'         => isset( $input['logs_retention_days'] ) ? min( 3650, absint( $input['logs_retention_days'] ) ) : 30,
 			'webhook_logs_retention_days' => isset( $input['webhook_logs_retention_days'] ) ? min( 3650, absint( $input['webhook_logs_retention_days'] ) ) : 30,
 			'delete_data_on_uninstall'    => empty( $input['delete_data_on_uninstall'] ) ? 0 : 1,
 			'ip_source'                   => ( isset( $input['ip_source'] ) && array_key_exists( $input['ip_source'], GSAAT_Webhook_Security::ip_sources() ) ) ? $input['ip_source'] : 'remote_addr',
+			'notify_failures'             => empty( $input['notify_failures'] ) ? 0 : 1,
+			'notify_partial'              => empty( $input['notify_partial'] ) ? 0 : 1,
+			'failure_email_to'            => isset( $input['failure_email_to'] ) ? implode( ', ', GSAAT_Notifier::recipients( sanitize_text_field( $input['failure_email_to'] ) ) ) : '',
+			'failure_email_throttle'      => isset( $input['failure_email_throttle'] ) ? min( 1440, absint( $input['failure_email_throttle'] ) ) : 60,
 		);
+
+		// Do not store the admin email as an explicit recipient when the field was left empty.
+		if ( isset( $input['failure_email_to'] ) && '' === trim( (string) $input['failure_email_to'] ) ) {
+			$clean['failure_email_to'] = '';
+		}
+
+		/**
+		 * Filters the sanitized settings. Add-ons sanitize their own keys here.
+		 *
+		 * @param array $clean Sanitized settings.
+		 * @param array $input Raw input.
+		 */
+		return apply_filters( 'glocalsaino_aat_sanitize_settings', $clean, $input );
 	}
 
 	/*
@@ -204,30 +245,29 @@ class GSAAT_Admin {
 			$trigger_type = '';
 		}
 
+		// Raw POST data for the trigger / add-on sanitize callbacks, which sanitize every value they use.
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$post = wp_unslash( $_POST );
 		// JSON payloads built by the editor script; every value is sanitized after decoding.
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		$keys_json = isset( $_POST['webhook_keys_json'] ) ? wp_unslash( $_POST['webhook_keys_json'] ) : '[]';
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		$conditions_json = isset( $_POST['conditions_json'] ) ? wp_unslash( $_POST['conditions_json'] ) : '{}';
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		$actions_json = isset( $_POST['actions_json'] ) ? wp_unslash( $_POST['actions_json'] ) : '[]';
+		$conditions_json = isset( $post['conditions_json'] ) && is_string( $post['conditions_json'] ) ? $post['conditions_json'] : '{}';
+		$actions_json    = isset( $post['actions_json'] ) && is_string( $post['actions_json'] ) ? $post['actions_json'] : '[]';
 
-		$trigger_config = array();
 		$notices        = array();
-		if ( 'cf7' === $trigger_type ) {
-			$mode           = isset( $_POST['cf7_mode'] ) ? sanitize_key( wp_unslash( $_POST['cf7_mode'] ) ) : 'form';
-			$trigger_config = array(
-				'form_id' => isset( $_POST['cf7_form_id'] ) ? absint( wp_unslash( $_POST['cf7_form_id'] ) ) : 0,
-				'mode'    => 'field' === $mode ? 'field' : 'form',
-				'field'   => isset( $_POST['cf7_field'] ) ? sanitize_text_field( wp_unslash( $_POST['cf7_field'] ) ) : '',
-				'value'   => isset( $_POST['cf7_value'] ) ? sanitize_text_field( wp_unslash( $_POST['cf7_value'] ) ) : '',
-			);
-		} elseif ( 'webhook' === $trigger_type ) {
-			$trigger_config = array(
-				'keys'     => self::sanitize_keys( json_decode( (string) $keys_json, true ) ),
-				'security' => self::sanitize_security( $notices ),
-			);
-		}
+		$trigger_def    = GSAAT_Registry::trigger_type( $trigger_type );
+		$trigger_config = ( $trigger_def && is_callable( $trigger_def['sanitize'] ) )
+			? (array) call_user_func_array( $trigger_def['sanitize'], array( $post, &$notices ) )
+			: array();
+
+		/**
+		 * Filters the sanitized trigger settings. Set '_incomplete' => true to save the automation as inactive.
+		 *
+		 * @param array  $trigger_config Sanitized settings.
+		 * @param string $trigger_type   Trigger type.
+		 * @param array  $post           Unslashed POST data.
+		 */
+		$trigger_config = apply_filters( 'glocalsaino_aat_sanitize_trigger_config', $trigger_config, $trigger_type, $post );
+		$incomplete     = ! empty( $trigger_config['_incomplete'] );
+		unset( $trigger_config['_incomplete'] );
 
 		$webhook_key = $existing ? $existing['webhook_key'] : '';
 		$posted_key  = isset( $_POST['webhook_key'] ) ? sanitize_text_field( wp_unslash( $_POST['webhook_key'] ) ) : '';
@@ -251,16 +291,24 @@ class GSAAT_Admin {
 			'status'         => ( isset( $_POST['status'] ) && 'active' === sanitize_key( wp_unslash( $_POST['status'] ) ) ) ? 'active' : 'inactive',
 			'trigger_type'   => $trigger_type,
 			'trigger_config' => $trigger_config,
-			'conditions'     => self::sanitize_conditions( json_decode( (string) $conditions_json, true ) ),
-			'actions'        => self::sanitize_actions( json_decode( (string) $actions_json, true ) ),
+			'conditions'     => self::sanitize_conditions( json_decode( $conditions_json, true ) ),
+			'actions'        => GSAAT_Actions::sanitize_all( json_decode( $actions_json, true ) ),
 			'max_runs'       => $unlimited_runs ? 0 : ( isset( $_POST['max_runs'] ) ? absint( wp_unslash( $_POST['max_runs'] ) ) : 0 ),
 			'start_date'     => isset( $_POST['start_date'] ) ? self::local_to_gmt( sanitize_text_field( wp_unslash( $_POST['start_date'] ) ) ) : null,
 			'end_date'       => ( ! $never_expires && isset( $_POST['end_date'] ) ) ? self::local_to_gmt( sanitize_text_field( wp_unslash( $_POST['end_date'] ) ) ) : null,
 			'webhook_key'    => $webhook_key,
+			/**
+			 * Filters the per-automation settings stored by add-ons (the automation's "meta").
+			 *
+			 * @param array $meta     Current meta (empty for a new automation).
+			 * @param array $post     Unslashed POST data.
+			 * @param array $existing Existing automation, or empty array.
+			 */
+			'meta'           => (array) apply_filters( 'glocalsaino_aat_sanitize_automation_meta', $existing ? $existing['meta'] : array(), $post, $existing ? $existing : array() ),
 		);
 
 		$message = 'saved';
-		if ( '' === $trigger_type || ( 'cf7' === $trigger_type && ( ! $trigger_config['form_id'] || ( 'field' === $trigger_config['mode'] && '' === $trigger_config['field'] ) ) ) ) {
+		if ( '' === $trigger_type || $incomplete ) {
 			$data['status'] = 'inactive';
 			$message        = 'saved_incomplete_trigger';
 		} elseif ( ! $data['actions'] ) {
@@ -279,6 +327,15 @@ class GSAAT_Admin {
 		if ( ! $saved_id ) {
 			wp_die( esc_html__( 'The automation could not be saved.', 'glocalsaino-actions-automation-based-on-trigger' ) );
 		}
+
+		/**
+		 * Fires after an automation was saved from the editor.
+		 *
+		 * @param int   $saved_id Automation ID.
+		 * @param array $data     Saved data.
+		 * @param array $post     Unslashed POST data.
+		 */
+		do_action( 'glocalsaino_aat_automation_saved', $saved_id, $data, $post );
 
 		wp_safe_redirect(
 			self::url(
@@ -324,6 +381,23 @@ class GSAAT_Admin {
 				$page    = self::PAGE_LOGS;
 				$message = 'logs_deleted';
 				break;
+			case 'retry_log':
+				$retried = GSAAT_Engine::retry( $id );
+				if ( is_wp_error( $retried ) ) {
+					$page    = self::PAGE_LOGS;
+					$message = 'glocalsaino_aat_automation_deleted' === $retried->get_error_code() ? 'retry_automation_deleted' : 'retry_not_retryable';
+					break;
+				}
+				wp_safe_redirect(
+					self::url(
+						self::PAGE_LOGS,
+						array(
+							'view'            => $retried,
+							self::MESSAGE_ARG => 'retried',
+						)
+					)
+				);
+				exit;
 			case 'delete_webhook_log':
 				GSAAT_Logs::delete( 'webhook_logs', array( $id ) );
 				$page    = self::PAGE_WEBHOOK;
@@ -414,8 +488,19 @@ class GSAAT_Admin {
 	}
 
 	private static function process_log_bulk( $table, $page ) {
-		$ids = self::bulk_ids( 'logs' === $table ? 'logs' : 'webhook-logs' );
-		if ( ! $ids || 'delete' !== self::current_bulk_action() ) {
+		$ids    = self::bulk_ids( 'logs' === $table ? 'logs' : 'webhook-logs' );
+		$action = self::current_bulk_action();
+		if ( ! $ids ) {
+			return;
+		}
+		if ( 'retry' === $action && 'logs' === $table ) {
+			foreach ( $ids as $id ) {
+				GSAAT_Engine::retry( $id );
+			}
+			wp_safe_redirect( self::url( $page, array( self::MESSAGE_ARG => 'retried_bulk' ) ) );
+			exit;
+		}
+		if ( 'delete' !== $action ) {
 			return;
 		}
 		GSAAT_Logs::delete( $table, $ids );
@@ -454,16 +539,6 @@ class GSAAT_Admin {
 	 * ---------------------------------------------------------------------
 	 */
 
-	private static function sanitize_keys( $keys ) {
-		$clean = array();
-		foreach ( is_array( $keys ) ? $keys : array() as $key ) {
-			$key = is_string( $key ) ? self::sanitize_field_name( $key ) : '';
-			if ( '' !== $key && ! in_array( $key, $clean, true ) ) {
-				$clean[] = $key;
-			}
-		}
-		return $clean;
-	}
 
 	private static function sanitize_conditions( $conditions ) {
 		$conditions = is_array( $conditions ) ? $conditions : array();
@@ -484,7 +559,7 @@ class GSAAT_Admin {
 				}
 				continue;
 			}
-			$field    = isset( $rule['field'] ) ? self::sanitize_field_name( (string) $rule['field'] ) : '';
+			$field    = isset( $rule['field'] ) ? GSAAT_Engine::sanitize_field_name( (string) $rule['field'] ) : '';
 			$operator = isset( $rule['operator'] ) ? (string) $rule['operator'] : '';
 			if ( '' === $field || ! isset( $operators[ $operator ] ) ) {
 				continue;
@@ -517,7 +592,7 @@ class GSAAT_Admin {
 		$clean = array(
 			'type'       => 'user',
 			'operator'   => $operator,
-			'user_field' => isset( $rule['user_field'] ) ? self::sanitize_field_name( (string) $rule['user_field'] ) : '',
+			'user_field' => isset( $rule['user_field'] ) ? GSAAT_Engine::sanitize_field_name( (string) $rule['user_field'] ) : '',
 			'user_id'    => isset( $rule['user_id'] ) ? absint( $rule['user_id'] ) : 0,
 		);
 		if ( 'is_user' === $operator && ! get_userdata( $clean['user_id'] ) ) {
@@ -526,132 +601,10 @@ class GSAAT_Admin {
 		return $clean;
 	}
 
-	/**
-	 * Sanitize the webhook security settings posted by the editor.
-	 *
-	 * @param string[] $notices Notice codes, appended to.
-	 * @return array
-	 */
-	private static function sanitize_security( array &$notices ) {
-		// phpcs:disable WordPress.Security.NonceVerification.Missing -- Called from handle_save(), after check_admin_referer().
-		$text = static function ( $key, $default = '' ) {
-			return isset( $_POST[ $key ] ) ? trim( sanitize_text_field( wp_unslash( $_POST[ $key ] ) ) ) : $default;
-		};
 
-		$token_enabled = ! empty( $_POST['sec_token_enabled'] );
-		$token_value   = preg_replace( '/[^A-Za-z0-9._~\-]/', '', $text( 'sec_token_value' ) );
-		if ( $token_enabled && strlen( $token_value ) < 16 ) {
-			$token_value = wp_generate_password( 40, false, false );
-			$notices[]   = 'token_generated';
-		}
 
-		$ip_raw     = isset( $_POST['sec_ip_list'] ) ? sanitize_textarea_field( wp_unslash( $_POST['sec_ip_list'] ) ) : '';
-		$ip_entries = array_values( array_unique( array_filter( preg_split( '/[\s,;]+/', $ip_raw ) ) ) );
-		$ip_list    = array_values( array_filter( $ip_entries, array( 'GSAAT_Webhook_Security', 'valid_ip_entry' ) ) );
-		$ip_enabled = ! empty( $_POST['sec_ip_enabled'] );
-		if ( count( $ip_list ) !== count( $ip_entries ) ) {
-			$notices[] = 'ip_invalid_removed';
-		}
-		if ( $ip_enabled && ! $ip_list ) {
-			$ip_enabled = false;
-			$notices[]  = 'ip_disabled';
-		}
 
-		$preset      = $text( 'sec_sig_preset', 'generic' );
-		$algo        = $text( 'sec_sig_algo', 'sha256' );
-		$secret      = $text( 'sec_sig_secret' );
-		$sig_enabled = ! empty( $_POST['sec_sig_enabled'] );
-		if ( $sig_enabled && '' === $secret ) {
-			$sig_enabled = false;
-			$notices[]   = 'signature_disabled';
-		}
-		$tolerance = absint( $text( 'sec_sig_tolerance', (string) GSAAT_Webhook_Security::DEFAULT_TOLERANCE ) );
-		// phpcs:enable
 
-		return array(
-			'token'     => array(
-				'enabled' => $token_enabled,
-				'header'  => self::sanitize_header_name( $text( 'sec_token_header' ), GSAAT_Webhook_Security::DEFAULT_TOKEN_HEADER ),
-				'value'   => $token_value,
-			),
-			'ip'        => array(
-				'enabled' => $ip_enabled,
-				'list'    => $ip_list,
-			),
-			'signature' => array(
-				'enabled'          => $sig_enabled,
-				'preset'           => array_key_exists( $preset, GSAAT_Webhook_Security::presets() ) ? $preset : 'generic',
-				'secret'           => $secret,
-				'header'           => self::sanitize_header_name( $text( 'sec_sig_header' ), GSAAT_Webhook_Security::DEFAULT_SIGNATURE_HEADER ),
-				'algo'             => in_array( $algo, GSAAT_Webhook_Security::algorithms(), true ) ? $algo : 'sha256',
-				'encoding'         => 'base64' === $text( 'sec_sig_encoding' ) ? 'base64' : 'hex',
-				'timestamp_header' => self::sanitize_header_name( $text( 'sec_sig_timestamp_header' ), '' ),
-				'tolerance'        => min( 86400, max( 30, $tolerance ) ),
-			),
-		);
-	}
-
-	private static function sanitize_header_name( $name, $default ) {
-		$name = preg_replace( '/[^A-Za-z0-9\-]/', '', (string) $name );
-		return '' !== $name ? substr( $name, 0, 64 ) : $default;
-	}
-
-	private static function sanitize_actions( $actions ) {
-		$clean = array();
-		foreach ( is_array( $actions ) ? $actions : array() as $action ) {
-			if ( ! is_array( $action ) || empty( $action['type'] ) ) {
-				continue;
-			}
-			if ( 'webhook' === $action['type'] ) {
-				$method  = isset( $action['method'] ) ? strtoupper( (string) $action['method'] ) : 'POST';
-				$clean[] = array(
-					'type'    => 'webhook',
-					'url'     => isset( $action['url'] ) ? sanitize_text_field( (string) $action['url'] ) : '',
-					'method'  => in_array( $method, GSAAT_Actions::http_methods(), true ) ? $method : 'POST',
-					'format'  => ( isset( $action['format'] ) && 'form' === $action['format'] ) ? 'form' : 'json',
-					'headers' => self::sanitize_pairs( isset( $action['headers'] ) ? $action['headers'] : array() ),
-					'fields'  => self::sanitize_pairs( isset( $action['fields'] ) ? $action['fields'] : array() ),
-				);
-			} elseif ( 'email' === $action['type'] ) {
-				$clean[] = array(
-					'type'     => 'email',
-					'to'       => isset( $action['to'] ) ? sanitize_text_field( (string) $action['to'] ) : '',
-					'reply_to' => isset( $action['reply_to'] ) ? sanitize_text_field( (string) $action['reply_to'] ) : '',
-					'subject'  => isset( $action['subject'] ) ? sanitize_text_field( (string) $action['subject'] ) : '',
-					'body'     => isset( $action['body'] ) ? sanitize_textarea_field( (string) $action['body'] ) : '',
-				);
-			}
-		}
-		return $clean;
-	}
-
-	private static function sanitize_pairs( $pairs ) {
-		$clean = array();
-		foreach ( is_array( $pairs ) ? $pairs : array() as $pair ) {
-			if ( ! is_array( $pair ) ) {
-				continue;
-			}
-			$key = isset( $pair['key'] ) ? sanitize_text_field( (string) $pair['key'] ) : '';
-			if ( '' === $key ) {
-				continue;
-			}
-			$clean[] = array(
-				'key'   => $key,
-				'value' => isset( $pair['value'] ) ? sanitize_text_field( (string) $pair['value'] ) : '',
-			);
-		}
-		return $clean;
-	}
-
-	/**
-	 * Field / key names: letters, digits and _ . - [ ] :
-	 *
-	 * @param string $name Raw name.
-	 * @return string
-	 */
-	private static function sanitize_field_name( $name ) {
-		return substr( preg_replace( '/[^A-Za-z0-9_.\-\[\]:]/', '', $name ), 0, 100 );
-	}
 
 	/**
 	 * Convert a datetime-local value (site timezone) into a GMT MySQL datetime.
@@ -735,34 +688,14 @@ class GSAAT_Admin {
 	 * @return string Plain text.
 	 */
 	public static function describe_trigger( array $automation ) {
-		$config = $automation['trigger_config'];
-		if ( 'cf7' === $automation['trigger_type'] ) {
-			$form_id = isset( $config['form_id'] ) ? (int) $config['form_id'] : 0;
-			$title   = $form_id ? get_the_title( $form_id ) : '';
-			/* translators: %s: form title or ID. */
-			$text = sprintf( __( 'Contact Form 7: "%s" submitted', 'glocalsaino-actions-automation-based-on-trigger' ), '' !== $title ? $title : '#' . $form_id );
-			if ( isset( $config['mode'] ) && 'field' === $config['mode'] ) {
-				$text .= '' !== $config['value']
-					/* translators: 1: field name, 2: expected value. */
-					? ' — ' . sprintf( __( 'field "%1$s" = "%2$s"', 'glocalsaino-actions-automation-based-on-trigger' ), $config['field'], $config['value'] )
-					/* translators: %s: field name. */
-					: ' — ' . sprintf( __( 'field "%s" filled in', 'glocalsaino-actions-automation-based-on-trigger' ), $config['field'] );
-			}
-			return $text;
+		$definition = GSAAT_Registry::trigger_type( $automation['trigger_type'] );
+		if ( ! $definition ) {
+			return '' === $automation['trigger_type']
+				? __( 'No trigger', 'glocalsaino-actions-automation-based-on-trigger' )
+				/* translators: %s: trigger type slug. */
+				: sprintf( __( 'Unavailable trigger (%s)', 'glocalsaino-actions-automation-based-on-trigger' ), $automation['trigger_type'] );
 		}
-		if ( 'webhook' === $automation['trigger_type'] ) {
-			$keys      = isset( $config['keys'] ) ? (array) $config['keys'] : array();
-			$protected = GSAAT_Webhook_Security::enabled_labels( GSAAT_Webhook_Security::config( $config ) );
-			$suffix    = $protected
-				/* translators: %s: comma-separated list of protections. */
-				? ' — ' . sprintf( __( 'protected by %s', 'glocalsaino-actions-automation-based-on-trigger' ), implode( ', ', $protected ) )
-				: '';
-			return ( $keys
-				/* translators: %s: comma-separated list of keys. */
-				? sprintf( __( 'Webhook (keys: %s)', 'glocalsaino-actions-automation-based-on-trigger' ), implode( ', ', $keys ) )
-				: __( 'Webhook (all received data)', 'glocalsaino-actions-automation-based-on-trigger' ) ) . $suffix;
-		}
-		return __( 'No trigger', 'glocalsaino-actions-automation-based-on-trigger' );
+		return is_callable( $definition['describe'] ) ? (string) call_user_func( $definition['describe'], $automation ) : $definition['label'];
 	}
 
 	/**
@@ -772,16 +705,7 @@ class GSAAT_Admin {
 	 * @return string Plain text.
 	 */
 	public static function describe_action( array $action ) {
-		if ( 'webhook' === $action['type'] ) {
-			$host = wp_parse_url( $action['url'], PHP_URL_HOST );
-			/* translators: 1: HTTP method, 2: host name or URL. */
-			return sprintf( __( 'Webhook: %1$s %2$s', 'glocalsaino-actions-automation-based-on-trigger' ), $action['method'], $host ? $host : $action['url'] );
-		}
-		if ( 'email' === $action['type'] ) {
-			/* translators: %s: recipient. */
-			return sprintf( __( 'Email to %s', 'glocalsaino-actions-automation-based-on-trigger' ), $action['to'] );
-		}
-		return $action['type'];
+		return GSAAT_Actions::describe( $action );
 	}
 
 	/**
@@ -824,9 +748,7 @@ class GSAAT_Admin {
 	 * @return string Plain text.
 	 */
 	public static function result_label( array $result ) {
-		$types = GSAAT_Actions::types();
-		$type  = isset( $types[ $result['type'] ] ) ? $types[ $result['type'] ] : $result['type'];
-		return '' !== $result['target'] ? $type . ' → ' . $result['target'] : $type;
+		return GSAAT_Actions::result_label( $result );
 	}
 
 	/**
@@ -869,7 +791,19 @@ class GSAAT_Admin {
 			'ip_disabled'              => array( 'warning', __( 'The IP restriction was turned off because the list has no valid address.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
 			'signature_disabled'       => array( 'warning', __( 'The signature check was turned off because no signing secret was entered.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
 			'user_rule_incomplete'     => array( 'warning', __( 'A user condition was removed because no valid user was chosen.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
+			'retried'                  => array( 'info', __( 'The failed actions were retried. This is the result of the retry.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
+			'retried_bulk'             => array( 'info', __( 'The failed actions of the selected entries were retried. Entries that had not failed were skipped.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
+			'retry_not_retryable'      => array( 'error', __( 'Only executions with failed actions can be retried.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
+			'retry_automation_deleted' => array( 'error', __( 'This execution cannot be retried because its automation was deleted.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
 		);
+
+		/**
+		 * Filters the admin notices shown after redirects (code => [ type, message ]).
+		 * Add-ons can add codes and append them to the glocalsaino_aat_msg query arg.
+		 *
+		 * @param array $messages Notices.
+		 */
+		$messages = apply_filters( 'glocalsaino_aat_admin_notices', $messages );
 
 		foreach ( $codes as $code ) {
 			if ( ! isset( $messages[ $code ] ) ) {
@@ -906,6 +840,7 @@ class GSAAT_Admin {
 			'start_date'     => null,
 			'end_date'       => null,
 			'webhook_key'    => GSAAT_Automations::generate_webhook_key(),
+			'meta'           => array(),
 			'created_at'     => '',
 			'updated_at'     => '',
 		);
@@ -921,18 +856,20 @@ class GSAAT_Admin {
 		$id         = isset( $_GET['id'] ) ? absint( wp_unslash( $_GET['id'] ) ) : 0;
 		$automation = $id ? GSAAT_Automations::get( $id ) : null;
 
+		$visitor_triggers = GSAAT_Registry::visitor_trigger_types();
+
 		$builtin = array();
 		foreach ( GSAAT_Engine::builtin_token_labels() as $key => $label ) {
 			$builtin[] = array(
-				'key'     => $key,
-				'label'   => $label,
-				'trigger' => '',
+				'key'      => $key,
+				'label'    => $label,
+				'triggers' => array(),
 			);
 		}
 		$builtin[] = array(
-			'key'     => '_form_title',
-			'label'   => __( 'Form title', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'trigger' => 'cf7',
+			'key'      => '_form_title',
+			'label'    => __( 'Form title', 'glocalsaino-actions-automation-based-on-trigger' ),
+			'triggers' => array( 'cf7' ),
 		);
 		foreach (
 			array(
@@ -942,16 +879,25 @@ class GSAAT_Admin {
 			) as $key => $label
 		) {
 			$builtin[] = array(
-				'key'     => $key,
-				'label'   => $label,
-				'trigger' => 'cf7',
+				'key'      => $key,
+				'label'    => $label,
+				'triggers' => $visitor_triggers,
 			);
 		}
 		$builtin[] = array(
-			'key'     => '_webhook_method',
-			'label'   => __( 'HTTP method used', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'trigger' => 'webhook',
+			'key'      => '_webhook_method',
+			'label'    => __( 'HTTP method used', 'glocalsaino-actions-automation-based-on-trigger' ),
+			'triggers' => array( 'webhook' ),
 		);
+
+		$action_types = array();
+		foreach ( GSAAT_Registry::action_types() as $type => $definition ) {
+			$action_types[ $type ] = array(
+				'label'    => $definition['label'],
+				'icon'     => $definition['icon'],
+				'defaults' => (object) $definition['defaults'],
+			);
+		}
 
 		$user_labels = array();
 		foreach ( $automation ? $automation['conditions']['rules'] : array() as $rule ) {
@@ -962,7 +908,9 @@ class GSAAT_Admin {
 			}
 		}
 
-		return array(
+		$data = array(
+			'actionTypes'     => $action_types,
+			'visitorTriggers' => $visitor_triggers,
 			'ajaxUrl'       => admin_url( 'admin-ajax.php' ),
 			'userNonce'     => wp_create_nonce( 'glocalsaino_aat_search_users' ),
 			'userOperators' => GSAAT_Engine::user_operators(),
@@ -999,8 +947,6 @@ class GSAAT_Admin {
 				'noKeys'          => __( 'No keys configured: every received field will be available.', 'glocalsaino-actions-automation-based-on-trigger' ),
 				'noConditions'    => __( 'No conditions: the actions run every time the trigger fires.', 'glocalsaino-actions-automation-based-on-trigger' ),
 				'noActions'       => __( 'No actions yet. Add at least one.', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'actionWebhook'   => __( 'Send data to an external webhook', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'actionEmail'     => __( 'Send an email', 'glocalsaino-actions-automation-based-on-trigger' ),
 				'url'             => __( 'URL', 'glocalsaino-actions-automation-based-on-trigger' ),
 				'method'          => __( 'Method', 'glocalsaino-actions-automation-based-on-trigger' ),
 				'format'          => __( 'Body format', 'glocalsaino-actions-automation-based-on-trigger' ),
@@ -1027,7 +973,16 @@ class GSAAT_Admin {
 				'errorUser'       => __( 'Choose a user from the list for every "is the user" condition.', 'glocalsaino-actions-automation-based-on-trigger' ),
 				'webhookNoLogin'  => __( 'Webhook calls come from an external server, so there is never a logged-in visitor: identify the user with a field.', 'glocalsaino-actions-automation-based-on-trigger' ),
 				'missingKeyValue' => __( 'Enter a key name for every row, or remove the empty rows.', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'unknownAction'   => __( 'This action type is not available. If it comes from an add-on, activate the add-on to edit it. It is kept as it is.', 'glocalsaino-actions-automation-based-on-trigger' ),
 			),
 		);
+
+		/**
+		 * Filters the data passed to the automation editor script (window.glocalsainoAatEditor).
+		 *
+		 * @param array      $data       Editor data.
+		 * @param array|null $automation Automation being edited, null for a new one.
+		 */
+		return apply_filters( 'glocalsaino_aat_editor_data', $data, $automation );
 	}
 }

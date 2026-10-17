@@ -21,10 +21,7 @@ class GSAAT_Automations {
 	 * @return array
 	 */
 	public static function trigger_types() {
-		return array(
-			'cf7'     => __( 'Contact Form 7 submission', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'webhook' => __( 'Data received through a webhook', 'glocalsaino-actions-automation-based-on-trigger' ),
-		);
+		return wp_list_pluck( GSAAT_Registry::trigger_types(), 'label' );
 	}
 
 	/**
@@ -152,6 +149,7 @@ class GSAAT_Automations {
 			'start_date'     => $data['start_date'],
 			'end_date'       => $data['end_date'],
 			'webhook_key'    => $data['webhook_key'],
+			'meta'           => wp_json_encode( isset( $data['meta'] ) ? $data['meta'] : array() ),
 			'updated_at'     => $now,
 		);
 
@@ -279,6 +277,7 @@ class GSAAT_Automations {
 
 		$trigger_config = json_decode( (string) $row['trigger_config'], true );
 		$actions        = json_decode( (string) $row['actions'], true );
+		$meta           = json_decode( isset( $row['meta'] ) ? (string) $row['meta'] : '', true );
 
 		return array(
 			'id'             => (int) $row['id'],
@@ -293,6 +292,7 @@ class GSAAT_Automations {
 			'start_date'     => $row['start_date'] ? (string) $row['start_date'] : null,
 			'end_date'       => $row['end_date'] ? (string) $row['end_date'] : null,
 			'webhook_key'    => (string) $row['webhook_key'],
+			'meta'           => is_array( $meta ) ? $meta : array(),
 			'created_at'     => (string) $row['created_at'],
 			'updated_at'     => (string) $row['updated_at'],
 		);

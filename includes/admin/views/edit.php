@@ -298,6 +298,16 @@ $glocalsaino_aat_last_ip  = $automation['id'] ? GSAAT_Logs::last_webhook_ip( $au
 					</tr>
 				</table>
 			</div>
+
+			<?php
+			/**
+			 * Prints the settings of add-on trigger types. Wrap each one in
+			 * <div data-glocalsaino-aat-trigger="your-type" hidden> so it is shown only for that trigger.
+			 *
+			 * @param array $automation Automation being edited.
+			 */
+			do_action( 'glocalsaino_aat_trigger_settings', $automation );
+			?>
 		</div>
 
 		<!-- Conditions -->
@@ -322,8 +332,14 @@ $glocalsaino_aat_last_ip  = $automation['id'] ? GSAAT_Logs::last_webhook_ip( $au
 			<p class="description"><?php esc_html_e( 'What happens when the trigger fires. Actions run in order. Use "Insert field…" to place values from the trigger, written as {{field_name}}.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
 			<div id="glocalsaino-aat-actions"></div>
 			<p>
-				<button type="button" class="button" data-add-action="webhook"><span class="dashicons dashicons-admin-links" aria-hidden="true"></span> <?php esc_html_e( 'Add: send data to a webhook', 'glocalsaino-actions-automation-based-on-trigger' ); ?></button>
-				<button type="button" class="button" data-add-action="email"><span class="dashicons dashicons-email" aria-hidden="true"></span> <?php esc_html_e( 'Add: send an email', 'glocalsaino-actions-automation-based-on-trigger' ); ?></button>
+				<?php foreach ( GSAAT_Registry::action_types() as $glocalsaino_aat_type => $glocalsaino_aat_def ) : ?>
+					<button type="button" class="button" data-add-action="<?php echo esc_attr( $glocalsaino_aat_type ); ?>"><span class="dashicons <?php echo esc_attr( $glocalsaino_aat_def['icon'] ); ?>" aria-hidden="true"></span>
+						<?php
+						/* translators: %s: action type label. */
+						printf( esc_html__( 'Add: %s', 'glocalsaino-actions-automation-based-on-trigger' ), esc_html( $glocalsaino_aat_def['label'] ) );
+						?>
+					</button>
+				<?php endforeach; ?>
 			</p>
 		</div>
 
@@ -372,6 +388,16 @@ $glocalsaino_aat_last_ip  = $automation['id'] ? GSAAT_Logs::last_webhook_ip( $au
 				</tr>
 			</table>
 		</div>
+
+		<?php
+		/**
+		 * Prints extra editor cards (e.g. add-on options for the whole automation). Store their
+		 * values with the glocalsaino_aat_sanitize_automation_meta filter.
+		 *
+		 * @param array $automation Automation being edited.
+		 */
+		do_action( 'glocalsaino_aat_editor_cards', $automation );
+		?>
 
 		<?php submit_button( $glocalsaino_aat_is_new ? __( 'Create automation', 'glocalsaino-actions-automation-based-on-trigger' ) : __( 'Save changes', 'glocalsaino-actions-automation-based-on-trigger' ) ); ?>
 	</form>

@@ -14,6 +14,7 @@
 	}
 
 	const i18n = cfg.i18n;
+	const api = window.glocalsainoAat || { actionTypes: {}, triggerFields: {} };
 	const state = {
 		webhookKeys: Array.isArray( cfg.state.webhookKeys ) ? cfg.state.webhookKeys.slice() : [],
 		conditions: {
@@ -91,11 +92,14 @@
 		if ( type === 'webhook' ) {
 			return state.webhookKeys.filter( Boolean );
 		}
+		if ( api.triggerFields[ type ] ) {
+			return ( api.triggerFields[ type ]() || [] ).filter( Boolean );
+		}
 		return [];
 	}
 
 	function generalFields() {
-		return cfg.builtinTokens.filter( ( t ) => ! t.trigger || t.trigger === triggerSelect.value );
+		return cfg.builtinTokens.filter( ( t ) => ! t.triggers.length || t.triggers.includes( triggerSelect.value ) );
 	}
 
 	/**
@@ -487,7 +491,7 @@
 			sourceLabel.hidden = ! needsSource;
 			sourceSelect.hidden = ! needsSource;
 			picker.hidden = rule.operator !== 'is_user';
-			note.hidden = triggerSelect.value !== 'webhook' || ( needsSource && rule.user_field !== '' );
+			note.hidden = ! triggerSelect.value || cfg.visitorTriggers.includes( triggerSelect.value ) || ( needsSource && rule.user_field !== '' );
 		}
 		sync();
 
@@ -626,7 +630,9 @@
 			actionsContainer.appendChild( el( 'p', { class: 'glocalsaino-aat-muted', text: i18n.noActions } ) );
 		}
 		state.actions.forEach( ( action, index ) => {
-			const title = ( index + 1 ) + '. ' + ( action.type === 'email' ? i18n.actionEmail : i18n.actionWebhook );
+			const typeInfo = cfg.actionTypes[ action.type ] || { label: action.type, icon: 'dashicons-warning' };
+			const definition = api.actionTypes[ action.type ];
+			const title = ( index + 1 ) + '. ' + typeInfo.label;
 			const move = ( delta ) => {
 				const target = index + delta;
 				if ( target < 0 || target >= state.actions.length ) {
@@ -639,7 +645,7 @@
 			actionsContainer.appendChild(
 				el( 'div', { class: 'glocalsaino-aat-action' }, [
 					el( 'div', { class: 'glocalsaino-aat-action__header' }, [
-						el( 'span', { class: 'dashicons ' + ( action.type === 'email' ? 'dashicons-email' : 'dashicons-admin-links' ), 'aria-hidden': 'true' } ),
+						el( 'span', { class: 'dashicons ' + typeInfo.icon, 'aria-hidden': 'true' } ),
 						el( 'strong', { text: title } ),
 						el( 'span', { class: 'glocalsaino-aat-action__tools' }, [
 							index > 0 ? iconButton( 'dashicons-arrow-up-alt2', i18n.moveUp, () => move( -1 ) ) : null,
@@ -650,7 +656,13 @@
 							} ),
 						] ),
 					] ),
-					el( 'div', { class: 'glocalsaino-aat-action__body' }, action.type === 'email' ? emailActionBody( action ) : webhookActionBody( action ) ),
+					el(
+						'div',
+						{ class: 'glocalsaino-aat-action__body' },
+						definition && cfg.actionTypes[ action.type ]
+							? definition.render( action, api.helpers )
+							: [ el( 'p', { class: 'description', text: i18n.unknownAction } ) ]
+					),
 				] )
 			);
 		} );
@@ -715,11 +727,8 @@
 	form.querySelectorAll( '[data-add-action]' ).forEach( ( button ) => {
 		button.addEventListener( 'click', () => {
 			const type = button.getAttribute( 'data-add-action' );
-			state.actions.push(
-				type === 'email'
-					? { type: 'email', to: '', reply_to: '', subject: '', body: '' }
-					: { type: 'webhook', url: '', method: 'POST', format: 'json', headers: [], fields: [] }
-			);
+			const defaults = cfg.actionTypes[ type ] ? cfg.actionTypes[ type ].defaults : {};
+			state.actions.push( Object.assign( { type }, JSON.parse( JSON.stringify( defaults ) ) ) );
 			renderActions();
 		} );
 	} );
@@ -771,6 +780,15 @@
 		$( 'glocalsaino-aat-conditions-json' ).value = JSON.stringify( state.conditions );
 		$( 'glocalsaino-aat-actions-json' ).value = JSON.stringify( state.actions );
 	} );
+
+	/* Built-in action types, registered like add-on ones (an add-on may replace them). */
+	api.helpers = { el, labelled, textControl, withPicker, pairsEditor, tokenPicker, iconButton, i18n, cfg };
+	if ( ! api.actionTypes.webhook ) {
+		api.actionTypes.webhook = { render: webhookActionBody };
+	}
+	if ( ! api.actionTypes.email ) {
+		api.actionTypes.email = { render: emailActionBody };
+	}
 
 	linkCheckbox( 'glocalsaino-aat-unlimited-runs', 'glocalsaino-aat-max-runs' );
 	linkCheckbox( 'glocalsaino-aat-never-expires', 'glocalsaino-aat-end-date' );

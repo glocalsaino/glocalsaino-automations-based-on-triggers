@@ -125,6 +125,49 @@ class GSAAT_Trigger_Webhook {
 	}
 
 	/**
+	 * Sanitize the trigger settings posted by the automation editor.
+	 *
+	 * @param array $post    Unslashed POST data.
+	 * @param array $notices Notice codes, appended to.
+	 * @return array
+	 */
+	public static function sanitize_config( array $post, array &$notices ) {
+		$raw  = json_decode( isset( $post['webhook_keys_json'] ) ? (string) $post['webhook_keys_json'] : '[]', true );
+		$keys = array();
+		foreach ( is_array( $raw ) ? $raw : array() as $key ) {
+			$key = is_string( $key ) ? GSAAT_Engine::sanitize_field_name( $key ) : '';
+			if ( '' !== $key && ! in_array( $key, $keys, true ) ) {
+				$keys[] = $key;
+			}
+		}
+		return array(
+			'keys'     => $keys,
+			'security' => GSAAT_Webhook_Security::sanitize( $post, $notices ),
+		);
+	}
+
+	/**
+	 * Description for the automations list.
+	 *
+	 * @param array $automation Automation.
+	 * @return string Plain text.
+	 */
+	public static function describe( array $automation ) {
+		$config    = $automation['trigger_config'];
+		$keys      = isset( $config['keys'] ) ? (array) $config['keys'] : array();
+		$protected = GSAAT_Webhook_Security::enabled_labels( GSAAT_Webhook_Security::config( $config ) );
+		$text      = $keys
+			/* translators: %s: comma-separated list of keys. */
+			? sprintf( __( 'Webhook (keys: %s)', 'glocalsaino-actions-automation-based-on-trigger' ), implode( ', ', $keys ) )
+			: __( 'Webhook (all received data)', 'glocalsaino-actions-automation-based-on-trigger' );
+		if ( $protected ) {
+			/* translators: %s: comma-separated list of protections. */
+			$text .= ' — ' . sprintf( __( 'protected by %s', 'glocalsaino-actions-automation-based-on-trigger' ), implode( ', ', $protected ) );
+		}
+		return $text;
+	}
+
+	/**
 	 * Query string, form body and JSON body merged and flattened.
 	 *
 	 * @param WP_REST_Request $request Request.

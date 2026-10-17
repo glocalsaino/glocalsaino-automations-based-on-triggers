@@ -34,11 +34,6 @@ class GSAAT_Trigger_CF7 {
 			return;
 		}
 
-		$automations = GSAAT_Automations::get_active_by_trigger( 'cf7' );
-		if ( ! $automations ) {
-			return;
-		}
-
 		$form_id = (int) $contact_form->id();
 		$posted  = array();
 		foreach ( (array) $submission->get_posted_data() as $name => $value ) {
@@ -46,40 +41,88 @@ class GSAAT_Trigger_CF7 {
 				$posted[ $name ] = $value;
 			}
 		}
-		$data = GSAAT_Engine::flatten( $posted );
-
 		/* translators: 1: form title, 2: form ID. */
 		$event = sprintf( __( 'Contact Form 7 form "%1$s" (#%2$d) submitted', 'glocalsaino-actions-automation-based-on-trigger' ), $contact_form->title(), $form_id );
 
-		foreach ( $automations as $automation ) {
-			$config = wp_parse_args(
-				$automation['trigger_config'],
-				array(
-					'form_id' => 0,
-					'mode'    => 'form',
-					'field'   => '',
-					'value'   => '',
-				)
-			);
-
-			if ( (int) $config['form_id'] !== $form_id ) {
-				continue;
-			}
-			if ( 'field' === $config['mode'] && ! self::field_matches( $posted, $config['field'], $config['value'] ) ) {
-				continue;
-			}
-
-			GSAAT_Engine::process(
-				$automation,
-				$data,
-				$event,
-				array(
+		GSAAT_Engine::fire(
+			'cf7',
+			$posted,
+			$event,
+			array(
+				'extra_tokens' => array(
 					'_form_id'    => (string) $form_id,
 					'_form_title' => $contact_form->title(),
 				),
-				array( 'user_id' => get_current_user_id() )
-			);
+				'context'      => array( 'user_id' => get_current_user_id() ),
+				'matches'      => static function ( $automation ) use ( $posted, $form_id ) {
+					$config = self::config( $automation['trigger_config'] );
+					if ( (int) $config['form_id'] !== $form_id ) {
+						return false;
+					}
+					return 'field' !== $config['mode'] || self::field_matches( $posted, $config['field'], $config['value'] );
+				},
+			)
+		);
+	}
+
+	/**
+	 * Trigger settings merged with defaults.
+	 *
+	 * @param array $config Saved trigger config.
+	 * @return array
+	 */
+	public static function config( array $config ) {
+		return wp_parse_args(
+			$config,
+			array(
+				'form_id' => 0,
+				'mode'    => 'form',
+				'field'   => '',
+				'value'   => '',
+			)
+		);
+	}
+
+	/**
+	 * Sanitize the trigger settings posted by the automation editor.
+	 *
+	 * @param array $post    Unslashed POST data.
+	 * @param array $notices Notice codes, appended to.
+	 * @return array
+	 */
+	public static function sanitize_config( array $post, array &$notices ) {
+		$config = array(
+			'form_id' => isset( $post['cf7_form_id'] ) ? absint( $post['cf7_form_id'] ) : 0,
+			'mode'    => ( isset( $post['cf7_mode'] ) && 'field' === $post['cf7_mode'] ) ? 'field' : 'form',
+			'field'   => isset( $post['cf7_field'] ) ? GSAAT_Engine::sanitize_field_name( (string) $post['cf7_field'] ) : '',
+			'value'   => isset( $post['cf7_value'] ) ? sanitize_text_field( (string) $post['cf7_value'] ) : '',
+		);
+		if ( ! $config['form_id'] || ( 'field' === $config['mode'] && '' === $config['field'] ) ) {
+			$config['_incomplete'] = true;
 		}
+		return $config;
+	}
+
+	/**
+	 * Description for the automations list.
+	 *
+	 * @param array $automation Automation.
+	 * @return string Plain text.
+	 */
+	public static function describe( array $automation ) {
+		$config = self::config( $automation['trigger_config'] );
+		$form_id = (int) $config['form_id'];
+		$title   = $form_id ? get_the_title( $form_id ) : '';
+		/* translators: %s: form title or ID. */
+		$text = sprintf( __( 'Contact Form 7: "%s" submitted', 'glocalsaino-actions-automation-based-on-trigger' ), '' !== $title ? $title : '#' . $form_id );
+		if ( 'field' === $config['mode'] ) {
+			$text .= '' !== $config['value']
+				/* translators: 1: field name, 2: expected value. */
+				? ' — ' . sprintf( __( 'field "%1$s" = "%2$s"', 'glocalsaino-actions-automation-based-on-trigger' ), $config['field'], $config['value'] )
+				/* translators: %s: field name. */
+				: ' — ' . sprintf( __( 'field "%s" filled in', 'glocalsaino-actions-automation-based-on-trigger' ), $config['field'] );
+		}
+		return $text;
 	}
 
 	/**

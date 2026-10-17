@@ -19,6 +19,7 @@ class GSAAT_Plugin {
 
 		GSAAT_Trigger_CF7::init();
 		GSAAT_Trigger_Webhook::init();
+		GSAAT_Notifier::init();
 
 		add_action( self::CRON_HOOK, array( 'GSAAT_Logs', 'cleanup' ) );
 		add_action( 'init', array( __CLASS__, 'ensure_cron' ) );
@@ -26,6 +27,14 @@ class GSAAT_Plugin {
 		if ( is_admin() ) {
 			GSAAT_Admin::init();
 		}
+
+		/**
+		 * Fires once the plugin is loaded. Add-ons should register their hooks here
+		 * and check GSAAT_API_VERSION for compatibility.
+		 *
+		 * @param string $api_version Extension API version.
+		 */
+		do_action( 'glocalsaino_aat_loaded', GSAAT_API_VERSION );
 	}
 
 	public static function activate() {
@@ -49,12 +58,21 @@ class GSAAT_Plugin {
 	 * @return array
 	 */
 	public static function default_settings() {
-		return array(
+		/**
+		 * Filters the default settings. Add-ons can add their own keys.
+		 *
+		 * @param array $defaults Default settings.
+		 */
+		return apply_filters( 'glocalsaino_aat_default_settings', array(
 			'logs_retention_days'         => 30,
 			'webhook_logs_retention_days' => 30,
 			'delete_data_on_uninstall'    => 0,
 			'ip_source'                   => 'remote_addr',
-		);
+			'notify_failures'             => 1,
+			'notify_partial'              => 1,
+			'failure_email_to'            => '',
+			'failure_email_throttle'      => 60,
+		) );
 	}
 
 	/**

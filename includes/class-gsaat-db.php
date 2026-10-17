@@ -48,6 +48,7 @@ class GSAAT_DB {
 				start_date datetime NULL DEFAULT NULL,
 				end_date datetime NULL DEFAULT NULL,
 				webhook_key varchar(64) NOT NULL DEFAULT '',
+				meta longtext NULL,
 				created_at datetime NOT NULL,
 				updated_at datetime NOT NULL,
 				PRIMARY KEY  (id),
@@ -67,10 +68,13 @@ class GSAAT_DB {
 				results longtext NULL,
 				status varchar(20) NOT NULL DEFAULT '',
 				message text NULL,
+				context longtext NULL,
+				retry_of bigint(20) unsigned NOT NULL DEFAULT 0,
 				created_at datetime NOT NULL,
 				PRIMARY KEY  (id),
 				KEY automation_id (automation_id),
 				KEY status (status),
+				KEY retry_of (retry_of),
 				KEY created_at (created_at)
 			) {$charset};"
 		);

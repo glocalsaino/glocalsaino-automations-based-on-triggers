@@ -45,6 +45,45 @@ $glocalsaino_aat_option   = GSAAT_Plugin::SETTINGS_OPTION;
 			</tr>
 		</table>
 
+		<h2><?php esc_html_e( 'Failure notifications', 'glocalsaino-actions-automation-based-on-trigger' ); ?></h2>
+		<table class="form-table" role="presentation">
+			<tr>
+				<th scope="row"><?php esc_html_e( 'Email when an automation fails', 'glocalsaino-actions-automation-based-on-trigger' ); ?></th>
+				<td>
+					<fieldset>
+						<label>
+							<input type="checkbox" value="1" name="<?php echo esc_attr( $glocalsaino_aat_option ); ?>[notify_failures]" <?php checked( ! empty( $glocalsaino_aat_settings['notify_failures'] ) ); ?>>
+							<?php esc_html_e( 'Send an email when all the actions of an automation fail', 'glocalsaino-actions-automation-based-on-trigger' ); ?>
+						</label><br>
+						<label>
+							<input type="checkbox" value="1" name="<?php echo esc_attr( $glocalsaino_aat_option ); ?>[notify_partial]" <?php checked( ! empty( $glocalsaino_aat_settings['notify_partial'] ) ); ?>>
+							<?php esc_html_e( 'Also when only some of its actions fail', 'glocalsaino-actions-automation-based-on-trigger' ); ?>
+						</label>
+					</fieldset>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row"><label for="glocalsaino-aat-failure-to"><?php esc_html_e( 'Send to', 'glocalsaino-actions-automation-based-on-trigger' ); ?></label></th>
+				<td>
+					<input type="text" class="regular-text" id="glocalsaino-aat-failure-to"
+						name="<?php echo esc_attr( $glocalsaino_aat_option ); ?>[failure_email_to]"
+						value="<?php echo esc_attr( $glocalsaino_aat_settings['failure_email_to'] ); ?>"
+						placeholder="<?php echo esc_attr( get_option( 'admin_email' ) ); ?>">
+					<p class="description"><?php esc_html_e( 'One or more addresses separated by commas. Leave empty to use the site administration email address.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row"><label for="glocalsaino-aat-failure-throttle"><?php esc_html_e( 'At most one email per automation every', 'glocalsaino-actions-automation-based-on-trigger' ); ?></label></th>
+				<td>
+					<input type="number" min="0" max="1440" step="1" class="small-text" id="glocalsaino-aat-failure-throttle"
+						name="<?php echo esc_attr( $glocalsaino_aat_option ); ?>[failure_email_throttle]"
+						value="<?php echo esc_attr( (string) $glocalsaino_aat_settings['failure_email_throttle'] ); ?>">
+					<?php esc_html_e( 'minutes', 'glocalsaino-actions-automation-based-on-trigger' ); ?>
+					<p class="description"><?php esc_html_e( 'Avoids a flood of emails when an external service is down. Use 0 to send one email per failure. Every failure is always recorded in the logs.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+				</td>
+			</tr>
+		</table>
+
 		<h2><?php esc_html_e( 'Webhooks', 'glocalsaino-actions-automation-based-on-trigger' ); ?></h2>
 		<table class="form-table" role="presentation">
 			<tr>
@@ -74,6 +113,16 @@ $glocalsaino_aat_option   = GSAAT_Plugin::SETTINGS_OPTION;
 				</td>
 			</tr>
 		</table>
+
+		<?php
+		/**
+		 * Prints add-on settings inside the settings form. Use field names like
+		 * glocalsaino_aat_settings[your_key] and sanitize them with glocalsaino_aat_sanitize_settings.
+		 *
+		 * @param array $settings Current settings.
+		 */
+		do_action( 'glocalsaino_aat_settings_fields', $glocalsaino_aat_settings );
+		?>
 
 		<?php submit_button(); ?>
 	</form>

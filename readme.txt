@@ -47,9 +47,17 @@ Each automation can run several actions, in the order you choose. Insert trigger
 
 * **Automations** – list of all automations with their name, trigger, actions, number of completed runs, status (active / inactive) and creation date. Activate, deactivate, duplicate or delete them individually or in bulk.
 * **New Automation** – name, trigger (with optional webhook security), actions, field and WordPress user conditions, status, maximum number of runs or unlimited, and start / end dates or never expires.
-* **Logs** – every execution: the event, the executed actions, whether each one succeeded, and the date. Click an entry to see the event data, the data sent and the external server's response.
+* **Logs** – every execution: the event, the executed actions, whether each one succeeded, and the date. Click an entry to see the event data, the data sent and the external server's response. **Retry** the failed actions of an execution (one by one or in bulk): only the actions that failed run again, with the original event data.
 * **Webhook Logs** – every call received by your webhook URLs. Click an entry to see the URL used, the HTTP method, the caller IP and the received field / value pairs, or the error message and code when the call was rejected (for example, when no data was received).
-* **Settings** – how the caller IP is detected (direct, proxy or Cloudflare), how many days to keep the automation logs and the webhook logs (older entries are deleted automatically every day), and whether to delete all data when the plugin is deleted.
+* **Settings** – email notifications to the administrator when an automation fails (recipients, also on partial failures, at most one email per automation every N minutes), how the caller IP is detected (direct, proxy or Cloudflare), how many days to keep the automation logs and the webhook logs (older entries are deleted automatically every day), and whether to delete all data when the plugin is deleted.
+
+= Failure notifications =
+
+When an automation fails (or, optionally, when only some of its actions fail), the plugin emails the site administrator — or the addresses you choose — with the failed actions, the error messages and a link to retry them. A configurable pause per automation prevents a flood of emails when an external service is down.
+
+= For developers =
+
+The plugin is extensible: add-ons can register new trigger and action types, add settings, editor cards and admin pages, and hook into every execution. The built-in triggers and actions use the same API. See `EXTENDING.md` in the plugin folder.
 
 == Installation ==
 
@@ -88,6 +96,10 @@ No: webhook calls come from an external server, not from a visitor's browser. Us
 
 Every time the trigger fires and the conditions are met, the automation's actions run and the counter increases by one. When a maximum number of runs is set, the automation stops after reaching it.
 
+= What does "Retry" do exactly? =
+
+It runs again only the actions that failed in that execution, with the same event data. Actions that succeeded are not repeated, the run counter does not change and the conditions are not evaluated again. The retry is recorded as a new log entry linked to the original. If you edited or removed a failed action after the event, that action is not retried.
+
 = When the trigger fires but the conditions are not met, is anything logged? =
 
 Yes. The Logs screen shows the event with the result "Conditions not met", and the run counter does not increase.
@@ -103,7 +115,7 @@ The **webhook trigger** works the other way around: external systems you choose 
 == Changelog ==
 
 = 1.0.0 =
-* First release: Contact Form 7 and webhook triggers; webhook security (header token, IP allowlist, HMAC signatures with Stripe, Shopify, WooCommerce and GitHub presets); external webhook and email actions; field and WordPress user conditions; run limits and dates; logs, webhook logs and log retention settings.
+* First release: Contact Form 7 and webhook triggers; webhook security (header token, IP allowlist, HMAC signatures with Stripe, Shopify, WooCommerce and GitHub presets); external webhook and email actions; field and WordPress user conditions; failure email notifications; retry of failed actions from the logs; extension API for add-ons; run limits and dates; logs, webhook logs and log retention settings.
 
 == Upgrade Notice ==
 

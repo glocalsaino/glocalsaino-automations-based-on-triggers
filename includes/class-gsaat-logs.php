@@ -16,7 +16,8 @@ class GSAAT_Logs {
 	/**
 	 * Record an automation execution.
 	 *
-	 * @param array $entry automation_id, automation_name, trigger_type, event, trigger_data, results, status, message.
+	 * @param array $entry automation_id, automation_name, trigger_type, event, trigger_data, results, status, message, context, retry_of.
+	 * @return int Log entry ID.
 	 */
 	public static function add( array $entry ) {
 		global $wpdb;
@@ -31,9 +32,40 @@ class GSAAT_Logs {
 				'results'         => wp_json_encode( $entry['results'] ),
 				'status'          => (string) $entry['status'],
 				'message'         => isset( $entry['message'] ) ? (string) $entry['message'] : '',
+				'context'         => wp_json_encode( isset( $entry['context'] ) ? $entry['context'] : array() ),
+				'retry_of'        => isset( $entry['retry_of'] ) ? (int) $entry['retry_of'] : 0,
 				'created_at'      => current_time( 'mysql', true ),
 			)
 		);
+		return (int) $wpdb->insert_id;
+	}
+
+	/**
+	 * Latest retry of each of the given log entries.
+	 *
+	 * @param int[] $ids Log entry IDs.
+	 * @return array Retried ID => { id, status }.
+	 */
+	public static function retries_for( array $ids ) {
+		global $wpdb;
+		$ids = array_filter( array_map( 'absint', $ids ) );
+		if ( ! $ids ) {
+			return array();
+		}
+		$placeholders = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
+		$rows         = $wpdb->get_results(
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Only %d placeholders are interpolated.
+			$wpdb->prepare( "SELECT id, status, retry_of FROM %i WHERE retry_of IN ({$placeholders}) ORDER BY id ASC", array_merge( array( GSAAT_DB::table( 'logs' ) ), $ids ) ),
+			ARRAY_A
+		);
+		$map = array();
+		foreach ( (array) $rows as $row ) {
+			$map[ (int) $row['retry_of'] ] = array(
+				'id'     => (int) $row['id'],
+				'status' => $row['status'],
+			);
+		}
+		return $map;
 	}
 
 	/**
@@ -67,7 +99,7 @@ class GSAAT_Logs {
 	 * @return array { items: array, total: int }
 	 */
 	public static function query( $args = array() ) {
-		return self::paginate( 'logs', $args, array( 'trigger_data', 'results' ) );
+		return self::paginate( 'logs', $args, array( 'trigger_data', 'results', 'context' ) );
 	}
 
 	/**
@@ -81,7 +113,7 @@ class GSAAT_Logs {
 	}
 
 	public static function get( $id ) {
-		return self::get_row( 'logs', $id, array( 'trigger_data', 'results' ) );
+		return self::get_row( 'logs', $id, array( 'trigger_data', 'results', 'context' ) );
 	}
 
 	public static function get_webhook( $id ) {

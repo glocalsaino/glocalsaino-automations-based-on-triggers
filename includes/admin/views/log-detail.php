@@ -11,12 +11,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$glocalsaino_aat_triggers = GSAAT_Automations::trigger_types();
+$glocalsaino_aat_triggers  = GSAAT_Automations::trigger_types();
+$glocalsaino_aat_retries   = GSAAT_Logs::retries_for( array( $log['id'] ) );
+$glocalsaino_aat_retried   = isset( $glocalsaino_aat_retries[ $log['id'] ] ) ? $glocalsaino_aat_retries[ $log['id'] ] : null;
+$glocalsaino_aat_can_retry = in_array( $log['status'], array( 'error', 'partial' ), true ) && GSAAT_Automations::get( $log['automation_id'] );
 ?>
 <div class="wrap glocalsaino-aat-wrap">
 	<h1 class="wp-heading-inline"><?php esc_html_e( 'Log entry', 'glocalsaino-actions-automation-based-on-trigger' ); ?></h1>
 	<a href="<?php echo esc_url( GSAAT_Admin::url( GSAAT_Admin::PAGE_LOGS ) ); ?>" class="page-title-action"><?php esc_html_e( 'Back to logs', 'glocalsaino-actions-automation-based-on-trigger' ); ?></a>
+	<?php if ( $glocalsaino_aat_can_retry ) : ?>
+		<a href="<?php echo esc_url( GSAAT_Admin::row_action_url( 'retry_log', $log['id'] ) ); ?>" class="page-title-action"><?php esc_html_e( 'Retry failed actions', 'glocalsaino-actions-automation-based-on-trigger' ); ?></a>
+	<?php endif; ?>
 	<hr class="wp-header-end">
+
+	<?php GSAAT_Admin::render_notice(); ?>
+
+	<?php if ( $glocalsaino_aat_can_retry ) : ?>
+		<p class="description"><?php esc_html_e( 'Retrying runs again only the actions that failed, with the data of this event and the current settings of those actions. It does not count as a new run.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+	<?php endif; ?>
 
 	<div class="glocalsaino-aat-card">
 		<table class="glocalsaino-aat-details">
@@ -45,6 +57,18 @@ $glocalsaino_aat_triggers = GSAAT_Automations::trigger_types();
 					<?php endif; ?>
 				</td>
 			</tr>
+			<?php if ( ! empty( $log['retry_of'] ) ) : ?>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Retry of', 'glocalsaino-actions-automation-based-on-trigger' ); ?></th>
+					<td><a href="<?php echo esc_url( GSAAT_Admin::url( GSAAT_Admin::PAGE_LOGS, array( 'view' => $log['retry_of'] ) ) ); ?>">#<?php echo esc_html( (string) $log['retry_of'] ); ?></a></td>
+				</tr>
+			<?php endif; ?>
+			<?php if ( $glocalsaino_aat_retried ) : ?>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Retried in', 'glocalsaino-actions-automation-based-on-trigger' ); ?></th>
+					<td><a href="<?php echo esc_url( GSAAT_Admin::url( GSAAT_Admin::PAGE_LOGS, array( 'view' => $glocalsaino_aat_retried['id'] ) ) ); ?>">#<?php echo esc_html( (string) $glocalsaino_aat_retried['id'] ); ?></a> — <?php echo esc_html( GSAAT_Admin::log_status_label( $glocalsaino_aat_retried['status'] ) ); ?></td>
+				</tr>
+			<?php endif; ?>
 		</table>
 	</div>
 

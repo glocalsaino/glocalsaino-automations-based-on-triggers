@@ -70,6 +70,75 @@ class GSAAT_Webhook_Security {
 	}
 
 	/**
+	 * Sanitize the security settings posted by the automation editor.
+	 *
+	 * @param array    $post    Unslashed POST data.
+	 * @param string[] $notices Notice codes, appended to.
+	 * @return array
+	 */
+	public static function sanitize( array $post, array &$notices ) {
+		$text = static function ( $key, $default = '' ) use ( $post ) {
+			return isset( $post[ $key ] ) && is_string( $post[ $key ] ) ? trim( sanitize_text_field( $post[ $key ] ) ) : $default;
+		};
+
+		$token_enabled = ! empty( $post['sec_token_enabled'] );
+		$token_value   = preg_replace( '/[^A-Za-z0-9._~\-]/', '', $text( 'sec_token_value' ) );
+		if ( $token_enabled && strlen( $token_value ) < 16 ) {
+			$token_value = wp_generate_password( 40, false, false );
+			$notices[]   = 'token_generated';
+		}
+
+		$ip_raw     = isset( $post['sec_ip_list'] ) && is_string( $post['sec_ip_list'] ) ? sanitize_textarea_field( $post['sec_ip_list'] ) : '';
+		$ip_entries = array_values( array_unique( array_filter( preg_split( '/[\s,;]+/', $ip_raw ) ) ) );
+		$ip_list    = array_values( array_filter( $ip_entries, array( __CLASS__, 'valid_ip_entry' ) ) );
+		$ip_enabled = ! empty( $post['sec_ip_enabled'] );
+		if ( count( $ip_list ) !== count( $ip_entries ) ) {
+			$notices[] = 'ip_invalid_removed';
+		}
+		if ( $ip_enabled && ! $ip_list ) {
+			$ip_enabled = false;
+			$notices[]  = 'ip_disabled';
+		}
+
+		$preset      = $text( 'sec_sig_preset', 'generic' );
+		$algo        = $text( 'sec_sig_algo', 'sha256' );
+		$secret      = $text( 'sec_sig_secret' );
+		$sig_enabled = ! empty( $post['sec_sig_enabled'] );
+		if ( $sig_enabled && '' === $secret ) {
+			$sig_enabled = false;
+			$notices[]   = 'signature_disabled';
+		}
+		$tolerance = absint( $text( 'sec_sig_tolerance', (string) self::DEFAULT_TOLERANCE ) );
+
+		return array(
+			'token'     => array(
+				'enabled' => $token_enabled,
+				'header'  => self::sanitize_header_name( $text( 'sec_token_header' ), self::DEFAULT_TOKEN_HEADER ),
+				'value'   => $token_value,
+			),
+			'ip'        => array(
+				'enabled' => $ip_enabled,
+				'list'    => $ip_list,
+			),
+			'signature' => array(
+				'enabled'          => $sig_enabled,
+				'preset'           => array_key_exists( $preset, self::presets() ) ? $preset : 'generic',
+				'secret'           => $secret,
+				'header'           => self::sanitize_header_name( $text( 'sec_sig_header' ), self::DEFAULT_SIGNATURE_HEADER ),
+				'algo'             => in_array( $algo, self::algorithms(), true ) ? $algo : 'sha256',
+				'encoding'         => 'base64' === $text( 'sec_sig_encoding' ) ? 'base64' : 'hex',
+				'timestamp_header' => self::sanitize_header_name( $text( 'sec_sig_timestamp_header' ), '' ),
+				'tolerance'        => min( 86400, max( 30, $tolerance ) ),
+			),
+		);
+	}
+
+	private static function sanitize_header_name( $name, $default ) {
+		$name = preg_replace( '/[^A-Za-z0-9\-]/', '', (string) $name );
+		return '' !== $name ? substr( $name, 0, 64 ) : $default;
+	}
+
+	/**
 	 * Names of the enabled protections, for display.
 	 *
 	 * @param array $security Security config.

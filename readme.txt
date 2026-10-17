@@ -2,7 +2,7 @@
 Contributors: glocalsaino, rafammoo
 Tags: automation, webhook, contact form 7, email, no-code
 Requires at least: 6.2
-Tested up to: 7.1.3
+Tested up to: 7.1
 Requires PHP: 7.4
 Stable tag: 1.0.0
 License: GPLv2 or later
@@ -57,7 +57,7 @@ When an automation fails (or, optionally, when only some of its actions fail), t
 
 = For developers =
 
-The plugin is extensible: add-ons can register new trigger and action types, add settings, editor cards and admin pages, and hook into every execution. The built-in triggers and actions use the same API. See `EXTENDING.md` in the plugin folder.
+The plugin is extensible: add-ons can register new trigger and action types, add settings, editor cards and admin pages, and hook into every execution. The built-in triggers and actions use the same API. The developer documentation (hooks and examples) is published on the plugin website.
 
 == Installation ==
 

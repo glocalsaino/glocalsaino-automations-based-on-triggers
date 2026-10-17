@@ -95,21 +95,81 @@ class GSAAT_Logs {
 	/**
 	 * Paginated automation logs.
 	 *
-	 * @param array $args status, automation_id, per_page, paged, order.
+	 * @param array $args status, automation_id, per_page, paged.
 	 * @return array { items: array, total: int }
 	 */
 	public static function query( $args = array() ) {
-		return self::paginate( 'logs', $args, array( 'trigger_data', 'results', 'context' ) );
+		global $wpdb;
+		$args  = self::list_args( $args );
+		$table = GSAAT_DB::table( 'logs' );
+
+		// A zero status mode / automation ID disables that filter.
+		$total = (int) $wpdb->get_var(
+			$wpdb->prepare(
+				'SELECT COUNT(*) FROM %i WHERE ( %d = 0 OR status = %s ) AND ( %d = 0 OR automation_id = %d )',
+				$table,
+				$args['status_mode'],
+				$args['status'],
+				$args['automation_id'],
+				$args['automation_id']
+			)
+		);
+		$rows  = $wpdb->get_results(
+			$wpdb->prepare(
+				'SELECT * FROM %i WHERE ( %d = 0 OR status = %s ) AND ( %d = 0 OR automation_id = %d ) ORDER BY created_at DESC, id DESC LIMIT %d OFFSET %d',
+				$table,
+				$args['status_mode'],
+				$args['status'],
+				$args['automation_id'],
+				$args['automation_id'],
+				$args['per_page'],
+				$args['offset']
+			),
+			ARRAY_A
+		);
+
+		return self::page( $rows, $total, array( 'trigger_data', 'results', 'context' ) );
 	}
 
 	/**
 	 * Paginated webhook logs.
 	 *
-	 * @param array $args status (success|error), automation_id, per_page, paged, order.
+	 * @param array $args status (success|error), automation_id, per_page, paged.
 	 * @return array { items: array, total: int }
 	 */
 	public static function query_webhook( $args = array() ) {
-		return self::paginate( 'webhook_logs', $args, array( 'received_data' ) );
+		global $wpdb;
+		$args  = self::list_args( $args );
+		$table = GSAAT_DB::table( 'webhook_logs' );
+
+		// Status mode: 0 = all, 1 = success (status code < 300), 2 = error (status code >= 300).
+		$total = (int) $wpdb->get_var(
+			$wpdb->prepare(
+				'SELECT COUNT(*) FROM %i WHERE ( %d = 0 OR ( %d = 1 AND status_code < 300 ) OR ( %d = 2 AND status_code >= 300 ) ) AND ( %d = 0 OR automation_id = %d )',
+				$table,
+				$args['webhook_mode'],
+				$args['webhook_mode'],
+				$args['webhook_mode'],
+				$args['automation_id'],
+				$args['automation_id']
+			)
+		);
+		$rows  = $wpdb->get_results(
+			$wpdb->prepare(
+				'SELECT * FROM %i WHERE ( %d = 0 OR ( %d = 1 AND status_code < 300 ) OR ( %d = 2 AND status_code >= 300 ) ) AND ( %d = 0 OR automation_id = %d ) ORDER BY created_at DESC, id DESC LIMIT %d OFFSET %d',
+				$table,
+				$args['webhook_mode'],
+				$args['webhook_mode'],
+				$args['webhook_mode'],
+				$args['automation_id'],
+				$args['automation_id'],
+				$args['per_page'],
+				$args['offset']
+			),
+			ARRAY_A
+		);
+
+		return self::page( $rows, $total, array( 'received_data' ) );
 	}
 
 	public static function get( $id ) {
@@ -194,9 +254,7 @@ class GSAAT_Logs {
 		return $row ? self::decode( $row, $json_columns ) : null;
 	}
 
-	private static function paginate( $table, array $args, array $json_columns ) {
-		global $wpdb;
-
+	private static function list_args( array $args ) {
 		$args = wp_parse_args(
 			$args,
 			array(
@@ -204,51 +262,26 @@ class GSAAT_Logs {
 				'automation_id' => 0,
 				'per_page'      => 20,
 				'paged'         => 1,
-				'order'         => 'DESC',
 			)
 		);
-
-		$where  = '1=1';
-		$params = array( GSAAT_DB::table( $table ) );
-
-		if ( 'logs' === $table && '' !== $args['status'] ) {
-			$where   .= ' AND status = %s';
-			$params[] = $args['status'];
-		} elseif ( 'webhook_logs' === $table && 'success' === $args['status'] ) {
-			$where .= ' AND status_code < 300';
-		} elseif ( 'webhook_logs' === $table && 'error' === $args['status'] ) {
-			$where .= ' AND status_code >= 300';
-		}
-		if ( $args['automation_id'] ) {
-			$where   .= ' AND automation_id = %d';
-			$params[] = (int) $args['automation_id'];
-		}
-
-		$order  = 'ASC' === strtoupper( $args['order'] ) ? 'ASC' : 'DESC';
-		$offset = max( 0, ( (int) $args['paged'] - 1 ) * (int) $args['per_page'] );
-
-		$total = (int) $wpdb->get_var(
-			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $where only contains placeholders.
-			$wpdb->prepare( "SELECT COUNT(*) FROM %i WHERE {$where}", $params )
+		return array(
+			'status'        => (string) $args['status'],
+			'status_mode'   => '' === (string) $args['status'] ? 0 : 1,
+			'webhook_mode'  => (int) array_search( (string) $args['status'], array( '', 'success', 'error' ), true ),
+			'automation_id' => (int) $args['automation_id'],
+			'per_page'      => (int) $args['per_page'],
+			'offset'        => max( 0, ( (int) $args['paged'] - 1 ) * (int) $args['per_page'] ),
 		);
+	}
 
-		$params[] = (int) $args['per_page'];
-		$params[] = $offset;
-
-		$rows = $wpdb->get_results(
-			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $where only contains placeholders, $order is whitelisted.
-			$wpdb->prepare( "SELECT * FROM %i WHERE {$where} ORDER BY created_at {$order}, id {$order} LIMIT %d OFFSET %d", $params ),
-			ARRAY_A
-		);
-
+	private static function page( $rows, $total, array $json_columns ) {
 		$items = array();
 		foreach ( (array) $rows as $row ) {
 			$items[] = self::decode( $row, $json_columns );
 		}
-
 		return array(
 			'items' => $items,
-			'total' => $total,
+			'total' => (int) $total,
 		);
 	}
 

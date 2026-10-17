@@ -99,27 +99,24 @@ class GSAAT_Automations {
 		$table   = GSAAT_DB::table( 'automations' );
 		$offset  = max( 0, ( (int) $args['paged'] - 1 ) * (int) $args['per_page'] );
 
-		$where  = '1=1';
-		$params = array( $table );
-		if ( '' !== $args['search'] ) {
-			$where   .= ' AND name LIKE %s';
-			$params[] = '%' . $wpdb->esc_like( $args['search'] ) . '%';
-		}
+		$like     = '%' . $wpdb->esc_like( (string) $args['search'] ) . '%';
+		$per_page = (int) $args['per_page'];
 
 		$total = (int) $wpdb->get_var(
-			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $where only contains placeholders.
-			$wpdb->prepare( "SELECT COUNT(*) FROM %i WHERE {$where}", $params )
+			$wpdb->prepare( 'SELECT COUNT(*) FROM %i WHERE name LIKE %s', $table, $like )
 		);
 
-		$params[] = $orderby;
-		$params[] = (int) $args['per_page'];
-		$params[] = $offset;
-
-		$rows = $wpdb->get_results(
-			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $where only contains placeholders, $order is whitelisted.
-			$wpdb->prepare( "SELECT * FROM %i WHERE {$where} ORDER BY %i {$order}, id DESC LIMIT %d OFFSET %d", $params ),
-			ARRAY_A
-		);
+		if ( 'ASC' === $order ) {
+			$rows = $wpdb->get_results(
+				$wpdb->prepare( 'SELECT * FROM %i WHERE name LIKE %s ORDER BY %i ASC, id DESC LIMIT %d OFFSET %d', $table, $like, $orderby, $per_page, $offset ),
+				ARRAY_A
+			);
+		} else {
+			$rows = $wpdb->get_results(
+				$wpdb->prepare( 'SELECT * FROM %i WHERE name LIKE %s ORDER BY %i DESC, id DESC LIMIT %d OFFSET %d', $table, $like, $orderby, $per_page, $offset ),
+				ARRAY_A
+			);
+		}
 
 		return array(
 			'items' => array_map( array( __CLASS__, 'hydrate' ), (array) $rows ),

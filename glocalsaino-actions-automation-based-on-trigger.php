@@ -3,7 +3,7 @@
  * Plugin Name:       GlocalSaino Actions Automation Based on Trigger
  * Plugin URI:        https://glocalsaino.com/nocodetriggersandhooksautomations
  * Description:       No-code automations: run actions (send data to an external webhook, send an email) when a trigger fires (a Contact Form 7 submission or an incoming webhook).
- * Version:           1.0.0
+ * Version:           1.1.0
  * Requires at least: 6.2
  * Requires PHP:      7.4
  * Author:            Glocal Saino
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'GSAAT_VERSION', '1.0.0' );
+define( 'GSAAT_VERSION', '1.1.0' );
 define( 'GSAAT_DB_VERSION', '4' );
 define( 'GSAAT_API_VERSION', '1.0' );
 define( 'GSAAT_FILE', __FILE__ );

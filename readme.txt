@@ -4,7 +4,7 @@ Tags: automation, webhook, contact form 7, email, no-code
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -130,10 +130,23 @@ The **webhook trigger** works the other way around: external systems you choose 
 
 == Changelog ==
 
+= 1.1.0 =
+* New trigger: click on a link (tracked URL and shortcode, destination set in the back end, link parameters as fields, bots and repeated clicks ignored).
+* New trigger: click on a button ([glocalsaino_aat_button] shortcode with text, style, message and destination set in the back end).
+* New trigger: WordPress user events (registration, login, password change).
+* New action: Calculator, whose result can be used by the following actions.
+* New action: Format data (words, letters, case, text, numbers and dates).
+* New action: Redirect the user (links, buttons, Contact Form 7, login and registration).
+* New action: Wait, to schedule the following actions; pending ones can be run now or cancelled from Logs → Scheduled actions.
+* Retries recompute calculations and formats so the retried actions get their values.
+
 = 1.0.0 =
-* First release: Contact Form 7 and webhook triggers; webhook security (header token, IP allowlist, HMAC signatures with Stripe, Shopify, WooCommerce and GitHub presets); external webhook and email actions; field and WordPress user conditions; failure email notifications; retry of failed actions from the logs; extension API for add-ons; link, button and WordPress user event triggers; calculator, format data, redirect and wait actions; run limits and dates; logs, webhook logs and log retention settings.
+* First release: Contact Form 7 and webhook triggers; webhook security (header token, IP allowlist, HMAC signatures with Stripe, Shopify, WooCommerce and GitHub presets); external webhook and email actions; field and WordPress user conditions; failure email notifications; retry of failed actions from the logs; extension API for add-ons; run limits and dates; logs, webhook logs and log retention settings.
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+New link, button and user event triggers; calculator, format data, redirect and wait actions.
 
 = 1.0.0 =
 First release.

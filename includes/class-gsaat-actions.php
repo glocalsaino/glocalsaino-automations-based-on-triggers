@@ -32,11 +32,12 @@ class GSAAT_Actions {
 	/**
 	 * Execute one action through its registered type.
 	 *
-	 * @param array $action Action configuration.
-	 * @param array $tokens Token values.
-	 * @return array { type, target, success, message, details }
+	 * @param array $action  Action configuration.
+	 * @param array $tokens  Token values.
+	 * @param array $context Event context: user_id, browser (a browser waits for the response).
+	 * @return array { type, target, success, message, details, tokens? }
 	 */
-	public static function execute( array $action, array $tokens ) {
+	public static function execute( array $action, array $tokens, array $context = array() ) {
 		$type       = isset( $action['type'] ) ? (string) $action['type'] : '';
 		$definition = GSAAT_Registry::action_type( $type );
 
@@ -44,7 +45,7 @@ class GSAAT_Actions {
 			return self::result( $type, '', false, __( 'This action type is not available. If it comes from an add-on, check that the add-on is active.', 'glocalsaino-actions-automation-based-on-trigger' ) );
 		}
 
-		$result = call_user_func( $definition['execute'], $action, $tokens );
+		$result = call_user_func( $definition['execute'], $action, $tokens, $context );
 		$result = is_array( $result )
 			? wp_parse_args( $result, self::result( $type, '', false, '' ) )
 			: self::result( $type, '', false, __( 'The action did not return a valid result.', 'glocalsaino-actions-automation-based-on-trigger' ) );
@@ -154,6 +155,139 @@ class GSAAT_Actions {
 	public static function describe_email( array $action ) {
 		/* translators: %s: recipient. */
 		return sprintf( __( 'Email to %s', 'glocalsaino-actions-automation-based-on-trigger' ), $action['to'] );
+	}
+
+	/*
+	 * ---------------------------------------------------------------------
+	 * Calculator
+	 * ---------------------------------------------------------------------
+	 */
+
+	public static function calculator( array $action, array $tokens ) {
+		$output = $action['output'];
+		$value  = GSAAT_Calculator::evaluate_with_tokens( $action['expression'], $tokens );
+		if ( is_wp_error( $value ) ) {
+			/* translators: %s: error message. */
+			return self::result( 'calculator', '{{' . $output . '}}', false, sprintf( __( 'The calculation failed: %s', 'glocalsaino-actions-automation-based-on-trigger' ), $value->get_error_message() ) );
+		}
+		$text = GSAAT_Calculator::number_to_string( $value, '' === $action['decimals'] ? null : (int) $action['decimals'] );
+		$result           = self::result( 'calculator', '{{' . $output . '}}', true, '= ' . $text );
+		$result['tokens'] = array( $output => $text );
+		return $result;
+	}
+
+	public static function sanitize_calculator( array $action ) {
+		$decimals = isset( $action['decimals'] ) ? trim( (string) $action['decimals'] ) : '';
+		return array(
+			'expression' => isset( $action['expression'] ) ? sanitize_text_field( (string) $action['expression'] ) : '',
+			'decimals'   => '' === $decimals ? '' : (string) min( 10, absint( $decimals ) ),
+			'output'     => self::sanitize_output( isset( $action['output'] ) ? $action['output'] : '', 'result' ),
+		);
+	}
+
+	public static function describe_calculator( array $action ) {
+		/* translators: 1: output field, 2: expression. */
+		return sprintf( __( 'Calculate {{%1$s}} = %2$s', 'glocalsaino-actions-automation-based-on-trigger' ), $action['output'], $action['expression'] );
+	}
+
+	/*
+	 * ---------------------------------------------------------------------
+	 * Format data
+	 * ---------------------------------------------------------------------
+	 */
+
+	public static function format( array $action, array $tokens ) {
+		$output = $action['output'];
+		$input  = GSAAT_Engine::replace_tokens( $action['input'], $tokens );
+		$value  = GSAAT_Formatter::apply( $action['operation'], $input, (array) $action['params'] );
+		if ( is_wp_error( $value ) ) {
+			return self::result( 'format', '{{' . $output . '}}', false, $value->get_error_message() );
+		}
+		$result           = self::result( 'format', '{{' . $output . '}}', true, '"' . $input . '" → "' . $value . '"' );
+		$result['tokens'] = array( $output => $value );
+		return $result;
+	}
+
+	public static function sanitize_format( array $action ) {
+		$operation = isset( $action['operation'] ) ? (string) $action['operation'] : '';
+		$params    = isset( $action['params'] ) && is_array( $action['params'] ) ? array_values( $action['params'] ) : array();
+		$clean     = array();
+		for ( $i = 0; $i < 3; $i++ ) {
+			// Keep spaces: separators such as " " are meaningful here.
+			$clean[] = isset( $params[ $i ] ) && is_scalar( $params[ $i ] ) ? wp_strip_all_tags( (string) $params[ $i ] ) : '';
+		}
+		return array(
+			'input'     => isset( $action['input'] ) ? sanitize_text_field( (string) $action['input'] ) : '',
+			'operation' => array_key_exists( $operation, GSAAT_Formatter::operations() ) ? $operation : 'first_word',
+			'params'    => $clean,
+			'output'    => self::sanitize_output( isset( $action['output'] ) ? $action['output'] : '', 'formatted' ),
+		);
+	}
+
+	public static function describe_format( array $action ) {
+		$operations = GSAAT_Formatter::operations();
+		$label      = isset( $operations[ $action['operation'] ] ) ? $operations[ $action['operation'] ][0] : $action['operation'];
+		/* translators: 1: output field, 2: operation, 3: input. */
+		return sprintf( __( 'Format {{%1$s}} = %2$s of %3$s', 'glocalsaino-actions-automation-based-on-trigger' ), $action['output'], $label, $action['input'] );
+	}
+
+	/*
+	 * ---------------------------------------------------------------------
+	 * Redirect
+	 * ---------------------------------------------------------------------
+	 */
+
+	public static function redirect( array $action, array $tokens, array $context = array() ) {
+		if ( empty( $context['browser'] ) ) {
+			return self::result( 'redirect', (string) $action['url'], false, __( 'Nobody can be redirected: this trigger, a wait or a retry does not run in the visitor\'s browser.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+		}
+		$url = GSAAT_Redirect::build_url( $action['url'], $tokens );
+		if ( is_wp_error( $url ) ) {
+			return self::result( 'redirect', (string) $action['url'], false, $url->get_error_message() );
+		}
+		GSAAT_Redirect::set( $url );
+		return self::result( 'redirect', $url, true, __( 'The visitor is redirected to this address.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+	}
+
+	public static function sanitize_redirect( array $action ) {
+		return array( 'url' => isset( $action['url'] ) ? sanitize_text_field( (string) $action['url'] ) : '' );
+	}
+
+	public static function describe_redirect( array $action ) {
+		/* translators: %s: URL. */
+		return sprintf( __( 'Redirect to %s', 'glocalsaino-actions-automation-based-on-trigger' ), $action['url'] );
+	}
+
+	/*
+	 * ---------------------------------------------------------------------
+	 * Wait
+	 * ---------------------------------------------------------------------
+	 */
+
+	public static function sanitize_delay( array $action ) {
+		$unit = isset( $action['unit'] ) ? (string) $action['unit'] : 'days';
+		return array(
+			'amount' => max( 1, min( 10000, isset( $action['amount'] ) ? absint( $action['amount'] ) : 1 ) ),
+			'unit'   => array_key_exists( $unit, GSAAT_Scheduler::units() ) ? $unit : 'days',
+		);
+	}
+
+	public static function describe_delay( array $action ) {
+		$units = GSAAT_Scheduler::units();
+		/* translators: 1: amount, 2: unit. */
+		return sprintf( __( 'Wait %1$d %2$s', 'glocalsaino-actions-automation-based-on-trigger' ), $action['amount'], $units[ $action['unit'] ][0] );
+	}
+
+	/**
+	 * Name of the value produced by an action (letters, digits, _ . -).
+	 *
+	 * @param mixed  $name    Raw name.
+	 * @param string $default Fallback.
+	 * @return string
+	 */
+	private static function sanitize_output( $name, $default ) {
+		$name = ltrim( GSAAT_Engine::sanitize_field_name( (string) $name ), '_' );
+		return '' !== $name ? $name : $default;
 	}
 
 	/**

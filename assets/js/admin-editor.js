@@ -92,6 +92,13 @@
 		if ( type === 'webhook' ) {
 			return state.webhookKeys.filter( Boolean );
 		}
+		if ( type === 'link' ) {
+			const params = $( 'glocalsaino-aat-link-params' );
+			return params ? params.value.split( /[\s,;]+/ ).map( ( p ) => p.trim().toLowerCase() ).filter( Boolean ) : [];
+		}
+		if ( type === 'wp_user' ) {
+			return cfg.userFields.slice();
+		}
 		if ( api.triggerFields[ type ] ) {
 			return ( api.triggerFields[ type ]() || [] ).filter( Boolean );
 		}
@@ -108,10 +115,18 @@
 	 * @param {HTMLSelectElement} select
 	 * @param {string}            placeholder First (empty) option label.
 	 * @param {string}            selected    Value to keep selected.
+	 * @param {number}            actionIndex Index of the action the select belongs to (-1 = none).
 	 */
-	function fillFieldOptions( select, placeholder, selected ) {
+	function fillFieldOptions( select, placeholder, selected, actionIndex ) {
 		select.textContent = '';
 		select.appendChild( el( 'option', { value: '', text: placeholder } ) );
+
+		const produced = producedFields( actionIndex === undefined ? -1 : actionIndex );
+		if ( produced.length ) {
+			const group = el( 'optgroup', { label: i18n.producedFields } );
+			produced.forEach( ( name ) => group.appendChild( el( 'option', { value: name, text: name } ) ) );
+			select.appendChild( group );
+		}
 
 		const fields = triggerFields();
 		const known = new Set();
@@ -137,12 +152,33 @@
 	}
 
 	/**
+	 * Names of the values produced by the actions before the given one (calculator, format…).
+	 *
+	 * @param {number} actionIndex Action index (-1 = none, e.g. in conditions).
+	 * @return {string[]}
+	 */
+	function producedFields( actionIndex ) {
+		const names = [];
+		state.actions.slice( 0, Math.max( 0, actionIndex ) ).forEach( ( action ) => {
+			const info = cfg.actionTypes[ action.type ];
+			const name = info && info.outputKey ? String( action[ info.outputKey ] || '' ).trim() : '';
+			if ( name && ! names.includes( name ) ) {
+				names.push( name );
+			}
+		} );
+		return names;
+	}
+
+	/* Index of the action being rendered, so its pickers offer the values of the previous actions. */
+	let currentActionIndex = -1;
+
+	/**
 	 * "Insert field…" picker that inserts {{field}} into an input at the cursor.
 	 *
 	 * @param {HTMLInputElement|HTMLTextAreaElement} target
 	 */
 	function tokenPicker( target ) {
-		const select = el( 'select', { class: 'glocalsaino-aat-token-picker', 'aria-label': i18n.insertField } );
+		const select = el( 'select', { class: 'glocalsaino-aat-token-picker', 'aria-label': i18n.insertField, 'data-action-index': String( currentActionIndex ) } );
 		select.addEventListener( 'change', () => {
 			if ( ! select.value ) {
 				return;
@@ -156,7 +192,7 @@
 			target.setSelectionRange( start + token.length, start + token.length );
 			select.value = '';
 		} );
-		fillFieldOptions( select, i18n.insertField, '' );
+		fillFieldOptions( select, i18n.insertField, '', currentActionIndex );
 		return select;
 	}
 
@@ -165,7 +201,7 @@
 	}
 
 	function refreshFieldPickers() {
-		document.querySelectorAll( '.glocalsaino-aat-token-picker' ).forEach( ( s ) => fillFieldOptions( s, i18n.insertField, '' ) );
+		document.querySelectorAll( '.glocalsaino-aat-token-picker' ).forEach( ( s ) => fillFieldOptions( s, i18n.insertField, '', parseInt( s.getAttribute( 'data-action-index' ), 10 ) ) );
 		document.querySelectorAll( '.glocalsaino-aat-condition-field' ).forEach( ( s ) => fillFieldOptions( s, i18n.chooseField, s.value ) );
 		document.querySelectorAll( '.glocalsaino-aat-user-source' ).forEach( ( s ) => fillUserSource( s, s.value ) );
 	}
@@ -624,13 +660,124 @@
 		];
 	}
 
+	/**
+	 * "Save the result as" input of the actions that produce a value.
+	 *
+	 * @param {Object} action
+	 */
+	function outputControl( action ) {
+		const hint = el( 'p', { class: 'description' } );
+		const sync = () => {
+			hint.textContent = i18n.outputHint + ' {{' + ( action.output || '…' ) + '}}';
+		};
+		const input = el( 'input', {
+			type: 'text',
+			class: 'regular-text code',
+			value: action.output || '',
+			oninput: ( e ) => {
+				action.output = e.target.value.replace( /[^A-Za-z0-9_.\-]/g, '' ).replace( /^_+/, '' );
+				if ( action.output !== e.target.value ) {
+					e.target.value = action.output;
+				}
+				sync();
+				refreshFieldPickers();
+			},
+		} );
+		sync();
+		return el( 'div', { class: 'glocalsaino-aat-field' }, [
+			el( 'label', {}, [ el( 'span', { class: 'glocalsaino-aat-field__label', text: i18n.outputName } ), input ] ),
+			hint,
+		] );
+	}
+
+	function calculatorActionBody( action ) {
+		const decimals = el( 'input', {
+			type: 'number',
+			min: '0',
+			max: '10',
+			class: 'small-text',
+			value: action.decimals === undefined ? '' : String( action.decimals ),
+			oninput: ( e ) => ( action.decimals = e.target.value ),
+		} );
+		return [
+			labelled( i18n.expression, textControl( action, 'expression', { placeholder: '({{price}} * {{quantity}}) * 1.21' } ), i18n.expressionHint ),
+			labelled( i18n.decimals, decimals ),
+			outputControl( action ),
+		];
+	}
+
+	function formatActionBody( action ) {
+		action.params = Array.isArray( action.params ) ? action.params.concat( [ '', '', '' ] ).slice( 0, 3 ) : [ '', '', '' ];
+		const paramsBox = el( 'div', { class: 'glocalsaino-aat-inline' } );
+		const select = el( 'select', { onchange: ( e ) => {
+			action.operation = e.target.value;
+			const defs = cfg.formatOperations[ action.operation ] ? cfg.formatOperations[ action.operation ].params : [];
+			action.params = [ 0, 1, 2 ].map( ( i ) => ( defs[ i ] ? defs[ i ].default : '' ) );
+			drawParams();
+		} } );
+		Object.entries( cfg.formatOperations ).forEach( ( [ key, op ] ) => select.appendChild( el( 'option', { value: key, text: op.label } ) ) );
+		select.value = cfg.formatOperations[ action.operation ] ? action.operation : Object.keys( cfg.formatOperations )[ 0 ];
+		action.operation = select.value;
+
+		function drawParams() {
+			paramsBox.textContent = '';
+			( cfg.formatOperations[ action.operation ].params || [] ).forEach( ( param, i ) => {
+				paramsBox.appendChild(
+					labelled( param.label, el( 'input', {
+						type: 'text',
+						value: action.params[ i ] || '',
+						oninput: ( e ) => ( action.params[ i ] = e.target.value ),
+					} ) )
+				);
+			} );
+		}
+		drawParams();
+
+		return [
+			labelled( i18n.formatInput, textControl( action, 'input', { placeholder: '{{name}}' } ) ),
+			labelled( i18n.formatOperation, select ),
+			paramsBox,
+			outputControl( action ),
+		];
+	}
+
+	function redirectActionBody( action ) {
+		return [ labelled( i18n.redirectUrl, textControl( action, 'url', { placeholder: '/thank-you/' } ), i18n.redirectHint ) ];
+	}
+
+	function delayActionBody( action ) {
+		const amount = el( 'input', {
+			type: 'number',
+			min: '1',
+			step: '1',
+			class: 'small-text',
+			value: String( action.amount || 1 ),
+			'aria-label': i18n.waitFor,
+			oninput: ( e ) => ( action.amount = parseInt( e.target.value, 10 ) || 1 ),
+		} );
+		const unit = el( 'select', { 'aria-label': i18n.waitFor, onchange: ( e ) => ( action.unit = e.target.value ) } );
+		Object.entries( cfg.delayUnits ).forEach( ( [ key, label ] ) => unit.appendChild( el( 'option', { value: key, text: label } ) ) );
+		unit.value = action.unit || 'days';
+		action.unit = unit.value;
+		return [
+			el( 'div', { class: 'glocalsaino-aat-row' }, [ el( 'strong', { text: i18n.waitFor } ), amount, unit ] ),
+			el( 'p', { class: 'description', text: i18n.waitHint } ),
+		];
+	}
+
 	function renderActions() {
 		actionsContainer.textContent = '';
 		if ( ! state.actions.length ) {
 			actionsContainer.appendChild( el( 'p', { class: 'glocalsaino-aat-muted', text: i18n.noActions } ) );
 		}
+		let afterWait = false;
 		state.actions.forEach( ( action, index ) => {
+			currentActionIndex = index;
 			const typeInfo = cfg.actionTypes[ action.type ] || { label: action.type, icon: 'dashicons-warning' };
+			const browserWarning = typeInfo.needsBrowser && ( afterWait || ! cfg.browserTriggers.includes( triggerSelect.value ) )
+				? el( 'div', { class: 'notice notice-warning inline' }, [ el( 'p', { text: i18n.needsBrowser } ) ] )
+				: null;
+			const waitBadge = afterWait ? el( 'span', { class: 'glocalsaino-aat-badge glocalsaino-aat-badge--neutral' }, [ el( 'span', { class: 'dashicons dashicons-clock', 'aria-hidden': 'true' } ), ' ' + i18n.waitFor ] ) : null;
 			const definition = api.actionTypes[ action.type ];
 			const title = ( index + 1 ) + '. ' + typeInfo.label;
 			const move = ( delta ) => {
@@ -647,6 +794,7 @@
 					el( 'div', { class: 'glocalsaino-aat-action__header' }, [
 						el( 'span', { class: 'dashicons ' + typeInfo.icon, 'aria-hidden': 'true' } ),
 						el( 'strong', { text: title } ),
+						waitBadge,
 						el( 'span', { class: 'glocalsaino-aat-action__tools' }, [
 							index > 0 ? iconButton( 'dashicons-arrow-up-alt2', i18n.moveUp, () => move( -1 ) ) : null,
 							index < state.actions.length - 1 ? iconButton( 'dashicons-arrow-down-alt2', i18n.moveDown, () => move( 1 ) ) : null,
@@ -659,13 +807,19 @@
 					el(
 						'div',
 						{ class: 'glocalsaino-aat-action__body' },
-						definition && cfg.actionTypes[ action.type ]
-							? definition.render( action, api.helpers )
-							: [ el( 'p', { class: 'description', text: i18n.unknownAction } ) ]
+						[ browserWarning ].concat(
+							definition && cfg.actionTypes[ action.type ]
+								? definition.render( action, api.helpers )
+								: [ el( 'p', { class: 'description', text: i18n.unknownAction } ) ]
+						)
 					),
 				] )
 			);
+			if ( action.type === 'delay' ) {
+				afterWait = true;
+			}
 		} );
+		currentActionIndex = -1;
 	}
 
 	/* ------------------------------------------------------------------ */
@@ -694,7 +848,11 @@
 		updateTriggerSections();
 		refreshFieldPickers();
 		renderConditions();
+		renderActions();
 	} );
+	if ( $( 'glocalsaino-aat-link-params' ) ) {
+		$( 'glocalsaino-aat-link-params' ).addEventListener( 'input', refreshFieldPickers );
+	}
 	if ( cf7FormSelect ) {
 		cf7FormSelect.addEventListener( 'change', () => {
 			updateCf7Fields();
@@ -789,6 +947,16 @@
 	if ( ! api.actionTypes.email ) {
 		api.actionTypes.email = { render: emailActionBody };
 	}
+	[
+		[ 'calculator', calculatorActionBody ],
+		[ 'format', formatActionBody ],
+		[ 'redirect', redirectActionBody ],
+		[ 'delay', delayActionBody ],
+	].forEach( ( [ type, render ] ) => {
+		if ( ! api.actionTypes[ type ] ) {
+			api.actionTypes[ type ] = { render };
+		}
+	} );
 
 	linkCheckbox( 'glocalsaino-aat-unlimited-runs', 'glocalsaino-aat-max-runs' );
 	linkCheckbox( 'glocalsaino-aat-never-expires', 'glocalsaino-aat-end-date' );

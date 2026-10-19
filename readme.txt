@@ -8,7 +8,7 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-No-code automations: when a Contact Form 7 form is submitted or a webhook receives data, send that data to an external API or by email.
+No-code automations: on form sends, link or button clicks, webhooks or user sign-ups, run emails, webhooks, calculations, redirects and delays.
 
 == Description ==
 
@@ -16,6 +16,9 @@ No-code automations: when a Contact Form 7 form is submitted or a webhook receiv
 
 = Triggers =
 
+* **Click on a link** – the plugin gives you a tracked link (and a shortcode). Each click runs the automation and takes the visitor to the destination you set in the back end. Values added to the link (e.g. `&email=…`) become fields.
+* **Click on a button** – insert a button with a shortcode; its text, style, message after the click and destination are set in the back end.
+* **WordPress user events** – a user registers, logs in or changes their password.
 * **Contact Form 7 submission** – fire when a specific form is submitted, or only when a specific field of that form is submitted with a specific value (or with any value).
 * **Data received through a webhook** – the plugin generates a unique webhook URL for the automation. Define the keys you expect, and the values the external system sends under those keys (as query string, form body or JSON body, via GET, POST or PUT) become available to the actions.
 
@@ -38,10 +41,15 @@ Combine them with "all the conditions" or "any of the conditions".
 
 = Actions =
 
+* **Calculator** – write operations with the trigger values or your own numbers, e.g. `({{price}} * {{quantity}}) * 1.21`, with rounding and functions (round, min, max, abs…). The result can be used by the next actions, e.g. in an email.
+* **Format data** – first or last word, first letter, initials, upper / lower case, shorten, extract or replace text, keep only digits, round or format a number (1.234,56), format a date, default value… The result can be used by the next actions.
+* **Redirect the user** – send the visitor to a page after clicking a link or button, sending a Contact Form 7 form, logging in or registering.
+* **Wait** – schedule the actions that follow it to run minutes, hours, days or weeks later (for example, a reminder email two days after a form is sent). Scheduled actions can be run now or cancelled from Logs → Scheduled actions.
+
 * **Send data to an external webhook** – call any API with GET, POST, PUT, PATCH or DELETE. Edit the URL, the key / value pairs to send (as JSON or form data) and optional headers. Values can include any field received by the trigger.
 * **Send an email** – configure the recipient, Reply-To, subject and message. All of them can include any field received by the trigger.
 
-Each automation can run several actions, in the order you choose. Insert trigger values anywhere with the **Insert field…** picker; they are written as `{{field_name}}`.
+Each automation can run several actions, in the order you choose; the results of calculations and formats are passed on to the actions below them. Insert trigger values anywhere with the **Insert field…** picker; they are written as `{{field_name}}`.
 
 = Admin screens =
 
@@ -96,9 +104,17 @@ No: webhook calls come from an external server, not from a visitor's browser. Us
 
 Every time the trigger fires and the conditions are met, the automation's actions run and the counter increases by one. When a maximum number of runs is set, the automation stops after reaching it.
 
+= How reliable are the "Wait" steps? =
+
+Scheduled actions are run by WP-Cron, which WordPress triggers on page visits. On sites with little traffic they may run some minutes late. For exact timing, set up a real cron job for wp-cron.php (most hosts offer this).
+
+= Do link clicks from bots or email scanners count? =
+
+Search engines and link previews are ignored by default (you can turn this off), and repeated clicks of the same visitor within 10 seconds count once. Some corporate email scanners open links like a normal browser and cannot be detected.
+
 = What does "Retry" do exactly? =
 
-It runs again only the actions that failed in that execution, with the same event data. Actions that succeeded are not repeated, the run counter does not change and the conditions are not evaluated again. The retry is recorded as a new log entry linked to the original. If you edited or removed a failed action after the event, that action is not retried.
+It runs again only the actions that failed in that execution, with the same event data. Calculations and formats are recomputed so their results are available again; waits are skipped. Actions that succeeded are not repeated, the run counter does not change and the conditions are not evaluated again. The retry is recorded as a new log entry linked to the original. If you edited or removed a failed action after the event, that action is not retried.
 
 = When the trigger fires but the conditions are not met, is anything logged? =
 
@@ -115,7 +131,7 @@ The **webhook trigger** works the other way around: external systems you choose 
 == Changelog ==
 
 = 1.0.0 =
-* First release: Contact Form 7 and webhook triggers; webhook security (header token, IP allowlist, HMAC signatures with Stripe, Shopify, WooCommerce and GitHub presets); external webhook and email actions; field and WordPress user conditions; failure email notifications; retry of failed actions from the logs; extension API for add-ons; run limits and dates; logs, webhook logs and log retention settings.
+* First release: Contact Form 7 and webhook triggers; webhook security (header token, IP allowlist, HMAC signatures with Stripe, Shopify, WooCommerce and GitHub presets); external webhook and email actions; field and WordPress user conditions; failure email notifications; retry of failed actions from the logs; extension API for add-ons; link, button and WordPress user event triggers; calculator, format data, redirect and wait actions; run limits and dates; logs, webhook logs and log retention settings.
 
 == Upgrade Notice ==
 

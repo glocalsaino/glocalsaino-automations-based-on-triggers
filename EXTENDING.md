@@ -1,6 +1,6 @@
 # Extending GlocalSaino Actions Automation
 
-This plugin exposes an extension API so separate add-ons can add trigger types, action types, settings and admin screens without modifying it. The built-in triggers (Contact Form 7, webhook) and actions (webhook, email) are registered through the same filters, so an add-on's types work the same way the built-in ones do.
+This plugin exposes an extension API so separate add-ons can add trigger types, action types, settings and admin screens without modifying it. The built-in triggers (Contact Form 7, webhook, link, button, WordPress user events) and actions (webhook, email, calculator, format data, redirect, wait) are registered through the same filters, so an add-on's types work the same way the built-in ones do.
 
 API version: `GSAAT_API_VERSION` (currently `1.0`). It changes only when this contract changes.
 
@@ -30,12 +30,18 @@ add_filter( 'glocalsaino_aat_action_types', function ( $types ) {
 		'execute'  => 'myaddon_slack_execute',
 		'sanitize' => 'myaddon_slack_sanitize',
 		'describe' => function ( $action ) { return 'Slack: ' . $action['text']; }, // Automations list.
+		// Optional flags:
+		// 'pure'          => true,     // No side effects (only computes values): recomputed on retries.
+		// 'needs_browser' => true,     // Only works when a browser waits for the response (see $context['browser']).
+		// 'output_key'    => 'output', // Setting holding the name of the value this action produces.
 	);
 	return $types;
 } );
 
-// $tokens holds every {{field}} value of the event. Return GSAAT_Actions::result().
-function myaddon_slack_execute( array $action, array $tokens ) {
+// $tokens holds every {{field}} value of the event (plus values produced by previous actions).
+// $context: user_id (logged-in visitor, 0 if none) and browser (true when a browser waits for the response).
+// Return GSAAT_Actions::result().
+function myaddon_slack_execute( array $action, array $tokens, array $context ) {
 	$text     = GSAAT_Engine::replace_tokens( $action['text'], $tokens );
 	$response = wp_safe_remote_post( $action['webhook_url'], array( 'body' => wp_json_encode( array( 'text' => $text ) ) ) );
 	$ok       = ! is_wp_error( $response ) && 200 === wp_remote_retrieve_response_code( $response );
@@ -53,6 +59,8 @@ function myaddon_slack_sanitize( array $raw ) {
 	);
 }
 ```
+
+**Producing values for later actions.** Put them in the result's `tokens` key (`$result['tokens'] = array( 'my_value' => '42' );`). The following actions can use `{{my_value}}`. Declare `output_key` so the editor offers the name in the "Insert field…" pickers of the actions below. Actions after a **Wait** step receive the values produced before it.
 
 Results are logged, count toward the automation status (success / partial / error), trigger the failure email, and can be retried from the Logs screen. A retry re-runs only the failed actions, matched by their exact settings. If the action was edited since the event, it is not retried.
 
@@ -92,7 +100,8 @@ Helpers (`h`): `el( tag, attrs, children )`, `labelled( label, control, hint )`,
 add_filter( 'glocalsaino_aat_trigger_types', function ( $types ) {
 	$types['myaddon_woo_order'] = array(
 		'label'    => __( 'WooCommerce order paid', 'myaddon' ),
-		'visitor'  => false, // true if the event happens in the visitor's browser (enables "logged-in visitor" conditions).
+		'visitor'  => false, // true if there is a user behind the event (enables "logged-in visitor" conditions).
+		'browser'  => false, // true if a browser waits for the response (enables the Redirect action). Pass context['browser'] when firing.
 		'sanitize' => function ( array $post, array &$notices ) {
 			$config = array( 'min_total' => (float) ( $post['myaddon_min_total'] ?? 0 ) );
 			// Add '_incomplete' => true to force the automation to be saved as inactive.
@@ -172,8 +181,12 @@ Read settings with `GSAAT_Plugin::settings()`.
 | `glocalsaino_aat_automation_saved` | action | automation ID, data, post |
 | `glocalsaino_aat_failure_email` | filter | { to, subject, body } (return false to cancel), automation, results, log ID |
 | `glocalsaino_aat_sanitize_trigger_config` | filter | config, trigger type, post |
+| `glocalsaino_aat_format_operations` | filter | key => [ label, [ [ param label, default ], … ] ] — add "Format data" operations |
+| `glocalsaino_aat_format_value` | filter | null, operation, value, params — apply your operations (return a string) |
 
-Useful helpers: `GSAAT_Engine::replace_tokens()`, `GSAAT_Engine::flatten()`, `GSAAT_Engine::retry( $log_id )`, `GSAAT_Automations::get()`, `GSAAT_Logs::get()`, `GSAAT_Actions::result()`.
+**Redirects from an add-on trigger.** If your trigger runs in a browser request, pass `'browser' => true` in the context and, after `GSAAT_Engine::fire()`, send the visitor to `GSAAT_Redirect::take()` when it is not empty.
+
+Useful helpers: `GSAAT_Calculator::evaluate()`, `GSAAT_Calculator::to_number()`, `GSAAT_Formatter::apply()`, `GSAAT_Engine::replace_tokens()`, `GSAAT_Engine::flatten()`, `GSAAT_Engine::retry( $log_id )`, `GSAAT_Automations::get()`, `GSAAT_Logs::get()`, `GSAAT_Actions::result()`.
 
 ## WordPress.org note
 

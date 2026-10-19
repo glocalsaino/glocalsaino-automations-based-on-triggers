@@ -10,6 +10,8 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 }
 
 wp_clear_scheduled_hook( 'glocalsaino_aat_daily_cleanup' );
+wp_clear_scheduled_hook( 'glocalsaino_aat_sweep_jobs' );
+wp_unschedule_hook( 'glocalsaino_aat_run_job' );
 
 $glocalsaino_aat_settings = get_option( 'glocalsaino_aat_settings', array() );
 if ( empty( $glocalsaino_aat_settings['delete_data_on_uninstall'] ) ) {
@@ -17,7 +19,7 @@ if ( empty( $glocalsaino_aat_settings['delete_data_on_uninstall'] ) ) {
 }
 
 global $wpdb;
-foreach ( array( 'automations', 'logs', 'webhook_logs' ) as $glocalsaino_aat_table ) {
+foreach ( array( 'automations', 'logs', 'webhook_logs', 'jobs' ) as $glocalsaino_aat_table ) {
 	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Removing the plugin's own tables on uninstall.
 	$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $wpdb->prefix . 'glocalsaino_aat_' . $glocalsaino_aat_table ) );
 }

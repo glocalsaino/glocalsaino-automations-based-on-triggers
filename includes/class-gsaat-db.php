@@ -33,6 +33,7 @@ class GSAAT_DB {
 		$automations  = self::table( 'automations' );
 		$logs         = self::table( 'logs' );
 		$webhook_logs = self::table( 'webhook_logs' );
+		$jobs         = self::table( 'jobs' );
 
 		dbDelta(
 			"CREATE TABLE {$automations} (
@@ -70,11 +71,13 @@ class GSAAT_DB {
 				message text NULL,
 				context longtext NULL,
 				retry_of bigint(20) unsigned NOT NULL DEFAULT 0,
+				parent_id bigint(20) unsigned NOT NULL DEFAULT 0,
 				created_at datetime NOT NULL,
 				PRIMARY KEY  (id),
 				KEY automation_id (automation_id),
 				KEY status (status),
 				KEY retry_of (retry_of),
+				KEY parent_id (parent_id),
 				KEY created_at (created_at)
 			) {$charset};"
 		);
@@ -95,6 +98,25 @@ class GSAAT_DB {
 				PRIMARY KEY  (id),
 				KEY automation_id (automation_id),
 				KEY created_at (created_at)
+			) {$charset};"
+		);
+
+		dbDelta(
+			"CREATE TABLE {$jobs} (
+				id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+				automation_id bigint(20) unsigned NOT NULL DEFAULT 0,
+				log_id bigint(20) unsigned NOT NULL DEFAULT 0,
+				items longtext NULL,
+				tokens longtext NULL,
+				context longtext NULL,
+				run_at datetime NOT NULL,
+				status varchar(20) NOT NULL DEFAULT 'pending',
+				result_log_id bigint(20) unsigned NOT NULL DEFAULT 0,
+				created_at datetime NOT NULL,
+				PRIMARY KEY  (id),
+				KEY status_run_at (status,run_at),
+				KEY automation_id (automation_id),
+				KEY log_id (log_id)
 			) {$charset};"
 		);
 

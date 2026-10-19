@@ -28,6 +28,9 @@ $glocalsaino_aat_webhook = GSAAT_Automations::webhook_url( $automation['webhook_
 
 $glocalsaino_aat_security = GSAAT_Webhook_Security::config( 'webhook' === $automation['trigger_type'] ? $automation['trigger_config'] : array() );
 $glocalsaino_aat_last_ip  = $automation['id'] ? GSAAT_Logs::last_webhook_ip( $automation['id'] ) : '';
+$glocalsaino_aat_link     = GSAAT_Trigger_Click::link_config( 'link' === $automation['trigger_type'] ? $automation['trigger_config'] : array() );
+$glocalsaino_aat_button   = GSAAT_Trigger_Click::button_config( 'button' === $automation['trigger_type'] ? $automation['trigger_config'] : array() );
+$glocalsaino_aat_user     = GSAAT_Trigger_User::config( 'wp_user' === $automation['trigger_type'] ? $automation['trigger_config'] : array() );
 ?>
 <div class="wrap glocalsaino-aat-wrap">
 	<h1 class="wp-heading-inline">
@@ -294,6 +297,112 @@ $glocalsaino_aat_last_ip  = $automation['id'] ? GSAAT_Logs::last_webhook_ip( $au
 									</div>
 								</div>
 							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<!-- Link -->
+			<div data-glocalsaino-aat-trigger="link" hidden>
+				<table class="form-table" role="presentation">
+					<tr>
+						<th scope="row"><label for="glocalsaino-aat-link-destination"><?php esc_html_e( 'Destination', 'glocalsaino-actions-automation-based-on-trigger' ); ?></label></th>
+						<td>
+							<input type="url" class="large-text" id="glocalsaino-aat-link-destination" name="link_destination" placeholder="https://" value="<?php echo esc_attr( $glocalsaino_aat_link['destination'] ); ?>">
+							<p class="description"><?php esc_html_e( 'Where the visitor lands after clicking. A "Redirect the user" action can send them somewhere else instead.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Link to use', 'glocalsaino-actions-automation-based-on-trigger' ); ?></th>
+						<td>
+							<div class="glocalsaino-aat-copy-row">
+								<code id="glocalsaino-aat-link-url" class="glocalsaino-aat-break"><?php echo esc_html( GSAAT_Trigger_Click::link_url( $automation['webhook_key'] ) ); ?></code>
+								<button type="button" class="button button-small glocalsaino-aat-copy" data-copy-target="glocalsaino-aat-link-url"><?php esc_html_e( 'Copy', 'glocalsaino-actions-automation-based-on-trigger' ); ?></button>
+							</div>
+							<p class="description"><?php esc_html_e( 'Use this address in any link, menu, button or email. Each click runs the automation and then takes the visitor to the destination.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+							<?php if ( $glocalsaino_aat_is_new ) : ?>
+								<p class="description"><strong><?php esc_html_e( 'The link starts working once the automation is saved.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></strong></p>
+							<?php else : ?>
+								<p class="glocalsaino-aat-top-gap"><?php esc_html_e( 'Or insert it in a page or post with this shortcode:', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+								<div class="glocalsaino-aat-copy-row">
+									<code id="glocalsaino-aat-link-shortcode">[glocalsaino_aat_link id="<?php echo esc_attr( (string) $automation['id'] ); ?>"]<?php esc_html_e( 'Link text', 'glocalsaino-actions-automation-based-on-trigger' ); ?>[/glocalsaino_aat_link]</code>
+									<button type="button" class="button button-small glocalsaino-aat-copy" data-copy-target="glocalsaino-aat-link-shortcode"><?php esc_html_e( 'Copy', 'glocalsaino-actions-automation-based-on-trigger' ); ?></button>
+								</div>
+							<?php endif; ?>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="glocalsaino-aat-link-params"><?php esc_html_e( 'Parameters (optional)', 'glocalsaino-actions-automation-based-on-trigger' ); ?></label></th>
+						<td>
+							<input type="text" class="regular-text" id="glocalsaino-aat-link-params" name="link_params" placeholder="email, campaign" value="<?php echo esc_attr( implode( ', ', (array) $glocalsaino_aat_link['params'] ) ); ?>">
+							<p class="description"><?php esc_html_e( 'Names of the values you add to the link, e.g. …&email=ana@example.com. They become fields you can use in the conditions and actions. Separate them with commas.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+							<label class="glocalsaino-aat-top-gap"><input type="checkbox" name="link_pass_params" value="1" <?php checked( $glocalsaino_aat_link['pass_params'] ); ?>> <?php esc_html_e( 'Pass these values on to the destination URL', 'glocalsaino-actions-automation-based-on-trigger' ); ?></label>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Robots', 'glocalsaino-actions-automation-based-on-trigger' ); ?></th>
+						<td>
+							<label><input type="checkbox" name="link_ignore_bots" value="1" <?php checked( $glocalsaino_aat_link['ignore_bots'] ); ?>> <?php esc_html_e( 'Ignore visits from search engines and link previews (recommended)', 'glocalsaino-actions-automation-based-on-trigger' ); ?></label>
+							<p class="description"><?php esc_html_e( 'Repeated clicks of the same visitor within 10 seconds count once.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<!-- Button -->
+			<div data-glocalsaino-aat-trigger="button" hidden>
+				<table class="form-table" role="presentation">
+					<tr>
+						<th scope="row"><label for="glocalsaino-aat-button-label"><?php esc_html_e( 'Button text', 'glocalsaino-actions-automation-based-on-trigger' ); ?></label></th>
+						<td><input type="text" class="regular-text" id="glocalsaino-aat-button-label" name="button_label" value="<?php echo esc_attr( $glocalsaino_aat_button['label'] ); ?>"></td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="glocalsaino-aat-button-class"><?php esc_html_e( 'CSS classes (optional)', 'glocalsaino-actions-automation-based-on-trigger' ); ?></label></th>
+						<td>
+							<input type="text" class="regular-text code" id="glocalsaino-aat-button-class" name="button_class" value="<?php echo esc_attr( $glocalsaino_aat_button['class'] ); ?>">
+							<p class="description"><?php esc_html_e( 'The button already uses your theme\'s button style. Add classes to change it.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="glocalsaino-aat-button-message"><?php esc_html_e( 'Message after the click (optional)', 'glocalsaino-actions-automation-based-on-trigger' ); ?></label></th>
+						<td><input type="text" class="large-text" id="glocalsaino-aat-button-message" name="button_message" value="<?php echo esc_attr( $glocalsaino_aat_button['message'] ); ?>" placeholder="<?php esc_attr_e( 'Thank you!', 'glocalsaino-actions-automation-based-on-trigger' ); ?>"></td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="glocalsaino-aat-button-redirect"><?php esc_html_e( 'Go to after the click (optional)', 'glocalsaino-actions-automation-based-on-trigger' ); ?></label></th>
+						<td>
+							<input type="url" class="large-text" id="glocalsaino-aat-button-redirect" name="button_redirect" placeholder="https://" value="<?php echo esc_attr( $glocalsaino_aat_button['redirect'] ); ?>">
+							<p class="description"><?php esc_html_e( 'Leave empty to stay on the same page and show the message.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Shortcode', 'glocalsaino-actions-automation-based-on-trigger' ); ?></th>
+						<td>
+							<?php if ( $glocalsaino_aat_is_new ) : ?>
+								<p class="description"><strong><?php esc_html_e( 'The shortcode is shown once the automation is saved.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></strong></p>
+							<?php else : ?>
+								<div class="glocalsaino-aat-copy-row">
+									<code id="glocalsaino-aat-button-shortcode">[glocalsaino_aat_button id="<?php echo esc_attr( (string) $automation['id'] ); ?>"]</code>
+									<button type="button" class="button button-small glocalsaino-aat-copy" data-copy-target="glocalsaino-aat-button-shortcode"><?php esc_html_e( 'Copy', 'glocalsaino-actions-automation-based-on-trigger' ); ?></button>
+								</div>
+								<p class="description"><?php esc_html_e( 'Paste it in any page or post (in the block editor, use a Shortcode block).', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+							<?php endif; ?>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<!-- WordPress user events -->
+			<div data-glocalsaino-aat-trigger="wp_user" hidden>
+				<table class="form-table" role="presentation">
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Fire when', 'glocalsaino-actions-automation-based-on-trigger' ); ?></th>
+						<td>
+							<fieldset>
+								<?php foreach ( GSAAT_Trigger_User::events() as $glocalsaino_aat_event => $glocalsaino_aat_label ) : ?>
+									<label><input type="checkbox" name="user_events[]" value="<?php echo esc_attr( $glocalsaino_aat_event ); ?>" <?php checked( in_array( $glocalsaino_aat_event, (array) $glocalsaino_aat_user['events'], true ) ); ?>> <?php echo esc_html( $glocalsaino_aat_label ); ?></label><br>
+								<?php endforeach; ?>
+							</fieldset>
+							<p class="description"><?php esc_html_e( 'Available fields: user_id, user_login, user_email, display_name, first_name, last_name, roles, registered and event. Passwords are never included.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
 						</td>
 					</tr>
 				</table>

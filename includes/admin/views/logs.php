@@ -20,6 +20,7 @@ $glocalsaino_aat_filtered  = $glocalsaino_aat_filter_id ? GSAAT_Automations::get
 	<hr class="wp-header-end">
 
 	<?php GSAAT_Admin::render_notice(); ?>
+	<?php GSAAT_Admin::logs_tabs( '' ); ?>
 
 	<p class="description">
 		<?php esc_html_e( 'Every time a trigger fires an automation, the event, the executed actions and their result are recorded here.', 'glocalsaino-actions-automation-based-on-trigger' ); ?>

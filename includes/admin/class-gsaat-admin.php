@@ -152,6 +152,12 @@ class GSAAT_Admin {
 			include GSAAT_PATH . 'includes/admin/views/log-detail.php';
 			return;
 		}
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only tab selection.
+		if ( isset( $_GET['tab'] ) && 'scheduled' === sanitize_key( wp_unslash( $_GET['tab'] ) ) ) {
+			$jobs = GSAAT_Scheduler::pending();
+			include GSAAT_PATH . 'includes/admin/views/scheduled.php';
+			return;
+		}
 		require_once GSAAT_PATH . 'includes/admin/class-gsaat-logs-table.php';
 		$table = new GSAAT_Logs_Table();
 		$table->prepare_items();
@@ -398,6 +404,27 @@ class GSAAT_Admin {
 					)
 				);
 				exit;
+			case 'run_job':
+				$log_id = GSAAT_Scheduler::run_job( $id );
+				if ( $log_id ) {
+					wp_safe_redirect(
+						self::url(
+							self::PAGE_LOGS,
+							array(
+								'view'            => $log_id,
+								self::MESSAGE_ARG => 'job_ran',
+							)
+						)
+					);
+					exit;
+				}
+				$page    = self::PAGE_LOGS;
+				$message = 'job_not_pending';
+				break;
+			case 'cancel_job':
+				$page    = self::PAGE_LOGS;
+				$message = GSAAT_Scheduler::cancel( $id ) ? 'job_cancelled' : 'job_not_pending';
+				break;
 			case 'delete_webhook_log':
 				GSAAT_Logs::delete( 'webhook_logs', array( $id ) );
 				$page    = self::PAGE_WEBHOOK;
@@ -405,7 +432,11 @@ class GSAAT_Admin {
 				break;
 		}
 
-		wp_safe_redirect( self::url( $page, array( self::MESSAGE_ARG => $message ) ) );
+		$args = array( self::MESSAGE_ARG => $message );
+		if ( in_array( $do, array( 'run_job', 'cancel_job' ), true ) ) {
+			$args['tab'] = 'scheduled';
+		}
+		wp_safe_redirect( self::url( $page, $args ) );
 		exit;
 	}
 
@@ -752,6 +783,30 @@ class GSAAT_Admin {
 	}
 
 	/**
+	 * Tabs of the Logs screen: executions / scheduled actions.
+	 *
+	 * @param string $current Current tab.
+	 */
+	public static function logs_tabs( $current ) {
+		$pending = GSAAT_Scheduler::count_pending();
+		$tabs    = array(
+			''          => __( 'Executions', 'glocalsaino-actions-automation-based-on-trigger' ),
+			/* translators: %d: number of pending scheduled jobs. */
+			'scheduled' => sprintf( __( 'Scheduled actions (%d)', 'glocalsaino-actions-automation-based-on-trigger' ), $pending ),
+		);
+		echo '<nav class="nav-tab-wrapper glocalsaino-aat-tabs">';
+		foreach ( $tabs as $tab => $label ) {
+			printf(
+				'<a href="%1$s" class="nav-tab%2$s">%3$s</a>',
+				esc_url( self::url( self::PAGE_LOGS, array_filter( array( 'tab' => $tab ) ) ) ),
+				$current === $tab ? ' nav-tab-active' : '',
+				esc_html( $label )
+			);
+		}
+		echo '</nav>';
+	}
+
+	/**
 	 * Print a field / value table.
 	 *
 	 * @param array $pairs Field => value.
@@ -777,7 +832,7 @@ class GSAAT_Admin {
 
 		$messages = array(
 			'saved'                    => array( 'success', __( 'Automation saved.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-			'saved_incomplete_trigger' => array( 'warning', __( 'Automation saved as inactive: choose a trigger (and, for Contact Form 7, a form and field) before activating it.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
+			'saved_incomplete_trigger' => array( 'warning', __( 'Automation saved as inactive: choose a trigger and complete its settings (form, destination, events…) before activating it.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
 			'saved_no_actions'         => array( 'warning', __( 'Automation saved as inactive: add at least one action before activating it.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
 			'saved_bad_dates'          => array( 'warning', __( 'Automation saved, but the end date is before the start date, so it will never run.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
 			'activated'                => array( 'success', __( 'Automation activated.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
@@ -791,6 +846,9 @@ class GSAAT_Admin {
 			'ip_disabled'              => array( 'warning', __( 'The IP restriction was turned off because the list has no valid address.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
 			'signature_disabled'       => array( 'warning', __( 'The signature check was turned off because no signing secret was entered.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
 			'user_rule_incomplete'     => array( 'warning', __( 'A user condition was removed because no valid user was chosen.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
+			'job_ran'                  => array( 'success', __( 'The scheduled actions were run now. This is the result.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
+			'job_cancelled'            => array( 'success', __( 'The scheduled actions were cancelled.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
+			'job_not_pending'          => array( 'warning', __( 'Those scheduled actions are no longer pending (they already ran or were cancelled).', 'glocalsaino-actions-automation-based-on-trigger' ) ),
 			'retried'                  => array( 'info', __( 'The failed actions were retried. This is the result of the retry.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
 			'retried_bulk'             => array( 'info', __( 'The failed actions of the selected entries were retried. Entries that had not failed were skipped.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
 			'retry_not_retryable'      => array( 'error', __( 'Only executions with failed actions can be retried.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
@@ -893,9 +951,41 @@ class GSAAT_Admin {
 		$action_types = array();
 		foreach ( GSAAT_Registry::action_types() as $type => $definition ) {
 			$action_types[ $type ] = array(
-				'label'    => $definition['label'],
-				'icon'     => $definition['icon'],
-				'defaults' => (object) $definition['defaults'],
+				'label'        => $definition['label'],
+				'icon'         => $definition['icon'],
+				'defaults'     => (object) $definition['defaults'],
+				'pure'         => (bool) $definition['pure'],
+				'needsBrowser' => (bool) $definition['needs_browser'],
+				'outputKey'    => (string) $definition['output_key'],
+			);
+		}
+
+		$format_operations = array();
+		foreach ( GSAAT_Formatter::operations() as $key => $operation ) {
+			$params = array();
+			foreach ( $operation[1] as $param ) {
+				$params[] = array(
+					'label'   => $param[0],
+					'default' => $param[1],
+				);
+			}
+			$format_operations[ $key ] = array(
+				'label'  => $operation[0],
+				'params' => $params,
+			);
+		}
+
+		foreach (
+			array(
+				'_click_page'       => array( __( 'Page where the click happened', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'link', 'button' ) ),
+				'_link_destination' => array( __( 'Link destination', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'link' ) ),
+				'_button_label'     => array( __( 'Button text', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'button' ) ),
+			) as $key => $token
+		) {
+			$builtin[] = array(
+				'key'      => $key,
+				'label'    => $token[0],
+				'triggers' => $token[1],
 			);
 		}
 
@@ -911,6 +1001,10 @@ class GSAAT_Admin {
 		$data = array(
 			'actionTypes'     => $action_types,
 			'visitorTriggers' => $visitor_triggers,
+			'browserTriggers' => GSAAT_Registry::browser_trigger_types(),
+			'formatOperations' => $format_operations,
+			'delayUnits'      => wp_list_pluck( GSAAT_Scheduler::units(), 0 ),
+			'userFields'      => GSAAT_Trigger_User::fields(),
 			'ajaxUrl'       => admin_url( 'admin-ajax.php' ),
 			'userNonce'     => wp_create_nonce( 'glocalsaino_aat_search_users' ),
 			'userOperators' => GSAAT_Engine::user_operators(),
@@ -973,6 +1067,19 @@ class GSAAT_Admin {
 				'errorUser'       => __( 'Choose a user from the list for every "is the user" condition.', 'glocalsaino-actions-automation-based-on-trigger' ),
 				'webhookNoLogin'  => __( 'Webhook calls come from an external server, so there is never a logged-in visitor: identify the user with a field.', 'glocalsaino-actions-automation-based-on-trigger' ),
 				'missingKeyValue' => __( 'Enter a key name for every row, or remove the empty rows.', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'expression'      => __( 'Operation', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'expressionHint'  => __( 'Example: ({{price}} * {{quantity}}) * 1.21. Operators: + - * / % ^ and parentheses. Functions: round(x, decimals), floor, ceil, abs, sqrt, pow(x, y), min, max. Commas or dots are accepted as decimal separators in the values; empty values count as 0.', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'decimals'        => __( 'Decimals of the result (empty = as calculated)', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'outputName'      => __( 'Save the result as', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'outputHint'      => __( 'The following actions can use it as', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'formatInput'     => __( 'Value to format', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'formatOperation' => __( 'Operation', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'redirectUrl'     => __( 'Redirect to', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'redirectHint'    => __( 'An address on this site (e.g. /thank-you/) or a full URL. Field values can be added to the path or query string, but never decide the destination site.', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'needsBrowser'    => __( 'This action only works with triggers that happen in the visitor\'s browser (link, button, Contact Form 7, login or registration) and never after a wait.', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'waitFor'         => __( 'Wait', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'waitHint'        => __( 'The actions below this one run after the wait. Actions above it run immediately.', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'producedFields'  => __( 'Results of previous actions', 'glocalsaino-actions-automation-based-on-trigger' ),
 				'unknownAction'   => __( 'This action type is not available. If it comes from an add-on, activate the add-on to edit it. It is kept as it is.', 'glocalsaino-actions-automation-based-on-trigger' ),
 			),
 		);

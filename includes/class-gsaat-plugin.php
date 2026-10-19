@@ -20,6 +20,10 @@ class GSAAT_Plugin {
 		GSAAT_Trigger_CF7::init();
 		GSAAT_Trigger_Webhook::init();
 		GSAAT_Notifier::init();
+		GSAAT_Trigger_Click::init();
+		GSAAT_Trigger_User::init();
+		GSAAT_Redirect::init();
+		GSAAT_Scheduler::init();
 
 		add_action( self::CRON_HOOK, array( 'GSAAT_Logs', 'cleanup' ) );
 		add_action( 'init', array( __CLASS__, 'ensure_cron' ) );
@@ -44,11 +48,17 @@ class GSAAT_Plugin {
 
 	public static function deactivate() {
 		wp_clear_scheduled_hook( self::CRON_HOOK );
+		wp_clear_scheduled_hook( GSAAT_Scheduler::SWEEP_HOOK );
+		// Pending jobs stay in the queue; the hourly sweep runs them after reactivation.
+		wp_unschedule_hook( GSAAT_Scheduler::JOB_HOOK );
 	}
 
 	public static function ensure_cron() {
 		if ( ! wp_next_scheduled( self::CRON_HOOK ) ) {
 			wp_schedule_event( time() + HOUR_IN_SECONDS, 'daily', self::CRON_HOOK );
+		}
+		if ( ! wp_next_scheduled( GSAAT_Scheduler::SWEEP_HOOK ) ) {
+			wp_schedule_event( time() + 10 * MINUTE_IN_SECONDS, 'hourly', GSAAT_Scheduler::SWEEP_HOOK );
 		}
 	}
 

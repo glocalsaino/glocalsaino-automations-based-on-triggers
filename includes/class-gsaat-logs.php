@@ -16,7 +16,7 @@ class GSAAT_Logs {
 	/**
 	 * Record an automation execution.
 	 *
-	 * @param array $entry automation_id, automation_name, trigger_type, event, trigger_data, results, status, message, context, retry_of.
+	 * @param array $entry automation_id, automation_name, trigger_type, event, trigger_data, results, status, message, context, retry_of, parent_id.
 	 * @return int Log entry ID.
 	 */
 	public static function add( array $entry ) {
@@ -34,6 +34,7 @@ class GSAAT_Logs {
 				'message'         => isset( $entry['message'] ) ? (string) $entry['message'] : '',
 				'context'         => wp_json_encode( isset( $entry['context'] ) ? $entry['context'] : array() ),
 				'retry_of'        => isset( $entry['retry_of'] ) ? (int) $entry['retry_of'] : 0,
+				'parent_id'       => isset( $entry['parent_id'] ) ? (int) $entry['parent_id'] : 0,
 				'created_at'      => current_time( 'mysql', true ),
 			)
 		);
@@ -237,6 +238,9 @@ class GSAAT_Logs {
 		foreach ( $map as $table => $days ) {
 			if ( $days <= 0 ) {
 				continue;
+			}
+			if ( 'logs' === $table ) {
+				GSAAT_Scheduler::cleanup( $days );
 			}
 			$cutoff = gmdate( 'Y-m-d H:i:s', time() - $days * DAY_IN_SECONDS );
 			$wpdb->query(

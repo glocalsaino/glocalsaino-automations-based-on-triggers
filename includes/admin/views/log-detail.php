@@ -14,6 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $glocalsaino_aat_triggers  = GSAAT_Automations::trigger_types();
 $glocalsaino_aat_retries   = GSAAT_Logs::retries_for( array( $log['id'] ) );
 $glocalsaino_aat_retried   = isset( $glocalsaino_aat_retries[ $log['id'] ] ) ? $glocalsaino_aat_retries[ $log['id'] ] : null;
+$glocalsaino_aat_jobs      = GSAAT_Scheduler::for_log( $log['id'] );
 $glocalsaino_aat_can_retry = in_array( $log['status'], array( 'error', 'partial' ), true ) && GSAAT_Automations::get( $log['automation_id'] );
 ?>
 <div class="wrap glocalsaino-aat-wrap">
@@ -57,6 +58,31 @@ $glocalsaino_aat_can_retry = in_array( $log['status'], array( 'error', 'partial'
 					<?php endif; ?>
 				</td>
 			</tr>
+			<?php if ( ! empty( $log['parent_id'] ) ) : ?>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Scheduled by', 'glocalsaino-actions-automation-based-on-trigger' ); ?></th>
+					<td><a href="<?php echo esc_url( GSAAT_Admin::url( GSAAT_Admin::PAGE_LOGS, array( 'view' => $log['parent_id'] ) ) ); ?>">#<?php echo esc_html( (string) $log['parent_id'] ); ?></a></td>
+				</tr>
+			<?php endif; ?>
+			<?php foreach ( $glocalsaino_aat_jobs as $glocalsaino_aat_job ) : ?>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Scheduled actions', 'glocalsaino-actions-automation-based-on-trigger' ); ?></th>
+					<td>
+						<?php if ( 'pending' === $glocalsaino_aat_job['status'] ) : ?>
+							<?php
+							/* translators: %s: date. */
+							echo esc_html( sprintf( __( 'Pending, scheduled for %s.', 'glocalsaino-actions-automation-based-on-trigger' ), GSAAT_Admin::format_date( $glocalsaino_aat_job['run_at'] ) ) );
+							?>
+							<a href="<?php echo esc_url( GSAAT_Admin::url( GSAAT_Admin::PAGE_LOGS, array( 'tab' => 'scheduled' ) ) ); ?>"><?php esc_html_e( 'Manage', 'glocalsaino-actions-automation-based-on-trigger' ); ?></a>
+						<?php elseif ( $glocalsaino_aat_job['result_log_id'] ) : ?>
+							<?php esc_html_e( 'Ran in', 'glocalsaino-actions-automation-based-on-trigger' ); ?>
+							<a href="<?php echo esc_url( GSAAT_Admin::url( GSAAT_Admin::PAGE_LOGS, array( 'view' => $glocalsaino_aat_job['result_log_id'] ) ) ); ?>">#<?php echo esc_html( (string) $glocalsaino_aat_job['result_log_id'] ); ?></a>
+						<?php else : ?>
+							<?php esc_html_e( 'Cancelled.', 'glocalsaino-actions-automation-based-on-trigger' ); ?>
+						<?php endif; ?>
+					</td>
+				</tr>
+			<?php endforeach; ?>
 			<?php if ( ! empty( $log['retry_of'] ) ) : ?>
 				<tr>
 					<th scope="row"><?php esc_html_e( 'Retry of', 'glocalsaino-actions-automation-based-on-trigger' ); ?></th>

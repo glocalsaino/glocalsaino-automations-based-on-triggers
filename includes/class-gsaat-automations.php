@@ -163,6 +163,7 @@ class GSAAT_Automations {
 
 	public static function delete( $id ) {
 		global $wpdb;
+		GSAAT_Scheduler::cancel_for_automation( (int) $id );
 		return (bool) $wpdb->delete( GSAAT_DB::table( 'automations' ), array( 'id' => (int) $id ) );
 	}
 

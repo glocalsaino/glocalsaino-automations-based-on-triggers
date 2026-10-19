@@ -121,7 +121,7 @@ class GSAAT_Engine {
 	 * @param array  $data         Flattened trigger data (field => string value).
 	 * @param string $event        Human readable description of the event.
 	 * @param array  $extra_tokens Additional trigger-specific tokens.
-	 * @param array  $context      Event context: user_id (logged-in visitor, 0 if none).
+	 * @param array  $context      Event context: user_id (logged-in visitor, 0 if none), browser (a browser waits for the response).
 	 * @return string|null Resulting status (success|partial|error|skipped) or null if the automation is not available.
 	 */
 	public static function process( array $automation, array $data, $event, array $extra_tokens = array(), array $context = array() ) {
@@ -186,10 +186,12 @@ class GSAAT_Engine {
 
 		GSAAT_Automations::increment_runs( $automation['id'] );
 
-		$results = array();
+		$items = array();
 		foreach ( array_values( $automation['actions'] ) as $index => $action ) {
-			$results[] = self::run_action( $action, $index, $tokens );
+			$items[] = array( $index, $action );
 		}
+		$run     = self::run_sequence( $items, $tokens, $context );
+		$results = $run['results'];
 
 		list( $status, $message ) = self::summarize( $results );
 
@@ -200,6 +202,10 @@ class GSAAT_Engine {
 				'message' => $message,
 			)
 		);
+
+		if ( $run['schedule'] ) {
+			GSAAT_Scheduler::create( $automation, $run['schedule']['items'], $run['schedule']['run_at'], $run['tokens'], $context, $log_id );
+		}
 
 		/**
 		 * Fires after an automation ran its actions.
@@ -245,27 +251,52 @@ class GSAAT_Engine {
 			return new WP_Error( 'glocalsaino_aat_automation_deleted', __( 'The automation of this execution no longer exists.', 'glocalsaino-actions-automation-based-on-trigger' ) );
 		}
 
-		$context = $log['context'];
+		$context = isset( $log['context'] ) ? (array) $log['context'] : array();
 		$tokens  = array_merge( $log['trigger_data'], isset( $context['tokens'] ) ? (array) $context['tokens'] : array() );
 		$actions = array_values( $automation['actions'] );
-		$results = array();
+		$run_ctx = array( 'user_id' => isset( $context['user_id'] ) ? (int) $context['user_id'] : 0 ); // No browser on a retry.
 
+		// Which current actions correspond to the failed results.
+		$targets   = array();
+		$unmatched = array();
 		foreach ( $log['results'] as $previous ) {
-			if ( ! empty( $previous['success'] ) ) {
+			if ( ! empty( $previous['success'] ) || 'delay' === $previous['type'] ) {
 				continue;
 			}
 			$index = self::find_action( $actions, $previous );
 			if ( null === $index ) {
-				$results[] = GSAAT_Actions::result(
+				$unmatched[] = GSAAT_Actions::result(
 					$previous['type'],
 					$previous['target'],
 					false,
 					__( 'This action was changed or removed from the automation after the original execution, so it was not retried.', 'glocalsaino-actions-automation-based-on-trigger' )
 				);
+			} else {
+				$targets[ $index ] = true;
+			}
+		}
+
+		// Walk the actions in order: failed ones run again; pure ones (calculations, formats)
+		// are recomputed silently so later actions get their values. Waits are skipped.
+		$results = array();
+		foreach ( $actions as $index => $action ) {
+			$type = isset( $action['type'] ) ? $action['type'] : '';
+			if ( 'delay' === $type ) {
 				continue;
 			}
-			$results[] = self::run_action( $actions[ $index ], $index, $tokens );
+			$definition = GSAAT_Registry::action_type( $type );
+			if ( ! isset( $targets[ $index ] ) && ! ( $definition && $definition['pure'] ) ) {
+				continue;
+			}
+			$result = self::run_action( $action, $index, $tokens, $run_ctx );
+			if ( ! empty( $result['success'] ) && ! empty( $result['tokens'] ) ) {
+				$tokens = array_merge( $tokens, (array) $result['tokens'] );
+			}
+			if ( isset( $targets[ $index ] ) ) {
+				$results[] = $result;
+			}
 		}
+		$results = array_merge( $results, $unmatched );
 
 		list( $status, $message ) = self::summarize( $results );
 
@@ -300,15 +331,121 @@ class GSAAT_Engine {
 	}
 
 	/**
+	 * Run actions in order, passing the values produced by each one (calculator, format…) to the
+	 * next ones. A "Wait" step stops the run and returns the remaining actions to schedule.
+	 *
+	 * @param array $items   [ [ index, action ], … ].
+	 * @param array $tokens  Tokens.
+	 * @param array $context Event context.
+	 * @return array { results, tokens, schedule: null|{ items, run_at } }
+	 */
+	public static function run_sequence( array $items, array $tokens, array $context ) {
+		$results = array();
+		foreach ( array_values( $items ) as $position => $item ) {
+			list( $index, $action ) = $item;
+
+			if ( isset( $action['type'] ) && 'delay' === $action['type'] ) {
+				$remaining = array_slice( array_values( $items ), $position + 1 );
+				$run_at    = time() + GSAAT_Scheduler::delay_seconds( $action );
+				$when      = wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $run_at );
+				$result    = GSAAT_Actions::result(
+					'delay',
+					$when,
+					true,
+					$remaining
+						/* translators: 1: number of actions, 2: date. */
+						? sprintf( _n( '%1$d action scheduled for %2$s.', '%1$d actions scheduled for %2$s.', count( $remaining ), 'glocalsaino-actions-automation-based-on-trigger' ), count( $remaining ), $when )
+						: __( 'There are no actions after this wait.', 'glocalsaino-actions-automation-based-on-trigger' )
+				);
+				$result['index']       = (int) $index;
+				$result['fingerprint'] = self::fingerprint( $action );
+				$results[]             = $result;
+
+				return array(
+					'results'  => $results,
+					'tokens'   => $tokens,
+					'schedule' => $remaining ? array(
+						'items'  => $remaining,
+						'run_at' => $run_at,
+					) : null,
+				);
+			}
+
+			$result = self::run_action( $action, $index, $tokens, $context );
+			if ( ! empty( $result['success'] ) && ! empty( $result['tokens'] ) ) {
+				$tokens = array_merge( $tokens, (array) $result['tokens'] );
+			}
+			$results[] = $result;
+		}
+
+		return array(
+			'results'  => $results,
+			'tokens'   => $tokens,
+			'schedule' => null,
+		);
+	}
+
+	/**
+	 * Run the actions of a scheduled job (they followed a "Wait" step).
+	 *
+	 * @param array  $automation Automation.
+	 * @param array  $items      [ [ index, action ], … ].
+	 * @param array  $tokens     Tokens saved when the wait started.
+	 * @param array  $context    Event context (without browser).
+	 * @param string $event      Event description for the log.
+	 * @param int    $parent_id  Log entry that scheduled the job.
+	 * @return int New log entry ID.
+	 */
+	public static function run_scheduled( array $automation, array $items, array $tokens, array $context, $event, $parent_id ) {
+		$run = self::run_sequence( $items, $tokens, $context );
+
+		list( $status, $message ) = self::summarize( $run['results'] );
+
+		$parent = GSAAT_Logs::get( $parent_id );
+		$data   = $parent ? $parent['trigger_data'] : array();
+		$log_id = GSAAT_Logs::add(
+			array(
+				'automation_id'   => $automation['id'],
+				'automation_name' => $automation['name'],
+				'trigger_type'    => $automation['trigger_type'],
+				'event'           => $event,
+				'trigger_data'    => $data,
+				'context'         => array(
+					'tokens'  => array_diff_key( $tokens, $data ),
+					'user_id' => isset( $context['user_id'] ) ? (int) $context['user_id'] : 0,
+				),
+				'results'         => $run['results'],
+				'status'          => $status,
+				'message'         => $message,
+				'parent_id'       => (int) $parent_id,
+			)
+		);
+
+		if ( $run['schedule'] ) {
+			GSAAT_Scheduler::create( $automation, $run['schedule']['items'], $run['schedule']['run_at'], $run['tokens'], $context, $log_id );
+		}
+
+		/** This action is documented in includes/class-gsaat-engine.php */
+		do_action( 'glocalsaino_aat_automation_executed', $automation, $status, $run['results'], $log_id, $run['tokens'] );
+		if ( 'success' !== $status ) {
+			/** This action is documented in includes/class-gsaat-engine.php */
+			do_action( 'glocalsaino_aat_automation_failed', $automation, $status, $run['results'], $log_id, $run['tokens'] );
+		}
+
+		return $log_id;
+	}
+
+	/**
 	 * Execute one action and tag the result so it can be matched again on retry.
 	 *
-	 * @param array $action Action.
-	 * @param int   $index  Position in the automation.
-	 * @param array $tokens Tokens.
+	 * @param array $action  Action.
+	 * @param int   $index   Position in the automation.
+	 * @param array $tokens  Tokens.
+	 * @param array $context Event context.
 	 * @return array
 	 */
-	private static function run_action( array $action, $index, array $tokens ) {
-		$result                = GSAAT_Actions::execute( $action, $tokens );
+	private static function run_action( array $action, $index, array $tokens, array $context = array() ) {
+		$result                = GSAAT_Actions::execute( $action, $tokens, $context );
 		$result['index']       = (int) $index;
 		$result['fingerprint'] = self::fingerprint( $action );
 		return $result;

@@ -2,7 +2,7 @@
 /**
  * Trigger: WordPress user events (registration, login, password change).
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -40,9 +40,9 @@ class GSAAT_Trigger_User {
 	 */
 	public static function events() {
 		return array(
-			'registered'       => __( 'A user registers', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'logged_in'        => __( 'A user logs in', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'password_changed' => __( 'A user changes their password', 'glocalsaino-actions-automation-based-on-trigger' ),
+			'registered'       => __( 'A user registers', 'glocalsaino-automations-based-on-triggers' ),
+			'logged_in'        => __( 'A user logs in', 'glocalsaino-automations-based-on-triggers' ),
+			'password_changed' => __( 'A user changes their password', 'glocalsaino-automations-based-on-triggers' ),
 		);
 	}
 
@@ -123,7 +123,7 @@ class GSAAT_Trigger_User {
 			'wp_user',
 			$data,
 			/* translators: 1: event, 2: user login. */
-			sprintf( __( '%1$s: %2$s', 'glocalsaino-actions-automation-based-on-trigger' ), $events[ $event ], $user->user_login ),
+			sprintf( __( '%1$s: %2$s', 'glocalsaino-automations-based-on-triggers' ), $events[ $event ], $user->user_login ),
 			array(
 				'context' => array(
 					'user_id' => (int) $user->ID,

@@ -2,7 +2,7 @@
 /**
  * Webhook logs list table.
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -28,29 +28,29 @@ class GSAAT_Webhook_Logs_Table extends WP_List_Table {
 	public function get_columns() {
 		return array(
 			'cb'         => '<input type="checkbox" />',
-			'created_at' => __( 'Date', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'automation' => __( 'Automation', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'source'     => __( 'Source', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'method'     => __( 'Method', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'remote_ip'  => __( 'Caller IP', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'received'   => __( 'Received fields', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'status'     => __( 'Result', 'glocalsaino-actions-automation-based-on-trigger' ),
+			'created_at' => __( 'Date', 'glocalsaino-automations-based-on-triggers' ),
+			'automation' => __( 'Automation', 'glocalsaino-automations-based-on-triggers' ),
+			'source'     => __( 'Source', 'glocalsaino-automations-based-on-triggers' ),
+			'method'     => __( 'Method', 'glocalsaino-automations-based-on-triggers' ),
+			'remote_ip'  => __( 'Caller IP', 'glocalsaino-automations-based-on-triggers' ),
+			'received'   => __( 'Received fields', 'glocalsaino-automations-based-on-triggers' ),
+			'status'     => __( 'Result', 'glocalsaino-automations-based-on-triggers' ),
 		);
 	}
 
 	protected function get_bulk_actions() {
-		return array( 'delete' => __( 'Delete', 'glocalsaino-actions-automation-based-on-trigger' ) );
+		return array( 'delete' => __( 'Delete', 'glocalsaino-automations-based-on-triggers' ) );
 	}
 
 	protected function get_views() {
 		$current = $this->current_status();
 		$source  = $this->current_source();
 		$labels  = array(
-			'all'     => array( __( 'All', 'glocalsaino-actions-automation-based-on-trigger' ), array() ),
-			'success' => array( __( 'Received', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'status' => 'success' ) ),
-			'error'   => array( __( 'Errors', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'status' => 'error' ) ),
-			'webhook' => array( __( 'Webhooks', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'source' => 'webhook' ) ),
-			'widget'  => array( __( 'Widgets', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'source' => 'widget' ) ),
+			'all'     => array( __( 'All', 'glocalsaino-automations-based-on-triggers' ), array() ),
+			'success' => array( __( 'Received', 'glocalsaino-automations-based-on-triggers' ), array( 'status' => 'success' ) ),
+			'error'   => array( __( 'Errors', 'glocalsaino-automations-based-on-triggers' ), array( 'status' => 'error' ) ),
+			'webhook' => array( __( 'Webhooks', 'glocalsaino-automations-based-on-triggers' ), array( 'source' => 'webhook' ) ),
+			'widget'  => array( __( 'Widgets', 'glocalsaino-automations-based-on-triggers' ), array( 'source' => 'widget' ) ),
 		);
 		$views   = array();
 		foreach ( $labels as $key => $view ) {
@@ -92,7 +92,7 @@ class GSAAT_Webhook_Logs_Table extends WP_List_Table {
 	}
 
 	public function no_items() {
-		esc_html_e( 'No webhook calls have been received yet.', 'glocalsaino-actions-automation-based-on-trigger' );
+		esc_html_e( 'No webhook calls have been received yet.', 'glocalsaino-automations-based-on-triggers' );
 	}
 
 	protected function column_cb( $item ) {
@@ -102,8 +102,8 @@ class GSAAT_Webhook_Logs_Table extends WP_List_Table {
 	protected function column_created_at( $item ) {
 		$view_url = GSAAT_Admin::url( GSAAT_Admin::PAGE_WEBHOOK, array( 'view' => $item['id'] ) );
 		$actions  = array(
-			'view'   => sprintf( '<a href="%s">%s</a>', esc_url( $view_url ), esc_html__( 'View details', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-			'delete' => sprintf( '<a href="%s">%s</a>', esc_url( GSAAT_Admin::row_action_url( 'delete_webhook_log', $item['id'] ) ), esc_html__( 'Delete', 'glocalsaino-actions-automation-based-on-trigger' ) ),
+			'view'   => sprintf( '<a href="%s">%s</a>', esc_url( $view_url ), esc_html__( 'View details', 'glocalsaino-automations-based-on-triggers' ) ),
+			'delete' => sprintf( '<a href="%s">%s</a>', esc_url( GSAAT_Admin::row_action_url( 'delete_webhook_log', $item['id'] ) ), esc_html__( 'Delete', 'glocalsaino-automations-based-on-triggers' ) ),
 		);
 		return sprintf( '<a class="row-title" href="%s">%s</a>', esc_url( $view_url ), esc_html( GSAAT_Admin::format_date( $item['created_at'] ) ) ) . $this->row_actions( $actions );
 	}
@@ -113,7 +113,7 @@ class GSAAT_Webhook_Logs_Table extends WP_List_Table {
 	}
 
 	protected function column_source( $item ) {
-		return 'widget' === $item['source'] ? esc_html__( 'Widget', 'glocalsaino-actions-automation-based-on-trigger' ) : esc_html__( 'Webhook', 'glocalsaino-actions-automation-based-on-trigger' );
+		return 'widget' === $item['source'] ? esc_html__( 'Widget', 'glocalsaino-automations-based-on-triggers' ) : esc_html__( 'Webhook', 'glocalsaino-automations-based-on-triggers' );
 	}
 
 	protected function column_method( $item ) {

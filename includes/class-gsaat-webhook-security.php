@@ -2,7 +2,7 @@
 /**
  * Incoming webhook protection: header token, IP allowlist and HMAC signature.
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -22,7 +22,7 @@ class GSAAT_Webhook_Security {
 	 */
 	public static function presets() {
 		return array(
-			'generic'     => __( 'Custom (generic HMAC)', 'glocalsaino-actions-automation-based-on-trigger' ),
+			'generic'     => __( 'Custom (generic HMAC)', 'glocalsaino-automations-based-on-triggers' ),
 			'stripe'      => 'Stripe',
 			'shopify'     => 'Shopify',
 			'woocommerce' => 'WooCommerce',
@@ -147,15 +147,15 @@ class GSAAT_Webhook_Security {
 	public static function enabled_labels( array $security ) {
 		$labels = array();
 		if ( $security['token']['enabled'] ) {
-			$labels[] = __( 'token', 'glocalsaino-actions-automation-based-on-trigger' );
+			$labels[] = __( 'token', 'glocalsaino-automations-based-on-triggers' );
 		}
 		if ( $security['ip']['enabled'] ) {
-			$labels[] = __( 'IP list', 'glocalsaino-actions-automation-based-on-trigger' );
+			$labels[] = __( 'IP list', 'glocalsaino-automations-based-on-triggers' );
 		}
 		if ( $security['signature']['enabled'] ) {
 			$presets = self::presets();
 			/* translators: %s: signature preset name. */
-			$labels[] = sprintf( __( '%s signature', 'glocalsaino-actions-automation-based-on-trigger' ), 'generic' === $security['signature']['preset'] ? 'HMAC' : $presets[ $security['signature']['preset'] ] );
+			$labels[] = sprintf( __( '%s signature', 'glocalsaino-automations-based-on-triggers' ), 'generic' === $security['signature']['preset'] ? 'HMAC' : $presets[ $security['signature']['preset'] ] );
 		}
 		return $labels;
 	}
@@ -174,7 +174,7 @@ class GSAAT_Webhook_Security {
 				403,
 				'glocalsaino_aat_ip_not_allowed',
 				/* translators: %s: IP address. */
-				sprintf( __( 'Calls from the IP address %s are not allowed.', 'glocalsaino-actions-automation-based-on-trigger' ), '' !== $ip ? $ip : '?' ),
+				sprintf( __( 'Calls from the IP address %s are not allowed.', 'glocalsaino-automations-based-on-triggers' ), '' !== $ip ? $ip : '?' ),
 			);
 		}
 
@@ -186,10 +186,10 @@ class GSAAT_Webhook_Security {
 			}
 			if ( '' === $sent ) {
 				/* translators: %s: header name. */
-				return array( 401, 'glocalsaino_aat_missing_token', sprintf( __( 'The authentication token was not sent (expected in the %s header).', 'glocalsaino-actions-automation-based-on-trigger' ), $header ) );
+				return array( 401, 'glocalsaino_aat_missing_token', sprintf( __( 'The authentication token was not sent (expected in the %s header).', 'glocalsaino-automations-based-on-triggers' ), $header ) );
 			}
 			if ( '' === $security['token']['value'] || ! hash_equals( (string) $security['token']['value'], $sent ) ) {
-				return array( 401, 'glocalsaino_aat_invalid_token', __( 'The authentication token is not valid.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+				return array( 401, 'glocalsaino_aat_invalid_token', __( 'The authentication token is not valid.', 'glocalsaino-automations-based-on-triggers' ) );
 			}
 		}
 
@@ -224,7 +224,7 @@ class GSAAT_Webhook_Security {
 	private static function check_signature( array $sig, WP_REST_Request $request ) {
 		$secret  = (string) $sig['secret'];
 		$body    = (string) $request->get_body();
-		$invalid = array( 401, 'glocalsaino_aat_invalid_signature', __( 'The signature is not valid.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+		$invalid = array( 401, 'glocalsaino_aat_invalid_signature', __( 'The signature is not valid.', 'glocalsaino-automations-based-on-triggers' ) );
 
 		if ( '' === $secret ) {
 			return $invalid;
@@ -297,7 +297,7 @@ class GSAAT_Webhook_Security {
 			$timestamp = trim( (string) $request->get_header( $sig['timestamp_header'] ) );
 			if ( 1 !== preg_match( '/^\d+$/', $timestamp ) ) {
 				/* translators: %s: header name. */
-				return array( 401, 'glocalsaino_aat_missing_timestamp', sprintf( __( 'The timestamp was not sent (expected in the %s header).', 'glocalsaino-actions-automation-based-on-trigger' ), $sig['timestamp_header'] ) );
+				return array( 401, 'glocalsaino_aat_missing_timestamp', sprintf( __( 'The timestamp was not sent (expected in the %s header).', 'glocalsaino-automations-based-on-triggers' ), $sig['timestamp_header'] ) );
 			}
 			$expired = self::expired( (int) $timestamp, (int) $sig['tolerance'] );
 			if ( $expired ) {
@@ -318,7 +318,7 @@ class GSAAT_Webhook_Security {
 
 	private static function missing_signature( $header ) {
 		/* translators: %s: header name. */
-		return array( 401, 'glocalsaino_aat_missing_signature', sprintf( __( 'The signature was not sent (expected in the %s header).', 'glocalsaino-actions-automation-based-on-trigger' ), $header ) );
+		return array( 401, 'glocalsaino_aat_missing_signature', sprintf( __( 'The signature was not sent (expected in the %s header).', 'glocalsaino-automations-based-on-triggers' ), $header ) );
 	}
 
 	/**
@@ -334,7 +334,7 @@ class GSAAT_Webhook_Security {
 			return false;
 		}
 		/* translators: %d: number of seconds. */
-		return array( 401, 'glocalsaino_aat_signature_expired', sprintf( __( 'The call is too old or its clock is wrong (more than %d seconds of difference). It may be a replayed call.', 'glocalsaino-actions-automation-based-on-trigger' ), $tolerance ) );
+		return array( 401, 'glocalsaino_aat_signature_expired', sprintf( __( 'The call is too old or its clock is wrong (more than %d seconds of difference). It may be a replayed call.', 'glocalsaino-automations-based-on-triggers' ), $tolerance ) );
 	}
 
 	private static function raw_query_string() {
@@ -355,10 +355,10 @@ class GSAAT_Webhook_Security {
 	 */
 	public static function ip_sources() {
 		return array(
-			'remote_addr'      => __( 'Direct connection (REMOTE_ADDR) — recommended', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'x_forwarded_for'  => __( 'X-Forwarded-For header (behind a proxy or load balancer)', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'cf_connecting_ip' => __( 'CF-Connecting-IP header (behind Cloudflare)', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'x_real_ip'        => __( 'X-Real-IP header (behind Nginx proxy)', 'glocalsaino-actions-automation-based-on-trigger' ),
+			'remote_addr'      => __( 'Direct connection (REMOTE_ADDR) — recommended', 'glocalsaino-automations-based-on-triggers' ),
+			'x_forwarded_for'  => __( 'X-Forwarded-For header (behind a proxy or load balancer)', 'glocalsaino-automations-based-on-triggers' ),
+			'cf_connecting_ip' => __( 'CF-Connecting-IP header (behind Cloudflare)', 'glocalsaino-automations-based-on-triggers' ),
+			'x_real_ip'        => __( 'X-Real-IP header (behind Nginx proxy)', 'glocalsaino-automations-based-on-triggers' ),
 		);
 	}
 

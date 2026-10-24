@@ -1,5 +1,5 @@
 /**
- * GlocalSaino Actions Automation – widget loader, pasted on third-party websites:
+ * GlocalSaino Automations – widget loader, pasted on third-party websites:
  *
  *   <script src=".../widget-loader.js" data-glocalsaino-aat-widget="WIDGET URL" async></script>
  *

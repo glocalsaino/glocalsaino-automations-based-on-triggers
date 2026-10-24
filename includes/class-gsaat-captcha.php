@@ -3,7 +3,7 @@
  * Optional captcha for embeddable widgets: hCaptcha.
  * Nothing is loaded or sent to these services unless a widget uses them.
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

@@ -2,7 +2,7 @@
 /**
  * Automation engine: firing triggers, conditions, tokens, execution and retries.
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -18,16 +18,16 @@ class GSAAT_Engine {
 	 */
 	public static function operators() {
 		$operators = array(
-			'equals'       => __( 'is equal to', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'not_equals'   => __( 'is not equal to', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'contains'     => __( 'contains', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'not_contains' => __( 'does not contain', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'starts_with'  => __( 'starts with', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'ends_with'    => __( 'ends with', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'is_empty'     => __( 'is empty', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'not_empty'    => __( 'is not empty', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'greater_than' => __( 'is greater than', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'less_than'    => __( 'is less than', 'glocalsaino-actions-automation-based-on-trigger' ),
+			'equals'       => __( 'is equal to', 'glocalsaino-automations-based-on-triggers' ),
+			'not_equals'   => __( 'is not equal to', 'glocalsaino-automations-based-on-triggers' ),
+			'contains'     => __( 'contains', 'glocalsaino-automations-based-on-triggers' ),
+			'not_contains' => __( 'does not contain', 'glocalsaino-automations-based-on-triggers' ),
+			'starts_with'  => __( 'starts with', 'glocalsaino-automations-based-on-triggers' ),
+			'ends_with'    => __( 'ends with', 'glocalsaino-automations-based-on-triggers' ),
+			'is_empty'     => __( 'is empty', 'glocalsaino-automations-based-on-triggers' ),
+			'not_empty'    => __( 'is not empty', 'glocalsaino-automations-based-on-triggers' ),
+			'greater_than' => __( 'is greater than', 'glocalsaino-automations-based-on-triggers' ),
+			'less_than'    => __( 'is less than', 'glocalsaino-automations-based-on-triggers' ),
 		);
 
 		/**
@@ -45,10 +45,10 @@ class GSAAT_Engine {
 	 */
 	public static function user_operators() {
 		return array(
-			'logged_in'     => __( 'has logged in', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'not_logged_in' => __( 'has not logged in', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'registered'    => __( 'is a registered user', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'is_user'       => __( 'is the user', 'glocalsaino-actions-automation-based-on-trigger' ),
+			'logged_in'     => __( 'has logged in', 'glocalsaino-automations-based-on-triggers' ),
+			'not_logged_in' => __( 'has not logged in', 'glocalsaino-automations-based-on-triggers' ),
+			'registered'    => __( 'is a registered user', 'glocalsaino-automations-based-on-triggers' ),
+			'is_user'       => __( 'is the user', 'glocalsaino-automations-based-on-triggers' ),
 		);
 	}
 
@@ -59,10 +59,10 @@ class GSAAT_Engine {
 	 */
 	public static function builtin_token_labels() {
 		return array(
-			'_automation_name' => __( 'Automation name', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'_date'            => __( 'Date and time of the event', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'_site_name'       => __( 'Site name', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'_site_url'        => __( 'Site URL', 'glocalsaino-actions-automation-based-on-trigger' ),
+			'_automation_name' => __( 'Automation name', 'glocalsaino-automations-based-on-triggers' ),
+			'_date'            => __( 'Date and time of the event', 'glocalsaino-automations-based-on-triggers' ),
+			'_site_name'       => __( 'Site name', 'glocalsaino-automations-based-on-triggers' ),
+			'_site_url'        => __( 'Site URL', 'glocalsaino-automations-based-on-triggers' ),
 		);
 	}
 
@@ -187,7 +187,7 @@ class GSAAT_Engine {
 				$log + array(
 					'results' => array(),
 					'status'  => 'skipped',
-					'message' => __( 'The conditions were not met, no action was executed.', 'glocalsaino-actions-automation-based-on-trigger' ),
+					'message' => __( 'The conditions were not met, no action was executed.', 'glocalsaino-automations-based-on-triggers' ),
 				)
 			);
 			return 'skipped';
@@ -253,11 +253,11 @@ class GSAAT_Engine {
 	public static function retry( $log_id ) {
 		$log = GSAAT_Logs::get( $log_id );
 		if ( ! $log || ! in_array( $log['status'], array( 'error', 'partial' ), true ) ) {
-			return new WP_Error( 'glocalsaino_aat_not_retryable', __( 'Only executions with failed actions can be retried.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			return new WP_Error( 'glocalsaino_aat_not_retryable', __( 'Only executions with failed actions can be retried.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 		$automation = GSAAT_Automations::get( $log['automation_id'] );
 		if ( ! $automation ) {
-			return new WP_Error( 'glocalsaino_aat_automation_deleted', __( 'The automation of this execution no longer exists.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			return new WP_Error( 'glocalsaino_aat_automation_deleted', __( 'The automation of this execution no longer exists.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 
 		$context = isset( $log['context'] ) ? (array) $log['context'] : array();
@@ -288,7 +288,7 @@ class GSAAT_Engine {
 					$previous['type'],
 					$previous['target'],
 					false,
-					__( 'This action was changed or removed from the automation after the original execution, so it was not retried.', 'glocalsaino-actions-automation-based-on-trigger' )
+					__( 'This action was changed or removed from the automation after the original execution, so it was not retried.', 'glocalsaino-automations-based-on-triggers' )
 				);
 			} else {
 				$targets[ $index ] = true;
@@ -325,7 +325,7 @@ class GSAAT_Engine {
 				'automation_name' => $automation['name'],
 				'trigger_type'    => $log['trigger_type'],
 				/* translators: 1: original log ID, 2: original event. */
-				'event'           => sprintf( __( 'Retry of #%1$d: %2$s', 'glocalsaino-actions-automation-based-on-trigger' ), $log['id'], $log['event'] ),
+				'event'           => sprintf( __( 'Retry of #%1$d: %2$s', 'glocalsaino-automations-based-on-triggers' ), $log['id'], $log['event'] ),
 				'trigger_data'    => $log['trigger_data'],
 				'context'         => $context,
 				'results'         => $results,
@@ -373,8 +373,8 @@ class GSAAT_Engine {
 					true,
 					$remaining
 						/* translators: 1: number of actions, 2: date. */
-						? sprintf( _n( '%1$d action scheduled for %2$s.', '%1$d actions scheduled for %2$s.', count( $remaining ), 'glocalsaino-actions-automation-based-on-trigger' ), count( $remaining ), $when )
-						: __( 'There are no actions after this wait.', 'glocalsaino-actions-automation-based-on-trigger' )
+						? sprintf( _n( '%1$d action scheduled for %2$s.', '%1$d actions scheduled for %2$s.', count( $remaining ), 'glocalsaino-automations-based-on-triggers' ), count( $remaining ), $when )
+						: __( 'There are no actions after this wait.', 'glocalsaino-automations-based-on-triggers' )
 				);
 				$result['index']       = (int) $index;
 				$result['fingerprint'] = self::fingerprint( $action );
@@ -506,7 +506,7 @@ class GSAAT_Engine {
 	 */
 	private static function summarize( array $results ) {
 		if ( ! $results ) {
-			return array( 'error', __( 'This automation has no actions configured.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			return array( 'error', __( 'This automation has no actions configured.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 		$succeeded = count( array_filter( wp_list_pluck( $results, 'success' ) ) );
 		if ( count( $results ) === $succeeded ) {

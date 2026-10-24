@@ -7,7 +7,7 @@
  * (the URL travels in the form's AJAX response and a small script follows it),
  * and the login / registration screens (login_redirect / registration_redirect).
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -75,7 +75,7 @@ class GSAAT_Redirect {
 		$template = trim( (string) $template );
 		$url      = esc_url_raw( GSAAT_Engine::replace_tokens( $template, $tokens, 'rawurlencode' ), array( 'http', 'https' ) );
 		if ( '' === $url ) {
-			return new WP_Error( 'glocalsaino_aat_bad_url', __( 'The redirect URL is not valid.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			return new WP_Error( 'glocalsaino_aat_bad_url', __( 'The redirect URL is not valid.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 
 		$host    = strtolower( (string) wp_parse_url( $url, PHP_URL_HOST ) );
@@ -86,7 +86,7 @@ class GSAAT_Redirect {
 		}
 
 		if ( '' !== $host && ! in_array( $host, $allowed, true ) ) {
-			return new WP_Error( 'glocalsaino_aat_bad_host', __( 'The redirect was blocked: the destination site cannot come from a field value.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			return new WP_Error( 'glocalsaino_aat_bad_host', __( 'The redirect was blocked: the destination site cannot come from a field value.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 		return $url;
 	}

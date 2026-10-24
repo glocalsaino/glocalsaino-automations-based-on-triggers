@@ -2,7 +2,7 @@
 /**
  * Plugin bootstrap: hooks, cron and settings.
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

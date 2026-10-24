@@ -2,7 +2,7 @@
 /**
  * Daily counters of the embeddable widgets, per automation and website.
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

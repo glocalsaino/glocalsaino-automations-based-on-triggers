@@ -1,10 +1,10 @@
-=== GlocalSaino Actions Automation Based on Trigger ===
+=== GlocalSaino Automations Based on Triggers ===
 Contributors: glocalsaino, rafammoo
 Tags: automation, webhook, contact form 7, csv import, data table
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ No-code automations: forms, files, links, buttons, widgets, webhooks or sign-ups
 
 == Description ==
 
-**GlocalSaino Actions Automation Based on Trigger** lets you build automations without writing code. Each automation has a **trigger** (the event that starts it), optional **conditions**, and one or more **actions** that run when the trigger fires. Everything is free: no license key, no locked features, no usage caps.
+**GlocalSaino Automations Based on Triggers** lets you build automations without writing code. Each automation has a **trigger** (the event that starts it), optional **conditions**, and one or more **actions** that run when the trigger fires. Everything is free: no license key, no locked features, no usage caps.
 
 = Triggers =
 
@@ -165,6 +165,9 @@ The **webhook trigger** works the other way around: external systems you choose 
 
 == Changelog ==
 
+= 1.3.2 =
+* The plugin is now called GlocalSaino Automations Based on Triggers (slug and text domain: glocalsaino-automations-based-on-triggers).
+
 = 1.3.1 =
 * The embeddable widget no longer has its own custom CSS field. It can use the site's Additional CSS from WordPress instead (Customizer or Site Editor).
 
@@ -191,6 +194,9 @@ The **webhook trigger** works the other way around: external systems you choose 
 * First release: Contact Form 7 and webhook triggers; webhook security (header token, IP allowlist, HMAC signatures with Stripe, Shopify, WooCommerce and GitHub presets); external webhook and email actions; field and WordPress user conditions; failure email notifications; retry of failed actions from the logs; extension API for add-ons; run limits and dates; logs, webhook logs and log retention settings.
 
 == Upgrade Notice ==
+
+= 1.3.2 =
+New plugin name.
 
 = 1.3.1 =
 The widget custom CSS field was replaced by an option to use the site's Additional CSS.

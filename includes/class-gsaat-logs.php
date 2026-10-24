@@ -2,7 +2,7 @@
 /**
  * Automation logs and webhook logs.
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

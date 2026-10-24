@@ -7,7 +7,7 @@
  * Button: [glocalsaino_aat_button id="ID"] renders a button configured in the back end; it posts
  *         to the current page, fires the automation and redirects back (or elsewhere).
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -54,7 +54,7 @@ class GSAAT_Trigger_Click {
 		return wp_parse_args(
 			$config,
 			array(
-				'label'    => __( 'Send', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'label'    => __( 'Send', 'glocalsaino-automations-based-on-triggers' ),
 				'class'    => '',
 				'message'  => '',
 				'redirect' => '',
@@ -105,7 +105,7 @@ class GSAAT_Trigger_Click {
 			GSAAT_Engine::process(
 				$automation,
 				$params,
-				__( 'Link clicked', 'glocalsaino-actions-automation-based-on-trigger' ),
+				__( 'Link clicked', 'glocalsaino-automations-based-on-triggers' ),
 				array(
 					'_click_page'       => self::referer(),
 					'_link_destination' => $config['destination'],
@@ -149,7 +149,7 @@ class GSAAT_Trigger_Click {
 			GSAAT_Engine::process(
 				$automation,
 				array(),
-				__( 'Button clicked', 'glocalsaino-actions-automation-based-on-trigger' ),
+				__( 'Button clicked', 'glocalsaino-automations-based-on-triggers' ),
 				array(
 					'_click_page'   => self::referer(),
 					'_button_label' => $config['label'],
@@ -272,7 +272,7 @@ class GSAAT_Trigger_Click {
 	public static function sanitize_button( array $post, array &$notices ) {
 		$label = isset( $post['button_label'] ) ? sanitize_text_field( (string) $post['button_label'] ) : '';
 		return array(
-			'label'    => '' !== $label ? $label : __( 'Send', 'glocalsaino-actions-automation-based-on-trigger' ),
+			'label'    => '' !== $label ? $label : __( 'Send', 'glocalsaino-automations-based-on-triggers' ),
 			'class'    => isset( $post['button_class'] ) ? implode( ' ', array_filter( array_map( 'sanitize_html_class', preg_split( '/\s+/', (string) $post['button_class'] ) ) ) ) : '',
 			'message'  => isset( $post['button_message'] ) ? sanitize_text_field( (string) $post['button_message'] ) : '',
 			'redirect' => isset( $post['button_redirect'] ) ? esc_url_raw( trim( (string) $post['button_redirect'] ) ) : '',
@@ -282,13 +282,13 @@ class GSAAT_Trigger_Click {
 	public static function describe_link( array $automation ) {
 		$config = self::link_config( $automation['trigger_config'] );
 		/* translators: %s: destination URL. */
-		return sprintf( __( 'Link clicked → %s', 'glocalsaino-actions-automation-based-on-trigger' ), $config['destination'] );
+		return sprintf( __( 'Link clicked → %s', 'glocalsaino-automations-based-on-triggers' ), $config['destination'] );
 	}
 
 	public static function describe_button( array $automation ) {
 		$config = self::button_config( $automation['trigger_config'] );
 		/* translators: %s: button label. */
-		return sprintf( __( 'Button "%s" clicked', 'glocalsaino-actions-automation-based-on-trigger' ), $config['label'] );
+		return sprintf( __( 'Button "%s" clicked', 'glocalsaino-automations-based-on-triggers' ), $config['label'] );
 	}
 
 	/*

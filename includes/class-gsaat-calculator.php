@@ -5,7 +5,7 @@
  * Supports numbers, + - * / % ^, parentheses, unary minus and the functions
  * round(x[, decimals]), floor(x), ceil(x), abs(x), sqrt(x), pow(x, y), min(a, b, …), max(a, b, …).
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -61,7 +61,7 @@ class GSAAT_Calculator {
 		);
 		if ( $errors ) {
 			/* translators: %s: value that is not a number. */
-			return new WP_Error( 'glocalsaino_aat_nan', sprintf( __( '"%s" is not a number.', 'glocalsaino-actions-automation-based-on-trigger' ), $errors[0] ) );
+			return new WP_Error( 'glocalsaino_aat_nan', sprintf( __( '"%s" is not a number.', 'glocalsaino-automations-based-on-triggers' ), $errors[0] ) );
 		}
 		return self::evaluate( $resolved );
 	}
@@ -78,7 +78,7 @@ class GSAAT_Calculator {
 			return $tokens;
 		}
 		if ( ! $tokens ) {
-			return self::error( __( 'The expression is empty.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			return self::error( __( 'The expression is empty.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 		$rpn = self::to_rpn( $tokens );
 		if ( is_wp_error( $rpn ) ) {
@@ -152,7 +152,7 @@ class GSAAT_Calculator {
 				$name = strtolower( $match[0] );
 				if ( ! isset( self::FUNCTIONS[ $name ] ) ) {
 					/* translators: %s: function name. */
-					return self::error( sprintf( __( 'Unknown function "%s".', 'glocalsaino-actions-automation-based-on-trigger' ), $match[0] ) );
+					return self::error( sprintf( __( 'Unknown function "%s".', 'glocalsaino-automations-based-on-triggers' ), $match[0] ) );
 				}
 				$tokens[] = array( 'fn', $name );
 				$i       += strlen( $match[0] );
@@ -164,7 +164,7 @@ class GSAAT_Calculator {
 				continue;
 			}
 			/* translators: %s: unexpected character. */
-			return self::error( sprintf( __( 'Unexpected character "%s".', 'glocalsaino-actions-automation-based-on-trigger' ), $char ) );
+			return self::error( sprintf( __( 'Unexpected character "%s".', 'glocalsaino-automations-based-on-triggers' ), $char ) );
 		}
 		return $tokens;
 	}
@@ -199,7 +199,7 @@ class GSAAT_Calculator {
 					$output[] = array_pop( $stack );
 				}
 				if ( ! $stack || ! $arg_cnt ) {
-					return self::error( __( 'Misplaced comma.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+					return self::error( __( 'Misplaced comma.', 'glocalsaino-automations-based-on-triggers' ) );
 				}
 				++$arg_cnt[ count( $arg_cnt ) - 1 ];
 			} elseif ( ')' === $value ) {
@@ -207,7 +207,7 @@ class GSAAT_Calculator {
 					$output[] = array_pop( $stack );
 				}
 				if ( ! $stack ) {
-					return self::error( __( 'Unbalanced parentheses.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+					return self::error( __( 'Unbalanced parentheses.', 'glocalsaino-automations-based-on-triggers' ) );
 				}
 				array_pop( $stack ); // The "(".
 				if ( $stack && 'call' === end( $stack )[0] ) {
@@ -228,7 +228,7 @@ class GSAAT_Calculator {
 				}
 				$op = $unary && '-' === $value ? '~' : $value;
 				if ( $unary && '~' !== $op ) {
-					return self::error( __( 'Misplaced operator.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+					return self::error( __( 'Misplaced operator.', 'glocalsaino-automations-based-on-triggers' ) );
 				}
 				list( $precedence, $assoc ) = self::OPERATORS[ $op ];
 				while ( $stack ) {
@@ -251,7 +251,7 @@ class GSAAT_Calculator {
 		while ( $stack ) {
 			$top = array_pop( $stack );
 			if ( '(' === $top[1] || 'call' === $top[0] || 'fn' === $top[0] ) {
-				return self::error( __( 'Unbalanced parentheses.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+				return self::error( __( 'Unbalanced parentheses.', 'glocalsaino-automations-based-on-triggers' ) );
 			}
 			$output[] = $top;
 		}
@@ -271,7 +271,7 @@ class GSAAT_Calculator {
 				list( $min, $max )     = self::FUNCTIONS[ $name ];
 				if ( $count < $min || ( -1 !== $max && $count > $max ) || count( $stack ) < $count ) {
 					/* translators: %s: function name. */
-					return self::error( sprintf( __( 'Wrong number of values for %s().', 'glocalsaino-actions-automation-based-on-trigger' ), $name ) );
+					return self::error( sprintf( __( 'Wrong number of values for %s().', 'glocalsaino-automations-based-on-triggers' ), $name ) );
 				}
 				$args   = array_splice( $stack, -$count );
 				$result = self::call( $name, $args );
@@ -285,18 +285,18 @@ class GSAAT_Calculator {
 			$op = $token[1];
 			if ( '~' === $op ) {
 				if ( ! $stack ) {
-					return self::error( __( 'Misplaced operator.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+					return self::error( __( 'Misplaced operator.', 'glocalsaino-automations-based-on-triggers' ) );
 				}
 				$stack[] = -array_pop( $stack );
 				continue;
 			}
 			if ( count( $stack ) < 2 ) {
-				return self::error( __( 'Misplaced operator.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+				return self::error( __( 'Misplaced operator.', 'glocalsaino-automations-based-on-triggers' ) );
 			}
 			$b = array_pop( $stack );
 			$a = array_pop( $stack );
 			if ( ( '/' === $op || '%' === $op ) && 0.0 === (float) $b ) {
-				return self::error( __( 'Division by zero.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+				return self::error( __( 'Division by zero.', 'glocalsaino-automations-based-on-triggers' ) );
 			}
 			switch ( $op ) {
 				case '+':
@@ -321,11 +321,11 @@ class GSAAT_Calculator {
 		}
 
 		if ( 1 !== count( $stack ) ) {
-			return self::error( __( 'The expression is incomplete.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			return self::error( __( 'The expression is incomplete.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 		$result = (float) $stack[0];
 		if ( is_nan( $result ) || is_infinite( $result ) ) {
-			return self::error( __( 'The result is not a valid number.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			return self::error( __( 'The result is not a valid number.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 		return $result;
 	}
@@ -341,7 +341,7 @@ class GSAAT_Calculator {
 			case 'abs':
 				return abs( $args[0] );
 			case 'sqrt':
-				return $args[0] < 0 ? self::error( __( 'Square root of a negative number.', 'glocalsaino-actions-automation-based-on-trigger' ) ) : sqrt( $args[0] );
+				return $args[0] < 0 ? self::error( __( 'Square root of a negative number.', 'glocalsaino-automations-based-on-triggers' ) ) : sqrt( $args[0] );
 			case 'pow':
 				return pow( $args[0], $args[1] );
 			case 'min':
@@ -349,7 +349,7 @@ class GSAAT_Calculator {
 			case 'max':
 				return max( $args );
 		}
-		return self::error( __( 'Unknown function.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+		return self::error( __( 'Unknown function.', 'glocalsaino-automations-based-on-triggers' ) );
 	}
 
 	private static function error( $message ) {

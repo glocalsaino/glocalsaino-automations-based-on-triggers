@@ -2,7 +2,7 @@
 /**
  * Automation logs list table.
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -35,25 +35,25 @@ class GSAAT_Logs_Table extends WP_List_Table {
 	public function get_columns() {
 		return array(
 			'cb'         => '<input type="checkbox" />',
-			'created_at' => __( 'Date', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'automation' => __( 'Automation', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'event'      => __( 'Event', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'results'    => __( 'Executed actions', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'status'     => __( 'Result', 'glocalsaino-actions-automation-based-on-trigger' ),
+			'created_at' => __( 'Date', 'glocalsaino-automations-based-on-triggers' ),
+			'automation' => __( 'Automation', 'glocalsaino-automations-based-on-triggers' ),
+			'event'      => __( 'Event', 'glocalsaino-automations-based-on-triggers' ),
+			'results'    => __( 'Executed actions', 'glocalsaino-automations-based-on-triggers' ),
+			'status'     => __( 'Result', 'glocalsaino-automations-based-on-triggers' ),
 		);
 	}
 
 	protected function get_bulk_actions() {
 		return array(
-			'retry'  => __( 'Retry failed actions', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'delete' => __( 'Delete', 'glocalsaino-actions-automation-based-on-trigger' ),
+			'retry'  => __( 'Retry failed actions', 'glocalsaino-automations-based-on-triggers' ),
+			'delete' => __( 'Delete', 'glocalsaino-automations-based-on-triggers' ),
 		);
 	}
 
 	protected function get_views() {
 		$current = $this->current_status();
 		$views   = array();
-		$labels  = array( '' => __( 'All', 'glocalsaino-actions-automation-based-on-trigger' ) );
+		$labels  = array( '' => __( 'All', 'glocalsaino-automations-based-on-triggers' ) );
 		foreach ( array( 'success', 'partial', 'error', 'skipped' ) as $status ) {
 			$labels[ $status ] = GSAAT_Admin::log_status_label( $status );
 		}
@@ -96,7 +96,7 @@ class GSAAT_Logs_Table extends WP_List_Table {
 	}
 
 	public function no_items() {
-		esc_html_e( 'No log entries.', 'glocalsaino-actions-automation-based-on-trigger' );
+		esc_html_e( 'No log entries.', 'glocalsaino-automations-based-on-triggers' );
 	}
 
 	protected function column_cb( $item ) {
@@ -106,13 +106,13 @@ class GSAAT_Logs_Table extends WP_List_Table {
 	protected function column_created_at( $item ) {
 		$view_url = GSAAT_Admin::url( GSAAT_Admin::PAGE_LOGS, array( 'view' => $item['id'] ) );
 		$actions  = array(
-			'view'   => sprintf( '<a href="%s">%s</a>', esc_url( $view_url ), esc_html__( 'View details', 'glocalsaino-actions-automation-based-on-trigger' ) ),
+			'view'   => sprintf( '<a href="%s">%s</a>', esc_url( $view_url ), esc_html__( 'View details', 'glocalsaino-automations-based-on-triggers' ) ),
 		);
 		if ( in_array( $item['status'], array( 'error', 'partial' ), true ) ) {
-			$actions['retry'] = sprintf( '<a href="%s">%s</a>', esc_url( GSAAT_Admin::row_action_url( 'retry_log', $item['id'] ) ), esc_html__( 'Retry failed actions', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			$actions['retry'] = sprintf( '<a href="%s">%s</a>', esc_url( GSAAT_Admin::row_action_url( 'retry_log', $item['id'] ) ), esc_html__( 'Retry failed actions', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 		$actions += array(
-			'delete' => sprintf( '<a href="%s">%s</a>', esc_url( GSAAT_Admin::row_action_url( 'delete_log', $item['id'] ) ), esc_html__( 'Delete', 'glocalsaino-actions-automation-based-on-trigger' ) ),
+			'delete' => sprintf( '<a href="%s">%s</a>', esc_url( GSAAT_Admin::row_action_url( 'delete_log', $item['id'] ) ), esc_html__( 'Delete', 'glocalsaino-automations-based-on-triggers' ) ),
 		);
 		return sprintf( '<a class="row-title" href="%s">%s</a>', esc_url( $view_url ), esc_html( GSAAT_Admin::format_date( $item['created_at'] ) ) ) . $this->row_actions( $actions );
 	}
@@ -142,7 +142,7 @@ class GSAAT_Logs_Table extends WP_List_Table {
 				'<li><span class="dashicons %1$s" aria-hidden="true"></span> %2$s <span class="screen-reader-text">%3$s</span></li>',
 				esc_attr( ! empty( $result['success'] ) ? 'dashicons-yes-alt glocalsaino-aat-ok' : 'dashicons-dismiss glocalsaino-aat-ko' ),
 				esc_html( GSAAT_Admin::result_label( $result ) ),
-				esc_html( ! empty( $result['success'] ) ? __( 'OK', 'glocalsaino-actions-automation-based-on-trigger' ) : __( 'Failed', 'glocalsaino-actions-automation-based-on-trigger' ) )
+				esc_html( ! empty( $result['success'] ) ? __( 'OK', 'glocalsaino-automations-based-on-triggers' ) : __( 'Failed', 'glocalsaino-automations-based-on-triggers' ) )
 			);
 		}
 		return '<ul class="glocalsaino-aat-plain-list">' . $list . '</ul>';
@@ -166,7 +166,7 @@ class GSAAT_Logs_Table extends WP_List_Table {
 				'<br><a class="glocalsaino-aat-muted" href="%1$s">%2$s</a>',
 				esc_url( GSAAT_Admin::url( GSAAT_Admin::PAGE_LOGS, array( 'view' => $retry['id'] ) ) ),
 				/* translators: 1: log entry ID, 2: status of the retry. */
-				esc_html( sprintf( __( 'Retried in #%1$d: %2$s', 'glocalsaino-actions-automation-based-on-trigger' ), $retry['id'], GSAAT_Admin::log_status_label( $retry['status'] ) ) )
+				esc_html( sprintf( __( 'Retried in #%1$d: %2$s', 'glocalsaino-automations-based-on-triggers' ), $retry['id'], GSAAT_Admin::log_status_label( $retry['status'] ) ) )
 			);
 		}
 		return $html;

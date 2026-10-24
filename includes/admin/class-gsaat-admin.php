@@ -2,7 +2,7 @@
 /**
  * Admin screens and form handlers.
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -40,18 +40,18 @@ class GSAAT_Admin {
 
 	public static function menu() {
 		self::$hooks['list'] = add_menu_page(
-			__( 'Automations', 'glocalsaino-actions-automation-based-on-trigger' ),
-			__( 'Automations', 'glocalsaino-actions-automation-based-on-trigger' ),
+			__( 'Automations', 'glocalsaino-automations-based-on-triggers' ),
+			__( 'Automations', 'glocalsaino-automations-based-on-triggers' ),
 			self::CAP,
 			self::PAGE_LIST,
 			array( __CLASS__, 'render_list' ),
 			'dashicons-randomize',
 			58
 		);
-		self::$hooks['list'] = add_submenu_page( self::PAGE_LIST, __( 'Automations', 'glocalsaino-actions-automation-based-on-trigger' ), __( 'Automations', 'glocalsaino-actions-automation-based-on-trigger' ), self::CAP, self::PAGE_LIST, array( __CLASS__, 'render_list' ) );
-		self::$hooks['edit'] = add_submenu_page( self::PAGE_LIST, __( 'New Automation', 'glocalsaino-actions-automation-based-on-trigger' ), __( 'New Automation', 'glocalsaino-actions-automation-based-on-trigger' ), self::CAP, self::PAGE_EDIT, array( __CLASS__, 'render_edit' ) );
-		self::$hooks['logs'] = add_submenu_page( self::PAGE_LIST, __( 'Logs', 'glocalsaino-actions-automation-based-on-trigger' ), __( 'Logs', 'glocalsaino-actions-automation-based-on-trigger' ), self::CAP, self::PAGE_LOGS, array( __CLASS__, 'render_logs' ) );
-		self::$hooks['webhook'] = add_submenu_page( self::PAGE_LIST, __( 'Webhook Logs', 'glocalsaino-actions-automation-based-on-trigger' ), __( 'Webhook Logs', 'glocalsaino-actions-automation-based-on-trigger' ), self::CAP, self::PAGE_WEBHOOK, array( __CLASS__, 'render_webhook_logs' ) );
+		self::$hooks['list'] = add_submenu_page( self::PAGE_LIST, __( 'Automations', 'glocalsaino-automations-based-on-triggers' ), __( 'Automations', 'glocalsaino-automations-based-on-triggers' ), self::CAP, self::PAGE_LIST, array( __CLASS__, 'render_list' ) );
+		self::$hooks['edit'] = add_submenu_page( self::PAGE_LIST, __( 'New Automation', 'glocalsaino-automations-based-on-triggers' ), __( 'New Automation', 'glocalsaino-automations-based-on-triggers' ), self::CAP, self::PAGE_EDIT, array( __CLASS__, 'render_edit' ) );
+		self::$hooks['logs'] = add_submenu_page( self::PAGE_LIST, __( 'Logs', 'glocalsaino-automations-based-on-triggers' ), __( 'Logs', 'glocalsaino-automations-based-on-triggers' ), self::CAP, self::PAGE_LOGS, array( __CLASS__, 'render_logs' ) );
+		self::$hooks['webhook'] = add_submenu_page( self::PAGE_LIST, __( 'Webhook Logs', 'glocalsaino-automations-based-on-triggers' ), __( 'Webhook Logs', 'glocalsaino-automations-based-on-triggers' ), self::CAP, self::PAGE_WEBHOOK, array( __CLASS__, 'render_webhook_logs' ) );
 		/**
 		 * Fires before the Settings submenu is added, so add-ons can add their own pages
 		 * under the Automations menu.
@@ -60,7 +60,7 @@ class GSAAT_Admin {
 		 */
 		do_action( 'glocalsaino_aat_admin_menu', self::PAGE_LIST );
 
-		self::$hooks['settings'] = add_submenu_page( self::PAGE_LIST, __( 'Settings', 'glocalsaino-actions-automation-based-on-trigger' ), __( 'Settings', 'glocalsaino-actions-automation-based-on-trigger' ), self::CAP, self::PAGE_SETTING, array( __CLASS__, 'render_settings' ) );
+		self::$hooks['settings'] = add_submenu_page( self::PAGE_LIST, __( 'Settings', 'glocalsaino-automations-based-on-triggers' ), __( 'Settings', 'glocalsaino-automations-based-on-triggers' ), self::CAP, self::PAGE_SETTING, array( __CLASS__, 'render_settings' ) );
 
 		add_action( 'load-' . self::$hooks['list'], array( __CLASS__, 'process_automations_bulk' ) );
 		add_action( 'load-' . self::$hooks['logs'], array( __CLASS__, 'process_logs_bulk' ) );
@@ -111,8 +111,8 @@ class GSAAT_Admin {
 	public static function plugin_links( $links ) {
 		array_unshift(
 			$links,
-			sprintf( '<a href="%s">%s</a>', esc_url( self::url( self::PAGE_LIST ) ), esc_html__( 'Automations', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-			sprintf( '<a href="%s">%s</a>', esc_url( self::url( self::PAGE_SETTING ) ), esc_html__( 'Settings', 'glocalsaino-actions-automation-based-on-trigger' ) )
+			sprintf( '<a href="%s">%s</a>', esc_url( self::url( self::PAGE_LIST ) ), esc_html__( 'Automations', 'glocalsaino-automations-based-on-triggers' ) ),
+			sprintf( '<a href="%s">%s</a>', esc_url( self::url( self::PAGE_SETTING ) ), esc_html__( 'Settings', 'glocalsaino-automations-based-on-triggers' ) )
 		);
 		return $links;
 	}
@@ -135,7 +135,7 @@ class GSAAT_Admin {
 		$id         = isset( $_GET['id'] ) ? absint( wp_unslash( $_GET['id'] ) ) : 0;
 		$automation = $id ? GSAAT_Automations::get( $id ) : self::blank_automation();
 		if ( ! $automation ) {
-			wp_die( esc_html__( 'Automation not found.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			wp_die( esc_html__( 'Automation not found.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 		$cf7_forms = GSAAT_Trigger_CF7::forms();
 		include GSAAT_PATH . 'includes/admin/views/edit.php';
@@ -147,7 +147,7 @@ class GSAAT_Admin {
 		if ( $view_id ) {
 			$log = GSAAT_Logs::get( $view_id );
 			if ( ! $log ) {
-				wp_die( esc_html__( 'Log entry not found.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+				wp_die( esc_html__( 'Log entry not found.', 'glocalsaino-automations-based-on-triggers' ) );
 			}
 			include GSAAT_PATH . 'includes/admin/views/log-detail.php';
 			return;
@@ -170,7 +170,7 @@ class GSAAT_Admin {
 		if ( $view_id ) {
 			$log = GSAAT_Logs::get_webhook( $view_id );
 			if ( ! $log ) {
-				wp_die( esc_html__( 'Log entry not found.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+				wp_die( esc_html__( 'Log entry not found.', 'glocalsaino-automations-based-on-triggers' ) );
 			}
 			include GSAAT_PATH . 'includes/admin/views/webhook-log-detail.php';
 			return;
@@ -246,7 +246,7 @@ class GSAAT_Admin {
 		$id       = isset( $_POST['id'] ) ? absint( wp_unslash( $_POST['id'] ) ) : 0;
 		$existing = $id ? GSAAT_Automations::get( $id ) : null;
 		if ( $id && ! $existing ) {
-			wp_die( esc_html__( 'Automation not found.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			wp_die( esc_html__( 'Automation not found.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 
 		$trigger_type = isset( $_POST['trigger_type'] ) ? sanitize_key( wp_unslash( $_POST['trigger_type'] ) ) : '';
@@ -289,7 +289,7 @@ class GSAAT_Admin {
 
 		$name = isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
 		if ( '' === $name ) {
-			$name = __( 'Untitled automation', 'glocalsaino-actions-automation-based-on-trigger' );
+			$name = __( 'Untitled automation', 'glocalsaino-automations-based-on-triggers' );
 		}
 
 		$unlimited_runs = ! empty( $_POST['unlimited_runs'] );
@@ -334,7 +334,7 @@ class GSAAT_Admin {
 
 		$saved_id = GSAAT_Automations::save( $data, $id );
 		if ( ! $saved_id ) {
-			wp_die( esc_html__( 'The automation could not be saved.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			wp_die( esc_html__( 'The automation could not be saved.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 
 		/**
@@ -725,9 +725,9 @@ class GSAAT_Admin {
 		$definition = GSAAT_Registry::trigger_type( $automation['trigger_type'] );
 		if ( ! $definition ) {
 			return '' === $automation['trigger_type']
-				? __( 'No trigger', 'glocalsaino-actions-automation-based-on-trigger' )
+				? __( 'No trigger', 'glocalsaino-automations-based-on-triggers' )
 				/* translators: %s: trigger type slug. */
-				: sprintf( __( 'Unavailable trigger (%s)', 'glocalsaino-actions-automation-based-on-trigger' ), $automation['trigger_type'] );
+				: sprintf( __( 'Unavailable trigger (%s)', 'glocalsaino-automations-based-on-triggers' ), $automation['trigger_type'] );
 		}
 		return is_callable( $definition['describe'] ) ? (string) call_user_func( $definition['describe'], $automation ) : $definition['label'];
 	}
@@ -750,11 +750,11 @@ class GSAAT_Admin {
 	 */
 	public static function availability_label( $availability ) {
 		$labels = array(
-			'active'        => __( 'Active', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'inactive'      => __( 'Inactive', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'scheduled'     => __( 'Active — not started yet', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'expired'       => __( 'Active — expired', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'limit_reached' => __( 'Active — run limit reached', 'glocalsaino-actions-automation-based-on-trigger' ),
+			'active'        => __( 'Active', 'glocalsaino-automations-based-on-triggers' ),
+			'inactive'      => __( 'Inactive', 'glocalsaino-automations-based-on-triggers' ),
+			'scheduled'     => __( 'Active — not started yet', 'glocalsaino-automations-based-on-triggers' ),
+			'expired'       => __( 'Active — expired', 'glocalsaino-automations-based-on-triggers' ),
+			'limit_reached' => __( 'Active — run limit reached', 'glocalsaino-automations-based-on-triggers' ),
 		);
 		return isset( $labels[ $availability ] ) ? $labels[ $availability ] : $availability;
 	}
@@ -767,10 +767,10 @@ class GSAAT_Admin {
 	 */
 	public static function log_status_label( $status ) {
 		$labels = array(
-			'success' => __( 'Success', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'partial' => __( 'Partial', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'error'   => __( 'Error', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'skipped' => __( 'Conditions not met', 'glocalsaino-actions-automation-based-on-trigger' ),
+			'success' => __( 'Success', 'glocalsaino-automations-based-on-triggers' ),
+			'partial' => __( 'Partial', 'glocalsaino-automations-based-on-triggers' ),
+			'error'   => __( 'Error', 'glocalsaino-automations-based-on-triggers' ),
+			'skipped' => __( 'Conditions not met', 'glocalsaino-automations-based-on-triggers' ),
 		);
 		return isset( $labels[ $status ] ) ? $labels[ $status ] : $status;
 	}
@@ -793,9 +793,9 @@ class GSAAT_Admin {
 	public static function logs_tabs( $current ) {
 		$pending = GSAAT_Scheduler::count_pending();
 		$tabs    = array(
-			''          => __( 'Executions', 'glocalsaino-actions-automation-based-on-trigger' ),
+			''          => __( 'Executions', 'glocalsaino-automations-based-on-triggers' ),
 			/* translators: %d: number of pending scheduled jobs. */
-			'scheduled' => sprintf( __( 'Scheduled actions (%d)', 'glocalsaino-actions-automation-based-on-trigger' ), $pending ),
+			'scheduled' => sprintf( __( 'Scheduled actions (%d)', 'glocalsaino-automations-based-on-triggers' ), $pending ),
 		);
 		echo '<nav class="nav-tab-wrapper glocalsaino-aat-tabs">';
 		foreach ( $tabs as $tab => $label ) {
@@ -816,10 +816,10 @@ class GSAAT_Admin {
 	 */
 	public static function pairs_table( array $pairs ) {
 		if ( ! $pairs ) {
-			echo '<p class="glocalsaino-aat-muted">' . esc_html__( 'No data.', 'glocalsaino-actions-automation-based-on-trigger' ) . '</p>';
+			echo '<p class="glocalsaino-aat-muted">' . esc_html__( 'No data.', 'glocalsaino-automations-based-on-triggers' ) . '</p>';
 			return;
 		}
-		echo '<table class="widefat striped glocalsaino-aat-pairs"><thead><tr><th>' . esc_html__( 'Field', 'glocalsaino-actions-automation-based-on-trigger' ) . '</th><th>' . esc_html__( 'Value', 'glocalsaino-actions-automation-based-on-trigger' ) . '</th></tr></thead><tbody>';
+		echo '<table class="widefat striped glocalsaino-aat-pairs"><thead><tr><th>' . esc_html__( 'Field', 'glocalsaino-automations-based-on-triggers' ) . '</th><th>' . esc_html__( 'Value', 'glocalsaino-automations-based-on-triggers' ) . '</th></tr></thead><tbody>';
 		foreach ( $pairs as $key => $value ) {
 			echo '<tr><td><code>' . esc_html( (string) $key ) . '</code></td><td>' . nl2br( esc_html( is_scalar( $value ) ? (string) $value : (string) wp_json_encode( $value ) ) ) . '</td></tr>';
 		}
@@ -834,29 +834,29 @@ class GSAAT_Admin {
 		$codes = isset( $_GET[ self::MESSAGE_ARG ] ) ? array_map( 'sanitize_key', explode( ',', sanitize_text_field( wp_unslash( $_GET[ self::MESSAGE_ARG ] ) ) ) ) : array();
 
 		$messages = array(
-			'saved'                    => array( 'success', __( 'Automation saved.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-			'saved_incomplete_trigger' => array( 'warning', __( 'Automation saved as inactive: choose a trigger and complete its settings (form, destination, events…) before activating it.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-			'saved_no_actions'         => array( 'warning', __( 'Automation saved as inactive: add at least one action before activating it.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-			'saved_bad_dates'          => array( 'warning', __( 'Automation saved, but the end date is before the start date, so it will never run.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-			'activated'                => array( 'success', __( 'Automation activated.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-			'deactivated'              => array( 'success', __( 'Automation deactivated.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-			'duplicated'               => array( 'success', __( 'Automation duplicated. The copy is inactive.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-			'deleted'                  => array( 'success', __( 'Automation deleted.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-			'logs_deleted'             => array( 'success', __( 'Log entries deleted.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-			'logs_cleared'             => array( 'success', __( 'Logs cleared.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-			'token_generated'          => array( 'info', __( 'A new authentication token was generated (tokens must have at least 16 characters). Give it to the sender.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-			'ip_invalid_removed'       => array( 'warning', __( 'Some entries of the IP list were not valid IP addresses or ranges and were removed.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-			'ip_disabled'              => array( 'warning', __( 'The IP restriction was turned off because the list has no valid address.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-			'signature_disabled'       => array( 'warning', __( 'The signature check was turned off because no signing secret was entered.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-			'user_rule_incomplete'     => array( 'warning', __( 'A user condition was removed because no valid user was chosen.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-			'captcha_not_configured'   => array( 'warning', __( 'The chosen captcha has no keys yet: add them in Settings, otherwise the widget works without captcha.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-			'job_ran'                  => array( 'success', __( 'The scheduled actions were run now. This is the result.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-			'job_cancelled'            => array( 'success', __( 'The scheduled actions were cancelled.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-			'job_not_pending'          => array( 'warning', __( 'Those scheduled actions are no longer pending (they already ran or were cancelled).', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-			'retried'                  => array( 'info', __( 'The failed actions were retried. This is the result of the retry.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-			'retried_bulk'             => array( 'info', __( 'The failed actions of the selected entries were retried. Entries that had not failed were skipped.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-			'retry_not_retryable'      => array( 'error', __( 'Only executions with failed actions can be retried.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-			'retry_automation_deleted' => array( 'error', __( 'This execution cannot be retried because its automation was deleted.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
+			'saved'                    => array( 'success', __( 'Automation saved.', 'glocalsaino-automations-based-on-triggers' ) ),
+			'saved_incomplete_trigger' => array( 'warning', __( 'Automation saved as inactive: choose a trigger and complete its settings (form, destination, events…) before activating it.', 'glocalsaino-automations-based-on-triggers' ) ),
+			'saved_no_actions'         => array( 'warning', __( 'Automation saved as inactive: add at least one action before activating it.', 'glocalsaino-automations-based-on-triggers' ) ),
+			'saved_bad_dates'          => array( 'warning', __( 'Automation saved, but the end date is before the start date, so it will never run.', 'glocalsaino-automations-based-on-triggers' ) ),
+			'activated'                => array( 'success', __( 'Automation activated.', 'glocalsaino-automations-based-on-triggers' ) ),
+			'deactivated'              => array( 'success', __( 'Automation deactivated.', 'glocalsaino-automations-based-on-triggers' ) ),
+			'duplicated'               => array( 'success', __( 'Automation duplicated. The copy is inactive.', 'glocalsaino-automations-based-on-triggers' ) ),
+			'deleted'                  => array( 'success', __( 'Automation deleted.', 'glocalsaino-automations-based-on-triggers' ) ),
+			'logs_deleted'             => array( 'success', __( 'Log entries deleted.', 'glocalsaino-automations-based-on-triggers' ) ),
+			'logs_cleared'             => array( 'success', __( 'Logs cleared.', 'glocalsaino-automations-based-on-triggers' ) ),
+			'token_generated'          => array( 'info', __( 'A new authentication token was generated (tokens must have at least 16 characters). Give it to the sender.', 'glocalsaino-automations-based-on-triggers' ) ),
+			'ip_invalid_removed'       => array( 'warning', __( 'Some entries of the IP list were not valid IP addresses or ranges and were removed.', 'glocalsaino-automations-based-on-triggers' ) ),
+			'ip_disabled'              => array( 'warning', __( 'The IP restriction was turned off because the list has no valid address.', 'glocalsaino-automations-based-on-triggers' ) ),
+			'signature_disabled'       => array( 'warning', __( 'The signature check was turned off because no signing secret was entered.', 'glocalsaino-automations-based-on-triggers' ) ),
+			'user_rule_incomplete'     => array( 'warning', __( 'A user condition was removed because no valid user was chosen.', 'glocalsaino-automations-based-on-triggers' ) ),
+			'captcha_not_configured'   => array( 'warning', __( 'The chosen captcha has no keys yet: add them in Settings, otherwise the widget works without captcha.', 'glocalsaino-automations-based-on-triggers' ) ),
+			'job_ran'                  => array( 'success', __( 'The scheduled actions were run now. This is the result.', 'glocalsaino-automations-based-on-triggers' ) ),
+			'job_cancelled'            => array( 'success', __( 'The scheduled actions were cancelled.', 'glocalsaino-automations-based-on-triggers' ) ),
+			'job_not_pending'          => array( 'warning', __( 'Those scheduled actions are no longer pending (they already ran or were cancelled).', 'glocalsaino-automations-based-on-triggers' ) ),
+			'retried'                  => array( 'info', __( 'The failed actions were retried. This is the result of the retry.', 'glocalsaino-automations-based-on-triggers' ) ),
+			'retried_bulk'             => array( 'info', __( 'The failed actions of the selected entries were retried. Entries that had not failed were skipped.', 'glocalsaino-automations-based-on-triggers' ) ),
+			'retry_not_retryable'      => array( 'error', __( 'Only executions with failed actions can be retried.', 'glocalsaino-automations-based-on-triggers' ) ),
+			'retry_automation_deleted' => array( 'error', __( 'This execution cannot be retried because its automation was deleted.', 'glocalsaino-automations-based-on-triggers' ) ),
 		);
 
 		/**
@@ -889,7 +889,7 @@ class GSAAT_Admin {
 
 	private static function check_capability() {
 		if ( ! current_user_can( self::CAP ) ) {
-			wp_die( esc_html__( 'You are not allowed to do this.', 'glocalsaino-actions-automation-based-on-trigger' ), 403 );
+			wp_die( esc_html__( 'You are not allowed to do this.', 'glocalsaino-automations-based-on-triggers' ), 403 );
 		}
 	}
 
@@ -938,14 +938,14 @@ class GSAAT_Admin {
 		}
 		$builtin[] = array(
 			'key'      => '_form_title',
-			'label'    => __( 'Form title', 'glocalsaino-actions-automation-based-on-trigger' ),
+			'label'    => __( 'Form title', 'glocalsaino-automations-based-on-triggers' ),
 			'triggers' => array( 'cf7' ),
 		);
 		foreach (
 			array(
-				'_user_display_name' => __( 'Logged-in user: name', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'_user_email'        => __( 'Logged-in user: email', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'_user_login'        => __( 'Logged-in user: username', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'_user_display_name' => __( 'Logged-in user: name', 'glocalsaino-automations-based-on-triggers' ),
+				'_user_email'        => __( 'Logged-in user: email', 'glocalsaino-automations-based-on-triggers' ),
+				'_user_login'        => __( 'Logged-in user: username', 'glocalsaino-automations-based-on-triggers' ),
 			) as $key => $label
 		) {
 			$builtin[] = array(
@@ -956,7 +956,7 @@ class GSAAT_Admin {
 		}
 		$builtin[] = array(
 			'key'      => '_webhook_method',
-			'label'    => __( 'HTTP method used', 'glocalsaino-actions-automation-based-on-trigger' ),
+			'label'    => __( 'HTTP method used', 'glocalsaino-automations-based-on-triggers' ),
 			'triggers' => array( 'webhook' ),
 		);
 
@@ -989,14 +989,14 @@ class GSAAT_Admin {
 
 		foreach (
 			array(
-				'_click_page'       => array( __( 'Page where the click happened', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'link', 'button' ) ),
-				'_link_destination' => array( __( 'Link destination', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'link' ) ),
-				'_button_label'     => array( __( 'Button text', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'button' ) ),
-				'_widget_site'      => array( __( 'Website where the widget was used', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'widget' ) ),
-				'_file_name'        => array( __( 'File name', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'file' ) ),
-				'_row_count'        => array( __( 'Number of rows in the file', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'file' ) ),
-				'_row_number'       => array( __( 'Row number (once per row)', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'file' ) ),
-				'_widget_page'      => array( __( 'Page where the widget was used', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'widget' ) ),
+				'_click_page'       => array( __( 'Page where the click happened', 'glocalsaino-automations-based-on-triggers' ), array( 'link', 'button' ) ),
+				'_link_destination' => array( __( 'Link destination', 'glocalsaino-automations-based-on-triggers' ), array( 'link' ) ),
+				'_button_label'     => array( __( 'Button text', 'glocalsaino-automations-based-on-triggers' ), array( 'button' ) ),
+				'_widget_site'      => array( __( 'Website where the widget was used', 'glocalsaino-automations-based-on-triggers' ), array( 'widget' ) ),
+				'_file_name'        => array( __( 'File name', 'glocalsaino-automations-based-on-triggers' ), array( 'file' ) ),
+				'_row_count'        => array( __( 'Number of rows in the file', 'glocalsaino-automations-based-on-triggers' ), array( 'file' ) ),
+				'_row_number'       => array( __( 'Row number (once per row)', 'glocalsaino-automations-based-on-triggers' ), array( 'file' ) ),
+				'_widget_page'      => array( __( 'Page where the widget was used', 'glocalsaino-automations-based-on-triggers' ), array( 'widget' ) ),
 			) as $key => $token
 		) {
 			$builtin[] = array(
@@ -1011,7 +1011,7 @@ class GSAAT_Admin {
 			if ( ! empty( $rule['user_id'] ) ) {
 				$user = get_userdata( $rule['user_id'] );
 				/* translators: %d: user ID. */
-				$user_labels[ (int) $rule['user_id'] ] = $user ? self::user_label( $user ) : sprintf( __( 'Deleted user (#%d)', 'glocalsaino-actions-automation-based-on-trigger' ), $rule['user_id'] );
+				$user_labels[ (int) $rule['user_id'] ] = $user ? self::user_label( $user ) : sprintf( __( 'Deleted user (#%d)', 'glocalsaino-automations-based-on-triggers' ), $rule['user_id'] );
 			}
 		}
 
@@ -1049,7 +1049,7 @@ class GSAAT_Admin {
 				'widgetFields' => $automation && 'widget' === $automation['trigger_type'] && isset( $automation['trigger_config']['fields'] ) ? array_values( (array) $automation['trigger_config']['fields'] ) : array(
 					array(
 						'key'         => 'email',
-						'label'       => __( 'Email', 'glocalsaino-actions-automation-based-on-trigger' ),
+						'label'       => __( 'Email', 'glocalsaino-automations-based-on-triggers' ),
 						'type'        => 'email',
 						'required'    => true,
 						'placeholder' => '',
@@ -1064,85 +1064,85 @@ class GSAAT_Admin {
 				'actions'     => $automation ? $automation['actions'] : array(),
 			),
 			'i18n'          => array(
-				'triggerFields'   => __( 'Trigger fields', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'generalFields'   => __( 'General', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'insertField'     => __( 'Insert field…', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'chooseField'     => __( '— Choose a field —', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'chooseForm'      => __( '— Choose a form —', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'notAvailable'    => __( '(not available)', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'remove'          => __( 'Remove', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'moveUp'          => __( 'Move up', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'moveDown'        => __( 'Move down', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'keyName'         => __( 'Key name', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'value'           => __( 'Value', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'operator'        => __( 'Comparison', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'key'             => __( 'Key', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'addPair'         => __( 'Add key / value', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'addHeader'       => __( 'Add header', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'noKeys'          => __( 'No keys configured: every received field will be available.', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'noConditions'    => __( 'No conditions: the actions run every time the trigger fires.', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'noActions'       => __( 'No actions yet. Add at least one.', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'url'             => __( 'URL', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'method'          => __( 'Method', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'format'          => __( 'Body format', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'formatJson'      => __( 'JSON', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'formatForm'      => __( 'Form (x-www-form-urlencoded)', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'dataToSend'      => __( 'Data to send', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'dataGetHint'     => __( 'With GET and DELETE the data is sent as query string parameters.', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'headers'         => __( 'Headers (optional)', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'to'              => __( 'Send to', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'toHint'          => __( 'One or more addresses separated by commas. You can use fields, e.g. {{your-email}}.', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'replyTo'         => __( 'Reply-To (optional)', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'subject'         => __( 'Subject', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'body'            => __( 'Message', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'copied'          => __( 'Copied!', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'errorForm'       => __( 'Choose the Contact Form 7 form used as trigger.', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'errorField'      => __( 'Choose the form field used as trigger.', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'exampleValue'    => __( 'VALUE', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'sendHeader'      => __( 'Also send the header', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'wpUser'          => __( 'WordPress user', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'identifiedBy'    => __( 'identified by', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'loggedInVisitor' => __( 'the logged-in visitor', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'emailInField'    => __( 'Email or username in field', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'searchUser'      => __( 'Search by name, email or username…', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'errorUser'       => __( 'Choose a user from the list for every "is the user" condition.', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'webhookNoLogin'  => __( 'Webhook calls come from an external server, so there is never a logged-in visitor: identify the user with a field.', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'missingKeyValue' => __( 'Enter a key name for every row, or remove the empty rows.', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'expression'      => __( 'Operation', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'expressionHint'  => __( 'Example: ({{price}} * {{quantity}}) * 1.21. Operators: + - * / % ^ and parentheses. Functions: round(x, decimals), floor, ceil, abs, sqrt, pow(x, y), min, max. Commas or dots are accepted as decimal separators in the values; empty values count as 0.', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'decimals'        => __( 'Decimals of the result (empty = as calculated)', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'outputName'      => __( 'Save the result as', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'outputHint'      => __( 'The following actions can use it as', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'formatInput'     => __( 'Value to format', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'formatOperation' => __( 'Operation', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'redirectUrl'     => __( 'Redirect to', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'redirectHint'    => __( 'An address on this site (e.g. /thank-you/) or a full URL. Field values can be added to the path or query string, but never decide the destination site.', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'needsBrowser'    => __( 'This action only works with triggers that happen in the visitor\'s browser (link, button, Contact Form 7, login or registration) and never after a wait.', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'waitFor'         => __( 'Wait', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'waitHint'        => __( 'The actions below this one run after the wait. Actions above it run immediately.', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'producedFields'  => __( 'Results of previous actions', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'table'           => __( 'Table', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'chooseTable'     => __( '— Choose a table —', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'newTable'        => __( 'Create a table', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'noTables'        => __( 'There are no tables yet. Create one first (Automations → Tables) and reload this page.', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'tableMode'       => __( 'Rows', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'tableAdd'        => __( 'Add the new rows to the existing ones', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'tableReplace'    => __( 'Replace all the rows of the table', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'tableValues'     => __( 'Value of each column', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'tableFill'       => __( 'Fill in with the fields of the same name', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'tableFileHint'   => __( 'With a file uploaded "once for the whole file", one row is added for each row of the file, using its columns.', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'readingFile'     => __( 'Reading the file…', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'fileError'       => __( 'The file could not be read.', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'fieldKey'        => __( 'Field name', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'fieldLabel'      => __( 'Label', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'fieldType'       => __( 'Type', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'fieldRequired'   => __( 'Required', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'fieldPlaceholder' => __( 'Placeholder', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'fieldOptions'    => __( 'Options (one per line)', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'fieldPrivacyUrl' => __( 'Privacy policy URL', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'noWidgetFields'  => __( 'Add at least one field.', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'errorWidgetKeys' => __( 'Every widget field needs a unique name (letters, digits, - and _).', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'unknownAction'   => __( 'This action type is not available. If it comes from an add-on, activate the add-on to edit it. It is kept as it is.', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'triggerFields'   => __( 'Trigger fields', 'glocalsaino-automations-based-on-triggers' ),
+				'generalFields'   => __( 'General', 'glocalsaino-automations-based-on-triggers' ),
+				'insertField'     => __( 'Insert field…', 'glocalsaino-automations-based-on-triggers' ),
+				'chooseField'     => __( '— Choose a field —', 'glocalsaino-automations-based-on-triggers' ),
+				'chooseForm'      => __( '— Choose a form —', 'glocalsaino-automations-based-on-triggers' ),
+				'notAvailable'    => __( '(not available)', 'glocalsaino-automations-based-on-triggers' ),
+				'remove'          => __( 'Remove', 'glocalsaino-automations-based-on-triggers' ),
+				'moveUp'          => __( 'Move up', 'glocalsaino-automations-based-on-triggers' ),
+				'moveDown'        => __( 'Move down', 'glocalsaino-automations-based-on-triggers' ),
+				'keyName'         => __( 'Key name', 'glocalsaino-automations-based-on-triggers' ),
+				'value'           => __( 'Value', 'glocalsaino-automations-based-on-triggers' ),
+				'operator'        => __( 'Comparison', 'glocalsaino-automations-based-on-triggers' ),
+				'key'             => __( 'Key', 'glocalsaino-automations-based-on-triggers' ),
+				'addPair'         => __( 'Add key / value', 'glocalsaino-automations-based-on-triggers' ),
+				'addHeader'       => __( 'Add header', 'glocalsaino-automations-based-on-triggers' ),
+				'noKeys'          => __( 'No keys configured: every received field will be available.', 'glocalsaino-automations-based-on-triggers' ),
+				'noConditions'    => __( 'No conditions: the actions run every time the trigger fires.', 'glocalsaino-automations-based-on-triggers' ),
+				'noActions'       => __( 'No actions yet. Add at least one.', 'glocalsaino-automations-based-on-triggers' ),
+				'url'             => __( 'URL', 'glocalsaino-automations-based-on-triggers' ),
+				'method'          => __( 'Method', 'glocalsaino-automations-based-on-triggers' ),
+				'format'          => __( 'Body format', 'glocalsaino-automations-based-on-triggers' ),
+				'formatJson'      => __( 'JSON', 'glocalsaino-automations-based-on-triggers' ),
+				'formatForm'      => __( 'Form (x-www-form-urlencoded)', 'glocalsaino-automations-based-on-triggers' ),
+				'dataToSend'      => __( 'Data to send', 'glocalsaino-automations-based-on-triggers' ),
+				'dataGetHint'     => __( 'With GET and DELETE the data is sent as query string parameters.', 'glocalsaino-automations-based-on-triggers' ),
+				'headers'         => __( 'Headers (optional)', 'glocalsaino-automations-based-on-triggers' ),
+				'to'              => __( 'Send to', 'glocalsaino-automations-based-on-triggers' ),
+				'toHint'          => __( 'One or more addresses separated by commas. You can use fields, e.g. {{your-email}}.', 'glocalsaino-automations-based-on-triggers' ),
+				'replyTo'         => __( 'Reply-To (optional)', 'glocalsaino-automations-based-on-triggers' ),
+				'subject'         => __( 'Subject', 'glocalsaino-automations-based-on-triggers' ),
+				'body'            => __( 'Message', 'glocalsaino-automations-based-on-triggers' ),
+				'copied'          => __( 'Copied!', 'glocalsaino-automations-based-on-triggers' ),
+				'errorForm'       => __( 'Choose the Contact Form 7 form used as trigger.', 'glocalsaino-automations-based-on-triggers' ),
+				'errorField'      => __( 'Choose the form field used as trigger.', 'glocalsaino-automations-based-on-triggers' ),
+				'exampleValue'    => __( 'VALUE', 'glocalsaino-automations-based-on-triggers' ),
+				'sendHeader'      => __( 'Also send the header', 'glocalsaino-automations-based-on-triggers' ),
+				'wpUser'          => __( 'WordPress user', 'glocalsaino-automations-based-on-triggers' ),
+				'identifiedBy'    => __( 'identified by', 'glocalsaino-automations-based-on-triggers' ),
+				'loggedInVisitor' => __( 'the logged-in visitor', 'glocalsaino-automations-based-on-triggers' ),
+				'emailInField'    => __( 'Email or username in field', 'glocalsaino-automations-based-on-triggers' ),
+				'searchUser'      => __( 'Search by name, email or username…', 'glocalsaino-automations-based-on-triggers' ),
+				'errorUser'       => __( 'Choose a user from the list for every "is the user" condition.', 'glocalsaino-automations-based-on-triggers' ),
+				'webhookNoLogin'  => __( 'Webhook calls come from an external server, so there is never a logged-in visitor: identify the user with a field.', 'glocalsaino-automations-based-on-triggers' ),
+				'missingKeyValue' => __( 'Enter a key name for every row, or remove the empty rows.', 'glocalsaino-automations-based-on-triggers' ),
+				'expression'      => __( 'Operation', 'glocalsaino-automations-based-on-triggers' ),
+				'expressionHint'  => __( 'Example: ({{price}} * {{quantity}}) * 1.21. Operators: + - * / % ^ and parentheses. Functions: round(x, decimals), floor, ceil, abs, sqrt, pow(x, y), min, max. Commas or dots are accepted as decimal separators in the values; empty values count as 0.', 'glocalsaino-automations-based-on-triggers' ),
+				'decimals'        => __( 'Decimals of the result (empty = as calculated)', 'glocalsaino-automations-based-on-triggers' ),
+				'outputName'      => __( 'Save the result as', 'glocalsaino-automations-based-on-triggers' ),
+				'outputHint'      => __( 'The following actions can use it as', 'glocalsaino-automations-based-on-triggers' ),
+				'formatInput'     => __( 'Value to format', 'glocalsaino-automations-based-on-triggers' ),
+				'formatOperation' => __( 'Operation', 'glocalsaino-automations-based-on-triggers' ),
+				'redirectUrl'     => __( 'Redirect to', 'glocalsaino-automations-based-on-triggers' ),
+				'redirectHint'    => __( 'An address on this site (e.g. /thank-you/) or a full URL. Field values can be added to the path or query string, but never decide the destination site.', 'glocalsaino-automations-based-on-triggers' ),
+				'needsBrowser'    => __( 'This action only works with triggers that happen in the visitor\'s browser (link, button, Contact Form 7, login or registration) and never after a wait.', 'glocalsaino-automations-based-on-triggers' ),
+				'waitFor'         => __( 'Wait', 'glocalsaino-automations-based-on-triggers' ),
+				'waitHint'        => __( 'The actions below this one run after the wait. Actions above it run immediately.', 'glocalsaino-automations-based-on-triggers' ),
+				'producedFields'  => __( 'Results of previous actions', 'glocalsaino-automations-based-on-triggers' ),
+				'table'           => __( 'Table', 'glocalsaino-automations-based-on-triggers' ),
+				'chooseTable'     => __( '— Choose a table —', 'glocalsaino-automations-based-on-triggers' ),
+				'newTable'        => __( 'Create a table', 'glocalsaino-automations-based-on-triggers' ),
+				'noTables'        => __( 'There are no tables yet. Create one first (Automations → Tables) and reload this page.', 'glocalsaino-automations-based-on-triggers' ),
+				'tableMode'       => __( 'Rows', 'glocalsaino-automations-based-on-triggers' ),
+				'tableAdd'        => __( 'Add the new rows to the existing ones', 'glocalsaino-automations-based-on-triggers' ),
+				'tableReplace'    => __( 'Replace all the rows of the table', 'glocalsaino-automations-based-on-triggers' ),
+				'tableValues'     => __( 'Value of each column', 'glocalsaino-automations-based-on-triggers' ),
+				'tableFill'       => __( 'Fill in with the fields of the same name', 'glocalsaino-automations-based-on-triggers' ),
+				'tableFileHint'   => __( 'With a file uploaded "once for the whole file", one row is added for each row of the file, using its columns.', 'glocalsaino-automations-based-on-triggers' ),
+				'readingFile'     => __( 'Reading the file…', 'glocalsaino-automations-based-on-triggers' ),
+				'fileError'       => __( 'The file could not be read.', 'glocalsaino-automations-based-on-triggers' ),
+				'fieldKey'        => __( 'Field name', 'glocalsaino-automations-based-on-triggers' ),
+				'fieldLabel'      => __( 'Label', 'glocalsaino-automations-based-on-triggers' ),
+				'fieldType'       => __( 'Type', 'glocalsaino-automations-based-on-triggers' ),
+				'fieldRequired'   => __( 'Required', 'glocalsaino-automations-based-on-triggers' ),
+				'fieldPlaceholder' => __( 'Placeholder', 'glocalsaino-automations-based-on-triggers' ),
+				'fieldOptions'    => __( 'Options (one per line)', 'glocalsaino-automations-based-on-triggers' ),
+				'fieldPrivacyUrl' => __( 'Privacy policy URL', 'glocalsaino-automations-based-on-triggers' ),
+				'noWidgetFields'  => __( 'Add at least one field.', 'glocalsaino-automations-based-on-triggers' ),
+				'errorWidgetKeys' => __( 'Every widget field needs a unique name (letters, digits, - and _).', 'glocalsaino-automations-based-on-triggers' ),
+				'unknownAction'   => __( 'This action type is not available. If it comes from an add-on, activate the add-on to edit it. It is kept as it is.', 'glocalsaino-automations-based-on-triggers' ),
 			),
 		);
 

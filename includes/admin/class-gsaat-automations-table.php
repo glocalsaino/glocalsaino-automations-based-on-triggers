@@ -2,7 +2,7 @@
 /**
  * Automations list table.
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -28,12 +28,12 @@ class GSAAT_Automations_Table extends WP_List_Table {
 	public function get_columns() {
 		return array(
 			'cb'         => '<input type="checkbox" />',
-			'name'       => __( 'Name', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'trigger'    => __( 'Trigger', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'actions'    => __( 'Actions', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'runs'       => __( 'Completed runs', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'status'     => __( 'Status', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'created_at' => __( 'Created', 'glocalsaino-actions-automation-based-on-trigger' ),
+			'name'       => __( 'Name', 'glocalsaino-automations-based-on-triggers' ),
+			'trigger'    => __( 'Trigger', 'glocalsaino-automations-based-on-triggers' ),
+			'actions'    => __( 'Actions', 'glocalsaino-automations-based-on-triggers' ),
+			'runs'       => __( 'Completed runs', 'glocalsaino-automations-based-on-triggers' ),
+			'status'     => __( 'Status', 'glocalsaino-automations-based-on-triggers' ),
+			'created_at' => __( 'Created', 'glocalsaino-automations-based-on-triggers' ),
 		);
 	}
 
@@ -49,9 +49,9 @@ class GSAAT_Automations_Table extends WP_List_Table {
 
 	protected function get_bulk_actions() {
 		return array(
-			'activate'   => __( 'Activate', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'deactivate' => __( 'Deactivate', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'delete'     => __( 'Delete', 'glocalsaino-actions-automation-based-on-trigger' ),
+			'activate'   => __( 'Activate', 'glocalsaino-automations-based-on-triggers' ),
+			'deactivate' => __( 'Deactivate', 'glocalsaino-automations-based-on-triggers' ),
+			'delete'     => __( 'Delete', 'glocalsaino-automations-based-on-triggers' ),
 		);
 	}
 
@@ -81,7 +81,7 @@ class GSAAT_Automations_Table extends WP_List_Table {
 	}
 
 	public function no_items() {
-		esc_html_e( 'No automations yet.', 'glocalsaino-actions-automation-based-on-trigger' );
+		esc_html_e( 'No automations yet.', 'glocalsaino-automations-based-on-triggers' );
 	}
 
 	protected function column_cb( $item ) {
@@ -93,19 +93,19 @@ class GSAAT_Automations_Table extends WP_List_Table {
 		$toggle   = 'active' === $item['status'] ? 'deactivate' : 'activate';
 
 		$actions = array(
-			'edit'      => sprintf( '<a href="%s">%s</a>', esc_url( $edit_url ), esc_html__( 'Edit', 'glocalsaino-actions-automation-based-on-trigger' ) ),
+			'edit'      => sprintf( '<a href="%s">%s</a>', esc_url( $edit_url ), esc_html__( 'Edit', 'glocalsaino-automations-based-on-triggers' ) ),
 			$toggle     => sprintf(
 				'<a href="%s">%s</a>',
 				esc_url( GSAAT_Admin::row_action_url( $toggle, $item['id'] ) ),
-				'activate' === $toggle ? esc_html__( 'Activate', 'glocalsaino-actions-automation-based-on-trigger' ) : esc_html__( 'Deactivate', 'glocalsaino-actions-automation-based-on-trigger' )
+				'activate' === $toggle ? esc_html__( 'Activate', 'glocalsaino-automations-based-on-triggers' ) : esc_html__( 'Deactivate', 'glocalsaino-automations-based-on-triggers' )
 			),
-			'logs'      => sprintf( '<a href="%s">%s</a>', esc_url( GSAAT_Admin::url( GSAAT_Admin::PAGE_LOGS, array( 'automation_id' => $item['id'] ) ) ), esc_html__( 'Logs', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-			'duplicate' => sprintf( '<a href="%s">%s</a>', esc_url( GSAAT_Admin::row_action_url( 'duplicate', $item['id'] ) ), esc_html__( 'Duplicate', 'glocalsaino-actions-automation-based-on-trigger' ) ),
+			'logs'      => sprintf( '<a href="%s">%s</a>', esc_url( GSAAT_Admin::url( GSAAT_Admin::PAGE_LOGS, array( 'automation_id' => $item['id'] ) ) ), esc_html__( 'Logs', 'glocalsaino-automations-based-on-triggers' ) ),
+			'duplicate' => sprintf( '<a href="%s">%s</a>', esc_url( GSAAT_Admin::row_action_url( 'duplicate', $item['id'] ) ), esc_html__( 'Duplicate', 'glocalsaino-automations-based-on-triggers' ) ),
 			'delete'    => sprintf(
 				'<a href="%s" class="glocalsaino-aat-confirm" data-confirm="%s">%s</a>',
 				esc_url( GSAAT_Admin::row_action_url( 'delete', $item['id'] ) ),
-				esc_attr__( 'Delete this automation? This cannot be undone.', 'glocalsaino-actions-automation-based-on-trigger' ),
-				esc_html__( 'Delete', 'glocalsaino-actions-automation-based-on-trigger' )
+				esc_attr__( 'Delete this automation? This cannot be undone.', 'glocalsaino-automations-based-on-triggers' ),
+				esc_html__( 'Delete', 'glocalsaino-automations-based-on-triggers' )
 			),
 		);
 
@@ -118,7 +118,7 @@ class GSAAT_Automations_Table extends WP_List_Table {
 
 	protected function column_actions( $item ) {
 		if ( ! $item['actions'] ) {
-			return '<span class="glocalsaino-aat-muted">' . esc_html__( 'None', 'glocalsaino-actions-automation-based-on-trigger' ) . '</span>';
+			return '<span class="glocalsaino-aat-muted">' . esc_html__( 'None', 'glocalsaino-automations-based-on-triggers' ) . '</span>';
 		}
 		$list = '';
 		foreach ( $item['actions'] as $action ) {

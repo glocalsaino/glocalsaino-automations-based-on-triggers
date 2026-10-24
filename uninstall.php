@@ -2,7 +2,7 @@
 /**
  * Uninstall: clears the cron event and, if enabled in the settings, removes all plugin data.
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  */
 
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {

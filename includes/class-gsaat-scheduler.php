@@ -3,7 +3,7 @@
  * Queue of actions scheduled by "Wait" steps. Each job holds the actions that come
  * after a wait, the tokens at that point and when to run. WP-Cron runs it.
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -29,10 +29,10 @@ class GSAAT_Scheduler {
 	 */
 	public static function units() {
 		return array(
-			'minutes' => array( __( 'minutes', 'glocalsaino-actions-automation-based-on-trigger' ), MINUTE_IN_SECONDS ),
-			'hours'   => array( __( 'hours', 'glocalsaino-actions-automation-based-on-trigger' ), HOUR_IN_SECONDS ),
-			'days'    => array( __( 'days', 'glocalsaino-actions-automation-based-on-trigger' ), DAY_IN_SECONDS ),
-			'weeks'   => array( __( 'weeks', 'glocalsaino-actions-automation-based-on-trigger' ), WEEK_IN_SECONDS ),
+			'minutes' => array( __( 'minutes', 'glocalsaino-automations-based-on-triggers' ), MINUTE_IN_SECONDS ),
+			'hours'   => array( __( 'hours', 'glocalsaino-automations-based-on-triggers' ), HOUR_IN_SECONDS ),
+			'days'    => array( __( 'days', 'glocalsaino-automations-based-on-triggers' ), DAY_IN_SECONDS ),
+			'weeks'   => array( __( 'weeks', 'glocalsaino-automations-based-on-triggers' ), WEEK_IN_SECONDS ),
 		);
 	}
 
@@ -113,7 +113,7 @@ class GSAAT_Scheduler {
 
 		$event = sprintf(
 			/* translators: %d: log entry ID. */
-			__( 'Actions scheduled by #%d (after a wait)', 'glocalsaino-actions-automation-based-on-trigger' ),
+			__( 'Actions scheduled by #%d (after a wait)', 'glocalsaino-automations-based-on-triggers' ),
 			$job['log_id']
 		);
 
@@ -127,7 +127,7 @@ class GSAAT_Scheduler {
 					'trigger_data'    => array(),
 					'results'         => array(),
 					'status'          => 'skipped',
-					'message'         => __( 'The scheduled actions were not run because the automation is inactive.', 'glocalsaino-actions-automation-based-on-trigger' ),
+					'message'         => __( 'The scheduled actions were not run because the automation is inactive.', 'glocalsaino-automations-based-on-triggers' ),
 					'parent_id'       => $job['log_id'],
 				)
 			);

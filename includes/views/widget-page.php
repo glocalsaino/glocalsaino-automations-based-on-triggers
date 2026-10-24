@@ -2,7 +2,7 @@
 /**
  * Page shown inside the embeddable widget iframe.
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  *
  * @var array $glocalsaino_aat_widget { automation, config, available, captcha }
  */
@@ -25,7 +25,7 @@ $glocalsaino_aat_title  = '' !== $glocalsaino_aat_config['title'] ? $glocalsaino
 <body class="gsaat-w-body">
 <main class="gsaat-w gsaat-w--<?php echo esc_attr( $glocalsaino_aat_config['kind'] ); ?>" id="gsaat-widget">
 	<?php if ( ! $glocalsaino_aat_widget['available'] ) : ?>
-		<p class="gsaat-w__notice"><?php esc_html_e( 'This form is not available right now.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+		<p class="gsaat-w__notice"><?php esc_html_e( 'This form is not available right now.', 'glocalsaino-automations-based-on-triggers' ); ?></p>
 	<?php else : ?>
 		<?php if ( '' !== $glocalsaino_aat_config['title'] ) : ?>
 			<h2 class="gsaat-w__title"><?php echo esc_html( $glocalsaino_aat_config['title'] ); ?></h2>
@@ -48,7 +48,7 @@ $glocalsaino_aat_title  = '' !== $glocalsaino_aat_config['title'] ? $glocalsaino
 								<span>
 									<?php echo esc_html( $glocalsaino_aat_field['label'] ); ?>
 									<?php if ( 'consent' === $glocalsaino_aat_field['type'] && '' !== $glocalsaino_aat_field['privacy_url'] ) : ?>
-										<a href="<?php echo esc_url( $glocalsaino_aat_field['privacy_url'] ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Privacy policy', 'glocalsaino-actions-automation-based-on-trigger' ); ?></a>
+										<a href="<?php echo esc_url( $glocalsaino_aat_field['privacy_url'] ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Privacy policy', 'glocalsaino-automations-based-on-triggers' ); ?></a>
 									<?php endif; ?>
 								</span>
 							</label>
@@ -76,7 +76,7 @@ $glocalsaino_aat_title  = '' !== $glocalsaino_aat_config['title'] ? $glocalsaino
 				<?php endforeach; ?>
 
 				<div class="gsaat-w__hp" aria-hidden="true">
-					<label><?php esc_html_e( 'Leave this field empty', 'glocalsaino-actions-automation-based-on-trigger' ); ?> <input type="text" name="<?php echo esc_attr( GSAAT_Trigger_Widget::HONEYPOT ); ?>" tabindex="-1" autocomplete="off"></label>
+					<label><?php esc_html_e( 'Leave this field empty', 'glocalsaino-automations-based-on-triggers' ); ?> <input type="text" name="<?php echo esc_attr( GSAAT_Trigger_Widget::HONEYPOT ); ?>" tabindex="-1" autocomplete="off"></label>
 				</div>
 				<?php if ( $glocalsaino_aat_widget['captcha'] ) : ?>
 					<div class="gsaat-w__captcha"></div>

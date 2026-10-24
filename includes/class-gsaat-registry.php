@@ -3,7 +3,7 @@
  * Registry of trigger and action types. The built-in types are registered here
  * through the same filters add-ons use, so both follow the same contract.
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -25,35 +25,35 @@ class GSAAT_Registry {
 	public static function trigger_types() {
 		$types = array(
 			'cf7'     => array(
-				'label'    => __( 'Contact Form 7 submission', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'label'    => __( 'Contact Form 7 submission', 'glocalsaino-automations-based-on-triggers' ),
 				'sanitize' => array( 'GSAAT_Trigger_CF7', 'sanitize_config' ),
 				'describe' => array( 'GSAAT_Trigger_CF7', 'describe' ),
 				'visitor'  => true,
 				'browser'  => true,
 			),
 			'webhook' => array(
-				'label'    => __( 'Data received through a webhook', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'label'    => __( 'Data received through a webhook', 'glocalsaino-automations-based-on-triggers' ),
 				'sanitize' => array( 'GSAAT_Trigger_Webhook', 'sanitize_config' ),
 				'describe' => array( 'GSAAT_Trigger_Webhook', 'describe' ),
 				'visitor'  => false,
 				'browser'  => false,
 			),
 			'link'    => array(
-				'label'    => __( 'Click on a link', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'label'    => __( 'Click on a link', 'glocalsaino-automations-based-on-triggers' ),
 				'sanitize' => array( 'GSAAT_Trigger_Click', 'sanitize_link' ),
 				'describe' => array( 'GSAAT_Trigger_Click', 'describe_link' ),
 				'visitor'  => true,
 				'browser'  => true,
 			),
 			'button'  => array(
-				'label'    => __( 'Click on a button', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'label'    => __( 'Click on a button', 'glocalsaino-automations-based-on-triggers' ),
 				'sanitize' => array( 'GSAAT_Trigger_Click', 'sanitize_button' ),
 				'describe' => array( 'GSAAT_Trigger_Click', 'describe_button' ),
 				'visitor'  => true,
 				'browser'  => true,
 			),
 			'widget'  => array(
-				'label'    => __( 'Embeddable widget on other websites (button, link or form)', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'label'    => __( 'Embeddable widget on other websites (button, link or form)', 'glocalsaino-automations-based-on-triggers' ),
 				'sanitize' => array( 'GSAAT_Trigger_Widget', 'sanitize_config' ),
 				'describe' => array( 'GSAAT_Trigger_Widget', 'describe' ),
 				// Visitors on other sites are always anonymous here (this site's cookies are not sent).
@@ -61,14 +61,14 @@ class GSAAT_Registry {
 				'browser'  => true,
 			),
 			'file'    => array(
-				'label'    => __( 'CSV or Excel file uploaded', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'label'    => __( 'CSV or Excel file uploaded', 'glocalsaino-automations-based-on-triggers' ),
 				'sanitize' => array( 'GSAAT_Trigger_File', 'sanitize_config' ),
 				'describe' => array( 'GSAAT_Trigger_File', 'describe' ),
 				'visitor'  => true,
 				'browser'  => true,
 			),
 			'wp_user' => array(
-				'label'    => __( 'WordPress user event (registration, login, password change)', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'label'    => __( 'WordPress user event (registration, login, password change)', 'glocalsaino-automations-based-on-triggers' ),
 				'sanitize' => array( 'GSAAT_Trigger_User', 'sanitize_config' ),
 				'describe' => array( 'GSAAT_Trigger_User', 'describe' ),
 				'visitor'  => true,
@@ -110,7 +110,7 @@ class GSAAT_Registry {
 	public static function action_types() {
 		$types = array(
 			'webhook' => array(
-				'label'    => __( 'Send data to an external webhook', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'label'    => __( 'Send data to an external webhook', 'glocalsaino-automations-based-on-triggers' ),
 				'icon'     => 'dashicons-admin-links',
 				'defaults' => array(
 					'url'     => '',
@@ -124,7 +124,7 @@ class GSAAT_Registry {
 				'describe' => array( 'GSAAT_Actions', 'describe_webhook' ),
 			),
 			'email'   => array(
-				'label'    => __( 'Send an email', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'label'    => __( 'Send an email', 'glocalsaino-automations-based-on-triggers' ),
 				'icon'     => 'dashicons-email',
 				'defaults' => array(
 					'to'       => '',
@@ -137,7 +137,7 @@ class GSAAT_Registry {
 				'describe' => array( 'GSAAT_Actions', 'describe_email' ),
 			),
 			'calculator' => array(
-				'label'      => __( 'Calculator', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'label'      => __( 'Calculator', 'glocalsaino-automations-based-on-triggers' ),
 				'icon'       => 'dashicons-calculator',
 				'defaults'   => array(
 					'expression' => '',
@@ -151,7 +151,7 @@ class GSAAT_Registry {
 				'output_key' => 'output',
 			),
 			'format'     => array(
-				'label'      => __( 'Format data', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'label'      => __( 'Format data', 'glocalsaino-automations-based-on-triggers' ),
 				'icon'       => 'dashicons-editor-textcolor',
 				'defaults'   => array(
 					'input'     => '',
@@ -166,7 +166,7 @@ class GSAAT_Registry {
 				'output_key' => 'output',
 			),
 			'redirect'   => array(
-				'label'         => __( 'Redirect the user', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'label'         => __( 'Redirect the user', 'glocalsaino-automations-based-on-triggers' ),
 				'icon'          => 'dashicons-external',
 				'defaults'      => array( 'url' => '' ),
 				'execute'       => array( 'GSAAT_Actions', 'redirect' ),
@@ -175,7 +175,7 @@ class GSAAT_Registry {
 				'needs_browser' => true,
 			),
 			'table'      => array(
-				'label'    => __( 'Add rows to a table', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'label'    => __( 'Add rows to a table', 'glocalsaino-automations-based-on-triggers' ),
 				'icon'     => 'dashicons-editor-table',
 				'defaults' => array(
 					'table_id' => 0,
@@ -187,7 +187,7 @@ class GSAAT_Registry {
 				'describe' => array( 'GSAAT_Actions', 'describe_table' ),
 			),
 			'delay'      => array(
-				'label'    => __( 'Wait (schedule the next actions)', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'label'    => __( 'Wait (schedule the next actions)', 'glocalsaino-automations-based-on-triggers' ),
 				'icon'     => 'dashicons-clock',
 				'defaults' => array(
 					'amount' => 1,

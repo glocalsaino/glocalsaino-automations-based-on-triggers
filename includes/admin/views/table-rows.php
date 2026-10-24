@@ -2,7 +2,7 @@
 /**
  * Rows of one table.
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  *
  * @var array                       $table
  * @var GSAAT_Table_Rows_List_Table $list
@@ -16,19 +16,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<h1 class="wp-heading-inline">
 		<?php
 		/* translators: %s: table name. */
-		printf( esc_html__( 'Rows of "%s"', 'glocalsaino-actions-automation-based-on-trigger' ), esc_html( $table['name'] ) );
+		printf( esc_html__( 'Rows of "%s"', 'glocalsaino-automations-based-on-triggers' ), esc_html( $table['name'] ) );
 		?>
 	</h1>
-	<a href="<?php echo esc_url( GSAAT_Admin_Tables::url( array( 'edit' => $table['id'] ) ) ); ?>" class="page-title-action"><?php esc_html_e( 'Edit table', 'glocalsaino-actions-automation-based-on-trigger' ); ?></a>
-	<a href="<?php echo esc_url( GSAAT_Admin_Tables::action_url( 'export', $table['id'] ) ); ?>" class="page-title-action"><?php esc_html_e( 'Export CSV', 'glocalsaino-actions-automation-based-on-trigger' ); ?></a>
-	<a href="<?php echo esc_url( GSAAT_Admin_Tables::action_url( 'empty', $table['id'] ) ); ?>" class="page-title-action glocalsaino-aat-confirm" data-confirm="<?php esc_attr_e( 'Delete all the rows of this table? This cannot be undone.', 'glocalsaino-actions-automation-based-on-trigger' ); ?>"><?php esc_html_e( 'Delete all rows', 'glocalsaino-actions-automation-based-on-trigger' ); ?></a>
-	<a href="<?php echo esc_url( GSAAT_Admin_Tables::url() ); ?>" class="page-title-action"><?php esc_html_e( 'All tables', 'glocalsaino-actions-automation-based-on-trigger' ); ?></a>
+	<a href="<?php echo esc_url( GSAAT_Admin_Tables::url( array( 'edit' => $table['id'] ) ) ); ?>" class="page-title-action"><?php esc_html_e( 'Edit table', 'glocalsaino-automations-based-on-triggers' ); ?></a>
+	<a href="<?php echo esc_url( GSAAT_Admin_Tables::action_url( 'export', $table['id'] ) ); ?>" class="page-title-action"><?php esc_html_e( 'Export CSV', 'glocalsaino-automations-based-on-triggers' ); ?></a>
+	<a href="<?php echo esc_url( GSAAT_Admin_Tables::action_url( 'empty', $table['id'] ) ); ?>" class="page-title-action glocalsaino-aat-confirm" data-confirm="<?php esc_attr_e( 'Delete all the rows of this table? This cannot be undone.', 'glocalsaino-automations-based-on-triggers' ); ?>"><?php esc_html_e( 'Delete all rows', 'glocalsaino-automations-based-on-triggers' ); ?></a>
+	<a href="<?php echo esc_url( GSAAT_Admin_Tables::url() ); ?>" class="page-title-action"><?php esc_html_e( 'All tables', 'glocalsaino-automations-based-on-triggers' ); ?></a>
 	<hr class="wp-header-end">
 
 	<?php GSAAT_Admin::render_notice(); ?>
 
 	<?php if ( count( $table['columns'] ) > GSAAT_Table_Rows_List_Table::SHOWN_COLUMNS ) : ?>
-		<p class="description"><?php esc_html_e( 'Only the first columns are shown here; the export includes all of them.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+		<p class="description"><?php esc_html_e( 'Only the first columns are shown here; the export includes all of them.', 'glocalsaino-automations-based-on-triggers' ); ?></p>
 	<?php endif; ?>
 
 	<form method="get">

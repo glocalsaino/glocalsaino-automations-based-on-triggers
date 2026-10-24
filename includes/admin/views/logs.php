@@ -2,7 +2,7 @@
 /**
  * Automation logs screen.
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  *
  * @var GSAAT_Logs_Table $table
  */
@@ -16,23 +16,23 @@ $glocalsaino_aat_filter_id = isset( $_GET['automation_id'] ) ? absint( wp_unslas
 $glocalsaino_aat_filtered  = $glocalsaino_aat_filter_id ? GSAAT_Automations::get( $glocalsaino_aat_filter_id ) : null;
 ?>
 <div class="wrap glocalsaino-aat-wrap">
-	<h1 class="wp-heading-inline"><?php esc_html_e( 'Logs', 'glocalsaino-actions-automation-based-on-trigger' ); ?></h1>
+	<h1 class="wp-heading-inline"><?php esc_html_e( 'Logs', 'glocalsaino-automations-based-on-triggers' ); ?></h1>
 	<hr class="wp-header-end">
 
 	<?php GSAAT_Admin::render_notice(); ?>
 	<?php GSAAT_Admin::logs_tabs( '' ); ?>
 
 	<p class="description">
-		<?php esc_html_e( 'Every time a trigger fires an automation, the event, the executed actions and their result are recorded here.', 'glocalsaino-actions-automation-based-on-trigger' ); ?>
+		<?php esc_html_e( 'Every time a trigger fires an automation, the event, the executed actions and their result are recorded here.', 'glocalsaino-automations-based-on-triggers' ); ?>
 	</p>
 
 	<?php if ( $glocalsaino_aat_filtered ) : ?>
 		<p>
 			<?php
 			/* translators: %s: automation name. */
-			printf( esc_html__( 'Showing only the logs of "%s".', 'glocalsaino-actions-automation-based-on-trigger' ), esc_html( $glocalsaino_aat_filtered['name'] ) );
+			printf( esc_html__( 'Showing only the logs of "%s".', 'glocalsaino-automations-based-on-triggers' ), esc_html( $glocalsaino_aat_filtered['name'] ) );
 			?>
-			<a href="<?php echo esc_url( GSAAT_Admin::url( GSAAT_Admin::PAGE_LOGS ) ); ?>"><?php esc_html_e( 'Show all', 'glocalsaino-actions-automation-based-on-trigger' ); ?></a>
+			<a href="<?php echo esc_url( GSAAT_Admin::url( GSAAT_Admin::PAGE_LOGS ) ); ?>"><?php esc_html_e( 'Show all', 'glocalsaino-automations-based-on-triggers' ); ?></a>
 		</p>
 	<?php endif; ?>
 

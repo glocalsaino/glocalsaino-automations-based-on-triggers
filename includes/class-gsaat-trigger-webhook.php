@@ -2,7 +2,7 @@
 /**
  * Trigger: data received through a webhook (REST endpoint).
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -40,7 +40,7 @@ class GSAAT_Trigger_Webhook {
 	public static function handle( WP_REST_Request $request ) {
 		$automation = GSAAT_Automations::get_by_webhook_key( (string) $request->get_url_params()['key'] );
 		if ( ! $automation || 'webhook' !== $automation['trigger_type'] ) {
-			return new WP_Error( 'glocalsaino_aat_not_found', __( 'Unknown webhook.', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'status' => 404 ) );
+			return new WP_Error( 'glocalsaino_aat_not_found', __( 'Unknown webhook.', 'glocalsaino-automations-based-on-triggers' ), array( 'status' => 404 ) );
 		}
 
 		$method   = $request->get_method();
@@ -60,7 +60,7 @@ class GSAAT_Trigger_Webhook {
 			GSAAT_Logs::add_webhook(
 				$log + array(
 					'status_code'   => 200,
-					'error_message' => __( 'WooCommerce delivery URL test (ping) accepted. No action was executed.', 'glocalsaino-actions-automation-based-on-trigger' ),
+					'error_message' => __( 'WooCommerce delivery URL test (ping) accepted. No action was executed.', 'glocalsaino-automations-based-on-triggers' ),
 				)
 			);
 			return new WP_REST_Response( array( 'success' => true ), 200 );
@@ -72,7 +72,7 @@ class GSAAT_Trigger_Webhook {
 		}
 
 		if ( ! $received ) {
-			return self::fail( $log, 400, 'glocalsaino_aat_no_data', __( 'No data was received.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			return self::fail( $log, 400, 'glocalsaino_aat_no_data', __( 'No data was received.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 
 		$keys = isset( $automation['trigger_config']['keys'] ) ? (array) $automation['trigger_config']['keys'] : array();
@@ -88,7 +88,7 @@ class GSAAT_Trigger_Webhook {
 					400,
 					'glocalsaino_aat_missing_keys',
 					/* translators: %s: comma-separated list of keys. */
-					sprintf( __( 'None of the configured keys were received (expected: %s).', 'glocalsaino-actions-automation-based-on-trigger' ), implode( ', ', $keys ) )
+					sprintf( __( 'None of the configured keys were received (expected: %s).', 'glocalsaino-automations-based-on-triggers' ), implode( ', ', $keys ) )
 				);
 			}
 		}
@@ -96,10 +96,10 @@ class GSAAT_Trigger_Webhook {
 		$availability = GSAAT_Automations::availability( $automation );
 		if ( 'active' !== $availability ) {
 			$errors = array(
-				'inactive'      => array( 403, __( 'The automation is inactive.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-				'scheduled'     => array( 403, __( 'The automation has not started yet.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-				'expired'       => array( 410, __( 'The automation has expired.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-				'limit_reached' => array( 410, __( 'The automation has reached its maximum number of runs.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
+				'inactive'      => array( 403, __( 'The automation is inactive.', 'glocalsaino-automations-based-on-triggers' ) ),
+				'scheduled'     => array( 403, __( 'The automation has not started yet.', 'glocalsaino-automations-based-on-triggers' ) ),
+				'expired'       => array( 410, __( 'The automation has expired.', 'glocalsaino-automations-based-on-triggers' ) ),
+				'limit_reached' => array( 410, __( 'The automation has reached its maximum number of runs.', 'glocalsaino-automations-based-on-triggers' ) ),
 			);
 			return self::fail( $log, $errors[ $availability ][0], 'glocalsaino_aat_' . $availability, $errors[ $availability ][1] );
 		}
@@ -110,7 +110,7 @@ class GSAAT_Trigger_Webhook {
 			$automation,
 			$data,
 			/* translators: %s: HTTP method. */
-			sprintf( __( 'Webhook received (%s)', 'glocalsaino-actions-automation-based-on-trigger' ), $method ),
+			sprintf( __( 'Webhook received (%s)', 'glocalsaino-automations-based-on-triggers' ), $method ),
 			array( '_webhook_method' => $method ),
 			array( 'user_id' => 0 )
 		);
@@ -158,11 +158,11 @@ class GSAAT_Trigger_Webhook {
 		$protected = GSAAT_Webhook_Security::enabled_labels( GSAAT_Webhook_Security::config( $config ) );
 		$text      = $keys
 			/* translators: %s: comma-separated list of keys. */
-			? sprintf( __( 'Webhook (keys: %s)', 'glocalsaino-actions-automation-based-on-trigger' ), implode( ', ', $keys ) )
-			: __( 'Webhook (all received data)', 'glocalsaino-actions-automation-based-on-trigger' );
+			? sprintf( __( 'Webhook (keys: %s)', 'glocalsaino-automations-based-on-triggers' ), implode( ', ', $keys ) )
+			: __( 'Webhook (all received data)', 'glocalsaino-automations-based-on-triggers' );
 		if ( $protected ) {
 			/* translators: %s: comma-separated list of protections. */
-			$text .= ' — ' . sprintf( __( 'protected by %s', 'glocalsaino-actions-automation-based-on-trigger' ), implode( ', ', $protected ) );
+			$text .= ' — ' . sprintf( __( 'protected by %s', 'glocalsaino-automations-based-on-triggers' ), implode( ', ', $protected ) );
 		}
 		return $text;
 	}

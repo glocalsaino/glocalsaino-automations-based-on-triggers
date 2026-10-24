@@ -2,7 +2,7 @@
 /**
  * Automations repository.
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -198,7 +198,7 @@ class GSAAT_Automations {
 			return 0;
 		}
 		/* translators: %s: original automation name. */
-		$source['name']        = sprintf( __( '%s (copy)', 'glocalsaino-actions-automation-based-on-trigger' ), $source['name'] );
+		$source['name']        = sprintf( __( '%s (copy)', 'glocalsaino-automations-based-on-triggers' ), $source['name'] );
 		$source['status']      = 'inactive';
 		$source['run_count']   = 0;
 		$source['webhook_key'] = self::generate_webhook_key();

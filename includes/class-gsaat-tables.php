@@ -5,7 +5,7 @@
  *
  * Public API for add-ons: GSAAT_Tables::create(), ::get(), ::all(), ::add_rows(), ::clear().
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -33,11 +33,11 @@ class GSAAT_Tables {
 	 */
 	public static function column_types() {
 		return array(
-			'text'   => __( 'Text', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'number' => __( 'Number', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'date'   => __( 'Date', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'link'   => __( 'Link (URL)', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'email'  => __( 'Email', 'glocalsaino-actions-automation-based-on-trigger' ),
+			'text'   => __( 'Text', 'glocalsaino-automations-based-on-triggers' ),
+			'number' => __( 'Number', 'glocalsaino-automations-based-on-triggers' ),
+			'date'   => __( 'Date', 'glocalsaino-automations-based-on-triggers' ),
+			'link'   => __( 'Link (URL)', 'glocalsaino-automations-based-on-triggers' ),
+			'email'  => __( 'Email', 'glocalsaino-automations-based-on-triggers' ),
 		);
 	}
 
@@ -207,10 +207,10 @@ class GSAAT_Tables {
 		global $wpdb;
 		$table = self::get( $table_id );
 		if ( ! $table ) {
-			return new WP_Error( 'glocalsaino_aat_no_table', __( 'The table does not exist.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			return new WP_Error( 'glocalsaino_aat_no_table', __( 'The table does not exist.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 		if ( ! $table['columns'] ) {
-			return new WP_Error( 'glocalsaino_aat_no_columns', __( 'The table has no columns.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			return new WP_Error( 'glocalsaino_aat_no_columns', __( 'The table has no columns.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 		if ( count( $rows ) > self::MAX_INSERT ) {
 			$rows = array_slice( $rows, 0, self::MAX_INSERT );
@@ -356,13 +356,13 @@ class GSAAT_Tables {
 			'glocalsaino-aat-table',
 			'glocalsainoAatTable',
 			array(
-				'search'   => __( 'Search', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'previous' => __( 'Previous', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'next'     => __( 'Next', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'search'   => __( 'Search', 'glocalsaino-automations-based-on-triggers' ),
+				'previous' => __( 'Previous', 'glocalsaino-automations-based-on-triggers' ),
+				'next'     => __( 'Next', 'glocalsaino-automations-based-on-triggers' ),
 				/* translators: 1: first row, 2: last row, 3: total rows. */
-				'showing'  => __( '%1$s–%2$s of %3$s', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'noRows'   => __( 'No matching rows.', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'sortBy'   => __( 'Sort by this column', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'showing'  => __( '%1$s–%2$s of %3$s', 'glocalsaino-automations-based-on-triggers' ),
+				'noRows'   => __( 'No matching rows.', 'glocalsaino-automations-based-on-triggers' ),
+				'sortBy'   => __( 'Sort by this column', 'glocalsaino-automations-based-on-triggers' ),
 			)
 		);
 
@@ -377,7 +377,7 @@ class GSAAT_Tables {
 			$html .= sprintf(
 				'<p class="glocalsaino-aat-table__download"><a href="%1$s">%2$s</a></p>',
 				esc_url( add_query_arg( self::CSV_ARG, $table['id'], home_url( '/' ) ) ),
-				esc_html__( 'Download as CSV', 'glocalsaino-actions-automation-based-on-trigger' )
+				esc_html__( 'Download as CSV', 'glocalsaino-automations-based-on-triggers' )
 			);
 		}
 		$html .= '<div class="glocalsaino-aat-table__scroll"><table class="glocalsaino-aat-table"><thead><tr>';
@@ -385,7 +385,7 @@ class GSAAT_Tables {
 			$html .= sprintf( '<th scope="col" data-type="%1$s">%2$s</th>', esc_attr( $column['type'] ), esc_html( $column['label'] ) );
 		}
 		if ( $settings['show_date'] ) {
-			$html .= '<th scope="col" data-type="date">' . esc_html__( 'Added', 'glocalsaino-actions-automation-based-on-trigger' ) . '</th>';
+			$html .= '<th scope="col" data-type="date">' . esc_html__( 'Added', 'glocalsaino-automations-based-on-triggers' ) . '</th>';
 		}
 		$html .= '</tr></thead><tbody>';
 		foreach ( $rows as $row ) {
@@ -405,7 +405,7 @@ class GSAAT_Tables {
 		}
 		$html .= '</tbody></table></div>';
 		if ( ! $rows ) {
-			$html .= '<p class="glocalsaino-aat-table__empty">' . esc_html__( 'There are no rows yet.', 'glocalsaino-actions-automation-based-on-trigger' ) . '</p>';
+			$html .= '<p class="glocalsaino-aat-table__empty">' . esc_html__( 'There are no rows yet.', 'glocalsaino-automations-based-on-triggers' ) . '</p>';
 		}
 		$html .= '</div>';
 		return $html;

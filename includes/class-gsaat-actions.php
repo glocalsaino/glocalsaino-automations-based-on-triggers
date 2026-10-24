@@ -2,7 +2,7 @@
 /**
  * Actions executed by automations.
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -42,13 +42,13 @@ class GSAAT_Actions {
 		$definition = GSAAT_Registry::action_type( $type );
 
 		if ( ! $definition || ! is_callable( $definition['execute'] ) ) {
-			return self::result( $type, '', false, __( 'This action type is not available. If it comes from an add-on, check that the add-on is active.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			return self::result( $type, '', false, __( 'This action type is not available. If it comes from an add-on, check that the add-on is active.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 
 		$result = call_user_func( $definition['execute'], $action, $tokens, $context );
 		$result = is_array( $result )
 			? wp_parse_args( $result, self::result( $type, '', false, '' ) )
-			: self::result( $type, '', false, __( 'The action did not return a valid result.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			: self::result( $type, '', false, __( 'The action did not return a valid result.', 'glocalsaino-automations-based-on-triggers' ) );
 
 		/**
 		 * Filters the result of an executed action.
@@ -141,7 +141,7 @@ class GSAAT_Actions {
 		$definition = GSAAT_Registry::action_type( isset( $action['type'] ) ? $action['type'] : '' );
 		if ( ! $definition ) {
 			/* translators: %s: action type slug. */
-			return sprintf( __( 'Unavailable action (%s)', 'glocalsaino-actions-automation-based-on-trigger' ), isset( $action['type'] ) ? $action['type'] : '?' );
+			return sprintf( __( 'Unavailable action (%s)', 'glocalsaino-automations-based-on-triggers' ), isset( $action['type'] ) ? $action['type'] : '?' );
 		}
 		return is_callable( $definition['describe'] ) ? (string) call_user_func( $definition['describe'], $action ) : $definition['label'];
 	}
@@ -149,12 +149,12 @@ class GSAAT_Actions {
 	public static function describe_webhook( array $action ) {
 		$host = wp_parse_url( $action['url'], PHP_URL_HOST );
 		/* translators: 1: HTTP method, 2: host name or URL. */
-		return sprintf( __( 'Webhook: %1$s %2$s', 'glocalsaino-actions-automation-based-on-trigger' ), $action['method'], $host ? $host : $action['url'] );
+		return sprintf( __( 'Webhook: %1$s %2$s', 'glocalsaino-automations-based-on-triggers' ), $action['method'], $host ? $host : $action['url'] );
 	}
 
 	public static function describe_email( array $action ) {
 		/* translators: %s: recipient. */
-		return sprintf( __( 'Email to %s', 'glocalsaino-actions-automation-based-on-trigger' ), $action['to'] );
+		return sprintf( __( 'Email to %s', 'glocalsaino-automations-based-on-triggers' ), $action['to'] );
 	}
 
 	/*
@@ -168,7 +168,7 @@ class GSAAT_Actions {
 		$value  = GSAAT_Calculator::evaluate_with_tokens( $action['expression'], $tokens );
 		if ( is_wp_error( $value ) ) {
 			/* translators: %s: error message. */
-			return self::result( 'calculator', '{{' . $output . '}}', false, sprintf( __( 'The calculation failed: %s', 'glocalsaino-actions-automation-based-on-trigger' ), $value->get_error_message() ) );
+			return self::result( 'calculator', '{{' . $output . '}}', false, sprintf( __( 'The calculation failed: %s', 'glocalsaino-automations-based-on-triggers' ), $value->get_error_message() ) );
 		}
 		$text = GSAAT_Calculator::number_to_string( $value, '' === $action['decimals'] ? null : (int) $action['decimals'] );
 		$result           = self::result( 'calculator', '{{' . $output . '}}', true, '= ' . $text );
@@ -187,7 +187,7 @@ class GSAAT_Actions {
 
 	public static function describe_calculator( array $action ) {
 		/* translators: 1: output field, 2: expression. */
-		return sprintf( __( 'Calculate {{%1$s}} = %2$s', 'glocalsaino-actions-automation-based-on-trigger' ), $action['output'], $action['expression'] );
+		return sprintf( __( 'Calculate {{%1$s}} = %2$s', 'glocalsaino-automations-based-on-triggers' ), $action['output'], $action['expression'] );
 	}
 
 	/*
@@ -228,7 +228,7 @@ class GSAAT_Actions {
 		$operations = GSAAT_Formatter::operations();
 		$label      = isset( $operations[ $action['operation'] ] ) ? $operations[ $action['operation'] ][0] : $action['operation'];
 		/* translators: 1: output field, 2: operation, 3: input. */
-		return sprintf( __( 'Format {{%1$s}} = %2$s of %3$s', 'glocalsaino-actions-automation-based-on-trigger' ), $action['output'], $label, $action['input'] );
+		return sprintf( __( 'Format {{%1$s}} = %2$s of %3$s', 'glocalsaino-automations-based-on-triggers' ), $action['output'], $label, $action['input'] );
 	}
 
 	/*
@@ -239,14 +239,14 @@ class GSAAT_Actions {
 
 	public static function redirect( array $action, array $tokens, array $context = array() ) {
 		if ( empty( $context['browser'] ) ) {
-			return self::result( 'redirect', (string) $action['url'], false, __( 'Nobody can be redirected: this trigger, a wait or a retry does not run in the visitor\'s browser.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			return self::result( 'redirect', (string) $action['url'], false, __( 'Nobody can be redirected: this trigger, a wait or a retry does not run in the visitor\'s browser.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 		$url = GSAAT_Redirect::build_url( $action['url'], $tokens );
 		if ( is_wp_error( $url ) ) {
 			return self::result( 'redirect', (string) $action['url'], false, $url->get_error_message() );
 		}
 		GSAAT_Redirect::set( $url );
-		return self::result( 'redirect', $url, true, __( 'The visitor is redirected to this address.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+		return self::result( 'redirect', $url, true, __( 'The visitor is redirected to this address.', 'glocalsaino-automations-based-on-triggers' ) );
 	}
 
 	public static function sanitize_redirect( array $action ) {
@@ -255,7 +255,7 @@ class GSAAT_Actions {
 
 	public static function describe_redirect( array $action ) {
 		/* translators: %s: URL. */
-		return sprintf( __( 'Redirect to %s', 'glocalsaino-actions-automation-based-on-trigger' ), $action['url'] );
+		return sprintf( __( 'Redirect to %s', 'glocalsaino-automations-based-on-triggers' ), $action['url'] );
 	}
 
 	/*
@@ -276,11 +276,11 @@ class GSAAT_Actions {
 	public static function table( array $action, array $tokens, array $context = array() ) {
 		$table = GSAAT_Tables::get( (int) $action['table_id'] );
 		if ( ! $table ) {
-			return self::result( 'table', '#' . (int) $action['table_id'], false, __( 'The table does not exist (it may have been deleted).', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			return self::result( 'table', '#' . (int) $action['table_id'], false, __( 'The table does not exist (it may have been deleted).', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 
 		if ( ! empty( $context['rows_omitted'] ) ) {
-			return self::result( 'table', $table['name'], false, __( 'The file had too many rows to keep them for a retry. Upload the file again.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			return self::result( 'table', $table['name'], false, __( 'The file had too many rows to keep them for a retry. Upload the file again.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 
 		$mapping = (array) $action['mapping'];
@@ -318,9 +318,9 @@ class GSAAT_Actions {
 			true,
 			'replace' === $action['mode']
 				/* translators: %d: number of rows. */
-				? sprintf( _n( 'The table now has %d row (previous rows replaced).', 'The table now has %d rows (previous rows replaced).', $added, 'glocalsaino-actions-automation-based-on-trigger' ), $added )
+				? sprintf( _n( 'The table now has %d row (previous rows replaced).', 'The table now has %d rows (previous rows replaced).', $added, 'glocalsaino-automations-based-on-triggers' ), $added )
 				/* translators: %d: number of rows. */
-				: sprintf( _n( '%d row added.', '%d rows added.', $added, 'glocalsaino-actions-automation-based-on-trigger' ), $added ),
+				: sprintf( _n( '%d row added.', '%d rows added.', $added, 'glocalsaino-automations-based-on-triggers' ), $added ),
 			$rows ? array( 'sent' => $rows[0] ) : array()
 		);
 	}
@@ -343,7 +343,7 @@ class GSAAT_Actions {
 	public static function describe_table( array $action ) {
 		$table = GSAAT_Tables::get( (int) $action['table_id'] );
 		/* translators: %s: table name. */
-		return sprintf( __( 'Add rows to the table "%s"', 'glocalsaino-actions-automation-based-on-trigger' ), $table ? $table['name'] : '#' . (int) $action['table_id'] );
+		return sprintf( __( 'Add rows to the table "%s"', 'glocalsaino-automations-based-on-triggers' ), $table ? $table['name'] : '#' . (int) $action['table_id'] );
 	}
 
 	/*
@@ -363,7 +363,7 @@ class GSAAT_Actions {
 	public static function describe_delay( array $action ) {
 		$units = GSAAT_Scheduler::units();
 		/* translators: 1: amount, 2: unit. */
-		return sprintf( __( 'Wait %1$d %2$s', 'glocalsaino-actions-automation-based-on-trigger' ), $action['amount'], $units[ $action['unit'] ][0] );
+		return sprintf( __( 'Wait %1$d %2$s', 'glocalsaino-automations-based-on-triggers' ), $action['amount'], $units[ $action['unit'] ][0] );
 	}
 
 	/**
@@ -395,7 +395,7 @@ class GSAAT_Actions {
 		$url    = esc_url_raw( trim( GSAAT_Engine::replace_tokens( $action['url'], $tokens, 'rawurlencode' ) ), array( 'http', 'https' ) );
 
 		if ( '' === $url ) {
-			return self::result( 'webhook', (string) $action['url'], false, __( 'The webhook URL is not valid.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			return self::result( 'webhook', (string) $action['url'], false, __( 'The webhook URL is not valid.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 
 		$fields = array();
@@ -437,7 +437,7 @@ class GSAAT_Actions {
 				$target,
 				false,
 				/* translators: %s: error message. */
-				sprintf( __( 'Request failed: %s', 'glocalsaino-actions-automation-based-on-trigger' ), $response->get_error_message() ),
+				sprintf( __( 'Request failed: %s', 'glocalsaino-automations-based-on-triggers' ), $response->get_error_message() ),
 				$details
 			);
 		}
@@ -450,7 +450,7 @@ class GSAAT_Actions {
 			$target,
 			$code >= 200 && $code < 300,
 			/* translators: %d: HTTP status code. */
-			sprintf( __( 'The external server answered with HTTP status %d.', 'glocalsaino-actions-automation-based-on-trigger' ), $code ),
+			sprintf( __( 'The external server answered with HTTP status %d.', 'glocalsaino-automations-based-on-triggers' ), $code ),
 			$details
 		);
 	}
@@ -468,7 +468,7 @@ class GSAAT_Actions {
 
 		if ( ! $recipients ) {
 			/* translators: %s: recipient field after replacing the fields. */
-			return self::result( 'email', $to_raw, false, sprintf( __( 'No valid recipient address in "%s".', 'glocalsaino-actions-automation-based-on-trigger' ), $to_raw ) );
+			return self::result( 'email', $to_raw, false, sprintf( __( 'No valid recipient address in "%s".', 'glocalsaino-automations-based-on-triggers' ), $to_raw ) );
 		}
 
 		$subject = str_replace( array( "\r", "\n" ), ' ', GSAAT_Engine::replace_tokens( $action['subject'], $tokens ) );
@@ -491,7 +491,7 @@ class GSAAT_Actions {
 		$details = array( 'subject' => $subject );
 
 		if ( $sent ) {
-			return self::result( 'email', $target, true, __( 'Email sent.', 'glocalsaino-actions-automation-based-on-trigger' ), $details );
+			return self::result( 'email', $target, true, __( 'Email sent.', 'glocalsaino-automations-based-on-triggers' ), $details );
 		}
 		return self::result(
 			'email',
@@ -499,8 +499,8 @@ class GSAAT_Actions {
 			false,
 			'' !== $error
 				/* translators: %s: error message. */
-				? sprintf( __( 'The email could not be sent: %s', 'glocalsaino-actions-automation-based-on-trigger' ), $error )
-				: __( 'The email could not be sent.', 'glocalsaino-actions-automation-based-on-trigger' ),
+				? sprintf( __( 'The email could not be sent: %s', 'glocalsaino-automations-based-on-triggers' ), $error )
+				: __( 'The email could not be sent.', 'glocalsaino-automations-based-on-triggers' ),
 			$details
 		);
 	}

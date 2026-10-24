@@ -2,7 +2,7 @@
 /**
  * Email notification to the site administrator when an automation fails.
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -47,34 +47,34 @@ class GSAAT_Notifier {
 		$log  = GSAAT_Logs::get( $log_id );
 
 		/* translators: 1: site name, 2: automation name. */
-		$subject = sprintf( __( '[%1$s] Automation failed: %2$s', 'glocalsaino-actions-automation-based-on-trigger' ), $site, $automation['name'] );
+		$subject = sprintf( __( '[%1$s] Automation failed: %2$s', 'glocalsaino-automations-based-on-triggers' ), $site, $automation['name'] );
 
 		$lines = array(
 			'partial' === $status
 				/* translators: 1: automation name, 2: date. */
-				? sprintf( __( 'Some actions of the automation "%1$s" failed on %2$s.', 'glocalsaino-actions-automation-based-on-trigger' ), $automation['name'], wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) ) )
+				? sprintf( __( 'Some actions of the automation "%1$s" failed on %2$s.', 'glocalsaino-automations-based-on-triggers' ), $automation['name'], wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) ) )
 				/* translators: 1: automation name, 2: date. */
-				: sprintf( __( 'The automation "%1$s" failed on %2$s.', 'glocalsaino-actions-automation-based-on-trigger' ), $automation['name'], wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) ) ),
+				: sprintf( __( 'The automation "%1$s" failed on %2$s.', 'glocalsaino-automations-based-on-triggers' ), $automation['name'], wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) ) ),
 			'',
 		);
 		if ( $log ) {
 			/* translators: %s: event description. */
-			$lines[] = sprintf( __( 'Event: %s', 'glocalsaino-actions-automation-based-on-trigger' ), $log['event'] );
+			$lines[] = sprintf( __( 'Event: %s', 'glocalsaino-automations-based-on-triggers' ), $log['event'] );
 			$lines[] = '';
 		}
 
-		$lines[] = __( 'Failed actions:', 'glocalsaino-actions-automation-based-on-trigger' );
+		$lines[] = __( 'Failed actions:', 'glocalsaino-automations-based-on-triggers' );
 		foreach ( $results as $result ) {
 			if ( empty( $result['success'] ) ) {
 				$lines[] = '- ' . GSAAT_Actions::result_label( $result ) . ': ' . $result['message'];
 			}
 		}
 		if ( ! $results ) {
-			$lines[] = '- ' . __( 'This automation has no actions configured.', 'glocalsaino-actions-automation-based-on-trigger' );
+			$lines[] = '- ' . __( 'This automation has no actions configured.', 'glocalsaino-automations-based-on-triggers' );
 		}
 
 		$lines[] = '';
-		$lines[] = __( 'See the details and retry the failed actions here:', 'glocalsaino-actions-automation-based-on-trigger' );
+		$lines[] = __( 'See the details and retry the failed actions here:', 'glocalsaino-automations-based-on-triggers' );
 		$lines[] = add_query_arg(
 			array(
 				'page' => 'glocalsaino-aat-logs',
@@ -86,9 +86,9 @@ class GSAAT_Notifier {
 		$lines[] = '—';
 		$lines[] = $throttle > 0
 			/* translators: %d: number of minutes. */
-			? sprintf( __( 'Further failures of this automation in the next %d minutes will not be emailed; they are still recorded in the logs.', 'glocalsaino-actions-automation-based-on-trigger' ), $throttle )
-			: __( 'You receive one email per failure.', 'glocalsaino-actions-automation-based-on-trigger' );
-		$lines[] = __( 'You can change these notifications in Automations → Settings.', 'glocalsaino-actions-automation-based-on-trigger' );
+			? sprintf( __( 'Further failures of this automation in the next %d minutes will not be emailed; they are still recorded in the logs.', 'glocalsaino-automations-based-on-triggers' ), $throttle )
+			: __( 'You receive one email per failure.', 'glocalsaino-automations-based-on-triggers' );
+		$lines[] = __( 'You can change these notifications in Automations → Settings.', 'glocalsaino-automations-based-on-triggers' );
 
 		/**
 		 * Filters the failure notification before it is sent.

@@ -2,7 +2,7 @@
 /**
  * List tables of the Tables screens: tables, and rows of one table.
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -27,12 +27,12 @@ class GSAAT_Tables_List_Table extends WP_List_Table {
 
 	public function get_columns() {
 		return array(
-			'name'       => __( 'Name', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'columns'    => __( 'Columns', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'rows'       => __( 'Rows', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'shortcode'  => __( 'Shortcode', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'visibility' => __( 'Visible to', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'updated_at' => __( 'Last change', 'glocalsaino-actions-automation-based-on-trigger' ),
+			'name'       => __( 'Name', 'glocalsaino-automations-based-on-triggers' ),
+			'columns'    => __( 'Columns', 'glocalsaino-automations-based-on-triggers' ),
+			'rows'       => __( 'Rows', 'glocalsaino-automations-based-on-triggers' ),
+			'shortcode'  => __( 'Shortcode', 'glocalsaino-automations-based-on-triggers' ),
+			'visibility' => __( 'Visible to', 'glocalsaino-automations-based-on-triggers' ),
+			'updated_at' => __( 'Last change', 'glocalsaino-automations-based-on-triggers' ),
 		);
 	}
 
@@ -42,20 +42,20 @@ class GSAAT_Tables_List_Table extends WP_List_Table {
 	}
 
 	public function no_items() {
-		esc_html_e( 'No tables yet.', 'glocalsaino-actions-automation-based-on-trigger' );
+		esc_html_e( 'No tables yet.', 'glocalsaino-automations-based-on-triggers' );
 	}
 
 	protected function column_name( $item ) {
 		$edit    = GSAAT_Admin_Tables::url( array( 'edit' => $item['id'] ) );
 		$actions = array(
-			'edit'   => sprintf( '<a href="%s">%s</a>', esc_url( $edit ), esc_html__( 'Edit', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-			'rows'   => sprintf( '<a href="%s">%s</a>', esc_url( GSAAT_Admin_Tables::url( array( 'rows' => $item['id'] ) ) ), esc_html__( 'View rows', 'glocalsaino-actions-automation-based-on-trigger' ) ),
-			'export' => sprintf( '<a href="%s">%s</a>', esc_url( GSAAT_Admin_Tables::action_url( 'export', $item['id'] ) ), esc_html__( 'Export CSV', 'glocalsaino-actions-automation-based-on-trigger' ) ),
+			'edit'   => sprintf( '<a href="%s">%s</a>', esc_url( $edit ), esc_html__( 'Edit', 'glocalsaino-automations-based-on-triggers' ) ),
+			'rows'   => sprintf( '<a href="%s">%s</a>', esc_url( GSAAT_Admin_Tables::url( array( 'rows' => $item['id'] ) ) ), esc_html__( 'View rows', 'glocalsaino-automations-based-on-triggers' ) ),
+			'export' => sprintf( '<a href="%s">%s</a>', esc_url( GSAAT_Admin_Tables::action_url( 'export', $item['id'] ) ), esc_html__( 'Export CSV', 'glocalsaino-automations-based-on-triggers' ) ),
 			'delete' => sprintf(
 				'<a href="%s" class="glocalsaino-aat-confirm" data-confirm="%s">%s</a>',
 				esc_url( GSAAT_Admin_Tables::action_url( 'delete', $item['id'] ) ),
-				esc_attr__( 'Delete this table and all its rows? Automations that add rows to it will fail.', 'glocalsaino-actions-automation-based-on-trigger' ),
-				esc_html__( 'Delete', 'glocalsaino-actions-automation-based-on-trigger' )
+				esc_attr__( 'Delete this table and all its rows? Automations that add rows to it will fail.', 'glocalsaino-automations-based-on-triggers' ),
+				esc_html__( 'Delete', 'glocalsaino-automations-based-on-triggers' )
 			),
 		);
 		return sprintf( '<strong><a class="row-title" href="%s">%s</a></strong>', esc_url( $edit ), esc_html( $item['name'] ) ) . $this->row_actions( $actions );
@@ -110,12 +110,12 @@ class GSAAT_Table_Rows_List_Table extends WP_List_Table {
 		foreach ( array_slice( $this->table['columns'], 0, self::SHOWN_COLUMNS ) as $column ) {
 			$columns[ 'col_' . $column['key'] ] = $column['label'];
 		}
-		$columns['created_at'] = __( 'Added', 'glocalsaino-actions-automation-based-on-trigger' );
+		$columns['created_at'] = __( 'Added', 'glocalsaino-automations-based-on-triggers' );
 		return $columns;
 	}
 
 	protected function get_bulk_actions() {
-		return array( 'delete' => __( 'Delete', 'glocalsaino-actions-automation-based-on-trigger' ) );
+		return array( 'delete' => __( 'Delete', 'glocalsaino-automations-based-on-triggers' ) );
 	}
 
 	public function prepare_items() {
@@ -134,7 +134,7 @@ class GSAAT_Table_Rows_List_Table extends WP_List_Table {
 	}
 
 	public function no_items() {
-		esc_html_e( 'This table has no rows yet.', 'glocalsaino-actions-automation-based-on-trigger' );
+		esc_html_e( 'This table has no rows yet.', 'glocalsaino-automations-based-on-triggers' );
 	}
 
 	protected function column_cb( $item ) {
@@ -146,7 +146,7 @@ class GSAAT_Table_Rows_List_Table extends WP_List_Table {
 			'delete' => sprintf(
 				'<a href="%s">%s</a>',
 				esc_url( GSAAT_Admin_Tables::action_url( 'delete_row', $this->table['id'], $item['id'] ) ),
-				esc_html__( 'Delete', 'glocalsaino-actions-automation-based-on-trigger' )
+				esc_html__( 'Delete', 'glocalsaino-automations-based-on-triggers' )
 			),
 		);
 		return esc_html( GSAAT_Admin::format_date( $item['created_at'] ) ) . $this->row_actions( $actions );

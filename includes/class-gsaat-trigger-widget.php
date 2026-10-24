@@ -12,7 +12,7 @@
  * to send, honeypot field, per-IP rate limit, optional captcha and server-side
  * validation of the configured fields only.
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -40,31 +40,31 @@ class GSAAT_Trigger_Widget {
 
 	public static function kinds() {
 		return array(
-			'form'   => __( 'Form with fields', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'button' => __( 'Button', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'link'   => __( 'Link', 'glocalsaino-actions-automation-based-on-trigger' ),
+			'form'   => __( 'Form with fields', 'glocalsaino-automations-based-on-triggers' ),
+			'button' => __( 'Button', 'glocalsaino-automations-based-on-triggers' ),
+			'link'   => __( 'Link', 'glocalsaino-automations-based-on-triggers' ),
 		);
 	}
 
 	public static function field_types() {
 		return array(
-			'text'     => __( 'Text', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'email'    => __( 'Email', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'number'   => __( 'Number', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'tel'      => __( 'Phone', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'textarea' => __( 'Long text', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'select'   => __( 'Drop-down list', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'checkbox' => __( 'Checkbox', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'consent'  => __( 'Privacy consent', 'glocalsaino-actions-automation-based-on-trigger' ),
+			'text'     => __( 'Text', 'glocalsaino-automations-based-on-triggers' ),
+			'email'    => __( 'Email', 'glocalsaino-automations-based-on-triggers' ),
+			'number'   => __( 'Number', 'glocalsaino-automations-based-on-triggers' ),
+			'tel'      => __( 'Phone', 'glocalsaino-automations-based-on-triggers' ),
+			'textarea' => __( 'Long text', 'glocalsaino-automations-based-on-triggers' ),
+			'select'   => __( 'Drop-down list', 'glocalsaino-automations-based-on-triggers' ),
+			'checkbox' => __( 'Checkbox', 'glocalsaino-automations-based-on-triggers' ),
+			'consent'  => __( 'Privacy consent', 'glocalsaino-automations-based-on-triggers' ),
 		);
 	}
 
 	public static function fonts() {
 		return array(
-			'system' => array( __( 'System (like the visitor\'s device)', 'glocalsaino-actions-automation-based-on-trigger' ), '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' ),
-			'sans'   => array( __( 'Sans-serif', 'glocalsaino-actions-automation-based-on-trigger' ), 'Helvetica, Arial, sans-serif' ),
-			'serif'  => array( __( 'Serif', 'glocalsaino-actions-automation-based-on-trigger' ), 'Georgia, "Times New Roman", serif' ),
-			'mono'   => array( __( 'Monospace', 'glocalsaino-actions-automation-based-on-trigger' ), 'Menlo, Consolas, monospace' ),
+			'system' => array( __( 'System (like the visitor\'s device)', 'glocalsaino-automations-based-on-triggers' ), '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' ),
+			'sans'   => array( __( 'Sans-serif', 'glocalsaino-automations-based-on-triggers' ), 'Helvetica, Arial, sans-serif' ),
+			'serif'  => array( __( 'Serif', 'glocalsaino-automations-based-on-triggers' ), 'Georgia, "Times New Roman", serif' ),
+			'mono'   => array( __( 'Monospace', 'glocalsaino-automations-based-on-triggers' ), 'Menlo, Consolas, monospace' ),
 		);
 	}
 
@@ -75,10 +75,10 @@ class GSAAT_Trigger_Widget {
 				'kind'        => 'form',
 				'title'       => '',
 				'intro'       => '',
-				'text'        => __( 'Send', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'text'        => __( 'Send', 'glocalsaino-automations-based-on-triggers' ),
 				'destination' => '',
 				'fields'      => array(),
-				'message'     => __( 'Thank you!', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'message'     => __( 'Thank you!', 'glocalsaino-automations-based-on-triggers' ),
 				'redirect'    => '',
 				'design'      => array(),
 				'domains'     => array(),
@@ -186,10 +186,10 @@ class GSAAT_Trigger_Widget {
 					'kind'      => $config['kind'],
 					'captcha'   => $captcha,
 					'i18n'      => array(
-						'sending'  => __( 'Sending…', 'glocalsaino-actions-automation-based-on-trigger' ),
-						'error'    => __( 'Something went wrong. Please try again.', 'glocalsaino-actions-automation-based-on-trigger' ),
-						'continue' => __( 'Continue', 'glocalsaino-actions-automation-based-on-trigger' ),
-						'captcha'  => __( 'Please complete the verification.', 'glocalsaino-actions-automation-based-on-trigger' ),
+						'sending'  => __( 'Sending…', 'glocalsaino-automations-based-on-triggers' ),
+						'error'    => __( 'Something went wrong. Please try again.', 'glocalsaino-automations-based-on-triggers' ),
+						'continue' => __( 'Continue', 'glocalsaino-automations-based-on-triggers' ),
+						'captcha'  => __( 'Please complete the verification.', 'glocalsaino-automations-based-on-triggers' ),
 					),
 				)
 			) . ';',
@@ -298,17 +298,17 @@ class GSAAT_Trigger_Widget {
 	public static function rest_token( WP_REST_Request $request ) {
 		$automation = self::automation_from_request( $request );
 		if ( ! $automation ) {
-			return new WP_Error( 'glocalsaino_aat_not_found', __( 'Unknown widget.', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'status' => 404 ) );
+			return new WP_Error( 'glocalsaino_aat_not_found', __( 'Unknown widget.', 'glocalsaino-automations-based-on-triggers' ), array( 'status' => 404 ) );
 		}
 		if ( 'active' !== GSAAT_Automations::availability( $automation ) ) {
-			return new WP_Error( 'glocalsaino_aat_widget_unavailable', __( 'This form is not available right now.', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'status' => 403 ) );
+			return new WP_Error( 'glocalsaino_aat_widget_unavailable', __( 'This form is not available right now.', 'glocalsaino-automations-based-on-triggers' ), array( 'status' => 403 ) );
 		}
 
 		$config = self::config( $automation['trigger_config'] );
 		$host   = self::host_of( (string) $request->get_param( 'parent' ) );
 		if ( $config['domains'] && '' !== $host && ! self::host_allowed( $host, $config['domains'] ) ) {
 			GSAAT_Widget_Stats::bump( $automation['id'], $host, 'rejected' );
-			return new WP_Error( 'glocalsaino_aat_widget_domain', __( 'This website is not allowed to show this form.', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'status' => 403 ) );
+			return new WP_Error( 'glocalsaino_aat_widget_domain', __( 'This website is not allowed to show this form.', 'glocalsaino-automations-based-on-triggers' ), array( 'status' => 403 ) );
 		}
 
 		GSAAT_Widget_Stats::bump( $automation['id'], $host, 'views' );
@@ -326,7 +326,7 @@ class GSAAT_Trigger_Widget {
 	public static function rest_submit( WP_REST_Request $request ) {
 		$automation = self::automation_from_request( $request );
 		if ( ! $automation ) {
-			return new WP_Error( 'glocalsaino_aat_not_found', __( 'Unknown widget.', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'status' => 404 ) );
+			return new WP_Error( 'glocalsaino_aat_not_found', __( 'Unknown widget.', 'glocalsaino-automations-based-on-triggers' ), array( 'status' => 404 ) );
 		}
 
 		$config = self::config( $automation['trigger_config'] );
@@ -352,11 +352,11 @@ class GSAAT_Trigger_Widget {
 			return self::reject( $log, $automation['id'], $host, 403, $token->get_error_code(), $token->get_error_message() );
 		}
 		if ( time() - $token['issued'] < self::MIN_SECONDS ) {
-			return self::reject( $log, $automation['id'], $host, 400, 'glocalsaino_aat_widget_too_fast', __( 'The form was sent too fast to be a person. Please try again.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			return self::reject( $log, $automation['id'], $host, 400, 'glocalsaino_aat_widget_too_fast', __( 'The form was sent too fast to be a person. Please try again.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 		if ( ! empty( $params['hp'] ) ) {
 			// Pretend it worked, so bots do not learn about the trap.
-			self::reject( $log, $automation['id'], $host, 400, 'glocalsaino_aat_widget_honeypot', __( 'The hidden anti-spam field was filled in (probably a bot).', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			self::reject( $log, $automation['id'], $host, 400, 'glocalsaino_aat_widget_honeypot', __( 'The hidden anti-spam field was filled in (probably a bot).', 'glocalsaino-automations-based-on-triggers' ) );
 			return new WP_REST_Response(
 				array(
 					'success' => true,
@@ -366,22 +366,22 @@ class GSAAT_Trigger_Widget {
 			);
 		}
 		if ( self::rate_limited( $automation['id'], $ip, (int) $config['rate_limit'] ) ) {
-			return self::reject( $log, $automation['id'], $host, 429, 'glocalsaino_aat_widget_rate_limit', __( 'Too many submissions from this connection. Please try again later.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			return self::reject( $log, $automation['id'], $host, 429, 'glocalsaino_aat_widget_rate_limit', __( 'Too many submissions from this connection. Please try again later.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 		if ( '' !== $config['captcha'] && GSAAT_Captcha::configured( $config['captcha'] ) ) {
 			$response = isset( $params['captcha'] ) && is_string( $params['captcha'] ) ? $params['captcha'] : '';
 			if ( ! GSAAT_Captcha::verify( $config['captcha'], $response, $ip ) ) {
-				return self::reject( $log, $automation['id'], $host, 403, 'glocalsaino_aat_widget_captcha', __( 'The verification failed. Please try again.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+				return self::reject( $log, $automation['id'], $host, 403, 'glocalsaino_aat_widget_captcha', __( 'The verification failed. Please try again.', 'glocalsaino-automations-based-on-triggers' ) );
 			}
 		}
 		if ( 'active' !== GSAAT_Automations::availability( $automation ) ) {
-			return self::reject( $log, $automation['id'], $host, 403, 'glocalsaino_aat_widget_unavailable', __( 'This form is not available right now.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			return self::reject( $log, $automation['id'], $host, 403, 'glocalsaino_aat_widget_unavailable', __( 'This form is not available right now.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 
 		list( $data, $errors ) = self::validate_fields( 'form' === $config['kind'] ? $config['fields'] : array(), $input );
 		if ( $errors ) {
 			$log['received_data'] = $data;
-			return self::reject( $log, $automation['id'], $host, 400, 'glocalsaino_aat_widget_invalid', __( 'Please check the highlighted fields.', 'glocalsaino-actions-automation-based-on-trigger' ), $errors );
+			return self::reject( $log, $automation['id'], $host, 400, 'glocalsaino_aat_widget_invalid', __( 'Please check the highlighted fields.', 'glocalsaino-automations-based-on-triggers' ), $errors );
 		}
 
 		self::mark_token_used( $token['nonce'] );
@@ -394,8 +394,8 @@ class GSAAT_Trigger_Widget {
 			$data,
 			'' !== $host
 				/* translators: %s: website. */
-				? sprintf( __( 'Widget used on %s', 'glocalsaino-actions-automation-based-on-trigger' ), $host )
-				: __( 'Widget used', 'glocalsaino-actions-automation-based-on-trigger' ),
+				? sprintf( __( 'Widget used on %s', 'glocalsaino-automations-based-on-triggers' ), $host )
+				: __( 'Widget used', 'glocalsaino-automations-based-on-triggers' ),
 			array(
 				'_widget_site' => $host,
 				'_widget_page' => $page,
@@ -469,7 +469,7 @@ class GSAAT_Trigger_Widget {
 	 * @return array|WP_Error { host, issued, nonce }
 	 */
 	public static function check_token( $token, $automation_id ) {
-		$expired = new WP_Error( 'glocalsaino_aat_widget_token', __( 'The form expired. Reload the page and try again.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+		$expired = new WP_Error( 'glocalsaino_aat_widget_token', __( 'The form expired. Reload the page and try again.', 'glocalsaino-automations-based-on-triggers' ) );
 		$parts   = explode( '.', $token );
 		if ( 2 !== count( $parts ) || ! preg_match( '/^[0-9a-f]+$/', $parts[0] ) || 0 !== strlen( $parts[0] ) % 2 ) {
 			return $expired;
@@ -553,17 +553,17 @@ class GSAAT_Trigger_Widget {
 			if ( '' === $value ) {
 				if ( ! empty( $field['required'] ) || 'consent' === $field['type'] ) {
 					$errors[ $key ] = 'consent' === $field['type']
-						? __( 'You must accept to continue.', 'glocalsaino-actions-automation-based-on-trigger' )
-						: __( 'This field is required.', 'glocalsaino-actions-automation-based-on-trigger' );
+						? __( 'You must accept to continue.', 'glocalsaino-automations-based-on-triggers' )
+						: __( 'This field is required.', 'glocalsaino-automations-based-on-triggers' );
 				}
 				continue;
 			}
 			if ( 'email' === $field['type'] && ! is_email( $value ) ) {
-				$errors[ $key ] = __( 'Enter a valid email address.', 'glocalsaino-actions-automation-based-on-trigger' );
+				$errors[ $key ] = __( 'Enter a valid email address.', 'glocalsaino-automations-based-on-triggers' );
 			} elseif ( 'number' === $field['type'] && null === GSAAT_Calculator::to_number( $value ) ) {
-				$errors[ $key ] = __( 'Enter a number.', 'glocalsaino-actions-automation-based-on-trigger' );
+				$errors[ $key ] = __( 'Enter a number.', 'glocalsaino-automations-based-on-triggers' );
 			} elseif ( 'select' === $field['type'] && ! in_array( $value, (array) $field['options'], true ) ) {
-				$errors[ $key ] = __( 'Choose one of the options.', 'glocalsaino-actions-automation-based-on-trigger' );
+				$errors[ $key ] = __( 'Choose one of the options.', 'glocalsaino-automations-based-on-triggers' );
 			}
 		}
 		return array( $data, $errors );
@@ -670,7 +670,7 @@ class GSAAT_Trigger_Widget {
 			'kind'        => array_key_exists( $kind, self::kinds() ) ? $kind : 'form',
 			'title'       => $text( 'widget_title' ),
 			'intro'       => isset( $post['widget_intro'] ) && is_string( $post['widget_intro'] ) ? sanitize_textarea_field( $post['widget_intro'] ) : '',
-			'text'        => $text( 'widget_text', __( 'Send', 'glocalsaino-actions-automation-based-on-trigger' ) ),
+			'text'        => $text( 'widget_text', __( 'Send', 'glocalsaino-automations-based-on-triggers' ) ),
 			'destination' => esc_url_raw( $text( 'widget_destination' ) ),
 			'fields'      => self::sanitize_fields( json_decode( isset( $post['widget_fields_json'] ) ? (string) $post['widget_fields_json'] : '[]', true ) ),
 			'message'     => $text( 'widget_message' ),
@@ -736,12 +736,12 @@ class GSAAT_Trigger_Widget {
 		$kinds  = self::kinds();
 		$text   = sprintf(
 			/* translators: %s: widget kind. */
-			__( 'Embeddable widget: %s', 'glocalsaino-actions-automation-based-on-trigger' ),
+			__( 'Embeddable widget: %s', 'glocalsaino-automations-based-on-triggers' ),
 			isset( $kinds[ $config['kind'] ] ) ? $kinds[ $config['kind'] ] : $config['kind']
 		);
 		return $config['domains']
 			/* translators: %s: comma-separated websites. */
-			? $text . ' — ' . sprintf( __( 'on %s', 'glocalsaino-actions-automation-based-on-trigger' ), implode( ', ', $config['domains'] ) )
+			? $text . ' — ' . sprintf( __( 'on %s', 'glocalsaino-automations-based-on-triggers' ), implode( ', ', $config['domains'] ) )
 			: $text;
 	}
 }

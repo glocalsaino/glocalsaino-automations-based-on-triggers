@@ -1,4 +1,4 @@
-# Extending GlocalSaino Actions Automation
+# Extending GlocalSaino Automations
 
 This plugin exposes an extension API so separate add-ons can add trigger types, action types, settings and admin screens without modifying it. The built-in triggers (Contact Form 7, webhook, link, button, embeddable widget, file upload, WordPress user events) and actions (webhook, email, calculator, format data, redirect, add rows to a table, wait) are registered through the same filters, so an add-on's types work the same way the built-in ones do.
 

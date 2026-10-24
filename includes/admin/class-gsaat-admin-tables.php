@@ -2,7 +2,7 @@
 /**
  * Admin screens of the data tables: list, edit (columns + display), rows.
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -31,8 +31,8 @@ class GSAAT_Admin_Tables {
 	public static function menu( $parent ) {
 		self::$hook = add_submenu_page(
 			$parent,
-			__( 'Tables', 'glocalsaino-actions-automation-based-on-trigger' ),
-			__( 'Tables', 'glocalsaino-actions-automation-based-on-trigger' ),
+			__( 'Tables', 'glocalsaino-automations-based-on-triggers' ),
+			__( 'Tables', 'glocalsaino-automations-based-on-triggers' ),
 			GSAAT_Admin::CAP,
 			self::PAGE,
 			array( __CLASS__, 'render' )
@@ -69,17 +69,17 @@ class GSAAT_Admin_Tables {
 					'ajaxUrl' => admin_url( 'admin-ajax.php' ),
 					'nonce'   => wp_create_nonce( 'glocalsaino_aat_detect_columns' ),
 					'i18n'    => array(
-						'key'      => __( 'Field name', 'glocalsaino-actions-automation-based-on-trigger' ),
-						'label'    => __( 'Column title', 'glocalsaino-actions-automation-based-on-trigger' ),
-						'type'     => __( 'Type', 'glocalsaino-actions-automation-based-on-trigger' ),
-						'remove'   => __( 'Remove', 'glocalsaino-actions-automation-based-on-trigger' ),
-						'moveUp'   => __( 'Move up', 'glocalsaino-actions-automation-based-on-trigger' ),
-						'moveDown' => __( 'Move down', 'glocalsaino-actions-automation-based-on-trigger' ),
-						'none'     => __( 'No columns yet.', 'glocalsaino-actions-automation-based-on-trigger' ),
-						'reading'  => __( 'Reading the file…', 'glocalsaino-actions-automation-based-on-trigger' ),
-						'imported' => __( 'Columns added from the file.', 'glocalsaino-actions-automation-based-on-trigger' ),
-						'error'    => __( 'The file could not be read.', 'glocalsaino-actions-automation-based-on-trigger' ),
-						'noKeys'   => __( 'Every column needs a title.', 'glocalsaino-actions-automation-based-on-trigger' ),
+						'key'      => __( 'Field name', 'glocalsaino-automations-based-on-triggers' ),
+						'label'    => __( 'Column title', 'glocalsaino-automations-based-on-triggers' ),
+						'type'     => __( 'Type', 'glocalsaino-automations-based-on-triggers' ),
+						'remove'   => __( 'Remove', 'glocalsaino-automations-based-on-triggers' ),
+						'moveUp'   => __( 'Move up', 'glocalsaino-automations-based-on-triggers' ),
+						'moveDown' => __( 'Move down', 'glocalsaino-automations-based-on-triggers' ),
+						'none'     => __( 'No columns yet.', 'glocalsaino-automations-based-on-triggers' ),
+						'reading'  => __( 'Reading the file…', 'glocalsaino-automations-based-on-triggers' ),
+						'imported' => __( 'Columns added from the file.', 'glocalsaino-automations-based-on-triggers' ),
+						'error'    => __( 'The file could not be read.', 'glocalsaino-automations-based-on-triggers' ),
+						'noKeys'   => __( 'Every column needs a title.', 'glocalsaino-automations-based-on-triggers' ),
 					),
 				)
 			) . ';',
@@ -88,11 +88,11 @@ class GSAAT_Admin_Tables {
 	}
 
 	public static function notices( $messages ) {
-		$messages['table_saved']        = array( 'success', __( 'Table saved.', 'glocalsaino-actions-automation-based-on-trigger' ) );
-		$messages['table_no_columns']   = array( 'warning', __( 'Table saved without columns: add at least one so it can receive rows.', 'glocalsaino-actions-automation-based-on-trigger' ) );
-		$messages['table_deleted']      = array( 'success', __( 'Table deleted.', 'glocalsaino-actions-automation-based-on-trigger' ) );
-		$messages['table_emptied']      = array( 'success', __( 'All the rows of the table were deleted.', 'glocalsaino-actions-automation-based-on-trigger' ) );
-		$messages['table_rows_deleted'] = array( 'success', __( 'Rows deleted.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+		$messages['table_saved']        = array( 'success', __( 'Table saved.', 'glocalsaino-automations-based-on-triggers' ) );
+		$messages['table_no_columns']   = array( 'warning', __( 'Table saved without columns: add at least one so it can receive rows.', 'glocalsaino-automations-based-on-triggers' ) );
+		$messages['table_deleted']      = array( 'success', __( 'Table deleted.', 'glocalsaino-automations-based-on-triggers' ) );
+		$messages['table_emptied']      = array( 'success', __( 'All the rows of the table were deleted.', 'glocalsaino-automations-based-on-triggers' ) );
+		$messages['table_rows_deleted'] = array( 'success', __( 'Rows deleted.', 'glocalsaino-automations-based-on-triggers' ) );
 		return $messages;
 	}
 
@@ -116,7 +116,7 @@ class GSAAT_Admin_Tables {
 				'settings' => GSAAT_Tables::default_settings(),
 			);
 			if ( ! $table ) {
-				wp_die( esc_html__( 'Table not found.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+				wp_die( esc_html__( 'Table not found.', 'glocalsaino-automations-based-on-triggers' ) );
 			}
 			include GSAAT_PATH . 'includes/admin/views/table-edit.php';
 			return;
@@ -126,7 +126,7 @@ class GSAAT_Admin_Tables {
 		if ( $rows ) {
 			$table = GSAAT_Tables::get( $rows );
 			if ( ! $table ) {
-				wp_die( esc_html__( 'Table not found.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+				wp_die( esc_html__( 'Table not found.', 'glocalsaino-automations-based-on-triggers' ) );
 			}
 			$list = new GSAAT_Table_Rows_List_Table( $table );
 			$list->prepare_items();
@@ -141,10 +141,10 @@ class GSAAT_Admin_Tables {
 
 	public static function visibility_labels() {
 		return array(
-			'everyone'  => __( 'Everyone', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'logged_in' => __( 'Logged-in users', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'roles'     => __( 'Users with these roles', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'nobody'    => __( 'Nobody (administrators only)', 'glocalsaino-actions-automation-based-on-trigger' ),
+			'everyone'  => __( 'Everyone', 'glocalsaino-automations-based-on-triggers' ),
+			'logged_in' => __( 'Logged-in users', 'glocalsaino-automations-based-on-triggers' ),
+			'roles'     => __( 'Users with these roles', 'glocalsaino-automations-based-on-triggers' ),
+			'nobody'    => __( 'Nobody (administrators only)', 'glocalsaino-automations-based-on-triggers' ),
 		);
 	}
 
@@ -209,14 +209,14 @@ class GSAAT_Admin_Tables {
 
 		$saved = GSAAT_Tables::save(
 			array(
-				'name'     => '' !== $name ? $name : __( 'Untitled table', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'name'     => '' !== $name ? $name : __( 'Untitled table', 'glocalsaino-automations-based-on-triggers' ),
 				'columns'  => is_array( $columns ) ? $columns : array(),
 				'settings' => $settings,
 			),
 			$id
 		);
 		if ( ! $saved ) {
-			wp_die( esc_html__( 'The table could not be saved.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			wp_die( esc_html__( 'The table could not be saved.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 		$table = GSAAT_Tables::get( $saved );
 		wp_safe_redirect(
@@ -239,7 +239,7 @@ class GSAAT_Admin_Tables {
 
 		$table = GSAAT_Tables::get( $id );
 		if ( ! $table ) {
-			wp_die( esc_html__( 'Table not found.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			wp_die( esc_html__( 'Table not found.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 
 		switch ( $do ) {
@@ -310,7 +310,7 @@ class GSAAT_Admin_Tables {
 
 	private static function check_capability() {
 		if ( ! current_user_can( GSAAT_Admin::CAP ) ) {
-			wp_die( esc_html__( 'You are not allowed to do this.', 'glocalsaino-actions-automation-based-on-trigger' ), 403 );
+			wp_die( esc_html__( 'You are not allowed to do this.', 'glocalsaino-automations-based-on-triggers' ), 403 );
 		}
 	}
 }

@@ -2,7 +2,7 @@
 /**
  * Reads CSV and Excel (.xlsx) files into rows of column => value, without external libraries.
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -31,10 +31,10 @@ class GSAAT_File_Reader {
 	public static function read( $path, $name, $max_rows = 0 ) {
 		$extension = strtolower( pathinfo( (string) $name, PATHINFO_EXTENSION ) );
 		if ( ! in_array( $extension, self::extensions(), true ) ) {
-			return self::error( __( 'Only CSV and Excel (.xlsx) files are accepted. Save .xls files as .xlsx or .csv first.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			return self::error( __( 'Only CSV and Excel (.xlsx) files are accepted. Save .xls files as .xlsx or .csv first.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 		if ( ! is_readable( $path ) ) {
-			return self::error( __( 'The file could not be read.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			return self::error( __( 'The file could not be read.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 
 		$table = 'xlsx' === $extension ? self::read_xlsx( $path, $max_rows ) : self::read_csv( $path, $max_rows );
@@ -57,7 +57,7 @@ class GSAAT_File_Reader {
 			array_shift( $matrix );
 		}
 		if ( ! $matrix ) {
-			return self::error( __( 'The file is empty.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			return self::error( __( 'The file is empty.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 
 		$header  = array_shift( $matrix );
@@ -121,7 +121,7 @@ class GSAAT_File_Reader {
 	private static function read_csv( $path, $max_rows ) {
 		$content = (string) file_get_contents( $path ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local uploaded file.
 		if ( false !== strpos( $content, "\0" ) ) {
-			return self::error( __( 'This does not look like a CSV file.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			return self::error( __( 'This does not look like a CSV file.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 		$content = self::to_utf8( preg_replace( '/^\xEF\xBB\xBF/', '', $content ) );
 		$content = str_replace( array( "\r\n", "\r" ), "\n", $content );
@@ -197,18 +197,18 @@ class GSAAT_File_Reader {
 
 	private static function read_xlsx( $path, $max_rows ) {
 		if ( ! class_exists( 'ZipArchive' ) || ! function_exists( 'simplexml_load_string' ) ) {
-			return self::error( __( 'This server cannot read Excel files (the PHP zip / XML extensions are missing). Save the file as CSV and upload it again.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			return self::error( __( 'This server cannot read Excel files (the PHP zip / XML extensions are missing). Save the file as CSV and upload it again.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 		$zip = new ZipArchive();
 		if ( true !== $zip->open( $path ) ) {
-			return self::error( __( 'This does not look like an Excel (.xlsx) file.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			return self::error( __( 'This does not look like an Excel (.xlsx) file.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 
 		$sheet_path = self::first_sheet_path( $zip );
 		$sheet_xml  = $sheet_path ? $zip->getFromName( $sheet_path ) : false;
 		if ( false === $sheet_xml ) {
 			$zip->close();
-			return self::error( __( 'The Excel file has no worksheet.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			return self::error( __( 'The Excel file has no worksheet.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 
 		$strings = array();
@@ -225,7 +225,7 @@ class GSAAT_File_Reader {
 
 		$sheet = self::xml( $sheet_xml );
 		if ( ! $sheet || ! isset( $sheet->sheetData ) ) {
-			return self::error( __( 'The Excel worksheet could not be read.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+			return self::error( __( 'The Excel worksheet could not be read.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 
 		$rows      = array();

@@ -2,7 +2,7 @@
 /**
  * Trigger: Contact Form 7 submission.
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -42,7 +42,7 @@ class GSAAT_Trigger_CF7 {
 			}
 		}
 		/* translators: 1: form title, 2: form ID. */
-		$event = sprintf( __( 'Contact Form 7 form "%1$s" (#%2$d) submitted', 'glocalsaino-actions-automation-based-on-trigger' ), $contact_form->title(), $form_id );
+		$event = sprintf( __( 'Contact Form 7 form "%1$s" (#%2$d) submitted', 'glocalsaino-automations-based-on-triggers' ), $contact_form->title(), $form_id );
 
 		GSAAT_Engine::fire(
 			'cf7',
@@ -114,13 +114,13 @@ class GSAAT_Trigger_CF7 {
 		$form_id = (int) $config['form_id'];
 		$title   = $form_id ? get_the_title( $form_id ) : '';
 		/* translators: %s: form title or ID. */
-		$text = sprintf( __( 'Contact Form 7: "%s" submitted', 'glocalsaino-actions-automation-based-on-trigger' ), '' !== $title ? $title : '#' . $form_id );
+		$text = sprintf( __( 'Contact Form 7: "%s" submitted', 'glocalsaino-automations-based-on-triggers' ), '' !== $title ? $title : '#' . $form_id );
 		if ( 'field' === $config['mode'] ) {
 			$text .= '' !== $config['value']
 				/* translators: 1: field name, 2: expected value. */
-				? ' — ' . sprintf( __( 'field "%1$s" = "%2$s"', 'glocalsaino-actions-automation-based-on-trigger' ), $config['field'], $config['value'] )
+				? ' — ' . sprintf( __( 'field "%1$s" = "%2$s"', 'glocalsaino-automations-based-on-triggers' ), $config['field'], $config['value'] )
 				/* translators: %s: field name. */
-				: ' — ' . sprintf( __( 'field "%s" filled in', 'glocalsaino-actions-automation-based-on-trigger' ), $config['field'] );
+				: ' — ' . sprintf( __( 'field "%s" filled in', 'glocalsaino-automations-based-on-triggers' ), $config['field'] );
 		}
 		return $text;
 	}

@@ -2,7 +2,7 @@
 /**
  * Webhook logs screen.
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  *
  * @var GSAAT_Webhook_Logs_Table $table
  */
@@ -12,13 +12,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <div class="wrap glocalsaino-aat-wrap">
-	<h1 class="wp-heading-inline"><?php esc_html_e( 'Webhook Logs', 'glocalsaino-actions-automation-based-on-trigger' ); ?></h1>
+	<h1 class="wp-heading-inline"><?php esc_html_e( 'Webhook Logs', 'glocalsaino-automations-based-on-triggers' ); ?></h1>
 	<hr class="wp-header-end">
 
 	<?php GSAAT_Admin::render_notice(); ?>
 
 	<p class="description">
-		<?php esc_html_e( 'Calls received by the webhook URLs and the embeddable widgets of your automations, including the rejected ones. Click a row to see the details and the received data.', 'glocalsaino-actions-automation-based-on-trigger' ); ?>
+		<?php esc_html_e( 'Calls received by the webhook URLs and the embeddable widgets of your automations, including the rejected ones. Click a row to see the details and the received data.', 'glocalsaino-automations-based-on-triggers' ); ?>
 	</p>
 
 	<?php $table->views(); ?>

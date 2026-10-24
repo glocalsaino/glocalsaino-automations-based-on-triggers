@@ -2,7 +2,7 @@
 /**
  * Text and number operations of the "Format data" action.
  *
- * @package GlocalSainoActionsAutomation
+ * @package GlocalSainoAutomations
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -18,52 +18,52 @@ class GSAAT_Formatter {
 	 */
 	public static function operations() {
 		$operations = array(
-			'first_word'       => array( __( 'First word', 'glocalsaino-actions-automation-based-on-trigger' ), array() ),
-			'last_word'        => array( __( 'Last word', 'glocalsaino-actions-automation-based-on-trigger' ), array() ),
-			'nth_word'         => array( __( 'Word number…', 'glocalsaino-actions-automation-based-on-trigger' ), array( array( __( 'Position (1 = first)', 'glocalsaino-actions-automation-based-on-trigger' ), '2' ) ) ),
-			'first_letter'     => array( __( 'First letter', 'glocalsaino-actions-automation-based-on-trigger' ), array() ),
-			'initials'         => array( __( 'Initials (first letter of each word)', 'glocalsaino-actions-automation-based-on-trigger' ), array() ),
-			'uppercase'        => array( __( 'UPPERCASE', 'glocalsaino-actions-automation-based-on-trigger' ), array() ),
-			'lowercase'        => array( __( 'lowercase', 'glocalsaino-actions-automation-based-on-trigger' ), array() ),
-			'capitalize_words' => array( __( 'Capitalize Each Word', 'glocalsaino-actions-automation-based-on-trigger' ), array() ),
-			'capitalize_first' => array( __( 'Capitalize first letter', 'glocalsaino-actions-automation-based-on-trigger' ), array() ),
-			'trim'             => array( __( 'Remove extra spaces', 'glocalsaino-actions-automation-based-on-trigger' ), array() ),
+			'first_word'       => array( __( 'First word', 'glocalsaino-automations-based-on-triggers' ), array() ),
+			'last_word'        => array( __( 'Last word', 'glocalsaino-automations-based-on-triggers' ), array() ),
+			'nth_word'         => array( __( 'Word number…', 'glocalsaino-automations-based-on-triggers' ), array( array( __( 'Position (1 = first)', 'glocalsaino-automations-based-on-triggers' ), '2' ) ) ),
+			'first_letter'     => array( __( 'First letter', 'glocalsaino-automations-based-on-triggers' ), array() ),
+			'initials'         => array( __( 'Initials (first letter of each word)', 'glocalsaino-automations-based-on-triggers' ), array() ),
+			'uppercase'        => array( __( 'UPPERCASE', 'glocalsaino-automations-based-on-triggers' ), array() ),
+			'lowercase'        => array( __( 'lowercase', 'glocalsaino-automations-based-on-triggers' ), array() ),
+			'capitalize_words' => array( __( 'Capitalize Each Word', 'glocalsaino-automations-based-on-triggers' ), array() ),
+			'capitalize_first' => array( __( 'Capitalize first letter', 'glocalsaino-automations-based-on-triggers' ), array() ),
+			'trim'             => array( __( 'Remove extra spaces', 'glocalsaino-automations-based-on-triggers' ), array() ),
 			'truncate'         => array(
-				__( 'Shorten', 'glocalsaino-actions-automation-based-on-trigger' ),
+				__( 'Shorten', 'glocalsaino-automations-based-on-triggers' ),
 				array(
-					array( __( 'Maximum characters', 'glocalsaino-actions-automation-based-on-trigger' ), '50' ),
-					array( __( 'Add at the end if shortened', 'glocalsaino-actions-automation-based-on-trigger' ), '…' ),
+					array( __( 'Maximum characters', 'glocalsaino-automations-based-on-triggers' ), '50' ),
+					array( __( 'Add at the end if shortened', 'glocalsaino-automations-based-on-triggers' ), '…' ),
 				),
 			),
 			'substring'        => array(
-				__( 'Extract part of the text', 'glocalsaino-actions-automation-based-on-trigger' ),
+				__( 'Extract part of the text', 'glocalsaino-automations-based-on-triggers' ),
 				array(
-					array( __( 'From character (1 = first)', 'glocalsaino-actions-automation-based-on-trigger' ), '1' ),
-					array( __( 'Number of characters (empty = to the end)', 'glocalsaino-actions-automation-based-on-trigger' ), '' ),
+					array( __( 'From character (1 = first)', 'glocalsaino-automations-based-on-triggers' ), '1' ),
+					array( __( 'Number of characters (empty = to the end)', 'glocalsaino-automations-based-on-triggers' ), '' ),
 				),
 			),
 			'replace'          => array(
-				__( 'Replace text', 'glocalsaino-actions-automation-based-on-trigger' ),
+				__( 'Replace text', 'glocalsaino-automations-based-on-triggers' ),
 				array(
-					array( __( 'Search for', 'glocalsaino-actions-automation-based-on-trigger' ), '' ),
-					array( __( 'Replace with', 'glocalsaino-actions-automation-based-on-trigger' ), '' ),
+					array( __( 'Search for', 'glocalsaino-automations-based-on-triggers' ), '' ),
+					array( __( 'Replace with', 'glocalsaino-automations-based-on-triggers' ), '' ),
 				),
 			),
-			'digits_only'      => array( __( 'Keep only digits', 'glocalsaino-actions-automation-based-on-trigger' ), array() ),
-			'round'            => array( __( 'Round a number', 'glocalsaino-actions-automation-based-on-trigger' ), array( array( __( 'Decimals', 'glocalsaino-actions-automation-based-on-trigger' ), '0' ) ) ),
-			'round_up'         => array( __( 'Round up (ceiling)', 'glocalsaino-actions-automation-based-on-trigger' ), array() ),
-			'round_down'       => array( __( 'Round down (floor)', 'glocalsaino-actions-automation-based-on-trigger' ), array() ),
+			'digits_only'      => array( __( 'Keep only digits', 'glocalsaino-automations-based-on-triggers' ), array() ),
+			'round'            => array( __( 'Round a number', 'glocalsaino-automations-based-on-triggers' ), array( array( __( 'Decimals', 'glocalsaino-automations-based-on-triggers' ), '0' ) ) ),
+			'round_up'         => array( __( 'Round up (ceiling)', 'glocalsaino-automations-based-on-triggers' ), array() ),
+			'round_down'       => array( __( 'Round down (floor)', 'glocalsaino-automations-based-on-triggers' ), array() ),
 			'number_format'    => array(
-				__( 'Format a number (e.g. 1.234,56)', 'glocalsaino-actions-automation-based-on-trigger' ),
+				__( 'Format a number (e.g. 1.234,56)', 'glocalsaino-automations-based-on-triggers' ),
 				array(
-					array( __( 'Decimals', 'glocalsaino-actions-automation-based-on-trigger' ), '2' ),
-					array( __( 'Decimal separator', 'glocalsaino-actions-automation-based-on-trigger' ), ',' ),
-					array( __( 'Thousands separator', 'glocalsaino-actions-automation-based-on-trigger' ), '.' ),
+					array( __( 'Decimals', 'glocalsaino-automations-based-on-triggers' ), '2' ),
+					array( __( 'Decimal separator', 'glocalsaino-automations-based-on-triggers' ), ',' ),
+					array( __( 'Thousands separator', 'glocalsaino-automations-based-on-triggers' ), '.' ),
 				),
 			),
-			'date_format'      => array( __( 'Format a date', 'glocalsaino-actions-automation-based-on-trigger' ), array( array( __( 'Format (PHP date format, e.g. d/m/Y)', 'glocalsaino-actions-automation-based-on-trigger' ), 'd/m/Y' ) ) ),
-			'default'          => array( __( 'Default value if empty', 'glocalsaino-actions-automation-based-on-trigger' ), array( array( __( 'Default value', 'glocalsaino-actions-automation-based-on-trigger' ), '' ) ) ),
-			'slug'             => array( __( 'Slug (lowercase-with-dashes)', 'glocalsaino-actions-automation-based-on-trigger' ), array() ),
+			'date_format'      => array( __( 'Format a date', 'glocalsaino-automations-based-on-triggers' ), array( array( __( 'Format (PHP date format, e.g. d/m/Y)', 'glocalsaino-automations-based-on-triggers' ), 'd/m/Y' ) ) ),
+			'default'          => array( __( 'Default value if empty', 'glocalsaino-automations-based-on-triggers' ), array( array( __( 'Default value', 'glocalsaino-automations-based-on-triggers' ), '' ) ) ),
+			'slug'             => array( __( 'Slug (lowercase-with-dashes)', 'glocalsaino-automations-based-on-triggers' ), array() ),
 		);
 
 		/**
@@ -127,7 +127,7 @@ class GSAAT_Formatter {
 				$number = GSAAT_Calculator::to_number( $value );
 				if ( null === $number ) {
 					/* translators: %s: value. */
-					return new WP_Error( 'glocalsaino_aat_nan', sprintf( __( '"%s" is not a number.', 'glocalsaino-actions-automation-based-on-trigger' ), $value ) );
+					return new WP_Error( 'glocalsaino_aat_nan', sprintf( __( '"%s" is not a number.', 'glocalsaino-automations-based-on-triggers' ), $value ) );
 				}
 				if ( 'round_up' === $operation ) {
 					return GSAAT_Calculator::number_to_string( ceil( $number ) );
@@ -143,7 +143,7 @@ class GSAAT_Formatter {
 				$timestamp = self::to_timestamp( $value );
 				if ( null === $timestamp ) {
 					/* translators: %s: value. */
-					return new WP_Error( 'glocalsaino_aat_nodate', sprintf( __( '"%s" is not a recognizable date.', 'glocalsaino-actions-automation-based-on-trigger' ), $value ) );
+					return new WP_Error( 'glocalsaino_aat_nodate', sprintf( __( '"%s" is not a recognizable date.', 'glocalsaino-automations-based-on-triggers' ), $value ) );
 				}
 				return wp_date( '' !== $p[0] ? $p[0] : get_option( 'date_format' ), $timestamp );
 			case 'default':
@@ -162,7 +162,7 @@ class GSAAT_Formatter {
 		 */
 		$result = apply_filters( 'glocalsaino_aat_format_value', null, $operation, $value, $p );
 		return null === $result
-			? new WP_Error( 'glocalsaino_aat_unknown_format', __( 'Unknown format operation.', 'glocalsaino-actions-automation-based-on-trigger' ) )
+			? new WP_Error( 'glocalsaino_aat_unknown_format', __( 'Unknown format operation.', 'glocalsaino-automations-based-on-triggers' ) )
 			: (string) $result;
 	}
 

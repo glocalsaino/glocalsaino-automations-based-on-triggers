@@ -25,12 +25,15 @@ class GSAAT_Plugin {
 		GSAAT_Redirect::init();
 		GSAAT_Scheduler::init();
 		GSAAT_Trigger_Widget::init();
+		GSAAT_Tables::init();
+		GSAAT_Trigger_File::init();
 
 		add_action( self::CRON_HOOK, array( 'GSAAT_Logs', 'cleanup' ) );
 		add_action( 'init', array( __CLASS__, 'ensure_cron' ) );
 
 		if ( is_admin() ) {
 			GSAAT_Admin::init();
+			GSAAT_Admin_Tables::init();
 		}
 
 		/**
@@ -83,8 +86,6 @@ class GSAAT_Plugin {
 			'notify_partial'              => 1,
 			'failure_email_to'            => '',
 			'failure_email_throttle'      => 60,
-			'turnstile_site_key'          => '',
-			'turnstile_secret_key'        => '',
 			'hcaptcha_site_key'           => '',
 			'hcaptcha_secret_key'         => '',
 		) );

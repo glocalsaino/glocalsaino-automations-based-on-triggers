@@ -129,8 +129,9 @@ class GSAAT_Engine {
 			return null;
 		}
 
-		$user_id = isset( $context['user_id'] ) ? (int) $context['user_id'] : 0;
-		$tokens  = array_merge(
+		$user_id                  = isset( $context['user_id'] ) ? (int) $context['user_id'] : 0;
+		$context['automation_id'] = (int) $automation['id'];
+		$tokens                   = array_merge(
 			$data,
 			$extra_tokens,
 			array(
@@ -157,9 +158,17 @@ class GSAAT_Engine {
 			'trigger_type'    => $automation['trigger_type'],
 			'event'           => $event,
 			'trigger_data'    => $data,
-			'context'         => array(
-				'tokens'  => array_diff_key( $tokens, $data ),
-				'user_id' => $user_id,
+			'context'         => array_filter(
+				array(
+					'tokens'  => array_diff_key( $tokens, $data ),
+					'user_id' => $user_id,
+					// Rows of an uploaded file, so a failed "Add rows to a table" can be retried (up to 2,000).
+					'rows'         => isset( $context['rows'] ) && count( $context['rows'] ) <= 2000 ? $context['rows'] : null,
+					'rows_omitted' => isset( $context['rows'] ) && count( $context['rows'] ) > 2000 ? count( $context['rows'] ) : null,
+				),
+				static function ( $value ) {
+					return null !== $value;
+				}
 			),
 		);
 
@@ -254,7 +263,17 @@ class GSAAT_Engine {
 		$context = isset( $log['context'] ) ? (array) $log['context'] : array();
 		$tokens  = array_merge( $log['trigger_data'], isset( $context['tokens'] ) ? (array) $context['tokens'] : array() );
 		$actions = array_values( $automation['actions'] );
-		$run_ctx = array( 'user_id' => isset( $context['user_id'] ) ? (int) $context['user_id'] : 0 ); // No browser on a retry.
+		// No browser on a retry.
+		$run_ctx = array(
+			'user_id'       => isset( $context['user_id'] ) ? (int) $context['user_id'] : 0,
+			'automation_id' => (int) $automation['id'],
+		);
+		if ( isset( $context['rows'] ) ) {
+			$run_ctx['rows'] = (array) $context['rows'];
+		}
+		if ( ! empty( $context['rows_omitted'] ) ) {
+			$run_ctx['rows_omitted'] = (int) $context['rows_omitted'];
+		}
 
 		// Which current actions correspond to the failed results.
 		$targets   = array();
@@ -397,7 +416,8 @@ class GSAAT_Engine {
 	 * @return int New log entry ID.
 	 */
 	public static function run_scheduled( array $automation, array $items, array $tokens, array $context, $event, $parent_id ) {
-		$run = self::run_sequence( $items, $tokens, $context );
+		$context['automation_id'] = (int) $automation['id'];
+		$run                      = self::run_sequence( $items, $tokens, $context );
 
 		list( $status, $message ) = self::summarize( $run['results'] );
 
@@ -413,6 +433,7 @@ class GSAAT_Engine {
 				'context'         => array(
 					'tokens'  => array_diff_key( $tokens, $data ),
 					'user_id' => isset( $context['user_id'] ) ? (int) $context['user_id'] : 0,
+					'rows'    => isset( $context['rows'] ) ? $context['rows'] : array(),
 				),
 				'results'         => $run['results'],
 				'status'          => $status,

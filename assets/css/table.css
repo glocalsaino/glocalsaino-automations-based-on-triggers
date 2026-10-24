@@ -1,0 +1,77 @@
+/* GlocalSaino Actions Automation – tables shown with [glocalsaino_aat_table]. */
+
+.glocalsaino-aat-table-wrap {
+	margin: 1.5em 0;
+}
+
+.glocalsaino-aat-table__scroll {
+	overflow-x: auto;
+}
+
+.glocalsaino-aat-table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.glocalsaino-aat-table th,
+.glocalsaino-aat-table td {
+	padding: 8px 10px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+	text-align: left;
+	vertical-align: top;
+}
+
+.glocalsaino-aat-table th {
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+.glocalsaino-aat-table td.is-number {
+	text-align: right;
+	font-variant-numeric: tabular-nums;
+}
+
+.glocalsaino-aat-table__sort {
+	all: unset;
+	cursor: pointer;
+}
+
+.glocalsaino-aat-table__sort:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
+}
+
+.glocalsaino-aat-table th[aria-sort="ascending"] .glocalsaino-aat-table__sort::after {
+	content: " ▲";
+	font-size: 0.75em;
+}
+
+.glocalsaino-aat-table th[aria-sort="descending"] .glocalsaino-aat-table__sort::after {
+	content: " ▼";
+	font-size: 0.75em;
+}
+
+.glocalsaino-aat-table__search {
+	display: block;
+	width: 100%;
+	max-width: 320px;
+	margin: 0 0 12px;
+	padding: 8px 10px;
+}
+
+.glocalsaino-aat-table__pages {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	justify-content: flex-end;
+	margin-top: 12px;
+}
+
+.glocalsaino-aat-table__download {
+	margin: 0 0 8px;
+	text-align: right;
+}
+
+.glocalsaino-aat-table__empty {
+	opacity: 0.7;
+}

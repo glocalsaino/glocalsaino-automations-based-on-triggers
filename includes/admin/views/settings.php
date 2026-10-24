@@ -100,14 +100,12 @@ $glocalsaino_aat_option   = GSAAT_Plugin::SETTINGS_OPTION;
 		</table>
 
 		<h2><?php esc_html_e( 'Widget captcha (optional)', 'glocalsaino-actions-automation-based-on-trigger' ); ?></h2>
-		<p class="description"><?php esc_html_e( 'Embeddable widgets can show a captcha from one of these services. Get free keys from the provider and choose the captcha in each widget. Nothing is sent to these services unless a widget uses them.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+		<p class="description"><?php esc_html_e( 'Embeddable widgets can show an hCaptcha challenge. Get free keys at hcaptcha.com and choose the captcha in each widget. Nothing is sent to hCaptcha unless a widget uses it.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
 		<table class="form-table" role="presentation">
 			<?php
 			$glocalsaino_aat_captcha_fields = array(
-				'turnstile_site_key'   => __( 'Cloudflare Turnstile site key', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'turnstile_secret_key' => __( 'Cloudflare Turnstile secret key', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'hcaptcha_site_key'    => __( 'hCaptcha site key', 'glocalsaino-actions-automation-based-on-trigger' ),
-				'hcaptcha_secret_key'  => __( 'hCaptcha secret key', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'hcaptcha_site_key'   => __( 'hCaptcha site key', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'hcaptcha_secret_key' => __( 'hCaptcha secret key', 'glocalsaino-actions-automation-based-on-trigger' ),
 			);
 			foreach ( $glocalsaino_aat_captcha_fields as $glocalsaino_aat_key => $glocalsaino_aat_label ) :
 				?>

@@ -334,3 +334,13 @@
 .glocalsaino-aat-action__body > .notice {
 	margin: 0 0 12px;
 }
+
+/* Tables */
+.glocalsaino-aat-block-label {
+	display: block;
+	margin-bottom: 4px;
+}
+
+.glocalsaino-aat-table-mapping {
+	margin-top: 8px;
+}

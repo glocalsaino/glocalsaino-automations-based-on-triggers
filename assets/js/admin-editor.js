@@ -100,6 +100,10 @@
 		if ( type === 'wp_user' ) {
 			return cfg.userFields.slice();
 		}
+		if ( type === 'file' ) {
+			const columns = $( 'glocalsaino-aat-file-columns' );
+			return columns ? columns.value.split( /[,;\n]+/ ).map( fieldKeyFromLabel ).filter( Boolean ) : [];
+		}
 		if ( type === 'widget' ) {
 			return widgetKind() === 'form' ? state.widgetFields.map( ( field ) => field.key ).filter( Boolean ) : [];
 		}
@@ -107,6 +111,17 @@
 			return ( api.triggerFields[ type ]() || [] ).filter( Boolean );
 		}
 		return [];
+	}
+
+	/* Same rule as the server: "Fecha de alta" → fecha_de_alta. */
+	function fieldKeyFromLabel( label ) {
+		return String( label || '' )
+			.normalize( 'NFD' )
+			.replace( /[\u0300-\u036f]/g, '' )
+			.toLowerCase()
+			.replace( /[^a-z0-9]+/g, '_' )
+			.replace( /^_+|_+$/g, '' )
+			.slice( 0, 64 );
 	}
 
 	function generalFields() {
@@ -852,6 +867,79 @@
 		return [ labelled( i18n.redirectUrl, textControl( action, 'url', { placeholder: '/thank-you/' } ), i18n.redirectHint ) ];
 	}
 
+	function tableActionBody( action ) {
+		action.mapping = action.mapping && typeof action.mapping === 'object' && ! Array.isArray( action.mapping ) ? action.mapping : {};
+		action.mode = action.mode === 'replace' ? 'replace' : 'add';
+		const tables = cfg.tables || [];
+		if ( ! tables.length ) {
+			return [
+				el( 'p', { class: 'description', text: i18n.noTables } ),
+				el( 'p', {}, [ el( 'a', { href: cfg.newTableUrl, class: 'button', target: '_blank', text: i18n.newTable } ) ] ),
+			];
+		}
+
+		const myIndex = currentActionIndex;
+		const box = el( 'div', { class: 'glocalsaino-aat-table-mapping' } );
+		const tableSelect = el( 'select', { onchange: ( e ) => {
+			action.table_id = parseInt( e.target.value, 10 ) || 0;
+			drawMapping();
+		} } );
+		tableSelect.appendChild( el( 'option', { value: '0', text: i18n.chooseTable } ) );
+		tables.forEach( ( table ) => tableSelect.appendChild( el( 'option', { value: String( table.id ), text: table.name } ) ) );
+		tableSelect.value = String( action.table_id || 0 );
+
+		const modeName = 'glocalsaino-aat-table-mode-' + myIndex + '-' + Date.now();
+		const modes = el( 'fieldset', {}, [ [ 'add', i18n.tableAdd ], [ 'replace', i18n.tableReplace ] ].map( ( [ value, text ] ) =>
+			el( 'label', { class: 'glocalsaino-aat-block-label' }, [
+				el( 'input', { type: 'radio', name: modeName, value, checked: action.mode === value, onchange: () => ( action.mode = value ) } ),
+				' ' + text,
+			] )
+		) );
+
+		function drawMapping() {
+			box.textContent = '';
+			const table = tables.find( ( t ) => t.id === action.table_id );
+			if ( ! table ) {
+				return;
+			}
+			const previous = currentActionIndex;
+			currentActionIndex = myIndex;
+			box.appendChild( el( 'h4', { text: i18n.tableValues } ) );
+			table.columns.forEach( ( column ) => {
+				const input = el( 'input', {
+					type: 'text',
+					class: 'large-text',
+					value: action.mapping[ column.key ] || '',
+					placeholder: '{{' + column.key + '}}',
+					oninput: ( e ) => ( action.mapping[ column.key ] = e.target.value ),
+				} );
+				box.appendChild( labelled( column.label + ' (' + column.key + ')', withPicker( input ) ) );
+			} );
+			currentActionIndex = previous;
+			box.appendChild(
+				el( 'button', { type: 'button', class: 'button button-small', text: i18n.tableFill, onclick: () => {
+					const available = new Set( triggerFields().concat( producedFields( myIndex ) ) );
+					table.columns.forEach( ( column ) => {
+						if ( available.has( column.key ) && ! action.mapping[ column.key ] ) {
+							action.mapping[ column.key ] = '{{' + column.key + '}}';
+						}
+					} );
+					drawMapping();
+				} } )
+			);
+			if ( triggerSelect.value === 'file' ) {
+				box.appendChild( el( 'p', { class: 'description', text: i18n.tableFileHint } ) );
+			}
+		}
+		drawMapping();
+
+		return [
+			labelled( i18n.table, tableSelect ),
+			labelled( i18n.tableMode, modes ),
+			box,
+		];
+	}
+
 	function delayActionBody( action ) {
 		const amount = el( 'input', {
 			type: 'number',
@@ -973,6 +1061,35 @@
 			}
 		} );
 	}
+	if ( $( 'glocalsaino-aat-file-columns' ) ) {
+		$( 'glocalsaino-aat-file-columns' ).addEventListener( 'input', refreshFieldPickers );
+	}
+	if ( $( 'glocalsaino-aat-file-sample' ) ) {
+		const sample = $( 'glocalsaino-aat-file-sample' );
+		const sampleStatus = $( 'glocalsaino-aat-file-sample-status' );
+		sample.addEventListener( 'change', () => {
+			if ( ! sample.files.length ) {
+				return;
+			}
+			const data = new window.FormData();
+			data.append( 'action', 'glocalsaino_aat_detect_columns' );
+			data.append( 'nonce', cfg.detectNonce );
+			data.append( 'file', sample.files[ 0 ] );
+			sampleStatus.textContent = i18n.readingFile;
+			window.fetch( cfg.ajaxUrl, { method: 'POST', body: data, credentials: 'same-origin' } )
+				.then( ( response ) => response.json() )
+				.then( ( result ) => {
+					if ( ! result.success ) {
+						throw new Error( ( result.data && result.data.message ) || i18n.fileError );
+					}
+					$( 'glocalsaino-aat-file-columns' ).value = result.data.columns.map( ( column ) => column.key ).join( ', ' );
+					sampleStatus.textContent = '';
+					refreshFieldPickers();
+				} )
+				.catch( ( error ) => ( sampleStatus.textContent = error.message || i18n.fileError ) )
+				.then( () => ( sample.value = '' ) );
+		} );
+	}
 	if ( $( 'glocalsaino-aat-link-params' ) ) {
 		$( 'glocalsaino-aat-link-params' ).addEventListener( 'input', refreshFieldPickers );
 	}
@@ -1086,6 +1203,7 @@
 		[ 'format', formatActionBody ],
 		[ 'redirect', redirectActionBody ],
 		[ 'delay', delayActionBody ],
+		[ 'table', tableActionBody ],
 	].forEach( ( [ type, render ] ) => {
 		if ( ! api.actionTypes[ type ] ) {
 			api.actionTypes[ type ] = { render };
@@ -1094,6 +1212,13 @@
 
 	linkCheckbox( 'glocalsaino-aat-unlimited-runs', 'glocalsaino-aat-max-runs' );
 	linkCheckbox( 'glocalsaino-aat-never-expires', 'glocalsaino-aat-end-date' );
+
+	// Loader snippet of the embeddable widget (kept out of PHP strings on purpose).
+	const widgetScript = $( 'glocalsaino-aat-widget-script' );
+	if ( widgetScript ) {
+		const attr = ( value ) => String( value || '' ).replace( /&/g, '&amp;' ).replace( /"/g, '&quot;' );
+		widgetScript.textContent = '<' + 'script src="' + attr( widgetScript.getAttribute( 'data-loader' ) ) + '" data-glocalsaino-aat-widget="' + attr( widgetScript.getAttribute( 'data-widget' ) ) + '" data-title="' + attr( widgetScript.getAttribute( 'data-title' ) ) + '" async></' + 'script>';
+	}
 
 	initSecurity();
 	updateWidgetKind();

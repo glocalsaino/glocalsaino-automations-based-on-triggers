@@ -60,6 +60,13 @@ class GSAAT_Registry {
 				'visitor'  => false,
 				'browser'  => true,
 			),
+			'file'    => array(
+				'label'    => __( 'CSV or Excel file uploaded', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'sanitize' => array( 'GSAAT_Trigger_File', 'sanitize_config' ),
+				'describe' => array( 'GSAAT_Trigger_File', 'describe' ),
+				'visitor'  => true,
+				'browser'  => true,
+			),
 			'wp_user' => array(
 				'label'    => __( 'WordPress user event (registration, login, password change)', 'glocalsaino-actions-automation-based-on-trigger' ),
 				'sanitize' => array( 'GSAAT_Trigger_User', 'sanitize_config' ),
@@ -166,6 +173,18 @@ class GSAAT_Registry {
 				'sanitize'      => array( 'GSAAT_Actions', 'sanitize_redirect' ),
 				'describe'      => array( 'GSAAT_Actions', 'describe_redirect' ),
 				'needs_browser' => true,
+			),
+			'table'      => array(
+				'label'    => __( 'Add rows to a table', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'icon'     => 'dashicons-editor-table',
+				'defaults' => array(
+					'table_id' => 0,
+					'mode'     => 'add',
+					'mapping'  => array(),
+				),
+				'execute'  => array( 'GSAAT_Actions', 'table' ),
+				'sanitize' => array( 'GSAAT_Actions', 'sanitize_table' ),
+				'describe' => array( 'GSAAT_Actions', 'describe_table' ),
 			),
 			'delay'      => array(
 				'label'    => __( 'Wait (schedule the next actions)', 'glocalsaino-actions-automation-based-on-trigger' ),

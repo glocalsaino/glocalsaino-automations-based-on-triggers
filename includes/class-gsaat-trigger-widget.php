@@ -115,26 +115,17 @@ class GSAAT_Trigger_Widget {
 	}
 
 	/**
-	 * Code the third party pastes: [ iframe, script ].
+	 * Plain iframe code the third party pastes (the loader script snippet is built by the editor script).
+	 *
 	 *
 	 * @param array $automation Automation.
-	 * @return array
+	 * @return string
 	 */
-	public static function embed_codes( array $automation ) {
-		$url   = self::widget_url( $automation['webhook_key'] );
-		$title = $automation['name'];
-		return array(
-			'iframe' => sprintf(
-				'<iframe src="%1$s" title="%2$s" loading="lazy" style="width:100%%;border:0;min-height:120px" height="320"></iframe>',
-				esc_url( $url ),
-				esc_attr( $title )
-			),
-			'script' => sprintf(
-				'<script src="%1$s" data-glocalsaino-aat-widget="%2$s" data-title="%3$s" async></script>',
-				esc_url( self::loader_url() ),
-				esc_url( $url ),
-				esc_attr( $title )
-			),
+	public static function iframe_code( array $automation ) {
+		return sprintf(
+			'<iframe src="%1$s" title="%2$s" loading="lazy" style="width:100%%;border:0;min-height:120px" height="320"></iframe>',
+			esc_url( self::widget_url( $automation['webhook_key'] ) ),
+			esc_attr( $automation['name'] )
 		);
 	}
 

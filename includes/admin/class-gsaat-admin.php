@@ -215,7 +215,7 @@ class GSAAT_Admin {
 			'failure_email_to'            => isset( $input['failure_email_to'] ) ? implode( ', ', GSAAT_Notifier::recipients( sanitize_text_field( $input['failure_email_to'] ) ) ) : '',
 			'failure_email_throttle'      => isset( $input['failure_email_throttle'] ) ? min( 1440, absint( $input['failure_email_throttle'] ) ) : 60,
 		);
-		foreach ( array( 'turnstile_site_key', 'turnstile_secret_key', 'hcaptcha_site_key', 'hcaptcha_secret_key' ) as $key ) {
+		foreach ( array( 'hcaptcha_site_key', 'hcaptcha_secret_key' ) as $key ) {
 			$clean[ $key ] = isset( $input[ $key ] ) ? preg_replace( '/[^A-Za-z0-9_\-.]/', '', sanitize_text_field( (string) $input[ $key ] ) ) : '';
 		}
 
@@ -867,6 +867,14 @@ class GSAAT_Admin {
 		 */
 		$messages = apply_filters( 'glocalsaino_aat_admin_notices', $messages );
 
+		if ( in_array( 'file_processed', $codes, true ) ) {
+			$notice = get_transient( 'glocalsaino_aat_file_notice_' . get_current_user_id() );
+			if ( is_array( $notice ) ) {
+				$messages['file_processed'] = $notice;
+				delete_transient( 'glocalsaino_aat_file_notice_' . get_current_user_id() );
+			}
+		}
+
 		foreach ( $codes as $code ) {
 			if ( ! isset( $messages[ $code ] ) ) {
 				continue;
@@ -985,6 +993,9 @@ class GSAAT_Admin {
 				'_link_destination' => array( __( 'Link destination', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'link' ) ),
 				'_button_label'     => array( __( 'Button text', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'button' ) ),
 				'_widget_site'      => array( __( 'Website where the widget was used', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'widget' ) ),
+				'_file_name'        => array( __( 'File name', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'file' ) ),
+				'_row_count'        => array( __( 'Number of rows in the file', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'file' ) ),
+				'_row_number'       => array( __( 'Row number (once per row)', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'file' ) ),
 				'_widget_page'      => array( __( 'Page where the widget was used', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'widget' ) ),
 			) as $key => $token
 		) {
@@ -1012,6 +1023,18 @@ class GSAAT_Admin {
 			'delayUnits'      => wp_list_pluck( GSAAT_Scheduler::units(), 0 ),
 			'userFields'      => GSAAT_Trigger_User::fields(),
 			'widgetFieldTypes' => GSAAT_Trigger_Widget::field_types(),
+			'tables'          => array_map(
+				static function ( $table ) {
+					return array(
+						'id'      => $table['id'],
+						'name'    => $table['name'],
+						'columns' => $table['columns'],
+					);
+				},
+				GSAAT_Tables::all()
+			),
+			'newTableUrl'     => GSAAT_Admin_Tables::url( array( 'edit' => 0 ) ),
+			'detectNonce'     => wp_create_nonce( 'glocalsaino_aat_detect_columns' ),
 			'ajaxUrl'       => admin_url( 'admin-ajax.php' ),
 			'userNonce'     => wp_create_nonce( 'glocalsaino_aat_search_users' ),
 			'userOperators' => GSAAT_Engine::user_operators(),
@@ -1098,6 +1121,18 @@ class GSAAT_Admin {
 				'waitFor'         => __( 'Wait', 'glocalsaino-actions-automation-based-on-trigger' ),
 				'waitHint'        => __( 'The actions below this one run after the wait. Actions above it run immediately.', 'glocalsaino-actions-automation-based-on-trigger' ),
 				'producedFields'  => __( 'Results of previous actions', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'table'           => __( 'Table', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'chooseTable'     => __( '— Choose a table —', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'newTable'        => __( 'Create a table', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'noTables'        => __( 'There are no tables yet. Create one first (Automations → Tables) and reload this page.', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'tableMode'       => __( 'Rows', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'tableAdd'        => __( 'Add the new rows to the existing ones', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'tableReplace'    => __( 'Replace all the rows of the table', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'tableValues'     => __( 'Value of each column', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'tableFill'       => __( 'Fill in with the fields of the same name', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'tableFileHint'   => __( 'With a file uploaded "once for the whole file", one row is added for each row of the file, using its columns.', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'readingFile'     => __( 'Reading the file…', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'fileError'       => __( 'The file could not be read.', 'glocalsaino-actions-automation-based-on-trigger' ),
 				'fieldKey'        => __( 'Field name', 'glocalsaino-actions-automation-based-on-trigger' ),
 				'fieldLabel'      => __( 'Label', 'glocalsaino-actions-automation-based-on-trigger' ),
 				'fieldType'       => __( 'Type', 'glocalsaino-actions-automation-based-on-trigger' ),

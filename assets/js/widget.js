@@ -119,7 +119,7 @@
 		if ( ! cfg.captcha ) {
 			return null;
 		}
-		return cfg.captcha.provider === 'turnstile' ? window.turnstile : window.hcaptcha;
+		return window.hcaptcha;
 	}
 
 	function initCaptcha() {

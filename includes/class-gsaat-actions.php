@@ -260,6 +260,94 @@ class GSAAT_Actions {
 
 	/*
 	 * ---------------------------------------------------------------------
+	 * Add rows to a table
+	 * ---------------------------------------------------------------------
+	 */
+
+	/**
+	 * One row per event; with a file trigger in "once per file" mode, one row per file row
+	 * (the row's columns are available as fields).
+	 *
+	 * @param array $action  { table_id, mode: add|replace, mapping: column => template }.
+	 * @param array $tokens  Tokens.
+	 * @param array $context Event context (rows of a file).
+	 * @return array
+	 */
+	public static function table( array $action, array $tokens, array $context = array() ) {
+		$table = GSAAT_Tables::get( (int) $action['table_id'] );
+		if ( ! $table ) {
+			return self::result( 'table', '#' . (int) $action['table_id'], false, __( 'The table does not exist (it may have been deleted).', 'glocalsaino-actions-automation-based-on-trigger' ) );
+		}
+
+		if ( ! empty( $context['rows_omitted'] ) ) {
+			return self::result( 'table', $table['name'], false, __( 'The file had too many rows to keep them for a retry. Upload the file again.', 'glocalsaino-actions-automation-based-on-trigger' ) );
+		}
+
+		$mapping = (array) $action['mapping'];
+		$build   = static function ( array $row_tokens ) use ( $table, $mapping ) {
+			$row = array();
+			foreach ( $table['columns'] as $column ) {
+				$template              = isset( $mapping[ $column['key'] ] ) ? (string) $mapping[ $column['key'] ] : '';
+				$row[ $column['key'] ] = GSAAT_Engine::replace_tokens( $template, $row_tokens );
+			}
+			return $row;
+		};
+
+		$rows = array();
+		if ( isset( $context['rows'] ) && is_array( $context['rows'] ) ) {
+			foreach ( $context['rows'] as $file_row ) {
+				$rows[] = $build( array_merge( $tokens, GSAAT_Engine::flatten( (array) $file_row ) ) );
+			}
+		} else {
+			$rows[] = $build( $tokens );
+		}
+
+		$added = GSAAT_Tables::add_rows(
+			$table['id'],
+			$rows,
+			array( 'automation_id' => isset( $context['automation_id'] ) ? (int) $context['automation_id'] : 0 ),
+			'replace' === $action['mode']
+		);
+		if ( is_wp_error( $added ) ) {
+			return self::result( 'table', $table['name'], false, $added->get_error_message() );
+		}
+
+		return self::result(
+			'table',
+			$table['name'],
+			true,
+			'replace' === $action['mode']
+				/* translators: %d: number of rows. */
+				? sprintf( _n( 'The table now has %d row (previous rows replaced).', 'The table now has %d rows (previous rows replaced).', $added, 'glocalsaino-actions-automation-based-on-trigger' ), $added )
+				/* translators: %d: number of rows. */
+				: sprintf( _n( '%d row added.', '%d rows added.', $added, 'glocalsaino-actions-automation-based-on-trigger' ), $added ),
+			$rows ? array( 'sent' => $rows[0] ) : array()
+		);
+	}
+
+	public static function sanitize_table( array $action ) {
+		$mapping = array();
+		foreach ( isset( $action['mapping'] ) && is_array( $action['mapping'] ) ? $action['mapping'] : array() as $key => $template ) {
+			$key = sanitize_key( (string) $key );
+			if ( '' !== $key && is_scalar( $template ) ) {
+				$mapping[ $key ] = sanitize_text_field( (string) $template );
+			}
+		}
+		return array(
+			'table_id' => isset( $action['table_id'] ) ? absint( $action['table_id'] ) : 0,
+			'mode'     => ( isset( $action['mode'] ) && 'replace' === $action['mode'] ) ? 'replace' : 'add',
+			'mapping'  => $mapping,
+		);
+	}
+
+	public static function describe_table( array $action ) {
+		$table = GSAAT_Tables::get( (int) $action['table_id'] );
+		/* translators: %s: table name. */
+		return sprintf( __( 'Add rows to the table "%s"', 'glocalsaino-actions-automation-based-on-trigger' ), $table ? $table['name'] : '#' . (int) $action['table_id'] );
+	}
+
+	/*
+	 * ---------------------------------------------------------------------
 	 * Wait
 	 * ---------------------------------------------------------------------
 	 */

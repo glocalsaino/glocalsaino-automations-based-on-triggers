@@ -1,14 +1,14 @@
 === GlocalSaino Actions Automation Based on Trigger ===
 Contributors: glocalsaino, rafammoo
-Tags: automation, webhook, contact form 7, email, no-code
+Tags: automation, webhook, contact form 7, csv import, data table
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.2.0
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-No-code automations: forms, links, buttons, embeddable widgets, webhooks or sign-ups trigger emails, webhooks, calculations, redirects and delays.
+No-code automations: forms, files, links, buttons, widgets, webhooks or sign-ups trigger emails, webhooks, tables, calculations and redirects.
 
 == Description ==
 
@@ -19,9 +19,14 @@ No-code automations: forms, links, buttons, embeddable widgets, webhooks or sign
 * **Click on a link** – the plugin gives you a tracked link (and a shortcode). Each click runs the automation and takes the visitor to the destination you set in the back end. Values added to the link (e.g. `&email=…`) become fields.
 * **Click on a button** – insert a button with a shortcode; its text, style, message after the click and destination are set in the back end.
 * **WordPress user events** – a user registers, logs in or changes their password.
+* **CSV or Excel file uploaded** – upload a CSV (any separator, any common encoding) or Excel .xlsx file from the back end, or let your users upload it from the website with the [glocalsaino_aat_upload] shortcode (logged-in users, specific roles or anyone, with anti-spam). Run the automation once for the whole file or once for each row. Files are read and discarded, never stored.
 * **Embeddable widget on other websites** – a button, link or form with fields that other websites show by pasting a small piece of code. When a visitor uses it there, the automation runs on your site.
 * **Contact Form 7 submission** – fire when a specific form is submitted, or only when a specific field of that form is submitted with a specific value (or with any value).
 * **Data received through a webhook** – the plugin generates a unique webhook URL for the automation. Define the keys you expect, and the values the external system sends under those keys (as query string, form body or JSON body, via GET, POST or PUT) become available to the actions.
+
+= Tables =
+
+Create tables under Automations → Tables: give them columns (text, number, date, link or email), or read the columns from a CSV / Excel file. Show them anywhere with the [glocalsaino_aat_table id="…"] shortcode, with search, sorting by column, pagination and an optional CSV download. Choose who can see each table: everyone, logged-in users, specific roles or only administrators. Browse, export or delete the rows from the back end. Exported values are protected against spreadsheet formula injection.
 
 = Embeddable widget for other websites =
 
@@ -30,7 +35,7 @@ Give a partner, client or another site of yours a widget instead of a webhook UR
 * **Button, link or form** with text, email, number, phone, long text, drop-down, checkbox and privacy-consent fields, validated on your server.
 * **Your design**: colors, font, corner radius and custom CSS. It lives in its own iframe, so the other site's styles never break it.
 * **Easy to paste**: a one-line script that adjusts the height automatically and can take the visitor to another page after sending, or a plain iframe where scripts are not allowed.
-* **Protected**: only the websites you allow can show it; every submission needs a single-use code issued when the widget loads; minimum time to send, hidden anti-spam field, per-connection hourly limit and an optional captcha (Cloudflare Turnstile or hCaptcha). Rejected submissions are logged with the reason.
+* **Protected**: only the websites you allow can show it; every submission needs a single-use code issued when the widget loads; minimum time to send, hidden anti-spam field, per-connection hourly limit and an optional hCaptcha. Rejected submissions are logged with the reason.
 * **Statistics** per website: views, submissions, conversion and rejected submissions over the last 30 days, plus a live preview in the editor.
 
 = Webhook security =
@@ -55,6 +60,7 @@ Combine them with "all the conditions" or "any of the conditions".
 * **Calculator** – write operations with the trigger values or your own numbers, e.g. `({{price}} * {{quantity}}) * 1.21`, with rounding and functions (round, min, max, abs…). The result can be used by the next actions, e.g. in an email.
 * **Format data** – first or last word, first letter, initials, upper / lower case, shorten, extract or replace text, keep only digits, round or format a number (1.234,56), format a date, default value… The result can be used by the next actions.
 * **Redirect the user** – send the visitor to a page after clicking a link or button, sending a Contact Form 7 form, logging in or registering.
+* **Add rows to a table** – store values from any trigger (a whole uploaded file, a Contact Form 7 form, a webhook, a widget…) in a table you define, adding rows or replacing them all.
 * **Wait** – schedule the actions that follow it to run minutes, hours, days or weeks later (for example, a reminder email two days after a form is sent). Scheduled actions can be run now or cancelled from Logs → Scheduled actions.
 
 * **Send data to an external webhook** – call any API with GET, POST, PUT, PATCH or DELETE. Edit the URL, the key / value pairs to send (as JSON or form data) and optional headers. Values can include any field received by the trigger.
@@ -123,6 +129,14 @@ Scheduled actions are run by WP-Cron, which WordPress triggers on page visits. O
 
 Search engines and link previews are ignored by default (you can turn this off), and repeated clicks of the same visitor within 10 seconds count once. Some corporate email scanners open links like a normal browser and cannot be detected.
 
+= Which files can be uploaded? =
+
+CSV files (comma, semicolon, tab or pipe separated; UTF-8 or Windows / Latin-1 encoding) and Excel .xlsx files (the first sheet). The first row must contain the column titles; each title becomes a field name ("Fecha de alta" → fecha_de_alta). Old .xls files must be saved as .xlsx or .csv first. Reading .xlsx files needs the PHP zip and XML extensions, which almost every host has.
+
+= Once per file or once per row? =
+
+"Once for the whole file" runs the automation one time: the "Add rows to a table" action adds every row of the file, and the other actions get the file name and the number of rows. "Once for each row" runs it for every row, so each action (an email, a webhook, a calculation…) gets the columns of that row.
+
 = The widget does not appear on the other website. Why? =
 
 Check that the website is listed in the widget's "Allowed websites" (or leave the list empty to allow any site), and that no security plugin or server rule on your site sends an "X-Frame-Options" header for every page, which forbids showing any page inside an iframe.
@@ -147,15 +161,17 @@ Only when you configure a **"Send data to an external webhook"** action does the
 
 The **webhook trigger** works the other way around: external systems you choose send data to a URL on your own site.
 
-**Cloudflare Turnstile and hCaptcha (optional).** Only when you add a provider's keys in Settings and choose that captcha for an embeddable widget, the widget loads the provider's script, which shows the challenge to the visitor and may collect information about their browser and device. When the visitor sends the widget, your site sends the challenge response and the visitor's IP address to the provider to verify it. Nothing is sent to these services otherwise.
-
-* Cloudflare Turnstile: [Terms](https://www.cloudflare.com/website-terms/), [Privacy Policy](https://www.cloudflare.com/privacypolicy/), [Turnstile privacy addendum](https://www.cloudflare.com/turnstile-privacy-policy/).
-* hCaptcha: [Terms of Service](https://www.hcaptcha.com/terms), [Privacy Policy](https://www.hcaptcha.com/privacy).
+**hCaptcha (optional).** Only when you add hCaptcha keys in Settings and choose the captcha for an embeddable widget, the widget loads the hCaptcha script, which shows the challenge to the visitor and may collect information about their browser and device. When the visitor sends the widget, your site sends the challenge response and the visitor's IP address to hCaptcha to verify it. Nothing is sent to hCaptcha otherwise. [Terms of Service](https://www.hcaptcha.com/terms), [Privacy Policy](https://www.hcaptcha.com/privacy).
 
 == Changelog ==
 
+= 1.3.0 =
+* New trigger: CSV or Excel (.xlsx) file uploaded, from the back end or from the website with the [glocalsaino_aat_upload] shortcode; once per file or once per row.
+* New action: Add rows to a table (from files, Contact Form 7, webhooks, widgets and any other trigger).
+* New Tables screen and [glocalsaino_aat_table] shortcode with search, sorting, pagination, visibility rules and CSV export.
+
 = 1.2.0 =
-* New trigger: embeddable widget for other websites (button, link or form with fields), with design options, allowed websites, single-use tokens, anti-spam, optional Cloudflare Turnstile / hCaptcha, statistics and a live preview.
+* New trigger: embeddable widget for other websites (button, link or form with fields), with design options, allowed websites, single-use tokens, anti-spam, optional hCaptcha, statistics and a live preview.
 * Webhook Logs also record widget submissions and can be filtered by source.
 
 = 1.1.0 =
@@ -172,6 +188,9 @@ The **webhook trigger** works the other way around: external systems you choose 
 * First release: Contact Form 7 and webhook triggers; webhook security (header token, IP allowlist, HMAC signatures with Stripe, Shopify, WooCommerce and GitHub presets); external webhook and email actions; field and WordPress user conditions; failure email notifications; retry of failed actions from the logs; extension API for add-ons; run limits and dates; logs, webhook logs and log retention settings.
 
 == Upgrade Notice ==
+
+= 1.3.0 =
+New file upload trigger, data tables and "Add rows to a table" action.
 
 = 1.2.0 =
 New embeddable widget trigger for other websites.

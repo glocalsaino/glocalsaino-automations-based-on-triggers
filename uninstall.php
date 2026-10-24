@@ -19,7 +19,7 @@ if ( empty( $glocalsaino_aat_settings['delete_data_on_uninstall'] ) ) {
 }
 
 global $wpdb;
-foreach ( array( 'automations', 'logs', 'webhook_logs', 'jobs', 'widget_stats' ) as $glocalsaino_aat_table ) {
+foreach ( array( 'automations', 'logs', 'webhook_logs', 'jobs', 'widget_stats', 'tables', 'table_rows' ) as $glocalsaino_aat_table ) {
 	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Removing the plugin's own tables on uninstall.
 	$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $wpdb->prefix . 'glocalsaino_aat_' . $glocalsaino_aat_table ) );
 }

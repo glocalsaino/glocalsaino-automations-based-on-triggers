@@ -1,6 +1,6 @@
 <?php
 /**
- * Optional captcha for embeddable widgets: Cloudflare Turnstile or hCaptcha.
+ * Optional captcha for embeddable widgets: hCaptcha.
  * Nothing is loaded or sent to these services unless a widget uses them.
  *
  * @package GlocalSainoActionsAutomation
@@ -19,12 +19,7 @@ class GSAAT_Captcha {
 	 */
 	public static function providers() {
 		return array(
-			'turnstile' => array(
-				'label'  => 'Cloudflare Turnstile',
-				'script' => 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit',
-				'verify' => 'https://challenges.cloudflare.com/turnstile/v0/siteverify',
-			),
-			'hcaptcha'  => array(
+			'hcaptcha' => array(
 				'label'  => 'hCaptcha',
 				'script' => 'https://js.hcaptcha.com/1/api.js?render=explicit',
 				'verify' => 'https://api.hcaptcha.com/siteverify',

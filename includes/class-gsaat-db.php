@@ -35,6 +35,8 @@ class GSAAT_DB {
 		$webhook_logs = self::table( 'webhook_logs' );
 		$jobs         = self::table( 'jobs' );
 		$widget_stats = self::table( 'widget_stats' );
+		$tables       = self::table( 'tables' );
+		$table_rows   = self::table( 'table_rows' );
 
 		dbDelta(
 			"CREATE TABLE {$automations} (
@@ -134,6 +136,31 @@ class GSAAT_DB {
 				KEY status_run_at (status,run_at),
 				KEY automation_id (automation_id),
 				KEY log_id (log_id)
+			) {$charset};"
+		);
+
+		dbDelta(
+			"CREATE TABLE {$tables} (
+				id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+				name varchar(191) NOT NULL DEFAULT '',
+				columns longtext NULL,
+				settings longtext NULL,
+				created_at datetime NOT NULL,
+				updated_at datetime NOT NULL,
+				PRIMARY KEY  (id)
+			) {$charset};"
+		);
+
+		dbDelta(
+			"CREATE TABLE {$table_rows} (
+				id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+				table_id bigint(20) unsigned NOT NULL DEFAULT 0,
+				data longtext NULL,
+				automation_id bigint(20) unsigned NOT NULL DEFAULT 0,
+				log_id bigint(20) unsigned NOT NULL DEFAULT 0,
+				created_at datetime NOT NULL,
+				PRIMARY KEY  (id),
+				KEY table_id (table_id)
 			) {$charset};"
 		);
 

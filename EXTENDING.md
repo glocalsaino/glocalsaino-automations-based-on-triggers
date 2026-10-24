@@ -1,6 +1,6 @@
 # Extending GlocalSaino Actions Automation
 
-This plugin exposes an extension API so separate add-ons can add trigger types, action types, settings and admin screens without modifying it. The built-in triggers (Contact Form 7, webhook, link, button, embeddable widget, WordPress user events) and actions (webhook, email, calculator, format data, redirect, wait) are registered through the same filters, so an add-on's types work the same way the built-in ones do.
+This plugin exposes an extension API so separate add-ons can add trigger types, action types, settings and admin screens without modifying it. The built-in triggers (Contact Form 7, webhook, link, button, embeddable widget, file upload, WordPress user events) and actions (webhook, email, calculator, format data, redirect, add rows to a table, wait) are registered through the same filters, so an add-on's types work the same way the built-in ones do.
 
 API version: `GSAAT_API_VERSION` (currently `1.0`). It changes only when this contract changes.
 
@@ -139,6 +139,26 @@ Fields for the "Insert field…" pickers and conditions:
 ```js
 window.glocalsainoAat.registerTriggerFields( 'myaddon_woo_order', () => [ 'order_id', 'total', 'email' ] );
 ```
+
+## Data tables
+
+Add-ons can create tables and fill them directly, without an automation (for example, the fields of an uploaded map layer):
+
+```php
+$table_id = GSAAT_Tables::create(
+	'Layer: Municipios',
+	array(
+		array( 'key' => 'name', 'label' => 'Name', 'type' => 'text' ),
+		array( 'key' => 'population', 'label' => 'Population', 'type' => 'number' ),
+	),
+	array( 'visibility' => 'everyone', 'search' => true )
+);
+GSAAT_Tables::add_rows( $table_id, $rows, array(), true ); // true = replace the existing rows.
+```
+
+`GSAAT_Tables::get()`, `::all()`, `::rows()`, `::count_rows()` and `::clear()` are available too. Keys of `$rows` that are not columns of the table are ignored. The `glocalsaino_aat_table_rows_added` action fires after rows are added.
+
+Triggers that deliver many rows at once (like the file trigger in "once per file" mode) pass them in the context: `$context['rows']` (list of column => value) and `$context['columns']` (key => label). The "Add rows to a table" action uses them automatically.
 
 ## Per-automation add-on settings
 

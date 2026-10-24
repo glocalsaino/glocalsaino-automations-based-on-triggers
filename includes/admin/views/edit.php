@@ -31,6 +31,7 @@ $glocalsaino_aat_last_ip  = $automation['id'] ? GSAAT_Logs::last_webhook_ip( $au
 $glocalsaino_aat_link     = GSAAT_Trigger_Click::link_config( 'link' === $automation['trigger_type'] ? $automation['trigger_config'] : array() );
 $glocalsaino_aat_button   = GSAAT_Trigger_Click::button_config( 'button' === $automation['trigger_type'] ? $automation['trigger_config'] : array() );
 $glocalsaino_aat_widget   = GSAAT_Trigger_Widget::config( 'widget' === $automation['trigger_type'] ? $automation['trigger_config'] : array() );
+$glocalsaino_aat_file     = GSAAT_Trigger_File::config( 'file' === $automation['trigger_type'] ? $automation['trigger_config'] : array() );
 $glocalsaino_aat_user     = GSAAT_Trigger_User::config( 'wp_user' === $automation['trigger_type'] ? $automation['trigger_config'] : array() );
 ?>
 <div class="wrap glocalsaino-aat-wrap">
@@ -504,15 +505,15 @@ $glocalsaino_aat_user     = GSAAT_Trigger_User::config( 'wp_user' === $automatio
 							<?php if ( $glocalsaino_aat_is_new ) : ?>
 								<p class="description"><strong><?php esc_html_e( 'The code is shown once the automation is saved.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></strong></p>
 							<?php else : ?>
-								<?php $glocalsaino_aat_codes = GSAAT_Trigger_Widget::embed_codes( $automation ); ?>
+
 								<p><strong><?php esc_html_e( 'Recommended (adjusts its height and can take the visitor to another page):', 'glocalsaino-actions-automation-based-on-trigger' ); ?></strong></p>
 								<div class="glocalsaino-aat-copy-row">
-									<code id="glocalsaino-aat-widget-script" class="glocalsaino-aat-break"><?php echo esc_html( $glocalsaino_aat_codes['script'] ); ?></code>
+									<code id="glocalsaino-aat-widget-script" class="glocalsaino-aat-break" data-loader="<?php echo esc_url( GSAAT_Trigger_Widget::loader_url() ); ?>" data-widget="<?php echo esc_url( GSAAT_Trigger_Widget::widget_url( $automation['webhook_key'] ) ); ?>" data-title="<?php echo esc_attr( $automation['name'] ); ?>"></code>
 									<button type="button" class="button button-small glocalsaino-aat-copy" data-copy-target="glocalsaino-aat-widget-script"><?php esc_html_e( 'Copy', 'glocalsaino-actions-automation-based-on-trigger' ); ?></button>
 								</div>
 								<p class="glocalsaino-aat-top-gap"><strong><?php esc_html_e( 'Or, where scripts are not allowed, a plain iframe:', 'glocalsaino-actions-automation-based-on-trigger' ); ?></strong></p>
 								<div class="glocalsaino-aat-copy-row">
-									<code id="glocalsaino-aat-widget-iframe" class="glocalsaino-aat-break"><?php echo esc_html( $glocalsaino_aat_codes['iframe'] ); ?></code>
+									<code id="glocalsaino-aat-widget-iframe" class="glocalsaino-aat-break"><?php echo esc_html( GSAAT_Trigger_Widget::iframe_code( $automation ) ); ?></code>
 									<button type="button" class="button button-small glocalsaino-aat-copy" data-copy-target="glocalsaino-aat-widget-iframe"><?php esc_html_e( 'Copy', 'glocalsaino-actions-automation-based-on-trigger' ); ?></button>
 								</div>
 								<p class="description"><?php esc_html_e( 'If the widget does not appear on the other website, check that it is in "Allowed websites" and that no security plugin on this site adds an X-Frame-Options header to every page.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
@@ -561,6 +562,79 @@ $glocalsaino_aat_user     = GSAAT_Trigger_User::config( 'wp_user' === $automatio
 							</td>
 						</tr>
 					<?php endif; ?>
+				</table>
+			</div>
+
+			<!-- File upload -->
+			<div data-glocalsaino-aat-trigger="file" hidden>
+				<table class="form-table" role="presentation">
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Run the automation', 'glocalsaino-actions-automation-based-on-trigger' ); ?></th>
+						<td>
+							<fieldset>
+								<label><input type="radio" name="file_mode" value="file" <?php checked( 'row' !== $glocalsaino_aat_file['mode'] ); ?>> <?php esc_html_e( 'Once for the whole file (recommended for tables: "Add rows to a table" adds every row)', 'glocalsaino-actions-automation-based-on-trigger' ); ?></label><br>
+								<label><input type="radio" name="file_mode" value="row" <?php checked( 'row', $glocalsaino_aat_file['mode'] ); ?>> <?php esc_html_e( 'Once for each row (e.g. one email per row)', 'glocalsaino-actions-automation-based-on-trigger' ); ?></label>
+							</fieldset>
+							<p class="description"><?php esc_html_e( 'Once per file: the columns are available in the "Add rows to a table" action; the other actions get the file name {{_file_name}} and the number of rows {{_row_count}}. Once per row: every action gets the columns of the row.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="glocalsaino-aat-file-columns"><?php esc_html_e( 'Columns of the file', 'glocalsaino-actions-automation-based-on-trigger' ); ?></label></th>
+						<td>
+							<input type="text" class="large-text code" id="glocalsaino-aat-file-columns" name="file_columns" placeholder="name, email, amount" value="<?php echo esc_attr( implode( ', ', (array) $glocalsaino_aat_file['columns'] ) ); ?>">
+							<p>
+								<label class="button" for="glocalsaino-aat-file-sample"><?php esc_html_e( 'Read them from a sample file…', 'glocalsaino-actions-automation-based-on-trigger' ); ?></label>
+								<input type="file" id="glocalsaino-aat-file-sample" class="screen-reader-text" accept=".csv,.xlsx,.txt">
+								<span id="glocalsaino-aat-file-sample-status" class="glocalsaino-aat-muted" role="status"></span>
+							</p>
+							<p class="description"><?php esc_html_e( 'The first row of the file is its header. Each header becomes a field name: "Fecha de alta" → fecha_de_alta. Listing them here offers them in "Insert field…"; columns not listed still work.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Limits', 'glocalsaino-actions-automation-based-on-trigger' ); ?></th>
+						<td>
+							<label><?php esc_html_e( 'Read at most', 'glocalsaino-actions-automation-based-on-trigger' ); ?> <input type="number" min="1" max="<?php echo esc_attr( (string) GSAAT_Tables::MAX_INSERT ); ?>" class="small-text" name="file_max_rows" value="<?php echo esc_attr( (string) $glocalsaino_aat_file['max_rows'] ); ?>"> <?php esc_html_e( 'rows', 'glocalsaino-actions-automation-based-on-trigger' ); ?></label>
+							&nbsp;&nbsp;
+							<label><?php esc_html_e( 'Maximum size', 'glocalsaino-actions-automation-based-on-trigger' ); ?> <input type="number" min="1" max="50" class="small-text" name="file_max_size" value="<?php echo esc_attr( (string) $glocalsaino_aat_file['max_size'] ); ?>"> MB</label>
+							<p class="description">
+								<?php
+								/* translators: %s: maximum upload size of the server. */
+								printf( esc_html__( 'Accepted: CSV (any separator) and Excel .xlsx (first sheet). The file is read and discarded, never stored. Your server accepts files up to %s.', 'glocalsaino-actions-automation-based-on-trigger' ), esc_html( size_format( wp_max_upload_size() ) ) );
+								?>
+							</p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Upload from the website', 'glocalsaino-actions-automation-based-on-trigger' ); ?></th>
+						<td>
+							<fieldset>
+								<?php foreach ( GSAAT_Trigger_File::access_options() as $glocalsaino_aat_key => $glocalsaino_aat_label ) : ?>
+									<label><input type="radio" name="file_access" value="<?php echo esc_attr( $glocalsaino_aat_key ); ?>" <?php checked( $glocalsaino_aat_key, $glocalsaino_aat_file['access'] ); ?>> <?php echo esc_html( $glocalsaino_aat_label ); ?></label><br>
+								<?php endforeach; ?>
+							</fieldset>
+							<p class="glocalsaino-aat-top-gap">
+								<?php foreach ( wp_roles()->get_names() as $glocalsaino_aat_role => $glocalsaino_aat_role_name ) : ?>
+									<label><input type="checkbox" name="file_roles[]" value="<?php echo esc_attr( $glocalsaino_aat_role ); ?>" <?php checked( in_array( $glocalsaino_aat_role, (array) $glocalsaino_aat_file['roles'], true ) ); ?>> <?php echo esc_html( translate_user_role( $glocalsaino_aat_role_name ) ); ?></label>&nbsp;&nbsp;
+								<?php endforeach; ?>
+							</p>
+							<p>
+								<label><?php esc_html_e( 'Visitors who are not logged in: at most', 'glocalsaino-actions-automation-based-on-trigger' ); ?> <input type="number" min="0" max="1000" class="small-text" name="file_rate_limit" value="<?php echo esc_attr( (string) $glocalsaino_aat_file['rate_limit'] ); ?>"> <?php esc_html_e( 'uploads per hour from the same connection', 'glocalsaino-actions-automation-based-on-trigger' ); ?></label>
+							</p>
+							<div class="glocalsaino-aat-inline">
+								<label class="glocalsaino-aat-field"><span class="glocalsaino-aat-field__label"><?php esc_html_e( 'Field text', 'glocalsaino-actions-automation-based-on-trigger' ); ?></span><input type="text" class="regular-text" name="file_label" value="<?php echo esc_attr( $glocalsaino_aat_file['label'] ); ?>"></label>
+								<label class="glocalsaino-aat-field"><span class="glocalsaino-aat-field__label"><?php esc_html_e( 'Button text', 'glocalsaino-actions-automation-based-on-trigger' ); ?></span><input type="text" name="file_button_text" value="<?php echo esc_attr( $glocalsaino_aat_file['button_text'] ); ?>"></label>
+							</div>
+							<label class="glocalsaino-aat-field"><span class="glocalsaino-aat-field__label"><?php esc_html_e( 'Message after the upload', 'glocalsaino-actions-automation-based-on-trigger' ); ?></span><input type="text" class="large-text" name="file_message" value="<?php echo esc_attr( $glocalsaino_aat_file['message'] ); ?>"></label>
+							<?php if ( ! $glocalsaino_aat_is_new ) : ?>
+								<p><?php esc_html_e( 'Shortcode of the upload form:', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+								<div class="glocalsaino-aat-copy-row">
+									<code id="glocalsaino-aat-upload-shortcode">[<?php echo esc_html( GSAAT_Trigger_File::SHORTCODE ); ?> id="<?php echo esc_html( (string) $automation['id'] ); ?>"]</code>
+									<button type="button" class="button button-small glocalsaino-aat-copy" data-copy-target="glocalsaino-aat-upload-shortcode"><?php esc_html_e( 'Copy', 'glocalsaino-actions-automation-based-on-trigger' ); ?></button>
+								</div>
+							<?php endif; ?>
+							<p class="description"><?php esc_html_e( 'Administrators can always run the automation with a file from this screen (below, once saved).', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+						</td>
+					</tr>
 				</table>
 			</div>
 
@@ -683,4 +757,20 @@ $glocalsaino_aat_user     = GSAAT_Trigger_User::config( 'wp_user' === $automatio
 
 		<?php submit_button( $glocalsaino_aat_is_new ? __( 'Create automation', 'glocalsaino-actions-automation-based-on-trigger' ) : __( 'Save changes', 'glocalsaino-actions-automation-based-on-trigger' ) ); ?>
 	</form>
+
+	<?php if ( ! $glocalsaino_aat_is_new && 'file' === $automation['trigger_type'] ) : ?>
+		<div class="glocalsaino-aat-card">
+			<h2><?php esc_html_e( 'Run with a file', 'glocalsaino-actions-automation-based-on-trigger' ); ?></h2>
+			<form method="post" enctype="multipart/form-data" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+				<input type="hidden" name="action" value="glocalsaino_aat_run_file">
+				<input type="hidden" name="id" value="<?php echo esc_attr( (string) $automation['id'] ); ?>">
+				<?php wp_nonce_field( 'glocalsaino_aat_run_file' ); ?>
+				<p>
+					<input type="file" name="<?php echo esc_attr( GSAAT_Trigger_File::FILE_FIELD ); ?>" accept=".csv,.xlsx,.txt" required aria-label="<?php esc_attr_e( 'CSV or Excel file', 'glocalsaino-actions-automation-based-on-trigger' ); ?>">
+					<?php submit_button( __( 'Upload and run', 'glocalsaino-actions-automation-based-on-trigger' ), 'secondary', 'submit', false ); ?>
+				</p>
+				<p class="description"><?php esc_html_e( 'Runs the saved version of this automation now, exactly as an upload from the website would.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+			</form>
+		</div>
+	<?php endif; ?>
 </div>

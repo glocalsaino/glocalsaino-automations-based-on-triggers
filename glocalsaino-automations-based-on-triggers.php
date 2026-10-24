@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       GlocalSaino Automations Based on Triggers
- * Plugin URI:        https://glocalsaino.com/nocodetriggersandhooksautomations
+ * Plugin URI:        https://glocalsaino.com/automationsbasedontriggers
  * Description:       No-code automations: when a form is sent, a file is uploaded, a link, button or widget is used, a webhook arrives or a user signs up, run emails, webhooks, calculations, tables, redirects and scheduled actions.
  * Version:           1.3.2
  * Requires at least: 6.2

@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: GlocalSaino Actions Automation Based on Trigger 1.3.0\n"
+"Project-Id-Version: GlocalSaino Actions Automation Based on Trigger 1.3.1\n"
 "Report-Msgid-Bugs-To: https://glocalsaino.com/\n"
-"POT-Creation-Date: 2026-10-24 15:02+0200\n"
+"POT-Creation-Date: 2026-10-24 16:55+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -390,7 +390,7 @@ msgid "Link destination"
 msgstr ""
 
 #: includes/admin/class-gsaat-admin.php:994 includes/admin/views/edit.php:358
-#: includes/admin/views/edit.php:625
+#: includes/admin/views/edit.php:626
 msgid "Button text"
 msgstr ""
 
@@ -743,7 +743,7 @@ msgid "Trigger"
 msgstr ""
 
 #: includes/admin/class-gsaat-automations-table.php:33
-#: includes/admin/views/edit.php:687 includes/admin/views/scheduled.php:30
+#: includes/admin/views/edit.php:688 includes/admin/views/scheduled.php:30
 msgid "Actions"
 msgstr ""
 
@@ -800,7 +800,7 @@ msgid "Delete this automation? This cannot be undone."
 msgstr ""
 
 #: includes/admin/class-gsaat-automations-table.php:121
-#: includes/admin/views/edit.php:485
+#: includes/admin/views/edit.php:486
 msgid "None"
 msgstr ""
 
@@ -1007,7 +1007,7 @@ msgstr ""
 msgid "Form"
 msgstr ""
 
-#: includes/admin/views/edit.php:121 includes/admin/views/edit.php:645
+#: includes/admin/views/edit.php:121 includes/admin/views/edit.php:646
 msgid "Fire when"
 msgstr ""
 
@@ -1040,8 +1040,8 @@ msgstr ""
 
 #: includes/admin/views/edit.php:149 includes/admin/views/edit.php:174
 #: includes/admin/views/edit.php:322 includes/admin/views/edit.php:331
-#: includes/admin/views/edit.php:387 includes/admin/views/edit.php:512
-#: includes/admin/views/edit.php:517 includes/admin/views/edit.php:632
+#: includes/admin/views/edit.php:387 includes/admin/views/edit.php:513
+#: includes/admin/views/edit.php:518 includes/admin/views/edit.php:633
 #: includes/admin/views/table-edit.php:45
 msgid "Copy"
 msgstr ""
@@ -1407,323 +1407,329 @@ msgstr ""
 msgid "Font"
 msgstr ""
 
-#: includes/admin/views/edit.php:462
-msgid "Custom CSS (optional)"
-msgstr ""
-
 #: includes/admin/views/edit.php:463
-msgid "Custom CSS"
+msgid "Also apply the Additional CSS of this site"
 msgstr ""
 
-#: includes/admin/views/edit.php:468
+#: includes/admin/views/edit.php:465
+msgid ""
+"For more design changes, write CSS where WordPress keeps it: Appearance → "
+"Customize → Additional CSS, or Appearance → Editor → Styles → Additional CSS "
+"with block themes. The widget uses the classes .gsaat-w, .gsaat-"
+"w__title, .gsaat-w__field, .gsaat-w__button, .gsaat-w__link and .gsaat-"
+"w__status. Turn this on only if that CSS does not change the look of the "
+"widget in unwanted ways."
+msgstr ""
+
+#: includes/admin/views/edit.php:469
 msgid "Allowed websites"
 msgstr ""
 
-#: includes/admin/views/edit.php:471
+#: includes/admin/views/edit.php:472
 msgid ""
 "Only these websites can show the widget (one per line; *.example.org "
 "includes its subdomains). Recommended. Leave empty to allow any website."
 msgstr ""
 
-#: includes/admin/views/edit.php:475
+#: includes/admin/views/edit.php:476
 msgid "Anti-spam"
 msgstr ""
 
-#: includes/admin/views/edit.php:478
+#: includes/admin/views/edit.php:479
 msgid "At most"
 msgstr ""
 
-#: includes/admin/views/edit.php:480
+#: includes/admin/views/edit.php:481
 msgid "submissions per hour from the same connection (0 = no limit)"
 msgstr ""
 
-#: includes/admin/views/edit.php:483
+#: includes/admin/views/edit.php:484
 msgid "Captcha"
 msgstr ""
 
-#: includes/admin/views/edit.php:491
+#: includes/admin/views/edit.php:492
 msgid "(add its keys in Settings)"
 msgstr ""
 
-#: includes/admin/views/edit.php:499
+#: includes/admin/views/edit.php:500
 msgid ""
 "Always active: a single-use code issued when the widget loads, a minimum "
 "time to send and a hidden trap field for bots."
 msgstr ""
 
-#: includes/admin/views/edit.php:503
+#: includes/admin/views/edit.php:504
 msgid "Code for the other website"
 msgstr ""
 
-#: includes/admin/views/edit.php:506
+#: includes/admin/views/edit.php:507
 msgid "The code is shown once the automation is saved."
 msgstr ""
 
-#: includes/admin/views/edit.php:509
+#: includes/admin/views/edit.php:510
 msgid ""
 "Recommended (adjusts its height and can take the visitor to another page):"
 msgstr ""
 
-#: includes/admin/views/edit.php:514
+#: includes/admin/views/edit.php:515
 msgid "Or, where scripts are not allowed, a plain iframe:"
 msgstr ""
 
-#: includes/admin/views/edit.php:519
+#: includes/admin/views/edit.php:520
 msgid ""
 "If the widget does not appear on the other website, check that it is in "
 "\"Allowed websites\" and that no security plugin on this site adds an X-"
 "Frame-Options header to every page."
 msgstr ""
 
-#: includes/admin/views/edit.php:525
+#: includes/admin/views/edit.php:526
 msgid "Preview"
 msgstr ""
 
-#: includes/admin/views/edit.php:527
+#: includes/admin/views/edit.php:528
 msgid "Widget preview"
 msgstr ""
 
-#: includes/admin/views/edit.php:528
+#: includes/admin/views/edit.php:529
 msgid "Shows the saved version. Sending it here really runs the automation."
 msgstr ""
 
-#: includes/admin/views/edit.php:532
+#: includes/admin/views/edit.php:533
 msgid "Statistics (last 30 days)"
 msgstr ""
 
-#: includes/admin/views/edit.php:536
+#: includes/admin/views/edit.php:537
 msgid "No activity yet."
 msgstr ""
 
-#: includes/admin/views/edit.php:541
+#: includes/admin/views/edit.php:542
 msgid "Website"
 msgstr ""
 
-#: includes/admin/views/edit.php:542
+#: includes/admin/views/edit.php:543
 msgid "Views"
 msgstr ""
 
-#: includes/admin/views/edit.php:543
+#: includes/admin/views/edit.php:544
 msgid "Submissions"
 msgstr ""
 
-#: includes/admin/views/edit.php:544
+#: includes/admin/views/edit.php:545
 msgid "Conversion"
 msgstr ""
 
-#: includes/admin/views/edit.php:545
+#: includes/admin/views/edit.php:546
 msgid "Rejected"
 msgstr ""
 
-#: includes/admin/views/edit.php:551
+#: includes/admin/views/edit.php:552
 msgid "(unknown)"
 msgstr ""
 
-#: includes/admin/views/edit.php:560
+#: includes/admin/views/edit.php:561
 msgid ""
 "A view is counted each time the widget loads; rejected includes spam, "
 "expired forms and validation errors (details in Webhook Logs → Widgets)."
 msgstr ""
 
-#: includes/admin/views/edit.php:572
+#: includes/admin/views/edit.php:573
 msgid "Run the automation"
 msgstr ""
 
-#: includes/admin/views/edit.php:575
+#: includes/admin/views/edit.php:576
 msgid ""
 "Once for the whole file (recommended for tables: \"Add rows to a table\" "
 "adds every row)"
 msgstr ""
 
-#: includes/admin/views/edit.php:576
+#: includes/admin/views/edit.php:577
 msgid "Once for each row (e.g. one email per row)"
 msgstr ""
 
-#: includes/admin/views/edit.php:578
+#: includes/admin/views/edit.php:579
 msgid ""
 "Once per file: the columns are available in the \"Add rows to a table\" "
 "action; the other actions get the file name {{_file_name}} and the number of "
 "rows {{_row_count}}. Once per row: every action gets the columns of the row."
 msgstr ""
 
-#: includes/admin/views/edit.php:582
+#: includes/admin/views/edit.php:583
 msgid "Columns of the file"
 msgstr ""
 
-#: includes/admin/views/edit.php:586
+#: includes/admin/views/edit.php:587
 msgid "Read them from a sample file…"
 msgstr ""
 
-#: includes/admin/views/edit.php:590
+#: includes/admin/views/edit.php:591
 msgid ""
 "The first row of the file is its header. Each header becomes a field name: "
 "\"Fecha de alta\" → fecha_de_alta. Listing them here offers them in \"Insert "
 "field…\"; columns not listed still work."
 msgstr ""
 
-#: includes/admin/views/edit.php:594
+#: includes/admin/views/edit.php:595
 msgid "Limits"
 msgstr ""
 
-#: includes/admin/views/edit.php:596
+#: includes/admin/views/edit.php:597
 msgid "Read at most"
 msgstr ""
 
-#: includes/admin/views/edit.php:596 includes/admin/views/table-edit.php:104
+#: includes/admin/views/edit.php:597 includes/admin/views/table-edit.php:104
 msgid "rows"
 msgstr ""
 
-#: includes/admin/views/edit.php:598
+#: includes/admin/views/edit.php:599
 msgid "Maximum size"
 msgstr ""
 
 #. translators: %s: maximum upload size of the server.
-#: includes/admin/views/edit.php:602
+#: includes/admin/views/edit.php:603
 #, php-format
 msgid ""
 "Accepted: CSV (any separator) and Excel .xlsx (first sheet). The file is "
 "read and discarded, never stored. Your server accepts files up to %s."
 msgstr ""
 
-#: includes/admin/views/edit.php:608
+#: includes/admin/views/edit.php:609
 msgid "Upload from the website"
 msgstr ""
 
-#: includes/admin/views/edit.php:621
+#: includes/admin/views/edit.php:622
 msgid "Visitors who are not logged in: at most"
 msgstr ""
 
-#: includes/admin/views/edit.php:621
+#: includes/admin/views/edit.php:622
 msgid "uploads per hour from the same connection"
 msgstr ""
 
-#: includes/admin/views/edit.php:624
+#: includes/admin/views/edit.php:625
 msgid "Field text"
 msgstr ""
 
-#: includes/admin/views/edit.php:627
+#: includes/admin/views/edit.php:628
 msgid "Message after the upload"
 msgstr ""
 
-#: includes/admin/views/edit.php:629
+#: includes/admin/views/edit.php:630
 msgid "Shortcode of the upload form:"
 msgstr ""
 
-#: includes/admin/views/edit.php:635
+#: includes/admin/views/edit.php:636
 msgid ""
 "Administrators can always run the automation with a file from this screen "
 "(below, once saved)."
 msgstr ""
 
-#: includes/admin/views/edit.php:652
+#: includes/admin/views/edit.php:653
 msgid ""
 "Available fields: user_id, user_login, user_email, display_name, first_name, "
 "last_name, roles, registered and event. Passwords are never included."
 msgstr ""
 
-#: includes/admin/views/edit.php:671
+#: includes/admin/views/edit.php:672
 msgid "Conditions (optional)"
 msgstr ""
 
-#: includes/admin/views/edit.php:672
+#: includes/admin/views/edit.php:673
 msgid "Extra requirements the event data must meet for the actions to run."
 msgstr ""
 
-#: includes/admin/views/edit.php:674
+#: includes/admin/views/edit.php:675
 msgid "Run the actions when"
 msgstr ""
 
-#: includes/admin/views/edit.php:676
+#: includes/admin/views/edit.php:677
 msgid "all the conditions are met"
 msgstr ""
 
-#: includes/admin/views/edit.php:677
+#: includes/admin/views/edit.php:678
 msgid "any of the conditions is met"
 msgstr ""
 
-#: includes/admin/views/edit.php:681
+#: includes/admin/views/edit.php:682
 msgid "Add field condition"
 msgstr ""
 
-#: includes/admin/views/edit.php:682
+#: includes/admin/views/edit.php:683
 msgid "Add user condition"
 msgstr ""
 
-#: includes/admin/views/edit.php:688
+#: includes/admin/views/edit.php:689
 msgid ""
 "What happens when the trigger fires. Actions run in order. Use \"Insert "
 "field…\" to place values from the trigger, written as {{field_name}}."
 msgstr ""
 
 #. translators: %s: action type label.
-#: includes/admin/views/edit.php:695
+#: includes/admin/views/edit.php:696
 #, php-format
 msgid "Add: %s"
 msgstr ""
 
-#: includes/admin/views/edit.php:704
+#: includes/admin/views/edit.php:705
 msgid "Runs and dates"
 msgstr ""
 
-#: includes/admin/views/edit.php:707
+#: includes/admin/views/edit.php:708
 msgid "Number of runs"
 msgstr ""
 
-#: includes/admin/views/edit.php:711
+#: includes/admin/views/edit.php:712
 msgid "Unlimited (never expires)"
 msgstr ""
 
-#: includes/admin/views/edit.php:714
+#: includes/admin/views/edit.php:715
 msgid "Stop after"
 msgstr ""
 
-#: includes/admin/views/edit.php:716
+#: includes/admin/views/edit.php:717
 msgid "runs"
 msgstr ""
 
-#: includes/admin/views/edit.php:721
+#: includes/admin/views/edit.php:722
 msgid "Start date"
 msgstr ""
 
-#: includes/admin/views/edit.php:724
+#: includes/admin/views/edit.php:725
 msgid "Leave empty to start right away."
 msgstr ""
 
-#: includes/admin/views/edit.php:728
+#: includes/admin/views/edit.php:729
 msgid "End date"
 msgstr ""
 
-#: includes/admin/views/edit.php:732
+#: includes/admin/views/edit.php:733
 msgid "Never expires"
 msgstr ""
 
 #. translators: %s: timezone name.
-#: includes/admin/views/edit.php:740
+#: includes/admin/views/edit.php:741
 #, php-format
 msgid "Dates use the site timezone (%s)."
 msgstr ""
 
-#: includes/admin/views/edit.php:758
+#: includes/admin/views/edit.php:759
 msgid "Create automation"
 msgstr ""
 
-#: includes/admin/views/edit.php:758 includes/admin/views/table-edit.php:123
+#: includes/admin/views/edit.php:759 includes/admin/views/table-edit.php:123
 msgid "Save changes"
 msgstr ""
 
-#: includes/admin/views/edit.php:763
+#: includes/admin/views/edit.php:764
 msgid "Run with a file"
 msgstr ""
 
-#: includes/admin/views/edit.php:769
+#: includes/admin/views/edit.php:770
 msgid "CSV or Excel file"
 msgstr ""
 
-#: includes/admin/views/edit.php:770
+#: includes/admin/views/edit.php:771
 msgid "Upload and run"
 msgstr ""
 
-#: includes/admin/views/edit.php:772
+#: includes/admin/views/edit.php:773
 msgid ""
 "Runs the saved version of this automation now, exactly as an upload from the "
 "website would."
@@ -2825,7 +2831,7 @@ msgstr ""
 #: includes/class-gsaat-trigger-click.php:57
 #: includes/class-gsaat-trigger-click.php:275
 #: includes/class-gsaat-trigger-widget.php:78
-#: includes/class-gsaat-trigger-widget.php:659
+#: includes/class-gsaat-trigger-widget.php:673
 msgid "Send"
 msgstr ""
 
@@ -2914,7 +2920,7 @@ msgid "Log in to upload a file."
 msgstr ""
 
 #: includes/class-gsaat-trigger-file.php:265
-#: includes/class-gsaat-trigger-widget.php:458
+#: includes/class-gsaat-trigger-widget.php:472
 msgid "The form expired. Reload the page and try again."
 msgstr ""
 
@@ -3097,79 +3103,79 @@ msgstr ""
 msgid "Please complete the verification."
 msgstr ""
 
-#: includes/class-gsaat-trigger-widget.php:287
-#: includes/class-gsaat-trigger-widget.php:315
+#: includes/class-gsaat-trigger-widget.php:301
+#: includes/class-gsaat-trigger-widget.php:329
 msgid "Unknown widget."
 msgstr ""
 
-#: includes/class-gsaat-trigger-widget.php:290
-#: includes/class-gsaat-trigger-widget.php:364
+#: includes/class-gsaat-trigger-widget.php:304
+#: includes/class-gsaat-trigger-widget.php:378
 #: includes/views/widget-page.php:28
 msgid "This form is not available right now."
 msgstr ""
 
-#: includes/class-gsaat-trigger-widget.php:297
+#: includes/class-gsaat-trigger-widget.php:311
 msgid "This website is not allowed to show this form."
 msgstr ""
 
-#: includes/class-gsaat-trigger-widget.php:341
+#: includes/class-gsaat-trigger-widget.php:355
 msgid "The form was sent too fast to be a person. Please try again."
 msgstr ""
 
-#: includes/class-gsaat-trigger-widget.php:345
+#: includes/class-gsaat-trigger-widget.php:359
 msgid "The hidden anti-spam field was filled in (probably a bot)."
 msgstr ""
 
-#: includes/class-gsaat-trigger-widget.php:355
+#: includes/class-gsaat-trigger-widget.php:369
 msgid "Too many submissions from this connection. Please try again later."
 msgstr ""
 
-#: includes/class-gsaat-trigger-widget.php:360
+#: includes/class-gsaat-trigger-widget.php:374
 msgid "The verification failed. Please try again."
 msgstr ""
 
-#: includes/class-gsaat-trigger-widget.php:370
+#: includes/class-gsaat-trigger-widget.php:384
 msgid "Please check the highlighted fields."
 msgstr ""
 
 #. translators: %s: website.
-#: includes/class-gsaat-trigger-widget.php:383
+#: includes/class-gsaat-trigger-widget.php:397
 #, php-format
 msgid "Widget used on %s"
 msgstr ""
 
-#: includes/class-gsaat-trigger-widget.php:384
+#: includes/class-gsaat-trigger-widget.php:398
 msgid "Widget used"
 msgstr ""
 
-#: includes/class-gsaat-trigger-widget.php:542
+#: includes/class-gsaat-trigger-widget.php:556
 msgid "You must accept to continue."
 msgstr ""
 
-#: includes/class-gsaat-trigger-widget.php:543
+#: includes/class-gsaat-trigger-widget.php:557
 msgid "This field is required."
 msgstr ""
 
-#: includes/class-gsaat-trigger-widget.php:548
+#: includes/class-gsaat-trigger-widget.php:562
 msgid "Enter a valid email address."
 msgstr ""
 
-#: includes/class-gsaat-trigger-widget.php:550
+#: includes/class-gsaat-trigger-widget.php:564
 msgid "Enter a number."
 msgstr ""
 
-#: includes/class-gsaat-trigger-widget.php:552
+#: includes/class-gsaat-trigger-widget.php:566
 msgid "Choose one of the options."
 msgstr ""
 
 #. translators: %s: widget kind.
-#: includes/class-gsaat-trigger-widget.php:725
+#: includes/class-gsaat-trigger-widget.php:739
 #, php-format
 msgid "Embeddable widget: %s"
 msgstr ""
 
 #. translators: %s: comma-separated websites.
-#: includes/class-gsaat-trigger-widget.php:730
+#: includes/class-gsaat-trigger-widget.php:744
 #, php-format
 msgid "on %s"
 msgstr ""

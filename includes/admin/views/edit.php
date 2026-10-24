@@ -458,10 +458,11 @@ $glocalsaino_aat_user     = GSAAT_Trigger_User::config( 'wp_user' === $automatio
 									</select>
 								</label>
 							</div>
-							<details class="glocalsaino-aat-details-toggle" <?php echo '' !== $glocalsaino_aat_widget['design']['custom_css'] ? 'open' : ''; ?>>
-								<summary><?php esc_html_e( 'Custom CSS (optional)', 'glocalsaino-actions-automation-based-on-trigger' ); ?></summary>
-								<textarea class="large-text code" rows="5" name="widget_custom_css" aria-label="<?php esc_attr_e( 'Custom CSS', 'glocalsaino-actions-automation-based-on-trigger' ); ?>" placeholder=".gsaat-w__button { text-transform: uppercase; }"><?php echo esc_textarea( $glocalsaino_aat_widget['design']['custom_css'] ); ?></textarea>
-							</details>
+							<label class="glocalsaino-aat-top-gap">
+								<input type="checkbox" name="widget_site_css" value="1" <?php checked( ! empty( $glocalsaino_aat_widget['design']['site_css'] ) ); ?>>
+								<?php esc_html_e( 'Also apply the Additional CSS of this site', 'glocalsaino-actions-automation-based-on-trigger' ); ?>
+							</label>
+							<p class="description"><?php esc_html_e( 'For more design changes, write CSS where WordPress keeps it: Appearance → Customize → Additional CSS, or Appearance → Editor → Styles → Additional CSS with block themes. The widget uses the classes .gsaat-w, .gsaat-w__title, .gsaat-w__field, .gsaat-w__button, .gsaat-w__link and .gsaat-w__status. Turn this on only if that CSS does not change the look of the widget in unwanted ways.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
 						</td>
 					</tr>
 					<tr>

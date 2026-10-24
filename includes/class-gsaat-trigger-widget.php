@@ -94,7 +94,7 @@ class GSAAT_Trigger_Widget {
 				'background' => '#ffffff',
 				'radius'     => 6,
 				'font'       => 'system',
-				'custom_css' => '',
+				'site_css'   => false,
 			)
 		);
 		return $config;
@@ -222,7 +222,7 @@ class GSAAT_Trigger_Widget {
 	}
 
 	/**
-	 * CSS variables of the widget design, plus the custom CSS.
+	 * CSS variables of the widget design, plus (optionally) this site's Additional CSS.
 	 *
 	 * @param array $design Design settings.
 	 * @return string
@@ -238,7 +238,21 @@ class GSAAT_Trigger_Widget {
 			max( 0, min( 40, (int) $design['radius'] ) ),
 			$font
 		);
-		return $css . "\n" . wp_strip_all_tags( (string) $design['custom_css'] );
+		return ! empty( $design['site_css'] ) ? $css . "\n" . self::site_additional_css() : $css;
+	}
+
+	/**
+	 * The site's own Additional CSS, written in WordPress itself (Customizer, or Site Editor →
+	 * Styles for block themes). The plugin has no CSS field of its own.
+	 *
+	 * @return string
+	 */
+	private static function site_additional_css() {
+		$css = function_exists( 'wp_get_custom_css' ) ? wp_get_custom_css() : '';
+		if ( function_exists( 'wp_theme_has_theme_json' ) && wp_theme_has_theme_json() && function_exists( 'wp_get_global_stylesheet' ) ) {
+			$css .= "\n" . wp_get_global_stylesheet( array( 'custom-css' ) );
+		}
+		return wp_strip_all_tags( $css );
 	}
 
 	private static function color( $value, $default ) {
@@ -667,7 +681,7 @@ class GSAAT_Trigger_Widget {
 				'background' => self::color( $text( 'widget_background' ), '#ffffff' ),
 				'radius'     => max( 0, min( 40, absint( $text( 'widget_radius', '6' ) ) ) ),
 				'font'       => isset( $fonts[ $font ] ) ? $font : 'system',
-				'custom_css' => isset( $post['widget_custom_css'] ) && is_string( $post['widget_custom_css'] ) ? wp_strip_all_tags( $post['widget_custom_css'] ) : '',
+				'site_css'   => ! empty( $post['widget_site_css'] ),
 			),
 			'domains'     => array_values( array_unique( $domains ) ),
 			'rate_limit'  => min( 1000, absint( $text( 'widget_rate_limit', '10' ) ) ),

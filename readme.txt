@@ -4,7 +4,7 @@ Tags: automation, webhook, contact form 7, csv import, data table
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,7 +33,7 @@ Create tables under Automations → Tables: give them columns (text, number, dat
 Give a partner, client or another site of yours a widget instead of a webhook URL:
 
 * **Button, link or form** with text, email, number, phone, long text, drop-down, checkbox and privacy-consent fields, validated on your server.
-* **Your design**: colors, font, corner radius and custom CSS. It lives in its own iframe, so the other site's styles never break it.
+* **Your design**: colors, font and corner radius, plus, optionally, your site's own Additional CSS (written in WordPress, not in the plugin). It lives in its own iframe, so the other site's styles never break it.
 * **Easy to paste**: a one-line script that adjusts the height automatically and can take the visitor to another page after sending, or a plain iframe where scripts are not allowed.
 * **Protected**: only the websites you allow can show it; every submission needs a single-use code issued when the widget loads; minimum time to send, hidden anti-spam field, per-connection hourly limit and an optional hCaptcha. Rejected submissions are logged with the reason.
 * **Statistics** per website: views, submissions, conversion and rejected submissions over the last 30 days, plus a live preview in the editor.
@@ -165,6 +165,9 @@ The **webhook trigger** works the other way around: external systems you choose 
 
 == Changelog ==
 
+= 1.3.1 =
+* The embeddable widget no longer has its own custom CSS field. It can use the site's Additional CSS from WordPress instead (Customizer or Site Editor).
+
 = 1.3.0 =
 * New trigger: CSV or Excel (.xlsx) file uploaded, from the back end or from the website with the [glocalsaino_aat_upload] shortcode; once per file or once per row.
 * New action: Add rows to a table (from files, Contact Form 7, webhooks, widgets and any other trigger).
@@ -188,6 +191,9 @@ The **webhook trigger** works the other way around: external systems you choose 
 * First release: Contact Form 7 and webhook triggers; webhook security (header token, IP allowlist, HMAC signatures with Stripe, Shopify, WooCommerce and GitHub presets); external webhook and email actions; field and WordPress user conditions; failure email notifications; retry of failed actions from the logs; extension API for add-ons; run limits and dates; logs, webhook logs and log retention settings.
 
 == Upgrade Notice ==
+
+= 1.3.1 =
+The widget custom CSS field was replaced by an option to use the site's Additional CSS.
 
 = 1.3.0 =
 New file upload trigger, data tables and "Add rows to a table" action.

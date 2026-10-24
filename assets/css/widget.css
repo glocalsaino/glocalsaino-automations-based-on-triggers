@@ -1,0 +1,160 @@
+/* GlocalSaino Actions Automation – embeddable widget (inside its own iframe). */
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	background: var(--gsaat-background);
+}
+
+.gsaat-w {
+	color: var(--gsaat-text);
+	font-family: var(--gsaat-font);
+	font-size: 16px;
+	line-height: 1.5;
+	padding: 4px;
+}
+
+.gsaat-w__title {
+	margin: 0 0 8px;
+	font-size: 1.25em;
+}
+
+.gsaat-w__intro {
+	margin: 0 0 16px;
+}
+
+.gsaat-w__field {
+	margin-bottom: 14px;
+}
+
+.gsaat-w__field > label {
+	display: block;
+	margin-bottom: 4px;
+	font-weight: 600;
+}
+
+.gsaat-w__req {
+	color: #b32d2e;
+}
+
+.gsaat-w input[type="text"],
+.gsaat-w input[type="email"],
+.gsaat-w input[type="tel"],
+.gsaat-w select,
+.gsaat-w textarea {
+	width: 100%;
+	padding: 10px 12px;
+	font: inherit;
+	color: inherit;
+	background: #fff;
+	border: 1px solid #8c8f94;
+	border-radius: var(--gsaat-radius);
+}
+
+.gsaat-w input:focus,
+.gsaat-w select:focus,
+.gsaat-w textarea:focus {
+	outline: 2px solid var(--gsaat-primary);
+	outline-offset: 1px;
+	border-color: var(--gsaat-primary);
+}
+
+.gsaat-w [aria-invalid="true"] {
+	border-color: #b32d2e;
+}
+
+.gsaat-w__check {
+	display: flex;
+	gap: 8px;
+	align-items: flex-start;
+	cursor: pointer;
+}
+
+.gsaat-w__check input {
+	margin-top: 4px;
+	accent-color: var(--gsaat-primary);
+}
+
+.gsaat-w__check a {
+	color: var(--gsaat-primary);
+}
+
+.gsaat-w__error {
+	display: block;
+	margin-top: 4px;
+	color: #b32d2e;
+	font-size: 0.875em;
+}
+
+.gsaat-w__button,
+.gsaat-w__link {
+	display: inline-block;
+	padding: 10px 20px;
+	font: inherit;
+	font-weight: 600;
+	color: #fff;
+	background: var(--gsaat-primary);
+	border: 0;
+	border-radius: var(--gsaat-radius);
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.gsaat-w__button:hover,
+.gsaat-w__link:hover {
+	filter: brightness(0.92);
+}
+
+.gsaat-w__button:focus-visible,
+.gsaat-w__link:focus-visible {
+	outline: 2px solid var(--gsaat-text);
+	outline-offset: 2px;
+}
+
+.gsaat-w__button[disabled] {
+	opacity: 0.6;
+	cursor: progress;
+}
+
+.gsaat-w__captcha {
+	margin-bottom: 14px;
+}
+
+.gsaat-w__status {
+	margin: 12px 0 0;
+	min-height: 1.5em;
+}
+
+.gsaat-w__status.is-success {
+	color: #007017;
+}
+
+.gsaat-w__status.is-error {
+	color: #b32d2e;
+}
+
+.gsaat-w__continue {
+	color: var(--gsaat-primary);
+	font-weight: 600;
+}
+
+.gsaat-w__notice {
+	margin: 0;
+	color: #646970;
+}
+
+/* Honeypot: hidden from people, visible to naive bots. */
+.gsaat-w__hp {
+	position: absolute;
+	left: -10000px;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}

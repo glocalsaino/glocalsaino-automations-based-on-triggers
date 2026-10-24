@@ -3,7 +3,7 @@
  * Plugin Name:       GlocalSaino Actions Automation Based on Trigger
  * Plugin URI:        https://glocalsaino.com/nocodetriggersandhooksautomations
  * Description:       No-code automations: run actions (send data to an external webhook, send an email) when a trigger fires (a Contact Form 7 submission or an incoming webhook).
- * Version:           1.1.0
+ * Version:           1.2.0
  * Requires at least: 6.2
  * Requires PHP:      7.4
  * Author:            Glocal Saino
@@ -18,8 +18,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'GSAAT_VERSION', '1.1.0' );
-define( 'GSAAT_DB_VERSION', '4' );
+define( 'GSAAT_VERSION', '1.2.0' );
+define( 'GSAAT_DB_VERSION', '5' );
 define( 'GSAAT_API_VERSION', '1.0' );
 define( 'GSAAT_FILE', __FILE__ );
 define( 'GSAAT_PATH', plugin_dir_path( __FILE__ ) );
@@ -45,6 +45,9 @@ require_once GSAAT_PATH . 'includes/class-gsaat-trigger-cf7.php';
 require_once GSAAT_PATH . 'includes/class-gsaat-trigger-webhook.php';
 require_once GSAAT_PATH . 'includes/class-gsaat-trigger-click.php';
 require_once GSAAT_PATH . 'includes/class-gsaat-trigger-user.php';
+require_once GSAAT_PATH . 'includes/class-gsaat-captcha.php';
+require_once GSAAT_PATH . 'includes/class-gsaat-widget-stats.php';
+require_once GSAAT_PATH . 'includes/class-gsaat-trigger-widget.php';
 
 if ( is_admin() ) {
 	require_once GSAAT_PATH . 'includes/admin/class-gsaat-admin.php';

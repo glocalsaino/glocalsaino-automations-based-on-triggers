@@ -4,11 +4,11 @@ Tags: automation, webhook, contact form 7, email, no-code
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-No-code automations: on form sends, link or button clicks, webhooks or user sign-ups, run emails, webhooks, calculations, redirects and delays.
+No-code automations: forms, links, buttons, embeddable widgets, webhooks or sign-ups trigger emails, webhooks, calculations, redirects and delays.
 
 == Description ==
 
@@ -19,8 +19,19 @@ No-code automations: on form sends, link or button clicks, webhooks or user sign
 * **Click on a link** – the plugin gives you a tracked link (and a shortcode). Each click runs the automation and takes the visitor to the destination you set in the back end. Values added to the link (e.g. `&email=…`) become fields.
 * **Click on a button** – insert a button with a shortcode; its text, style, message after the click and destination are set in the back end.
 * **WordPress user events** – a user registers, logs in or changes their password.
+* **Embeddable widget on other websites** – a button, link or form with fields that other websites show by pasting a small piece of code. When a visitor uses it there, the automation runs on your site.
 * **Contact Form 7 submission** – fire when a specific form is submitted, or only when a specific field of that form is submitted with a specific value (or with any value).
 * **Data received through a webhook** – the plugin generates a unique webhook URL for the automation. Define the keys you expect, and the values the external system sends under those keys (as query string, form body or JSON body, via GET, POST or PUT) become available to the actions.
+
+= Embeddable widget for other websites =
+
+Give a partner, client or another site of yours a widget instead of a webhook URL:
+
+* **Button, link or form** with text, email, number, phone, long text, drop-down, checkbox and privacy-consent fields, validated on your server.
+* **Your design**: colors, font, corner radius and custom CSS. It lives in its own iframe, so the other site's styles never break it.
+* **Easy to paste**: a one-line script that adjusts the height automatically and can take the visitor to another page after sending, or a plain iframe where scripts are not allowed.
+* **Protected**: only the websites you allow can show it; every submission needs a single-use code issued when the widget loads; minimum time to send, hidden anti-spam field, per-connection hourly limit and an optional captcha (Cloudflare Turnstile or hCaptcha). Rejected submissions are logged with the reason.
+* **Statistics** per website: views, submissions, conversion and rejected submissions over the last 30 days, plus a live preview in the editor.
 
 = Webhook security =
 
@@ -56,7 +67,7 @@ Each automation can run several actions, in the order you choose; the results of
 * **Automations** – list of all automations with their name, trigger, actions, number of completed runs, status (active / inactive) and creation date. Activate, deactivate, duplicate or delete them individually or in bulk.
 * **New Automation** – name, trigger (with optional webhook security), actions, field and WordPress user conditions, status, maximum number of runs or unlimited, and start / end dates or never expires.
 * **Logs** – every execution: the event, the executed actions, whether each one succeeded, and the date. Click an entry to see the event data, the data sent and the external server's response. **Retry** the failed actions of an execution (one by one or in bulk): only the actions that failed run again, with the original event data.
-* **Webhook Logs** – every call received by your webhook URLs. Click an entry to see the URL used, the HTTP method, the caller IP and the received field / value pairs, or the error message and code when the call was rejected (for example, when no data was received).
+* **Webhook Logs** – every call received by your webhook URLs and widgets. Click an entry to see the URL used, the HTTP method, the caller IP and the received field / value pairs, or the error message and code when the call was rejected (for example, when no data was received).
 * **Settings** – email notifications to the administrator when an automation fails (recipients, also on partial failures, at most one email per automation every N minutes), how the caller IP is detected (direct, proxy or Cloudflare), how many days to keep the automation logs and the webhook logs (older entries are deleted automatically every day), and whether to delete all data when the plugin is deleted.
 
 = Failure notifications =
@@ -112,6 +123,14 @@ Scheduled actions are run by WP-Cron, which WordPress triggers on page visits. O
 
 Search engines and link previews are ignored by default (you can turn this off), and repeated clicks of the same visitor within 10 seconds count once. Some corporate email scanners open links like a normal browser and cannot be detected.
 
+= The widget does not appear on the other website. Why? =
+
+Check that the website is listed in the widget's "Allowed websites" (or leave the list empty to allow any site), and that no security plugin or server rule on your site sends an "X-Frame-Options" header for every page, which forbids showing any page inside an iframe.
+
+= Do widget visitors count as logged-in users? =
+
+No. Inside an iframe on another website, browsers do not send your site's login cookies, so widget visitors are always anonymous. To identify a user, ask for their email in a field and use a user condition identified by that field.
+
 = What does "Retry" do exactly? =
 
 It runs again only the actions that failed in that execution, with the same event data. Calculations and formats are recomputed so their results are available again; waits are skipped. Actions that succeeded are not repeated, the run counter does not change and the conditions are not evaluated again. The retry is recorded as a new log entry linked to the original. If you edited or removed a failed action after the event, that action is not retried.
@@ -128,7 +147,16 @@ Only when you configure a **"Send data to an external webhook"** action does the
 
 The **webhook trigger** works the other way around: external systems you choose send data to a URL on your own site.
 
+**Cloudflare Turnstile and hCaptcha (optional).** Only when you add a provider's keys in Settings and choose that captcha for an embeddable widget, the widget loads the provider's script, which shows the challenge to the visitor and may collect information about their browser and device. When the visitor sends the widget, your site sends the challenge response and the visitor's IP address to the provider to verify it. Nothing is sent to these services otherwise.
+
+* Cloudflare Turnstile: [Terms](https://www.cloudflare.com/website-terms/), [Privacy Policy](https://www.cloudflare.com/privacypolicy/), [Turnstile privacy addendum](https://www.cloudflare.com/turnstile-privacy-policy/).
+* hCaptcha: [Terms of Service](https://www.hcaptcha.com/terms), [Privacy Policy](https://www.hcaptcha.com/privacy).
+
 == Changelog ==
+
+= 1.2.0 =
+* New trigger: embeddable widget for other websites (button, link or form with fields), with design options, allowed websites, single-use tokens, anti-spam, optional Cloudflare Turnstile / hCaptcha, statistics and a live preview.
+* Webhook Logs also record widget submissions and can be filtered by source.
 
 = 1.1.0 =
 * New trigger: click on a link (tracked URL and shortcode, destination set in the back end, link parameters as fields, bots and repeated clicks ignored).
@@ -144,6 +172,9 @@ The **webhook trigger** works the other way around: external systems you choose 
 * First release: Contact Form 7 and webhook triggers; webhook security (header token, IP allowlist, HMAC signatures with Stripe, Shopify, WooCommerce and GitHub presets); external webhook and email actions; field and WordPress user conditions; failure email notifications; retry of failed actions from the logs; extension API for add-ons; run limits and dates; logs, webhook logs and log retention settings.
 
 == Upgrade Notice ==
+
+= 1.2.0 =
+New embeddable widget trigger for other websites.
 
 = 1.1.0 =
 New link, button and user event triggers; calculator, format data, redirect and wait actions.

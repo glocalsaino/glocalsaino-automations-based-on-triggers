@@ -99,6 +99,25 @@ $glocalsaino_aat_option   = GSAAT_Plugin::SETTINGS_OPTION;
 			</tr>
 		</table>
 
+		<h2><?php esc_html_e( 'Widget captcha (optional)', 'glocalsaino-actions-automation-based-on-trigger' ); ?></h2>
+		<p class="description"><?php esc_html_e( 'Embeddable widgets can show a captcha from one of these services. Get free keys from the provider and choose the captcha in each widget. Nothing is sent to these services unless a widget uses them.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+		<table class="form-table" role="presentation">
+			<?php
+			$glocalsaino_aat_captcha_fields = array(
+				'turnstile_site_key'   => __( 'Cloudflare Turnstile site key', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'turnstile_secret_key' => __( 'Cloudflare Turnstile secret key', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'hcaptcha_site_key'    => __( 'hCaptcha site key', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'hcaptcha_secret_key'  => __( 'hCaptcha secret key', 'glocalsaino-actions-automation-based-on-trigger' ),
+			);
+			foreach ( $glocalsaino_aat_captcha_fields as $glocalsaino_aat_key => $glocalsaino_aat_label ) :
+				?>
+				<tr>
+					<th scope="row"><label for="glocalsaino-aat-<?php echo esc_attr( $glocalsaino_aat_key ); ?>"><?php echo esc_html( $glocalsaino_aat_label ); ?></label></th>
+					<td><input type="text" class="regular-text code" autocomplete="off" id="glocalsaino-aat-<?php echo esc_attr( $glocalsaino_aat_key ); ?>" name="<?php echo esc_attr( $glocalsaino_aat_option ); ?>[<?php echo esc_attr( $glocalsaino_aat_key ); ?>]" value="<?php echo esc_attr( $glocalsaino_aat_settings[ $glocalsaino_aat_key ] ); ?>"></td>
+				</tr>
+			<?php endforeach; ?>
+		</table>
+
 		<h2><?php esc_html_e( 'Uninstall', 'glocalsaino-actions-automation-based-on-trigger' ); ?></h2>
 		<table class="form-table" role="presentation">
 			<tr>

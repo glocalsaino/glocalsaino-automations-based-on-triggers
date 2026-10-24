@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: GlocalSaino Actions Automation Based on Trigger 1.1.0\n"
+"Project-Id-Version: GlocalSaino Actions Automation Based on Trigger 1.2.0\n"
 "Report-Msgid-Bugs-To: https://glocalsaino.com/\n"
-"POT-Creation-Date: 2026-10-19 16:17+0200\n"
+"POT-Creation-Date: 2026-10-24 13:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,7 +27,7 @@ msgid "Automations"
 msgstr ""
 
 #: includes/admin/class-gsaat-admin.php:52
-#: includes/admin/views/automations.php:16 includes/admin/views/edit.php:37
+#: includes/admin/views/automations.php:16 includes/admin/views/edit.php:38
 msgid "New Automation"
 msgstr ""
 
@@ -43,13 +43,13 @@ msgid "Webhook Logs"
 msgstr ""
 
 #: includes/admin/class-gsaat-admin.php:63
-#: includes/admin/class-gsaat-admin.php:115 includes/admin/views/edit.php:226
+#: includes/admin/class-gsaat-admin.php:115 includes/admin/views/edit.php:227
 #: includes/admin/views/settings.php:16
 msgid "Settings"
 msgstr ""
 
 #: includes/admin/class-gsaat-admin.php:138
-#: includes/admin/class-gsaat-admin.php:246
+#: includes/admin/class-gsaat-admin.php:249
 msgid "Automation not found."
 msgstr ""
 
@@ -58,414 +58,433 @@ msgstr ""
 msgid "Log entry not found."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:289
+#: includes/admin/class-gsaat-admin.php:292
 msgid "Untitled automation"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:334
+#: includes/admin/class-gsaat-admin.php:337
 msgid "The automation could not be saved."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:725
+#: includes/admin/class-gsaat-admin.php:728
 msgid "No trigger"
 msgstr ""
 
 #. translators: %s: trigger type slug.
-#: includes/admin/class-gsaat-admin.php:727
+#: includes/admin/class-gsaat-admin.php:730
 #, php-format
 msgid "Unavailable trigger (%s)"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:750 includes/admin/views/edit.php:65
+#: includes/admin/class-gsaat-admin.php:753 includes/admin/views/edit.php:66
 msgid "Active"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:751 includes/admin/views/edit.php:67
+#: includes/admin/class-gsaat-admin.php:754 includes/admin/views/edit.php:68
 msgid "Inactive"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:752
+#: includes/admin/class-gsaat-admin.php:755
 msgid "Active — not started yet"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:753
+#: includes/admin/class-gsaat-admin.php:756
 msgid "Active — expired"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:754
+#: includes/admin/class-gsaat-admin.php:757
 msgid "Active — run limit reached"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:767
+#: includes/admin/class-gsaat-admin.php:770
 msgid "Success"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:768
+#: includes/admin/class-gsaat-admin.php:771
 msgid "Partial"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:769
+#: includes/admin/class-gsaat-admin.php:772
 msgid "Error"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:770
+#: includes/admin/class-gsaat-admin.php:773
 msgid "Conditions not met"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:793
+#: includes/admin/class-gsaat-admin.php:796
 msgid "Executions"
 msgstr ""
 
 #. translators: %d: number of pending scheduled jobs.
-#: includes/admin/class-gsaat-admin.php:795
+#: includes/admin/class-gsaat-admin.php:798
 #, php-format
 msgid "Scheduled actions (%d)"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:816
+#: includes/admin/class-gsaat-admin.php:819
 msgid "No data."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:819
+#: includes/admin/class-gsaat-admin.php:822
 msgid "Field"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:819
-#: includes/admin/class-gsaat-admin.php:1036
+#: includes/admin/class-gsaat-admin.php:822
+#: includes/admin/class-gsaat-admin.php:1054
 msgid "Value"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:834
+#: includes/admin/class-gsaat-admin.php:837
 msgid "Automation saved."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:835
+#: includes/admin/class-gsaat-admin.php:838
 msgid ""
 "Automation saved as inactive: choose a trigger and complete its settings "
 "(form, destination, events…) before activating it."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:836
+#: includes/admin/class-gsaat-admin.php:839
 msgid ""
 "Automation saved as inactive: add at least one action before activating it."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:837
+#: includes/admin/class-gsaat-admin.php:840
 msgid ""
 "Automation saved, but the end date is before the start date, so it will "
 "never run."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:838
+#: includes/admin/class-gsaat-admin.php:841
 msgid "Automation activated."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:839
+#: includes/admin/class-gsaat-admin.php:842
 msgid "Automation deactivated."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:840
+#: includes/admin/class-gsaat-admin.php:843
 msgid "Automation duplicated. The copy is inactive."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:841
+#: includes/admin/class-gsaat-admin.php:844
 msgid "Automation deleted."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:842
+#: includes/admin/class-gsaat-admin.php:845
 msgid "Log entries deleted."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:843
+#: includes/admin/class-gsaat-admin.php:846
 msgid "Logs cleared."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:844
+#: includes/admin/class-gsaat-admin.php:847
 msgid ""
 "A new authentication token was generated (tokens must have at least 16 "
 "characters). Give it to the sender."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:845
+#: includes/admin/class-gsaat-admin.php:848
 msgid ""
 "Some entries of the IP list were not valid IP addresses or ranges and were "
 "removed."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:846
+#: includes/admin/class-gsaat-admin.php:849
 msgid ""
 "The IP restriction was turned off because the list has no valid address."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:847
+#: includes/admin/class-gsaat-admin.php:850
 msgid ""
 "The signature check was turned off because no signing secret was entered."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:848
+#: includes/admin/class-gsaat-admin.php:851
 msgid "A user condition was removed because no valid user was chosen."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:849
+#: includes/admin/class-gsaat-admin.php:852
+msgid ""
+"The chosen captcha has no keys yet: add them in Settings, otherwise the "
+"widget works without captcha."
+msgstr ""
+
+#: includes/admin/class-gsaat-admin.php:853
 msgid "The scheduled actions were run now. This is the result."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:850
+#: includes/admin/class-gsaat-admin.php:854
 msgid "The scheduled actions were cancelled."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:851
+#: includes/admin/class-gsaat-admin.php:855
 msgid ""
 "Those scheduled actions are no longer pending (they already ran or were "
 "cancelled)."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:852
+#: includes/admin/class-gsaat-admin.php:856
 msgid "The failed actions were retried. This is the result of the retry."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:853
+#: includes/admin/class-gsaat-admin.php:857
 msgid ""
 "The failed actions of the selected entries were retried. Entries that had "
 "not failed were skipped."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:854 includes/class-gsaat-engine.php:247
+#: includes/admin/class-gsaat-admin.php:858 includes/class-gsaat-engine.php:247
 msgid "Only executions with failed actions can be retried."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:855
+#: includes/admin/class-gsaat-admin.php:859
 msgid "This execution cannot be retried because its automation was deleted."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:880
+#: includes/admin/class-gsaat-admin.php:884
 msgid "You are not allowed to do this."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:929
+#: includes/admin/class-gsaat-admin.php:933
 msgid "Form title"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:934
+#: includes/admin/class-gsaat-admin.php:938
 msgid "Logged-in user: name"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:935
+#: includes/admin/class-gsaat-admin.php:939
 msgid "Logged-in user: email"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:936
+#: includes/admin/class-gsaat-admin.php:940
 msgid "Logged-in user: username"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:947
+#: includes/admin/class-gsaat-admin.php:951
 msgid "HTTP method used"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:980
+#: includes/admin/class-gsaat-admin.php:984
 msgid "Page where the click happened"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:981
+#: includes/admin/class-gsaat-admin.php:985 includes/admin/views/edit.php:430
 msgid "Link destination"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:982 includes/admin/views/edit.php:356
+#: includes/admin/class-gsaat-admin.php:986 includes/admin/views/edit.php:357
 msgid "Button text"
 msgstr ""
 
+#: includes/admin/class-gsaat-admin.php:987
+msgid "Website where the widget was used"
+msgstr ""
+
+#: includes/admin/class-gsaat-admin.php:988
+msgid "Page where the widget was used"
+msgstr ""
+
 #. translators: %d: user ID.
-#: includes/admin/class-gsaat-admin.php:997
+#: includes/admin/class-gsaat-admin.php:1003
 #, php-format
 msgid "Deleted user (#%d)"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1026
-msgid "Trigger fields"
-msgstr ""
-
-#: includes/admin/class-gsaat-admin.php:1027 includes/admin/views/edit.php:55
-msgid "General"
-msgstr ""
-
-#: includes/admin/class-gsaat-admin.php:1028
-msgid "Insert field…"
-msgstr ""
-
 #: includes/admin/class-gsaat-admin.php:1029
-msgid "— Choose a field —"
-msgstr ""
-
-#: includes/admin/class-gsaat-admin.php:1030 includes/admin/views/edit.php:111
-msgid "— Choose a form —"
-msgstr ""
-
-#: includes/admin/class-gsaat-admin.php:1031
-msgid "(not available)"
-msgstr ""
-
-#: includes/admin/class-gsaat-admin.php:1032
-msgid "Remove"
-msgstr ""
-
-#: includes/admin/class-gsaat-admin.php:1033
-msgid "Move up"
-msgstr ""
-
-#: includes/admin/class-gsaat-admin.php:1034
-msgid "Move down"
-msgstr ""
-
-#: includes/admin/class-gsaat-admin.php:1035
-msgid "Key name"
-msgstr ""
-
-#: includes/admin/class-gsaat-admin.php:1037
-msgid "Comparison"
-msgstr ""
-
-#: includes/admin/class-gsaat-admin.php:1038
-msgid "Key"
-msgstr ""
-
-#: includes/admin/class-gsaat-admin.php:1039
-msgid "Add key / value"
-msgstr ""
-
-#: includes/admin/class-gsaat-admin.php:1040
-msgid "Add header"
-msgstr ""
-
-#: includes/admin/class-gsaat-admin.php:1041
-msgid "No keys configured: every received field will be available."
-msgstr ""
-
-#: includes/admin/class-gsaat-admin.php:1042
-msgid "No conditions: the actions run every time the trigger fires."
-msgstr ""
-
-#: includes/admin/class-gsaat-admin.php:1043
-msgid "No actions yet. Add at least one."
+#: includes/class-gsaat-trigger-widget.php:52
+msgid "Email"
 msgstr ""
 
 #: includes/admin/class-gsaat-admin.php:1044
+msgid "Trigger fields"
+msgstr ""
+
+#: includes/admin/class-gsaat-admin.php:1045 includes/admin/views/edit.php:56
+msgid "General"
+msgstr ""
+
+#: includes/admin/class-gsaat-admin.php:1046
+msgid "Insert field…"
+msgstr ""
+
+#: includes/admin/class-gsaat-admin.php:1047
+msgid "— Choose a field —"
+msgstr ""
+
+#: includes/admin/class-gsaat-admin.php:1048 includes/admin/views/edit.php:112
+msgid "— Choose a form —"
+msgstr ""
+
+#: includes/admin/class-gsaat-admin.php:1049
+msgid "(not available)"
+msgstr ""
+
+#: includes/admin/class-gsaat-admin.php:1050
+msgid "Remove"
+msgstr ""
+
+#: includes/admin/class-gsaat-admin.php:1051
+msgid "Move up"
+msgstr ""
+
+#: includes/admin/class-gsaat-admin.php:1052
+msgid "Move down"
+msgstr ""
+
+#: includes/admin/class-gsaat-admin.php:1053
+msgid "Key name"
+msgstr ""
+
+#: includes/admin/class-gsaat-admin.php:1055
+msgid "Comparison"
+msgstr ""
+
+#: includes/admin/class-gsaat-admin.php:1056
+msgid "Key"
+msgstr ""
+
+#: includes/admin/class-gsaat-admin.php:1057
+msgid "Add key / value"
+msgstr ""
+
+#: includes/admin/class-gsaat-admin.php:1058
+msgid "Add header"
+msgstr ""
+
+#: includes/admin/class-gsaat-admin.php:1059
+msgid "No keys configured: every received field will be available."
+msgstr ""
+
+#: includes/admin/class-gsaat-admin.php:1060
+msgid "No conditions: the actions run every time the trigger fires."
+msgstr ""
+
+#: includes/admin/class-gsaat-admin.php:1061
+msgid "No actions yet. Add at least one."
+msgstr ""
+
+#: includes/admin/class-gsaat-admin.php:1062
 msgid "URL"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1045
-#: includes/admin/class-gsaat-webhook-logs-table.php:33
+#: includes/admin/class-gsaat-admin.php:1063
+#: includes/admin/class-gsaat-webhook-logs-table.php:34
 #: includes/admin/views/webhook-log-detail.php:36
 msgid "Method"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1046
+#: includes/admin/class-gsaat-admin.php:1064
 msgid "Body format"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1047
+#: includes/admin/class-gsaat-admin.php:1065
 msgid "JSON"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1048
+#: includes/admin/class-gsaat-admin.php:1066
 msgid "Form (x-www-form-urlencoded)"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1049
+#: includes/admin/class-gsaat-admin.php:1067
 msgid "Data to send"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1050
+#: includes/admin/class-gsaat-admin.php:1068
 msgid "With GET and DELETE the data is sent as query string parameters."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1051
+#: includes/admin/class-gsaat-admin.php:1069
 msgid "Headers (optional)"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1052
+#: includes/admin/class-gsaat-admin.php:1070
 #: includes/admin/views/settings.php:66
 msgid "Send to"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1053
+#: includes/admin/class-gsaat-admin.php:1071
 msgid ""
 "One or more addresses separated by commas. You can use fields, e.g. {{your-"
 "email}}."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1054
+#: includes/admin/class-gsaat-admin.php:1072
 msgid "Reply-To (optional)"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1055
+#: includes/admin/class-gsaat-admin.php:1073
 #: includes/admin/views/log-detail.php:117
 msgid "Subject"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1056
+#: includes/admin/class-gsaat-admin.php:1074
 msgid "Message"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1057
+#: includes/admin/class-gsaat-admin.php:1075
 msgid "Copied!"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1058
+#: includes/admin/class-gsaat-admin.php:1076
 msgid "Choose the Contact Form 7 form used as trigger."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1059
+#: includes/admin/class-gsaat-admin.php:1077
 msgid "Choose the form field used as trigger."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1060
+#: includes/admin/class-gsaat-admin.php:1078
 msgid "VALUE"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1061
+#: includes/admin/class-gsaat-admin.php:1079
 msgid "Also send the header"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1062
+#: includes/admin/class-gsaat-admin.php:1080
 msgid "WordPress user"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1063
+#: includes/admin/class-gsaat-admin.php:1081
 msgid "identified by"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1064
+#: includes/admin/class-gsaat-admin.php:1082
 msgid "the logged-in visitor"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1065
+#: includes/admin/class-gsaat-admin.php:1083
 msgid "Email or username in field"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1066
+#: includes/admin/class-gsaat-admin.php:1084
 msgid "Search by name, email or username…"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1067
+#: includes/admin/class-gsaat-admin.php:1085
 msgid "Choose a user from the list for every \"is the user\" condition."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1068
+#: includes/admin/class-gsaat-admin.php:1086
 msgid ""
 "Webhook calls come from an external server, so there is never a logged-in "
 "visitor: identify the user with a field."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1069
+#: includes/admin/class-gsaat-admin.php:1087
 msgid "Enter a key name for every row, or remove the empty rows."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1070
-#: includes/admin/class-gsaat-admin.php:1076
+#: includes/admin/class-gsaat-admin.php:1088
+#: includes/admin/class-gsaat-admin.php:1094
 msgid "Operation"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1071
+#: includes/admin/class-gsaat-admin.php:1089
 msgid ""
 "Example: ({{price}} * {{quantity}}) * 1.21. Operators: + - * / % ^ and "
 "parentheses. Functions: round(x, decimals), floor, ceil, abs, sqrt, pow(x, "
@@ -473,53 +492,89 @@ msgid ""
 "values; empty values count as 0."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1072
+#: includes/admin/class-gsaat-admin.php:1090
 msgid "Decimals of the result (empty = as calculated)"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1073
+#: includes/admin/class-gsaat-admin.php:1091
 msgid "Save the result as"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1074
+#: includes/admin/class-gsaat-admin.php:1092
 msgid "The following actions can use it as"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1075
+#: includes/admin/class-gsaat-admin.php:1093
 msgid "Value to format"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1077
+#: includes/admin/class-gsaat-admin.php:1095
 msgid "Redirect to"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1078
+#: includes/admin/class-gsaat-admin.php:1096
 msgid ""
 "An address on this site (e.g. /thank-you/) or a full URL. Field values can "
 "be added to the path or query string, but never decide the destination site."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1079
+#: includes/admin/class-gsaat-admin.php:1097
 msgid ""
 "This action only works with triggers that happen in the visitor's browser "
 "(link, button, Contact Form 7, login or registration) and never after a wait."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1080
+#: includes/admin/class-gsaat-admin.php:1098
 msgid "Wait"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1081
+#: includes/admin/class-gsaat-admin.php:1099
 msgid ""
 "The actions below this one run after the wait. Actions above it run "
 "immediately."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1082
+#: includes/admin/class-gsaat-admin.php:1100
 msgid "Results of previous actions"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin.php:1083
+#: includes/admin/class-gsaat-admin.php:1101
+msgid "Field name"
+msgstr ""
+
+#: includes/admin/class-gsaat-admin.php:1102
+msgid "Label"
+msgstr ""
+
+#: includes/admin/class-gsaat-admin.php:1103
+msgid "Type"
+msgstr ""
+
+#: includes/admin/class-gsaat-admin.php:1104
+msgid "Required"
+msgstr ""
+
+#: includes/admin/class-gsaat-admin.php:1105
+msgid "Placeholder"
+msgstr ""
+
+#: includes/admin/class-gsaat-admin.php:1106
+msgid "Options (one per line)"
+msgstr ""
+
+#: includes/admin/class-gsaat-admin.php:1107
+msgid "Privacy policy URL"
+msgstr ""
+
+#: includes/admin/class-gsaat-admin.php:1108
+msgid "Add at least one field."
+msgstr ""
+
+#: includes/admin/class-gsaat-admin.php:1109
+msgid "Every widget field needs a unique name (letters, digits, - and _)."
+msgstr ""
+
+#: includes/admin/class-gsaat-admin.php:1110
 msgid ""
 "This action type is not available. If it comes from an add-on, activate the "
 "add-on to edit it. It is kept as it is."
@@ -530,12 +585,12 @@ msgid "Name"
 msgstr ""
 
 #: includes/admin/class-gsaat-automations-table.php:32
-#: includes/admin/views/edit.php:84 includes/admin/views/log-detail.php:45
+#: includes/admin/views/edit.php:85 includes/admin/views/log-detail.php:45
 msgid "Trigger"
 msgstr ""
 
 #: includes/admin/class-gsaat-automations-table.php:33
-#: includes/admin/views/edit.php:440 includes/admin/views/scheduled.php:30
+#: includes/admin/views/edit.php:613 includes/admin/views/scheduled.php:30
 msgid "Actions"
 msgstr ""
 
@@ -544,7 +599,7 @@ msgid "Completed runs"
 msgstr ""
 
 #: includes/admin/class-gsaat-automations-table.php:35
-#: includes/admin/views/edit.php:62
+#: includes/admin/views/edit.php:63
 msgid "Status"
 msgstr ""
 
@@ -566,8 +621,8 @@ msgstr ""
 #: includes/admin/class-gsaat-automations-table.php:108
 #: includes/admin/class-gsaat-logs-table.php:49
 #: includes/admin/class-gsaat-logs-table.php:115
-#: includes/admin/class-gsaat-webhook-logs-table.php:41
-#: includes/admin/class-gsaat-webhook-logs-table.php:101
+#: includes/admin/class-gsaat-webhook-logs-table.php:42
+#: includes/admin/class-gsaat-webhook-logs-table.php:106
 msgid "Delete"
 msgstr ""
 
@@ -588,6 +643,7 @@ msgid "Delete this automation? This cannot be undone."
 msgstr ""
 
 #: includes/admin/class-gsaat-automations-table.php:121
+#: includes/admin/views/edit.php:484
 msgid "None"
 msgstr ""
 
@@ -616,7 +672,7 @@ msgid "Executed actions"
 msgstr ""
 
 #: includes/admin/class-gsaat-logs-table.php:42
-#: includes/admin/class-gsaat-webhook-logs-table.php:36
+#: includes/admin/class-gsaat-webhook-logs-table.php:37
 #: includes/admin/views/log-detail.php:53
 #: includes/admin/views/webhook-log-detail.php:44
 msgid "Result"
@@ -629,7 +685,7 @@ msgid "Retry failed actions"
 msgstr ""
 
 #: includes/admin/class-gsaat-logs-table.php:56
-#: includes/admin/class-gsaat-webhook-logs-table.php:47
+#: includes/admin/class-gsaat-webhook-logs-table.php:49
 msgid "All"
 msgstr ""
 
@@ -638,7 +694,7 @@ msgid "No log entries."
 msgstr ""
 
 #: includes/admin/class-gsaat-logs-table.php:109
-#: includes/admin/class-gsaat-webhook-logs-table.php:100
+#: includes/admin/class-gsaat-webhook-logs-table.php:105
 msgid "View details"
 msgstr ""
 
@@ -656,214 +712,236 @@ msgstr ""
 msgid "Retried in #%1$d: %2$s"
 msgstr ""
 
-#: includes/admin/class-gsaat-webhook-logs-table.php:34
+#: includes/admin/class-gsaat-webhook-logs-table.php:33
+msgid "Source"
+msgstr ""
+
+#: includes/admin/class-gsaat-webhook-logs-table.php:35
 #: includes/admin/views/webhook-log-detail.php:40
 msgid "Caller IP"
 msgstr ""
 
-#: includes/admin/class-gsaat-webhook-logs-table.php:35
+#: includes/admin/class-gsaat-webhook-logs-table.php:36
 msgid "Received fields"
 msgstr ""
 
-#: includes/admin/class-gsaat-webhook-logs-table.php:48
+#: includes/admin/class-gsaat-webhook-logs-table.php:50
 msgid "Received"
 msgstr ""
 
-#: includes/admin/class-gsaat-webhook-logs-table.php:49
+#: includes/admin/class-gsaat-webhook-logs-table.php:51
 msgid "Errors"
 msgstr ""
 
-#: includes/admin/class-gsaat-webhook-logs-table.php:90
+#: includes/admin/class-gsaat-webhook-logs-table.php:52
+#: includes/admin/views/settings.php:87
+msgid "Webhooks"
+msgstr ""
+
+#: includes/admin/class-gsaat-webhook-logs-table.php:53
+msgid "Widgets"
+msgstr ""
+
+#: includes/admin/class-gsaat-webhook-logs-table.php:95
 msgid "No webhook calls have been received yet."
+msgstr ""
+
+#: includes/admin/class-gsaat-webhook-logs-table.php:116
+msgid "Widget"
+msgstr ""
+
+#: includes/admin/class-gsaat-webhook-logs-table.php:116
+msgid "Webhook"
 msgstr ""
 
 #: includes/admin/views/automations.php:24
 msgid "Search automations"
 msgstr ""
 
-#: includes/admin/views/edit.php:37
+#: includes/admin/views/edit.php:38
 msgid "Edit Automation"
 msgstr ""
 
-#: includes/admin/views/edit.php:39
+#: includes/admin/views/edit.php:40
 msgid "Back to automations"
 msgstr ""
 
-#: includes/admin/views/edit.php:58 includes/class-gsaat-engine.php:62
+#: includes/admin/views/edit.php:59 includes/class-gsaat-engine.php:62
 msgid "Automation name"
 msgstr ""
 
 #. translators: 1: number of completed runs, 2: creation date.
-#: includes/admin/views/edit.php:73
+#: includes/admin/views/edit.php:74
 #, php-format
 msgid "Completed runs: %1$s · Created: %2$s"
 msgstr ""
 
-#: includes/admin/views/edit.php:85
+#: includes/admin/views/edit.php:86
 msgid "The event that starts the automation."
 msgstr ""
 
-#: includes/admin/views/edit.php:88
+#: includes/admin/views/edit.php:89
 msgid "Trigger event"
 msgstr ""
 
-#: includes/admin/views/edit.php:91
+#: includes/admin/views/edit.php:92
 msgid "— Choose a trigger —"
 msgstr ""
 
-#: includes/admin/views/edit.php:102
+#: includes/admin/views/edit.php:103
 msgid ""
 "Contact Form 7 is not active. Install and activate it to use this trigger."
 msgstr ""
 
-#: includes/admin/views/edit.php:104
+#: includes/admin/views/edit.php:105
 msgid "There are no Contact Form 7 forms yet. Create one first."
 msgstr ""
 
-#: includes/admin/views/edit.php:108
+#: includes/admin/views/edit.php:109
 msgid "Form"
 msgstr ""
 
-#: includes/admin/views/edit.php:119 includes/admin/views/edit.php:398
+#: includes/admin/views/edit.php:120 includes/admin/views/edit.php:571
 msgid "Fire when"
 msgstr ""
 
-#: includes/admin/views/edit.php:122
+#: includes/admin/views/edit.php:123
 msgid "The form is submitted"
 msgstr ""
 
-#: includes/admin/views/edit.php:123
+#: includes/admin/views/edit.php:124
 msgid "The form is submitted with a specific value in a field"
 msgstr ""
 
-#: includes/admin/views/edit.php:128
+#: includes/admin/views/edit.php:129
 msgid "Field and value"
 msgstr ""
 
-#: includes/admin/views/edit.php:132
+#: includes/admin/views/edit.php:133
 msgid "Expected value"
 msgstr ""
 
-#: includes/admin/views/edit.php:134
+#: includes/admin/views/edit.php:135
 msgid ""
 "Not case-sensitive. Leave the value empty to fire whenever the field is "
 "filled in with any value."
 msgstr ""
 
-#: includes/admin/views/edit.php:143
+#: includes/admin/views/edit.php:144
 #: includes/admin/views/webhook-log-detail.php:32
 msgid "Webhook URL"
 msgstr ""
 
-#: includes/admin/views/edit.php:147 includes/admin/views/edit.php:172
-#: includes/admin/views/edit.php:320 includes/admin/views/edit.php:329
-#: includes/admin/views/edit.php:385
+#: includes/admin/views/edit.php:148 includes/admin/views/edit.php:173
+#: includes/admin/views/edit.php:321 includes/admin/views/edit.php:330
+#: includes/admin/views/edit.php:386 includes/admin/views/edit.php:511
+#: includes/admin/views/edit.php:516
 msgid "Copy"
 msgstr ""
 
-#: includes/admin/views/edit.php:150
+#: includes/admin/views/edit.php:151
 msgid ""
 "Paste this URL in the external system. It accepts GET, POST and PUT "
 "requests; the data can be sent as query string parameters, as a form body or "
 "as a JSON body."
 msgstr ""
 
-#: includes/admin/views/edit.php:152
+#: includes/admin/views/edit.php:153
 msgid "The URL starts working once the automation is saved."
 msgstr ""
 
-#: includes/admin/views/edit.php:158
+#: includes/admin/views/edit.php:159
 msgid "Generate a new URL when saving (the current one will stop working)"
 msgstr ""
 
-#: includes/admin/views/edit.php:164
+#: includes/admin/views/edit.php:165
 msgid "Keys to receive"
 msgstr ""
 
-#: includes/admin/views/edit.php:167
+#: includes/admin/views/edit.php:168
 msgid "Add key"
 msgstr ""
 
-#: includes/admin/views/edit.php:168
+#: includes/admin/views/edit.php:169
 msgid ""
 "The values received under these keys can be used in the conditions and "
 "actions. Nested JSON keys use dots, e.g. customer.email."
 msgstr ""
 
-#: includes/admin/views/edit.php:169
+#: includes/admin/views/edit.php:170
 msgid "Example call:"
 msgstr ""
 
-#: includes/admin/views/edit.php:178
+#: includes/admin/views/edit.php:179
 msgid "Security"
 msgstr ""
 
-#: includes/admin/views/edit.php:180
+#: includes/admin/views/edit.php:181
 msgid ""
 "Optional. Without any protection, whoever knows the URL can call it. Each "
 "option you enable must also be configured in the sending system."
 msgstr ""
 
-#: includes/admin/views/edit.php:186
+#: includes/admin/views/edit.php:187
 msgid "Require an authentication token in a header"
 msgstr ""
 
-#: includes/admin/views/edit.php:190
+#: includes/admin/views/edit.php:191
 msgid "Header name"
 msgstr ""
 
-#: includes/admin/views/edit.php:194 includes/admin/views/edit.php:196
+#: includes/admin/views/edit.php:195 includes/admin/views/edit.php:197
 msgid "Token"
 msgstr ""
 
-#: includes/admin/views/edit.php:197 includes/admin/views/edit.php:264
+#: includes/admin/views/edit.php:198 includes/admin/views/edit.php:265
 msgid "Generate"
 msgstr ""
 
-#: includes/admin/views/edit.php:200
+#: includes/admin/views/edit.php:201
 msgid ""
 "You create the token and give it to the sender together with the URL; their "
 "system must send it in this header on every call. With the Authorization "
 "header, \"Bearer <token>\" is accepted too."
 msgstr ""
 
-#: includes/admin/views/edit.php:208
+#: includes/admin/views/edit.php:209
 msgid "Only accept calls from these IP addresses"
 msgstr ""
 
-#: includes/admin/views/edit.php:211
+#: includes/admin/views/edit.php:212
 msgid "Allowed IP addresses"
 msgstr ""
 
-#: includes/admin/views/edit.php:213
+#: includes/admin/views/edit.php:214
 msgid ""
 "One per line. IPv4 or IPv6, single addresses or CIDR ranges. Ask the sender "
 "which IP addresses their servers call from."
 msgstr ""
 
 #. translators: %s: IP address.
-#: includes/admin/views/edit.php:218
+#: includes/admin/views/edit.php:219
 #, php-format
 msgid "The last call to this webhook came from %s."
 msgstr ""
 
 #. translators: %s: link to the Settings screen.
-#: includes/admin/views/edit.php:225
+#: includes/admin/views/edit.php:226
 #, php-format
 msgid ""
 "If your site is behind a proxy or Cloudflare, choose how the caller IP is "
 "detected in %s."
 msgstr ""
 
-#: includes/admin/views/edit.php:237
+#: includes/admin/views/edit.php:238
 msgid "Verify an HMAC signature"
 msgstr ""
 
-#: includes/admin/views/edit.php:241
+#: includes/admin/views/edit.php:242
 msgid "Sending service"
 msgstr ""
 
-#: includes/admin/views/edit.php:250
+#: includes/admin/views/edit.php:251
 msgid ""
 "The sender computes an HMAC of the raw request body (or of the query string "
 "exactly as sent, when there is no body) with the shared secret and sends it "
@@ -872,261 +950,471 @@ msgid ""
 "\"timestamp.body\" and old calls are rejected."
 msgstr ""
 
-#: includes/admin/views/edit.php:251
+#: includes/admin/views/edit.php:252
 msgid ""
 "In Stripe, go to Developers → Webhooks, add this URL as an endpoint and "
 "paste here its signing secret (whsec_…). Calls older than the maximum age "
 "are rejected."
 msgstr ""
 
-#: includes/admin/views/edit.php:252
+#: includes/admin/views/edit.php:253
 msgid ""
 "Paste here the secret Shopify signs your webhooks with (Settings → "
 "Notifications → Webhooks), or your app's client secret if the webhook is "
 "created by an app."
 msgstr ""
 
-#: includes/admin/views/edit.php:253
+#: includes/admin/views/edit.php:254
 msgid ""
 "In WooCommerce → Settings → Advanced → Webhooks, use this URL as the "
 "Delivery URL and the same Secret as here (you can generate it here and paste "
 "it there)."
 msgstr ""
 
-#: includes/admin/views/edit.php:254
+#: includes/admin/views/edit.php:255
 msgid ""
 "In the repository, go to Settings → Webhooks, use this URL as the Payload "
 "URL, \"application/json\" as the content type and the same Secret as here."
 msgstr ""
 
-#: includes/admin/views/edit.php:261 includes/admin/views/edit.php:263
+#: includes/admin/views/edit.php:262 includes/admin/views/edit.php:264
 msgid "Signing secret"
 msgstr ""
 
-#: includes/admin/views/edit.php:269
+#: includes/admin/views/edit.php:270
 msgid "Signature header"
 msgstr ""
 
-#: includes/admin/views/edit.php:273
+#: includes/admin/views/edit.php:274
 msgid "Algorithm"
 msgstr ""
 
-#: includes/admin/views/edit.php:281
+#: includes/admin/views/edit.php:282
 msgid "Encoding"
 msgstr ""
 
-#: includes/admin/views/edit.php:283
+#: includes/admin/views/edit.php:284
 msgid "Hexadecimal"
 msgstr ""
 
-#: includes/admin/views/edit.php:288
+#: includes/admin/views/edit.php:289
 msgid "Timestamp header (optional)"
 msgstr ""
 
-#: includes/admin/views/edit.php:293
+#: includes/admin/views/edit.php:294
 msgid "Maximum age of a call"
 msgstr ""
 
-#: includes/admin/views/edit.php:295
+#: includes/admin/views/edit.php:296
 msgid "seconds"
 msgstr ""
 
-#: includes/admin/views/edit.php:296
+#: includes/admin/views/edit.php:297
 msgid ""
 "Protects against replayed calls. For the custom HMAC it only applies when a "
 "timestamp header is set."
 msgstr ""
 
-#: includes/admin/views/edit.php:309
+#: includes/admin/views/edit.php:310
 msgid "Destination"
 msgstr ""
 
-#: includes/admin/views/edit.php:312
+#: includes/admin/views/edit.php:313
 msgid ""
 "Where the visitor lands after clicking. A \"Redirect the user\" action can "
 "send them somewhere else instead."
 msgstr ""
 
-#: includes/admin/views/edit.php:316
+#: includes/admin/views/edit.php:317
 msgid "Link to use"
 msgstr ""
 
-#: includes/admin/views/edit.php:322
+#: includes/admin/views/edit.php:323
 msgid ""
 "Use this address in any link, menu, button or email. Each click runs the "
 "automation and then takes the visitor to the destination."
 msgstr ""
 
-#: includes/admin/views/edit.php:324
+#: includes/admin/views/edit.php:325
 msgid "The link starts working once the automation is saved."
 msgstr ""
 
-#: includes/admin/views/edit.php:326
+#: includes/admin/views/edit.php:327
 msgid "Or insert it in a page or post with this shortcode:"
 msgstr ""
 
-#: includes/admin/views/edit.php:328
+#: includes/admin/views/edit.php:329
 msgid "Link text"
 msgstr ""
 
-#: includes/admin/views/edit.php:335
+#: includes/admin/views/edit.php:336
 msgid "Parameters (optional)"
 msgstr ""
 
-#: includes/admin/views/edit.php:338
+#: includes/admin/views/edit.php:339
 msgid ""
 "Names of the values you add to the link, e.g. …&email=ana@example.com. They "
 "become fields you can use in the conditions and actions. Separate them with "
 "commas."
 msgstr ""
 
-#: includes/admin/views/edit.php:339
+#: includes/admin/views/edit.php:340
 msgid "Pass these values on to the destination URL"
 msgstr ""
 
-#: includes/admin/views/edit.php:343
+#: includes/admin/views/edit.php:344
 msgid "Robots"
 msgstr ""
 
-#: includes/admin/views/edit.php:345
+#: includes/admin/views/edit.php:346
 msgid "Ignore visits from search engines and link previews (recommended)"
 msgstr ""
 
-#: includes/admin/views/edit.php:346
+#: includes/admin/views/edit.php:347
 msgid "Repeated clicks of the same visitor within 10 seconds count once."
 msgstr ""
 
-#: includes/admin/views/edit.php:360
+#: includes/admin/views/edit.php:361
 msgid "CSS classes (optional)"
 msgstr ""
 
-#: includes/admin/views/edit.php:363
+#: includes/admin/views/edit.php:364
 msgid ""
 "The button already uses your theme's button style. Add classes to change it."
 msgstr ""
 
-#: includes/admin/views/edit.php:367
+#: includes/admin/views/edit.php:368
 msgid "Message after the click (optional)"
 msgstr ""
 
-#: includes/admin/views/edit.php:368
+#: includes/admin/views/edit.php:369 includes/class-gsaat-trigger-widget.php:81
 msgid "Thank you!"
 msgstr ""
 
-#: includes/admin/views/edit.php:371
+#: includes/admin/views/edit.php:372
 msgid "Go to after the click (optional)"
 msgstr ""
 
-#: includes/admin/views/edit.php:374
+#: includes/admin/views/edit.php:375
 msgid "Leave empty to stay on the same page and show the message."
 msgstr ""
 
-#: includes/admin/views/edit.php:378
+#: includes/admin/views/edit.php:379
 msgid "Shortcode"
 msgstr ""
 
-#: includes/admin/views/edit.php:381
+#: includes/admin/views/edit.php:382
 msgid "The shortcode is shown once the automation is saved."
 msgstr ""
 
-#: includes/admin/views/edit.php:387
+#: includes/admin/views/edit.php:388
 msgid ""
 "Paste it in any page or post (in the block editor, use a Shortcode block)."
 msgstr ""
 
-#: includes/admin/views/edit.php:405
+#: includes/admin/views/edit.php:398
+msgid ""
+"A button, link or form that other websites show with a small piece of code. "
+"When a visitor uses it there, this automation runs here."
+msgstr ""
+
+#: includes/admin/views/edit.php:401
+msgid "Widget type"
+msgstr ""
+
+#: includes/admin/views/edit.php:411
+msgid "Heading and text (optional)"
+msgstr ""
+
+#: includes/admin/views/edit.php:413
+msgid "Heading"
+msgstr ""
+
+#: includes/admin/views/edit.php:414
+msgid "Text above the widget"
+msgstr ""
+
+#: includes/admin/views/edit.php:418
+msgid "Form fields"
+msgstr ""
+
+#: includes/admin/views/edit.php:421
+msgid "Add field"
+msgstr ""
+
+#: includes/admin/views/edit.php:422
+msgid ""
+"The field name is how you use the value in conditions and actions, e.g. "
+"{{email}}. Only these fields are accepted; anything else sent is ignored."
+msgstr ""
+
+#: includes/admin/views/edit.php:426
+msgid "Button / link text"
+msgstr ""
+
+#: includes/admin/views/edit.php:433
+msgid ""
+"The page the visitor goes to after clicking (a \"Redirect the user\" action "
+"can choose another one)."
+msgstr ""
+
+#: includes/admin/views/edit.php:437
+msgid "After sending"
+msgstr ""
+
+#: includes/admin/views/edit.php:439
+msgid "Message shown in the widget"
+msgstr ""
+
+#: includes/admin/views/edit.php:440
+msgid "Or go to this page (optional)"
+msgstr ""
+
+#: includes/admin/views/edit.php:440
+msgid "Or go to this page (optional): https://"
+msgstr ""
+
+#: includes/admin/views/edit.php:441
+msgid ""
+"Going to another page works best with the script embed code; with the plain "
+"iframe the visitor may get a \"Continue\" link instead."
+msgstr ""
+
+#: includes/admin/views/edit.php:445
+msgid "Design"
+msgstr ""
+
+#: includes/admin/views/edit.php:448
+msgid "Main color"
+msgstr ""
+
+#: includes/admin/views/edit.php:449
+msgid "Text color"
+msgstr ""
+
+#: includes/admin/views/edit.php:450
+msgid "Background"
+msgstr ""
+
+#: includes/admin/views/edit.php:451
+msgid "Corner radius (px)"
+msgstr ""
+
+#: includes/admin/views/edit.php:452
+msgid "Font"
+msgstr ""
+
+#: includes/admin/views/edit.php:461
+msgid "Custom CSS (optional)"
+msgstr ""
+
+#: includes/admin/views/edit.php:462
+msgid "Custom CSS"
+msgstr ""
+
+#: includes/admin/views/edit.php:467
+msgid "Allowed websites"
+msgstr ""
+
+#: includes/admin/views/edit.php:470
+msgid ""
+"Only these websites can show the widget (one per line; *.example.org "
+"includes its subdomains). Recommended. Leave empty to allow any website."
+msgstr ""
+
+#: includes/admin/views/edit.php:474
+msgid "Anti-spam"
+msgstr ""
+
+#: includes/admin/views/edit.php:477
+msgid "At most"
+msgstr ""
+
+#: includes/admin/views/edit.php:479
+msgid "submissions per hour from the same connection (0 = no limit)"
+msgstr ""
+
+#: includes/admin/views/edit.php:482
+msgid "Captcha"
+msgstr ""
+
+#: includes/admin/views/edit.php:490
+msgid "(add its keys in Settings)"
+msgstr ""
+
+#: includes/admin/views/edit.php:498
+msgid ""
+"Always active: a single-use code issued when the widget loads, a minimum "
+"time to send and a hidden trap field for bots."
+msgstr ""
+
+#: includes/admin/views/edit.php:502
+msgid "Code for the other website"
+msgstr ""
+
+#: includes/admin/views/edit.php:505
+msgid "The code is shown once the automation is saved."
+msgstr ""
+
+#: includes/admin/views/edit.php:508
+msgid ""
+"Recommended (adjusts its height and can take the visitor to another page):"
+msgstr ""
+
+#: includes/admin/views/edit.php:513
+msgid "Or, where scripts are not allowed, a plain iframe:"
+msgstr ""
+
+#: includes/admin/views/edit.php:518
+msgid ""
+"If the widget does not appear on the other website, check that it is in "
+"\"Allowed websites\" and that no security plugin on this site adds an X-"
+"Frame-Options header to every page."
+msgstr ""
+
+#: includes/admin/views/edit.php:524
+msgid "Preview"
+msgstr ""
+
+#: includes/admin/views/edit.php:526
+msgid "Widget preview"
+msgstr ""
+
+#: includes/admin/views/edit.php:527
+msgid "Shows the saved version. Sending it here really runs the automation."
+msgstr ""
+
+#: includes/admin/views/edit.php:531
+msgid "Statistics (last 30 days)"
+msgstr ""
+
+#: includes/admin/views/edit.php:535
+msgid "No activity yet."
+msgstr ""
+
+#: includes/admin/views/edit.php:540
+msgid "Website"
+msgstr ""
+
+#: includes/admin/views/edit.php:541
+msgid "Views"
+msgstr ""
+
+#: includes/admin/views/edit.php:542
+msgid "Submissions"
+msgstr ""
+
+#: includes/admin/views/edit.php:543
+msgid "Conversion"
+msgstr ""
+
+#: includes/admin/views/edit.php:544
+msgid "Rejected"
+msgstr ""
+
+#: includes/admin/views/edit.php:550
+msgid "(unknown)"
+msgstr ""
+
+#: includes/admin/views/edit.php:559
+msgid ""
+"A view is counted each time the widget loads; rejected includes spam, "
+"expired forms and validation errors (details in Webhook Logs → Widgets)."
+msgstr ""
+
+#: includes/admin/views/edit.php:578
 msgid ""
 "Available fields: user_id, user_login, user_email, display_name, first_name, "
 "last_name, roles, registered and event. Passwords are never included."
 msgstr ""
 
-#: includes/admin/views/edit.php:424
+#: includes/admin/views/edit.php:597
 msgid "Conditions (optional)"
 msgstr ""
 
-#: includes/admin/views/edit.php:425
+#: includes/admin/views/edit.php:598
 msgid "Extra requirements the event data must meet for the actions to run."
 msgstr ""
 
-#: includes/admin/views/edit.php:427
+#: includes/admin/views/edit.php:600
 msgid "Run the actions when"
 msgstr ""
 
-#: includes/admin/views/edit.php:429
+#: includes/admin/views/edit.php:602
 msgid "all the conditions are met"
 msgstr ""
 
-#: includes/admin/views/edit.php:430
+#: includes/admin/views/edit.php:603
 msgid "any of the conditions is met"
 msgstr ""
 
-#: includes/admin/views/edit.php:434
+#: includes/admin/views/edit.php:607
 msgid "Add field condition"
 msgstr ""
 
-#: includes/admin/views/edit.php:435
+#: includes/admin/views/edit.php:608
 msgid "Add user condition"
 msgstr ""
 
-#: includes/admin/views/edit.php:441
+#: includes/admin/views/edit.php:614
 msgid ""
 "What happens when the trigger fires. Actions run in order. Use \"Insert "
 "field…\" to place values from the trigger, written as {{field_name}}."
 msgstr ""
 
 #. translators: %s: action type label.
-#: includes/admin/views/edit.php:448
+#: includes/admin/views/edit.php:621
 #, php-format
 msgid "Add: %s"
 msgstr ""
 
-#: includes/admin/views/edit.php:457
+#: includes/admin/views/edit.php:630
 msgid "Runs and dates"
 msgstr ""
 
-#: includes/admin/views/edit.php:460
+#: includes/admin/views/edit.php:633
 msgid "Number of runs"
 msgstr ""
 
-#: includes/admin/views/edit.php:464
+#: includes/admin/views/edit.php:637
 msgid "Unlimited (never expires)"
 msgstr ""
 
-#: includes/admin/views/edit.php:467
+#: includes/admin/views/edit.php:640
 msgid "Stop after"
 msgstr ""
 
-#: includes/admin/views/edit.php:469
+#: includes/admin/views/edit.php:642
 msgid "runs"
 msgstr ""
 
-#: includes/admin/views/edit.php:474
+#: includes/admin/views/edit.php:647
 msgid "Start date"
 msgstr ""
 
-#: includes/admin/views/edit.php:477
+#: includes/admin/views/edit.php:650
 msgid "Leave empty to start right away."
 msgstr ""
 
-#: includes/admin/views/edit.php:481
+#: includes/admin/views/edit.php:654
 msgid "End date"
 msgstr ""
 
-#: includes/admin/views/edit.php:485
+#: includes/admin/views/edit.php:658
 msgid "Never expires"
 msgstr ""
 
 #. translators: %s: timezone name.
-#: includes/admin/views/edit.php:493
+#: includes/admin/views/edit.php:666
 #, php-format
 msgid "Dates use the site timezone (%s)."
 msgstr ""
 
-#: includes/admin/views/edit.php:511
+#: includes/admin/views/edit.php:684
 msgid "Create automation"
 msgstr ""
 
-#: includes/admin/views/edit.php:511
+#: includes/admin/views/edit.php:684
 msgid "Save changes"
 msgstr ""
 
@@ -1309,10 +1597,6 @@ msgid ""
 "email per failure. Every failure is always recorded in the logs."
 msgstr ""
 
-#: includes/admin/views/settings.php:87
-msgid "Webhooks"
-msgstr ""
-
 #: includes/admin/views/settings.php:90
 msgid "Detect the caller IP from"
 msgstr ""
@@ -1325,31 +1609,62 @@ msgid ""
 msgstr ""
 
 #: includes/admin/views/settings.php:102
+msgid "Widget captcha (optional)"
+msgstr ""
+
+#: includes/admin/views/settings.php:103
+msgid ""
+"Embeddable widgets can show a captcha from one of these services. Get free "
+"keys from the provider and choose the captcha in each widget. Nothing is "
+"sent to these services unless a widget uses them."
+msgstr ""
+
+#: includes/admin/views/settings.php:107
+msgid "Cloudflare Turnstile site key"
+msgstr ""
+
+#: includes/admin/views/settings.php:108
+msgid "Cloudflare Turnstile secret key"
+msgstr ""
+
+#: includes/admin/views/settings.php:109
+msgid "hCaptcha site key"
+msgstr ""
+
+#: includes/admin/views/settings.php:110
+msgid "hCaptcha secret key"
+msgstr ""
+
+#: includes/admin/views/settings.php:121
 msgid "Uninstall"
 msgstr ""
 
-#: includes/admin/views/settings.php:105
+#: includes/admin/views/settings.php:124
 msgid "Plugin data"
 msgstr ""
 
-#: includes/admin/views/settings.php:111
+#: includes/admin/views/settings.php:130
 msgid "Delete all automations, logs and settings when the plugin is deleted"
 msgstr ""
 
-#: includes/admin/views/settings.php:132
+#: includes/admin/views/settings.php:151
 msgid "Clear logs now"
 msgstr ""
 
-#: includes/admin/views/settings.php:136
+#: includes/admin/views/settings.php:155
 msgid "Clear automation logs"
 msgstr ""
 
-#: includes/admin/views/settings.php:137
+#: includes/admin/views/settings.php:156
 msgid "Clear webhook logs"
 msgstr ""
 
-#: includes/admin/views/settings.php:145
+#: includes/admin/views/settings.php:164
 msgid "Delete all entries of this log? This cannot be undone."
+msgstr ""
+
+#: includes/admin/views/webhook-log-detail.php:17
+msgid "Widget submission"
 msgstr ""
 
 #: includes/admin/views/webhook-log-detail.php:17
@@ -1358,6 +1673,10 @@ msgstr ""
 
 #: includes/admin/views/webhook-log-detail.php:18
 msgid "Back to webhook logs"
+msgstr ""
+
+#: includes/admin/views/webhook-log-detail.php:32
+msgid "Page with the widget"
 msgstr ""
 
 #: includes/admin/views/webhook-log-detail.php:50
@@ -1376,8 +1695,9 @@ msgstr ""
 
 #: includes/admin/views/webhook-logs.php:21
 msgid ""
-"Calls received by the webhook URLs of your automations. Click a row to see "
-"the URL, the method and the received data."
+"Calls received by the webhook URLs and the embeddable widgets of your "
+"automations, including the rejected ones. Click a row to see the details and "
+"the received data."
 msgstr ""
 
 #: includes/class-gsaat-actions.php:45
@@ -1876,30 +2196,34 @@ msgid "Click on a button"
 msgstr ""
 
 #: includes/class-gsaat-registry.php:56
+msgid "Embeddable widget on other websites (button, link or form)"
+msgstr ""
+
+#: includes/class-gsaat-registry.php:64
 msgid "WordPress user event (registration, login, password change)"
 msgstr ""
 
-#: includes/class-gsaat-registry.php:98
+#: includes/class-gsaat-registry.php:106
 msgid "Send data to an external webhook"
 msgstr ""
 
-#: includes/class-gsaat-registry.php:112
+#: includes/class-gsaat-registry.php:120
 msgid "Send an email"
 msgstr ""
 
-#: includes/class-gsaat-registry.php:125
+#: includes/class-gsaat-registry.php:133
 msgid "Calculator"
 msgstr ""
 
-#: includes/class-gsaat-registry.php:139
+#: includes/class-gsaat-registry.php:147
 msgid "Format data"
 msgstr ""
 
-#: includes/class-gsaat-registry.php:154
+#: includes/class-gsaat-registry.php:162
 msgid "Redirect the user"
 msgstr ""
 
-#: includes/class-gsaat-registry.php:163
+#: includes/class-gsaat-registry.php:171
 msgid "Wait (schedule the next actions)"
 msgstr ""
 
@@ -1947,6 +2271,8 @@ msgstr ""
 
 #: includes/class-gsaat-trigger-click.php:57
 #: includes/class-gsaat-trigger-click.php:275
+#: includes/class-gsaat-trigger-widget.php:78
+#: includes/class-gsaat-trigger-widget.php:668
 msgid "Send"
 msgstr ""
 
@@ -2044,6 +2370,159 @@ msgstr ""
 msgid "protected by %s"
 msgstr ""
 
+#: includes/class-gsaat-trigger-widget.php:43
+msgid "Form with fields"
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:44
+msgid "Button"
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:45
+msgid "Link"
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:51
+msgid "Text"
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:53
+msgid "Number"
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:54
+msgid "Phone"
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:55
+msgid "Long text"
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:56
+msgid "Drop-down list"
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:57
+msgid "Checkbox"
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:58
+msgid "Privacy consent"
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:64
+msgid "System (like the visitor's device)"
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:65
+msgid "Sans-serif"
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:66
+msgid "Serif"
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:67
+msgid "Monospace"
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:198
+msgid "Sending…"
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:199
+msgid "Something went wrong. Please try again."
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:200
+msgid "Continue"
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:201
+msgid "Please complete the verification."
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:296
+#: includes/class-gsaat-trigger-widget.php:324
+msgid "Unknown widget."
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:299
+#: includes/class-gsaat-trigger-widget.php:373
+#: includes/views/widget-page.php:28
+msgid "This form is not available right now."
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:306
+msgid "This website is not allowed to show this form."
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:350
+msgid "The form was sent too fast to be a person. Please try again."
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:354
+msgid "The hidden anti-spam field was filled in (probably a bot)."
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:364
+msgid "Too many submissions from this connection. Please try again later."
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:369
+msgid "The verification failed. Please try again."
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:379
+msgid "Please check the highlighted fields."
+msgstr ""
+
+#. translators: %s: website.
+#: includes/class-gsaat-trigger-widget.php:392
+#, php-format
+msgid "Widget used on %s"
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:393
+msgid "Widget used"
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:467
+msgid "The form expired. Reload the page and try again."
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:551
+msgid "You must accept to continue."
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:552
+msgid "This field is required."
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:557
+msgid "Enter a valid email address."
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:559
+msgid "Enter a number."
+msgstr ""
+
+#: includes/class-gsaat-trigger-widget.php:561
+msgid "Choose one of the options."
+msgstr ""
+
+#. translators: %s: widget kind.
+#: includes/class-gsaat-trigger-widget.php:734
+#, php-format
+msgid "Embeddable widget: %s"
+msgstr ""
+
+#. translators: %s: comma-separated websites.
+#: includes/class-gsaat-trigger-widget.php:739
+#, php-format
+msgid "on %s"
+msgstr ""
+
 #: includes/class-gsaat-webhook-security.php:25
 msgid "Custom (generic HMAC)"
 msgstr ""
@@ -2116,4 +2595,12 @@ msgstr ""
 
 #: includes/class-gsaat-webhook-security.php:361
 msgid "X-Real-IP header (behind Nginx proxy)"
+msgstr ""
+
+#: includes/views/widget-page.php:51
+msgid "Privacy policy"
+msgstr ""
+
+#: includes/views/widget-page.php:79
+msgid "Leave this field empty"
 msgstr ""

@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $glocalsaino_aat_is_error = (int) $log['status_code'] >= 300;
 ?>
 <div class="wrap glocalsaino-aat-wrap">
-	<h1 class="wp-heading-inline"><?php esc_html_e( 'Webhook call', 'glocalsaino-actions-automation-based-on-trigger' ); ?></h1>
+	<h1 class="wp-heading-inline"><?php echo 'widget' === $log['source'] ? esc_html__( 'Widget submission', 'glocalsaino-actions-automation-based-on-trigger' ) : esc_html__( 'Webhook call', 'glocalsaino-actions-automation-based-on-trigger' ); ?></h1>
 	<a href="<?php echo esc_url( GSAAT_Admin::url( GSAAT_Admin::PAGE_WEBHOOK ) ); ?>" class="page-title-action"><?php esc_html_e( 'Back to webhook logs', 'glocalsaino-actions-automation-based-on-trigger' ); ?></a>
 	<hr class="wp-header-end">
 
@@ -29,7 +29,7 @@ $glocalsaino_aat_is_error = (int) $log['status_code'] >= 300;
 				<td><?php echo esc_html( $log['automation_name'] ); ?></td>
 			</tr>
 			<tr>
-				<th scope="row"><?php esc_html_e( 'Webhook URL', 'glocalsaino-actions-automation-based-on-trigger' ); ?></th>
+				<th scope="row"><?php echo 'widget' === $log['source'] ? esc_html__( 'Page with the widget', 'glocalsaino-actions-automation-based-on-trigger' ) : esc_html__( 'Webhook URL', 'glocalsaino-actions-automation-based-on-trigger' ); ?></th>
 				<td><code class="glocalsaino-aat-break"><?php echo esc_html( $log['webhook_url'] ); ?></code></td>
 			</tr>
 			<tr>

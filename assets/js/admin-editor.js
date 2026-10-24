@@ -17,6 +17,7 @@
 	const api = window.glocalsainoAat || { actionTypes: {}, triggerFields: {} };
 	const state = {
 		webhookKeys: Array.isArray( cfg.state.webhookKeys ) ? cfg.state.webhookKeys.slice() : [],
+		widgetFields: Array.isArray( cfg.state.widgetFields ) ? cfg.state.widgetFields : [],
 		conditions: {
 			logic: cfg.state.conditions && cfg.state.conditions.logic === 'any' ? 'any' : 'all',
 			rules: cfg.state.conditions && Array.isArray( cfg.state.conditions.rules ) ? cfg.state.conditions.rules : [],
@@ -98,6 +99,9 @@
 		}
 		if ( type === 'wp_user' ) {
 			return cfg.userFields.slice();
+		}
+		if ( type === 'widget' ) {
+			return widgetKind() === 'form' ? state.widgetFields.map( ( field ) => field.key ).filter( Boolean ) : [];
 		}
 		if ( api.triggerFields[ type ] ) {
 			return ( api.triggerFields[ type ]() || [] ).filter( Boolean );
@@ -371,6 +375,109 @@
 			);
 		} );
 		updateWebhookExample();
+	}
+
+	/* ------------------------------------------------------------------ */
+	/* Embeddable widget                                                   */
+	/* ------------------------------------------------------------------ */
+
+	function widgetKind() {
+		const checked = form.querySelector( 'input[name="widget_kind"]:checked' );
+		return checked ? checked.value : 'form';
+	}
+
+	function updateWidgetKind() {
+		const kind = widgetKind();
+		document.querySelectorAll( '[data-glocalsaino-aat-widget-kind]' ).forEach( ( row ) => {
+			row.hidden = ! row.getAttribute( 'data-glocalsaino-aat-widget-kind' ).split( ' ' ).includes( kind );
+		} );
+	}
+
+	function renderWidgetFields() {
+		const container = $( 'glocalsaino-aat-widget-fields' );
+		if ( ! container ) {
+			return;
+		}
+		container.textContent = '';
+		if ( ! state.widgetFields.length ) {
+			container.appendChild( el( 'p', { class: 'glocalsaino-aat-muted', text: i18n.noWidgetFields } ) );
+		}
+		state.widgetFields.forEach( ( field, index ) => {
+			field.options = Array.isArray( field.options ) ? field.options : [];
+			const typeSelect = el( 'select', { 'aria-label': i18n.fieldType, onchange: ( e ) => {
+				field.type = e.target.value;
+				renderWidgetFields();
+			} } );
+			Object.entries( cfg.widgetFieldTypes ).forEach( ( [ key, label ] ) => typeSelect.appendChild( el( 'option', { value: key, text: label } ) ) );
+			typeSelect.value = field.type || 'text';
+			field.type = typeSelect.value;
+
+			const keyInput = el( 'input', {
+				type: 'text',
+				class: 'code',
+				value: field.key || '',
+				placeholder: i18n.fieldKey,
+				'aria-label': i18n.fieldKey,
+				oninput: ( e ) => {
+					field.key = e.target.value.toLowerCase().replace( /[^a-z0-9_\-]/g, '' );
+					if ( field.key !== e.target.value ) {
+						e.target.value = field.key;
+					}
+					refreshFieldPickers();
+				},
+			} );
+			const labelInput = el( 'input', { type: 'text', value: field.label || '', placeholder: i18n.fieldLabel, 'aria-label': i18n.fieldLabel, oninput: ( e ) => ( field.label = e.target.value ) } );
+			const isCheck = field.type === 'checkbox' || field.type === 'consent';
+			const required = field.type === 'consent'
+				? null
+				: el( 'label', {}, [ el( 'input', { type: 'checkbox', checked: !! field.required, onchange: ( e ) => ( field.required = e.target.checked ) } ), ' ' + i18n.fieldRequired ] );
+
+			const extras = [];
+			if ( ! isCheck ) {
+				extras.push( el( 'input', { type: 'text', value: field.placeholder || '', placeholder: i18n.fieldPlaceholder, 'aria-label': i18n.fieldPlaceholder, oninput: ( e ) => ( field.placeholder = e.target.value ) } ) );
+			}
+			if ( field.type === 'select' ) {
+				extras.push( labelled( i18n.fieldOptions, el( 'textarea', {
+					rows: 3,
+					class: 'regular-text',
+					value: field.options.join( '\n' ),
+					oninput: ( e ) => ( field.options = e.target.value.split( '\n' ).map( ( o ) => o.trim() ).filter( Boolean ) ),
+				} ) ) );
+			}
+			if ( field.type === 'consent' ) {
+				extras.push( el( 'input', { type: 'url', class: 'regular-text', value: field.privacy_url || '', placeholder: i18n.fieldPrivacyUrl + ' (https://…)', 'aria-label': i18n.fieldPrivacyUrl, oninput: ( e ) => ( field.privacy_url = e.target.value ) } ) );
+			}
+
+			const move = ( delta ) => {
+				const target = index + delta;
+				if ( target >= 0 && target < state.widgetFields.length ) {
+					state.widgetFields.splice( target, 0, state.widgetFields.splice( index, 1 )[ 0 ] );
+					renderWidgetFields();
+					refreshFieldPickers();
+				}
+			};
+
+			container.appendChild(
+				el( 'div', { class: 'glocalsaino-aat-widget-field' }, [
+					el( 'div', { class: 'glocalsaino-aat-row' }, [
+						keyInput,
+						labelInput,
+						typeSelect,
+						required,
+						el( 'span', { class: 'glocalsaino-aat-action__tools' }, [
+							index > 0 ? iconButton( 'dashicons-arrow-up-alt2', i18n.moveUp, () => move( -1 ) ) : null,
+							index < state.widgetFields.length - 1 ? iconButton( 'dashicons-arrow-down-alt2', i18n.moveDown, () => move( 1 ) ) : null,
+							iconButton( 'dashicons-trash', i18n.remove, () => {
+								state.widgetFields.splice( index, 1 );
+								renderWidgetFields();
+								refreshFieldPickers();
+							} ),
+						] ),
+					] ),
+					extras.length ? el( 'div', { class: 'glocalsaino-aat-row' }, extras ) : null,
+				] )
+			);
+		} );
 	}
 
 	/* ------------------------------------------------------------------ */
@@ -850,6 +957,22 @@
 		renderConditions();
 		renderActions();
 	} );
+	form.querySelectorAll( 'input[name="widget_kind"]' ).forEach( ( radio ) =>
+		radio.addEventListener( 'change', () => {
+			updateWidgetKind();
+			refreshFieldPickers();
+		} )
+	);
+	if ( $( 'glocalsaino-aat-add-widget-field' ) ) {
+		$( 'glocalsaino-aat-add-widget-field' ).addEventListener( 'click', () => {
+			state.widgetFields.push( { key: '', label: '', type: 'text', required: false, placeholder: '', options: [], privacy_url: '' } );
+			renderWidgetFields();
+			const inputs = $( 'glocalsaino-aat-widget-fields' ).querySelectorAll( 'input.code' );
+			if ( inputs.length ) {
+				inputs[ inputs.length - 1 ].focus();
+			}
+		} );
+	}
 	if ( $( 'glocalsaino-aat-link-params' ) ) {
 		$( 'glocalsaino-aat-link-params' ).addEventListener( 'input', refreshFieldPickers );
 	}
@@ -934,6 +1057,17 @@
 			return;
 		}
 
+		if ( triggerSelect.value === 'widget' && widgetKind() === 'form' ) {
+			const keys = state.widgetFields.map( ( field ) => field.key );
+			if ( keys.some( ( key ) => ! key ) || new Set( keys ).size !== keys.length ) {
+				e.preventDefault();
+				window.alert( i18n.errorWidgetKeys );
+				return;
+			}
+		}
+		if ( $( 'glocalsaino-aat-widget-fields-json' ) ) {
+			$( 'glocalsaino-aat-widget-fields-json' ).value = JSON.stringify( state.widgetFields );
+		}
 		$( 'glocalsaino-aat-webhook-keys-json' ).value = JSON.stringify( state.webhookKeys.filter( Boolean ) );
 		$( 'glocalsaino-aat-conditions-json' ).value = JSON.stringify( state.conditions );
 		$( 'glocalsaino-aat-actions-json' ).value = JSON.stringify( state.actions );
@@ -962,6 +1096,8 @@
 	linkCheckbox( 'glocalsaino-aat-never-expires', 'glocalsaino-aat-end-date' );
 
 	initSecurity();
+	updateWidgetKind();
+	renderWidgetFields();
 	updateTriggerSections();
 	updateCf7Fields();
 	updateCf7Mode();

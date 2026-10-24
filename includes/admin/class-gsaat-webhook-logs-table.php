@@ -30,6 +30,7 @@ class GSAAT_Webhook_Logs_Table extends WP_List_Table {
 			'cb'         => '<input type="checkbox" />',
 			'created_at' => __( 'Date', 'glocalsaino-actions-automation-based-on-trigger' ),
 			'automation' => __( 'Automation', 'glocalsaino-actions-automation-based-on-trigger' ),
+			'source'     => __( 'Source', 'glocalsaino-actions-automation-based-on-trigger' ),
 			'method'     => __( 'Method', 'glocalsaino-actions-automation-based-on-trigger' ),
 			'remote_ip'  => __( 'Caller IP', 'glocalsaino-actions-automation-based-on-trigger' ),
 			'received'   => __( 'Received fields', 'glocalsaino-actions-automation-based-on-trigger' ),
@@ -43,19 +44,22 @@ class GSAAT_Webhook_Logs_Table extends WP_List_Table {
 
 	protected function get_views() {
 		$current = $this->current_status();
+		$source  = $this->current_source();
 		$labels  = array(
-			''        => __( 'All', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'success' => __( 'Received', 'glocalsaino-actions-automation-based-on-trigger' ),
-			'error'   => __( 'Errors', 'glocalsaino-actions-automation-based-on-trigger' ),
+			'all'     => array( __( 'All', 'glocalsaino-actions-automation-based-on-trigger' ), array() ),
+			'success' => array( __( 'Received', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'status' => 'success' ) ),
+			'error'   => array( __( 'Errors', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'status' => 'error' ) ),
+			'webhook' => array( __( 'Webhooks', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'source' => 'webhook' ) ),
+			'widget'  => array( __( 'Widgets', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'source' => 'widget' ) ),
 		);
 		$views   = array();
-		foreach ( $labels as $status => $label ) {
-			$url = GSAAT_Admin::url( GSAAT_Admin::PAGE_WEBHOOK, array_filter( array( 'status' => $status ) ) );
-			$views[ '' === $status ? 'all' : $status ] = sprintf(
+		foreach ( $labels as $key => $view ) {
+			$is_current   = ( 'all' === $key && '' === $current && '' === $source ) || $key === $current || $key === $source;
+			$views[ $key ] = sprintf(
 				'<a href="%s"%s>%s</a>',
-				esc_url( $url ),
-				$current === $status ? ' class="current" aria-current="page"' : '',
-				esc_html( $label )
+				esc_url( GSAAT_Admin::url( GSAAT_Admin::PAGE_WEBHOOK, $view[1] ) ),
+				$is_current ? ' class="current" aria-current="page"' : '',
+				esc_html( $view[0] )
 			);
 		}
 		return $views;
@@ -70,6 +74,7 @@ class GSAAT_Webhook_Logs_Table extends WP_List_Table {
 		$result = GSAAT_Logs::query_webhook(
 			array(
 				'status'        => $this->current_status(),
+				'source'        => $this->current_source(),
 				'automation_id' => $automation_id,
 				'per_page'      => $per_page,
 				'paged'         => $this->get_pagenum(),
@@ -107,6 +112,10 @@ class GSAAT_Webhook_Logs_Table extends WP_List_Table {
 		return esc_html( $item['automation_name'] );
 	}
 
+	protected function column_source( $item ) {
+		return 'widget' === $item['source'] ? esc_html__( 'Widget', 'glocalsaino-actions-automation-based-on-trigger' ) : esc_html__( 'Webhook', 'glocalsaino-actions-automation-based-on-trigger' );
+	}
+
 	protected function column_method( $item ) {
 		return '<code>' . esc_html( $item['method'] ) . '</code>';
 	}
@@ -134,6 +143,12 @@ class GSAAT_Webhook_Logs_Table extends WP_List_Table {
 			esc_html( (string) $code ),
 			esc_html( $item['error_message'] )
 		);
+	}
+
+	private function current_source() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only filter.
+		$source = isset( $_GET['source'] ) ? sanitize_key( wp_unslash( $_GET['source'] ) ) : '';
+		return in_array( $source, array( 'webhook', 'widget' ), true ) ? $source : '';
 	}
 
 	private function current_status() {

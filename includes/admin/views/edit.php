@@ -30,6 +30,7 @@ $glocalsaino_aat_security = GSAAT_Webhook_Security::config( 'webhook' === $autom
 $glocalsaino_aat_last_ip  = $automation['id'] ? GSAAT_Logs::last_webhook_ip( $automation['id'] ) : '';
 $glocalsaino_aat_link     = GSAAT_Trigger_Click::link_config( 'link' === $automation['trigger_type'] ? $automation['trigger_config'] : array() );
 $glocalsaino_aat_button   = GSAAT_Trigger_Click::button_config( 'button' === $automation['trigger_type'] ? $automation['trigger_config'] : array() );
+$glocalsaino_aat_widget   = GSAAT_Trigger_Widget::config( 'widget' === $automation['trigger_type'] ? $automation['trigger_config'] : array() );
 $glocalsaino_aat_user     = GSAAT_Trigger_User::config( 'wp_user' === $automation['trigger_type'] ? $automation['trigger_config'] : array() );
 ?>
 <div class="wrap glocalsaino-aat-wrap">
@@ -388,6 +389,178 @@ $glocalsaino_aat_user     = GSAAT_Trigger_User::config( 'wp_user' === $automatio
 							<?php endif; ?>
 						</td>
 					</tr>
+				</table>
+			</div>
+
+			<!-- Embeddable widget -->
+			<div data-glocalsaino-aat-trigger="widget" hidden>
+				<input type="hidden" name="widget_fields_json" id="glocalsaino-aat-widget-fields-json" value="">
+				<p class="description"><?php esc_html_e( 'A button, link or form that other websites show with a small piece of code. When a visitor uses it there, this automation runs here.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+				<table class="form-table" role="presentation">
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Widget type', 'glocalsaino-actions-automation-based-on-trigger' ); ?></th>
+						<td>
+							<fieldset>
+								<?php foreach ( GSAAT_Trigger_Widget::kinds() as $glocalsaino_aat_kind => $glocalsaino_aat_label ) : ?>
+									<label><input type="radio" name="widget_kind" value="<?php echo esc_attr( $glocalsaino_aat_kind ); ?>" <?php checked( $glocalsaino_aat_kind, $glocalsaino_aat_widget['kind'] ); ?>> <?php echo esc_html( $glocalsaino_aat_label ); ?></label>&nbsp;&nbsp;
+								<?php endforeach; ?>
+							</fieldset>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="glocalsaino-aat-widget-title"><?php esc_html_e( 'Heading and text (optional)', 'glocalsaino-actions-automation-based-on-trigger' ); ?></label></th>
+						<td>
+							<input type="text" class="large-text" id="glocalsaino-aat-widget-title" name="widget_title" placeholder="<?php esc_attr_e( 'Heading', 'glocalsaino-actions-automation-based-on-trigger' ); ?>" value="<?php echo esc_attr( $glocalsaino_aat_widget['title'] ); ?>">
+							<textarea class="large-text glocalsaino-aat-top-gap" rows="2" name="widget_intro" aria-label="<?php esc_attr_e( 'Text above the widget', 'glocalsaino-actions-automation-based-on-trigger' ); ?>" placeholder="<?php esc_attr_e( 'Text above the widget', 'glocalsaino-actions-automation-based-on-trigger' ); ?>"><?php echo esc_textarea( $glocalsaino_aat_widget['intro'] ); ?></textarea>
+						</td>
+					</tr>
+					<tr data-glocalsaino-aat-widget-kind="form">
+						<th scope="row"><?php esc_html_e( 'Form fields', 'glocalsaino-actions-automation-based-on-trigger' ); ?></th>
+						<td>
+							<div id="glocalsaino-aat-widget-fields"></div>
+							<button type="button" class="button" id="glocalsaino-aat-add-widget-field"><?php esc_html_e( 'Add field', 'glocalsaino-actions-automation-based-on-trigger' ); ?></button>
+							<p class="description"><?php esc_html_e( 'The field name is how you use the value in conditions and actions, e.g. {{email}}. Only these fields are accepted; anything else sent is ignored.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="glocalsaino-aat-widget-text"><?php esc_html_e( 'Button / link text', 'glocalsaino-actions-automation-based-on-trigger' ); ?></label></th>
+						<td><input type="text" class="regular-text" id="glocalsaino-aat-widget-text" name="widget_text" value="<?php echo esc_attr( $glocalsaino_aat_widget['text'] ); ?>"></td>
+					</tr>
+					<tr data-glocalsaino-aat-widget-kind="link">
+						<th scope="row"><label for="glocalsaino-aat-widget-destination"><?php esc_html_e( 'Link destination', 'glocalsaino-actions-automation-based-on-trigger' ); ?></label></th>
+						<td>
+							<input type="url" class="large-text" id="glocalsaino-aat-widget-destination" name="widget_destination" placeholder="https://" value="<?php echo esc_attr( $glocalsaino_aat_widget['destination'] ); ?>">
+							<p class="description"><?php esc_html_e( 'The page the visitor goes to after clicking (a "Redirect the user" action can choose another one).', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+						</td>
+					</tr>
+					<tr data-glocalsaino-aat-widget-kind="form button">
+						<th scope="row"><label for="glocalsaino-aat-widget-message"><?php esc_html_e( 'After sending', 'glocalsaino-actions-automation-based-on-trigger' ); ?></label></th>
+						<td>
+							<input type="text" class="large-text" id="glocalsaino-aat-widget-message" name="widget_message" value="<?php echo esc_attr( $glocalsaino_aat_widget['message'] ); ?>" placeholder="<?php esc_attr_e( 'Message shown in the widget', 'glocalsaino-actions-automation-based-on-trigger' ); ?>">
+							<input type="url" class="large-text glocalsaino-aat-top-gap" name="widget_redirect" aria-label="<?php esc_attr_e( 'Or go to this page (optional)', 'glocalsaino-actions-automation-based-on-trigger' ); ?>" placeholder="<?php esc_attr_e( 'Or go to this page (optional): https://', 'glocalsaino-actions-automation-based-on-trigger' ); ?>" value="<?php echo esc_attr( $glocalsaino_aat_widget['redirect'] ); ?>">
+							<p class="description"><?php esc_html_e( 'Going to another page works best with the script embed code; with the plain iframe the visitor may get a "Continue" link instead.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Design', 'glocalsaino-actions-automation-based-on-trigger' ); ?></th>
+						<td>
+							<div class="glocalsaino-aat-inline">
+								<label class="glocalsaino-aat-field"><span class="glocalsaino-aat-field__label"><?php esc_html_e( 'Main color', 'glocalsaino-actions-automation-based-on-trigger' ); ?></span><input type="color" name="widget_primary" value="<?php echo esc_attr( $glocalsaino_aat_widget['design']['primary'] ); ?>"></label>
+								<label class="glocalsaino-aat-field"><span class="glocalsaino-aat-field__label"><?php esc_html_e( 'Text color', 'glocalsaino-actions-automation-based-on-trigger' ); ?></span><input type="color" name="widget_text_color" value="<?php echo esc_attr( $glocalsaino_aat_widget['design']['text'] ); ?>"></label>
+								<label class="glocalsaino-aat-field"><span class="glocalsaino-aat-field__label"><?php esc_html_e( 'Background', 'glocalsaino-actions-automation-based-on-trigger' ); ?></span><input type="color" name="widget_background" value="<?php echo esc_attr( $glocalsaino_aat_widget['design']['background'] ); ?>"></label>
+								<label class="glocalsaino-aat-field"><span class="glocalsaino-aat-field__label"><?php esc_html_e( 'Corner radius (px)', 'glocalsaino-actions-automation-based-on-trigger' ); ?></span><input type="number" min="0" max="40" class="small-text" name="widget_radius" value="<?php echo esc_attr( (string) $glocalsaino_aat_widget['design']['radius'] ); ?>"></label>
+								<label class="glocalsaino-aat-field"><span class="glocalsaino-aat-field__label"><?php esc_html_e( 'Font', 'glocalsaino-actions-automation-based-on-trigger' ); ?></span>
+									<select name="widget_font">
+										<?php foreach ( GSAAT_Trigger_Widget::fonts() as $glocalsaino_aat_font => $glocalsaino_aat_font_def ) : ?>
+											<option value="<?php echo esc_attr( $glocalsaino_aat_font ); ?>" <?php selected( $glocalsaino_aat_font, $glocalsaino_aat_widget['design']['font'] ); ?>><?php echo esc_html( $glocalsaino_aat_font_def[0] ); ?></option>
+										<?php endforeach; ?>
+									</select>
+								</label>
+							</div>
+							<details class="glocalsaino-aat-details-toggle" <?php echo '' !== $glocalsaino_aat_widget['design']['custom_css'] ? 'open' : ''; ?>>
+								<summary><?php esc_html_e( 'Custom CSS (optional)', 'glocalsaino-actions-automation-based-on-trigger' ); ?></summary>
+								<textarea class="large-text code" rows="5" name="widget_custom_css" aria-label="<?php esc_attr_e( 'Custom CSS', 'glocalsaino-actions-automation-based-on-trigger' ); ?>" placeholder=".gsaat-w__button { text-transform: uppercase; }"><?php echo esc_textarea( $glocalsaino_aat_widget['design']['custom_css'] ); ?></textarea>
+							</details>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="glocalsaino-aat-widget-domains"><?php esc_html_e( 'Allowed websites', 'glocalsaino-actions-automation-based-on-trigger' ); ?></label></th>
+						<td>
+							<textarea class="large-text code" rows="3" id="glocalsaino-aat-widget-domains" name="widget_domains" placeholder="example.com&#10;*.example.org"><?php echo esc_textarea( implode( "\n", (array) $glocalsaino_aat_widget['domains'] ) ); ?></textarea>
+							<p class="description"><?php esc_html_e( 'Only these websites can show the widget (one per line; *.example.org includes its subdomains). Recommended. Leave empty to allow any website.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Anti-spam', 'glocalsaino-actions-automation-based-on-trigger' ); ?></th>
+						<td>
+							<label>
+								<?php esc_html_e( 'At most', 'glocalsaino-actions-automation-based-on-trigger' ); ?>
+								<input type="number" min="0" max="1000" class="small-text" name="widget_rate_limit" value="<?php echo esc_attr( (string) $glocalsaino_aat_widget['rate_limit'] ); ?>">
+								<?php esc_html_e( 'submissions per hour from the same connection (0 = no limit)', 'glocalsaino-actions-automation-based-on-trigger' ); ?>
+							</label>
+							<p class="glocalsaino-aat-top-gap">
+								<label><?php esc_html_e( 'Captcha', 'glocalsaino-actions-automation-based-on-trigger' ); ?>
+									<select name="widget_captcha">
+										<option value=""><?php esc_html_e( 'None', 'glocalsaino-actions-automation-based-on-trigger' ); ?></option>
+										<?php foreach ( GSAAT_Captcha::providers() as $glocalsaino_aat_provider => $glocalsaino_aat_provider_def ) : ?>
+											<option value="<?php echo esc_attr( $glocalsaino_aat_provider ); ?>" <?php selected( $glocalsaino_aat_provider, $glocalsaino_aat_widget['captcha'] ); ?>>
+												<?php
+												echo esc_html( $glocalsaino_aat_provider_def['label'] );
+												if ( ! GSAAT_Captcha::configured( $glocalsaino_aat_provider ) ) {
+													echo ' ' . esc_html__( '(add its keys in Settings)', 'glocalsaino-actions-automation-based-on-trigger' );
+												}
+												?>
+											</option>
+										<?php endforeach; ?>
+									</select>
+								</label>
+							</p>
+							<p class="description"><?php esc_html_e( 'Always active: a single-use code issued when the widget loads, a minimum time to send and a hidden trap field for bots.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Code for the other website', 'glocalsaino-actions-automation-based-on-trigger' ); ?></th>
+						<td>
+							<?php if ( $glocalsaino_aat_is_new ) : ?>
+								<p class="description"><strong><?php esc_html_e( 'The code is shown once the automation is saved.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></strong></p>
+							<?php else : ?>
+								<?php $glocalsaino_aat_codes = GSAAT_Trigger_Widget::embed_codes( $automation ); ?>
+								<p><strong><?php esc_html_e( 'Recommended (adjusts its height and can take the visitor to another page):', 'glocalsaino-actions-automation-based-on-trigger' ); ?></strong></p>
+								<div class="glocalsaino-aat-copy-row">
+									<code id="glocalsaino-aat-widget-script" class="glocalsaino-aat-break"><?php echo esc_html( $glocalsaino_aat_codes['script'] ); ?></code>
+									<button type="button" class="button button-small glocalsaino-aat-copy" data-copy-target="glocalsaino-aat-widget-script"><?php esc_html_e( 'Copy', 'glocalsaino-actions-automation-based-on-trigger' ); ?></button>
+								</div>
+								<p class="glocalsaino-aat-top-gap"><strong><?php esc_html_e( 'Or, where scripts are not allowed, a plain iframe:', 'glocalsaino-actions-automation-based-on-trigger' ); ?></strong></p>
+								<div class="glocalsaino-aat-copy-row">
+									<code id="glocalsaino-aat-widget-iframe" class="glocalsaino-aat-break"><?php echo esc_html( $glocalsaino_aat_codes['iframe'] ); ?></code>
+									<button type="button" class="button button-small glocalsaino-aat-copy" data-copy-target="glocalsaino-aat-widget-iframe"><?php esc_html_e( 'Copy', 'glocalsaino-actions-automation-based-on-trigger' ); ?></button>
+								</div>
+								<p class="description"><?php esc_html_e( 'If the widget does not appear on the other website, check that it is in "Allowed websites" and that no security plugin on this site adds an X-Frame-Options header to every page.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+							<?php endif; ?>
+						</td>
+					</tr>
+					<?php if ( ! $glocalsaino_aat_is_new && 'widget' === $automation['trigger_type'] ) : ?>
+						<tr>
+							<th scope="row"><?php esc_html_e( 'Preview', 'glocalsaino-actions-automation-based-on-trigger' ); ?></th>
+							<td>
+								<iframe class="glocalsaino-aat-widget-preview" src="<?php echo esc_url( GSAAT_Trigger_Widget::widget_url( $automation['webhook_key'] ) ); ?>" title="<?php esc_attr_e( 'Widget preview', 'glocalsaino-actions-automation-based-on-trigger' ); ?>"></iframe>
+								<p class="description"><?php esc_html_e( 'Shows the saved version. Sending it here really runs the automation.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><?php esc_html_e( 'Statistics (last 30 days)', 'glocalsaino-actions-automation-based-on-trigger' ); ?></th>
+							<td>
+								<?php $glocalsaino_aat_stats = GSAAT_Widget_Stats::summary( $automation['id'] ); ?>
+								<?php if ( ! $glocalsaino_aat_stats ) : ?>
+									<p class="glocalsaino-aat-muted"><?php esc_html_e( 'No activity yet.', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+								<?php else : ?>
+									<table class="widefat striped glocalsaino-aat-stats">
+										<thead>
+											<tr>
+												<th scope="col"><?php esc_html_e( 'Website', 'glocalsaino-actions-automation-based-on-trigger' ); ?></th>
+												<th scope="col"><?php esc_html_e( 'Views', 'glocalsaino-actions-automation-based-on-trigger' ); ?></th>
+												<th scope="col"><?php esc_html_e( 'Submissions', 'glocalsaino-actions-automation-based-on-trigger' ); ?></th>
+												<th scope="col"><?php esc_html_e( 'Conversion', 'glocalsaino-actions-automation-based-on-trigger' ); ?></th>
+												<th scope="col"><?php esc_html_e( 'Rejected', 'glocalsaino-actions-automation-based-on-trigger' ); ?></th>
+											</tr>
+										</thead>
+										<tbody>
+											<?php foreach ( $glocalsaino_aat_stats as $glocalsaino_aat_row ) : ?>
+												<tr>
+													<td><?php echo esc_html( '' !== $glocalsaino_aat_row['domain'] ? $glocalsaino_aat_row['domain'] : __( '(unknown)', 'glocalsaino-actions-automation-based-on-trigger' ) ); ?></td>
+													<td><?php echo esc_html( number_format_i18n( (int) $glocalsaino_aat_row['views'] ) ); ?></td>
+													<td><?php echo esc_html( number_format_i18n( (int) $glocalsaino_aat_row['submissions'] ) ); ?></td>
+													<td><?php echo esc_html( (int) $glocalsaino_aat_row['views'] > 0 ? number_format_i18n( 100 * (int) $glocalsaino_aat_row['submissions'] / (int) $glocalsaino_aat_row['views'], 1 ) . ' %' : '—' ); ?></td>
+													<td><?php echo esc_html( number_format_i18n( (int) $glocalsaino_aat_row['rejected'] ) ); ?></td>
+												</tr>
+											<?php endforeach; ?>
+										</tbody>
+									</table>
+									<p class="description"><?php esc_html_e( 'A view is counted each time the widget loads; rejected includes spam, expired forms and validation errors (details in Webhook Logs → Widgets).', 'glocalsaino-actions-automation-based-on-trigger' ); ?></p>
+								<?php endif; ?>
+							</td>
+						</tr>
+					<?php endif; ?>
 				</table>
 			</div>
 

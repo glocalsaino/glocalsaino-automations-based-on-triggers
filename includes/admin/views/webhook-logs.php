@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php GSAAT_Admin::render_notice(); ?>
 
 	<p class="description">
-		<?php esc_html_e( 'Calls received by the webhook URLs of your automations. Click a row to see the URL, the method and the received data.', 'glocalsaino-actions-automation-based-on-trigger' ); ?>
+		<?php esc_html_e( 'Calls received by the webhook URLs and the embeddable widgets of your automations, including the rejected ones. Click a row to see the details and the received data.', 'glocalsaino-actions-automation-based-on-trigger' ); ?>
 	</p>
 
 	<?php $table->views(); ?>

@@ -215,6 +215,9 @@ class GSAAT_Admin {
 			'failure_email_to'            => isset( $input['failure_email_to'] ) ? implode( ', ', GSAAT_Notifier::recipients( sanitize_text_field( $input['failure_email_to'] ) ) ) : '',
 			'failure_email_throttle'      => isset( $input['failure_email_throttle'] ) ? min( 1440, absint( $input['failure_email_throttle'] ) ) : 60,
 		);
+		foreach ( array( 'turnstile_site_key', 'turnstile_secret_key', 'hcaptcha_site_key', 'hcaptcha_secret_key' ) as $key ) {
+			$clean[ $key ] = isset( $input[ $key ] ) ? preg_replace( '/[^A-Za-z0-9_\-.]/', '', sanitize_text_field( (string) $input[ $key ] ) ) : '';
+		}
 
 		// Do not store the admin email as an explicit recipient when the field was left empty.
 		if ( isset( $input['failure_email_to'] ) && '' === trim( (string) $input['failure_email_to'] ) ) {
@@ -846,6 +849,7 @@ class GSAAT_Admin {
 			'ip_disabled'              => array( 'warning', __( 'The IP restriction was turned off because the list has no valid address.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
 			'signature_disabled'       => array( 'warning', __( 'The signature check was turned off because no signing secret was entered.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
 			'user_rule_incomplete'     => array( 'warning', __( 'A user condition was removed because no valid user was chosen.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
+			'captcha_not_configured'   => array( 'warning', __( 'The chosen captcha has no keys yet: add them in Settings, otherwise the widget works without captcha.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
 			'job_ran'                  => array( 'success', __( 'The scheduled actions were run now. This is the result.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
 			'job_cancelled'            => array( 'success', __( 'The scheduled actions were cancelled.', 'glocalsaino-actions-automation-based-on-trigger' ) ),
 			'job_not_pending'          => array( 'warning', __( 'Those scheduled actions are no longer pending (they already ran or were cancelled).', 'glocalsaino-actions-automation-based-on-trigger' ) ),
@@ -980,6 +984,8 @@ class GSAAT_Admin {
 				'_click_page'       => array( __( 'Page where the click happened', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'link', 'button' ) ),
 				'_link_destination' => array( __( 'Link destination', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'link' ) ),
 				'_button_label'     => array( __( 'Button text', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'button' ) ),
+				'_widget_site'      => array( __( 'Website where the widget was used', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'widget' ) ),
+				'_widget_page'      => array( __( 'Page where the widget was used', 'glocalsaino-actions-automation-based-on-trigger' ), array( 'widget' ) ),
 			) as $key => $token
 		) {
 			$builtin[] = array(
@@ -1005,6 +1011,7 @@ class GSAAT_Admin {
 			'formatOperations' => $format_operations,
 			'delayUnits'      => wp_list_pluck( GSAAT_Scheduler::units(), 0 ),
 			'userFields'      => GSAAT_Trigger_User::fields(),
+			'widgetFieldTypes' => GSAAT_Trigger_Widget::field_types(),
 			'ajaxUrl'       => admin_url( 'admin-ajax.php' ),
 			'userNonce'     => wp_create_nonce( 'glocalsaino_aat_search_users' ),
 			'userOperators' => GSAAT_Engine::user_operators(),
@@ -1016,6 +1023,17 @@ class GSAAT_Admin {
 			'methods'       => GSAAT_Actions::http_methods(),
 			'state'         => array(
 				'webhookKeys' => $automation && isset( $automation['trigger_config']['keys'] ) ? array_values( (array) $automation['trigger_config']['keys'] ) : array(),
+				'widgetFields' => $automation && 'widget' === $automation['trigger_type'] && isset( $automation['trigger_config']['fields'] ) ? array_values( (array) $automation['trigger_config']['fields'] ) : array(
+					array(
+						'key'         => 'email',
+						'label'       => __( 'Email', 'glocalsaino-actions-automation-based-on-trigger' ),
+						'type'        => 'email',
+						'required'    => true,
+						'placeholder' => '',
+						'options'     => array(),
+						'privacy_url' => '',
+					),
+				),
 				'conditions'  => $automation ? $automation['conditions'] : array(
 					'logic' => 'all',
 					'rules' => array(),
@@ -1080,6 +1098,15 @@ class GSAAT_Admin {
 				'waitFor'         => __( 'Wait', 'glocalsaino-actions-automation-based-on-trigger' ),
 				'waitHint'        => __( 'The actions below this one run after the wait. Actions above it run immediately.', 'glocalsaino-actions-automation-based-on-trigger' ),
 				'producedFields'  => __( 'Results of previous actions', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'fieldKey'        => __( 'Field name', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'fieldLabel'      => __( 'Label', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'fieldType'       => __( 'Type', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'fieldRequired'   => __( 'Required', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'fieldPlaceholder' => __( 'Placeholder', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'fieldOptions'    => __( 'Options (one per line)', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'fieldPrivacyUrl' => __( 'Privacy policy URL', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'noWidgetFields'  => __( 'Add at least one field.', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'errorWidgetKeys' => __( 'Every widget field needs a unique name (letters, digits, - and _).', 'glocalsaino-actions-automation-based-on-trigger' ),
 				'unknownAction'   => __( 'This action type is not available. If it comes from an add-on, activate the add-on to edit it. It is kept as it is.', 'glocalsaino-actions-automation-based-on-trigger' ),
 			),
 		);

@@ -52,6 +52,14 @@ class GSAAT_Registry {
 				'visitor'  => true,
 				'browser'  => true,
 			),
+			'widget'  => array(
+				'label'    => __( 'Embeddable widget on other websites (button, link or form)', 'glocalsaino-actions-automation-based-on-trigger' ),
+				'sanitize' => array( 'GSAAT_Trigger_Widget', 'sanitize_config' ),
+				'describe' => array( 'GSAAT_Trigger_Widget', 'describe' ),
+				// Visitors on other sites are always anonymous here (this site's cookies are not sent).
+				'visitor'  => false,
+				'browser'  => true,
+			),
 			'wp_user' => array(
 				'label'    => __( 'WordPress user event (registration, login, password change)', 'glocalsaino-actions-automation-based-on-trigger' ),
 				'sanitize' => array( 'GSAAT_Trigger_User', 'sanitize_config' ),

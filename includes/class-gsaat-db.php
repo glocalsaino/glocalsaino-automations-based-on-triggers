@@ -34,6 +34,7 @@ class GSAAT_DB {
 		$logs         = self::table( 'logs' );
 		$webhook_logs = self::table( 'webhook_logs' );
 		$jobs         = self::table( 'jobs' );
+		$widget_stats = self::table( 'widget_stats' );
 
 		dbDelta(
 			"CREATE TABLE {$automations} (
@@ -90,6 +91,7 @@ class GSAAT_DB {
 				webhook_url text NULL,
 				method varchar(10) NOT NULL DEFAULT '',
 				remote_ip varchar(45) NOT NULL DEFAULT '',
+				source varchar(20) NOT NULL DEFAULT 'webhook',
 				received_data longtext NULL,
 				status_code smallint(5) unsigned NOT NULL DEFAULT 200,
 				error_code varchar(64) NOT NULL DEFAULT '',
@@ -97,7 +99,22 @@ class GSAAT_DB {
 				created_at datetime NOT NULL,
 				PRIMARY KEY  (id),
 				KEY automation_id (automation_id),
+				KEY source (source),
 				KEY created_at (created_at)
+			) {$charset};"
+		);
+
+		dbDelta(
+			"CREATE TABLE {$widget_stats} (
+				id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+				automation_id bigint(20) unsigned NOT NULL DEFAULT 0,
+				domain varchar(191) NOT NULL DEFAULT '',
+				day date NOT NULL,
+				views int(10) unsigned NOT NULL DEFAULT 0,
+				submissions int(10) unsigned NOT NULL DEFAULT 0,
+				rejected int(10) unsigned NOT NULL DEFAULT 0,
+				PRIMARY KEY  (id),
+				UNIQUE KEY automation_domain_day (automation_id,domain,day)
 			) {$charset};"
 		);
 

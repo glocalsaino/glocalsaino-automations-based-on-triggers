@@ -84,6 +84,7 @@ class GSAAT_Logs {
 				'webhook_url'     => (string) $entry['webhook_url'],
 				'method'          => (string) $entry['method'],
 				'remote_ip'       => isset( $entry['remote_ip'] ) ? (string) $entry['remote_ip'] : '',
+				'source'          => isset( $entry['source'] ) ? (string) $entry['source'] : 'webhook',
 				'received_data'   => wp_json_encode( $entry['received_data'] ),
 				'status_code'     => (int) $entry['status_code'],
 				'error_code'      => isset( $entry['error_code'] ) ? (string) $entry['error_code'] : '',
@@ -146,24 +147,28 @@ class GSAAT_Logs {
 		// Status mode: 0 = all, 1 = success (status code < 300), 2 = error (status code >= 300).
 		$total = (int) $wpdb->get_var(
 			$wpdb->prepare(
-				'SELECT COUNT(*) FROM %i WHERE ( %d = 0 OR ( %d = 1 AND status_code < 300 ) OR ( %d = 2 AND status_code >= 300 ) ) AND ( %d = 0 OR automation_id = %d )',
+				'SELECT COUNT(*) FROM %i WHERE ( %d = 0 OR ( %d = 1 AND status_code < 300 ) OR ( %d = 2 AND status_code >= 300 ) ) AND ( %d = 0 OR automation_id = %d ) AND ( %d = 0 OR source = %s )',
 				$table,
 				$args['webhook_mode'],
 				$args['webhook_mode'],
 				$args['webhook_mode'],
 				$args['automation_id'],
-				$args['automation_id']
+				$args['automation_id'],
+				$args['source_mode'],
+				$args['source']
 			)
 		);
 		$rows  = $wpdb->get_results(
 			$wpdb->prepare(
-				'SELECT * FROM %i WHERE ( %d = 0 OR ( %d = 1 AND status_code < 300 ) OR ( %d = 2 AND status_code >= 300 ) ) AND ( %d = 0 OR automation_id = %d ) ORDER BY created_at DESC, id DESC LIMIT %d OFFSET %d',
+				'SELECT * FROM %i WHERE ( %d = 0 OR ( %d = 1 AND status_code < 300 ) OR ( %d = 2 AND status_code >= 300 ) ) AND ( %d = 0 OR automation_id = %d ) AND ( %d = 0 OR source = %s ) ORDER BY created_at DESC, id DESC LIMIT %d OFFSET %d',
 				$table,
 				$args['webhook_mode'],
 				$args['webhook_mode'],
 				$args['webhook_mode'],
 				$args['automation_id'],
 				$args['automation_id'],
+				$args['source_mode'],
+				$args['source'],
 				$args['per_page'],
 				$args['offset']
 			),
@@ -242,6 +247,9 @@ class GSAAT_Logs {
 			if ( 'logs' === $table ) {
 				GSAAT_Scheduler::cleanup( $days );
 			}
+			if ( 'webhook_logs' === $table ) {
+				GSAAT_Widget_Stats::cleanup();
+			}
 			$cutoff = gmdate( 'Y-m-d H:i:s', time() - $days * DAY_IN_SECONDS );
 			$wpdb->query(
 				$wpdb->prepare( 'DELETE FROM %i WHERE created_at < %s', GSAAT_DB::table( $table ), $cutoff )
@@ -263,6 +271,7 @@ class GSAAT_Logs {
 			$args,
 			array(
 				'status'        => '',
+				'source'        => '',
 				'automation_id' => 0,
 				'per_page'      => 20,
 				'paged'         => 1,
@@ -272,6 +281,8 @@ class GSAAT_Logs {
 			'status'        => (string) $args['status'],
 			'status_mode'   => '' === (string) $args['status'] ? 0 : 1,
 			'webhook_mode'  => (int) array_search( (string) $args['status'], array( '', 'success', 'error' ), true ),
+			'source'        => (string) $args['source'],
+			'source_mode'   => '' === (string) $args['source'] ? 0 : 1,
 			'automation_id' => (int) $args['automation_id'],
 			'per_page'      => (int) $args['per_page'],
 			'offset'        => max( 0, ( (int) $args['paged'] - 1 ) * (int) $args['per_page'] ),

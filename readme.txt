@@ -14,6 +14,8 @@ No-code automations: forms, files, links, buttons, widgets, webhooks or sign-ups
 
 **GlocalSaino Automations Based on Triggers** lets you build automations without writing code. Each automation has a **trigger** (the event that starts it), optional **conditions**, and one or more **actions** that run when the trigger fires. Everything is free: no license key, no locked features, no usage caps.
 
+**Documentation:** step-by-step guides for every trigger, condition and action, shortcode reference and FAQ at [glocalsaino.com/automationsbasedontriggers/documentacion](https://glocalsaino.com/automationsbasedontriggers/documentacion/).
+
 = Triggers =
 
 * **Click on a link** – the plugin gives you a tracked link (and a shortcode). Each click runs the automation and takes the visitor to the destination you set in the back end. Values added to the link (e.g. `&email=…`) become fields.
@@ -82,7 +84,7 @@ When an automation fails (or, optionally, when only some of its actions fail), t
 
 = For developers =
 
-The plugin is extensible: add-ons can register new trigger and action types, add settings, editor cards and admin pages, and hook into every execution. The built-in triggers and actions use the same API. More information on the [plugin website](https://glocalsaino.com/automationsbasedontriggers/).
+The plugin is extensible: add-ons can register new trigger and action types, add settings, editor cards and admin pages, and hook into every execution. The built-in triggers and actions use the same API. See "For Developers" in the [plugin documentation](https://glocalsaino.com/automationsbasedontriggers/documentacion/#developers).
 
 == Installation ==
 
@@ -92,6 +94,10 @@ The plugin is extensible: add-ons can register new trigger and action types, add
 4. To use the Contact Form 7 trigger, install and activate [Contact Form 7](https://wordpress.org/plugins/contact-form-7/).
 
 == Frequently Asked Questions ==
+
+= Where is the documentation? =
+
+At [glocalsaino.com/automationsbasedontriggers/documentacion](https://glocalsaino.com/automationsbasedontriggers/documentacion/): installation, every trigger, condition and action explained, fields and placeholders, tables, shortcodes, logs and retries, settings and more answers.
 
 = Is Contact Form 7 required? =
 

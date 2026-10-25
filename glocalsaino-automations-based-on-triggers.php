@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name:       GlocalSaino Automations Based on Triggers
- * Plugin URI:        https://glocalsaino.com/automationsbasedontriggers
+ * Plugin URI:        https://glocalsaino.com/automationsbasedontriggers/
  * Description:       No-code automations: when a form is sent, a file is uploaded, a link, button or widget is used, a webhook arrives or a user signs up, run emails, webhooks, calculations, tables, redirects and scheduled actions.
- * Version:           1.3.2
+ * Version:           1.3.3
  * Requires at least: 6.2
  * Requires PHP:      7.4
  * Author:            Glocal Saino
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'GSAAT_VERSION', '1.3.2' );
+define( 'GSAAT_VERSION', '1.3.3' );
 define( 'GSAAT_DB_VERSION', '6' );
 define( 'GSAAT_API_VERSION', '1.0' );
 define( 'GSAAT_FILE', __FILE__ );

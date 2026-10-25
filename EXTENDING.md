@@ -132,6 +132,15 @@ add_action( 'woocommerce_payment_complete', function ( $order_id ) {
 } );
 ```
 
+Register the names of your settings fields so the editor passes them to your sanitize callback (it never passes the whole `$_POST`):
+
+```php
+add_filter( 'glocalsaino_aat_editor_post_keys', function ( $keys ) {
+	$keys[] = 'myaddon_min_total';
+	return $keys;
+} );
+```
+
 Trigger settings form: print it with the `glocalsaino_aat_trigger_settings` action, wrapped in `<div data-glocalsaino-aat-trigger="myaddon_woo_order" hidden>…</div>` so it shows only for that trigger. Field names are free (they arrive in `$post`).
 
 Fields for the "Insert field…" pickers and conditions:
@@ -171,7 +180,7 @@ add_filter( 'glocalsaino_aat_sanitize_automation_meta', function ( $meta, $post,
 }, 10, 3 );
 ```
 
-Read it back from `$automation['meta']`.
+Read it back from `$automation['meta']`. Add the field names you read from `$post` (here `myaddon_delay`) with the `glocalsaino_aat_editor_post_keys` filter.
 
 ## Settings, admin pages and notices
 

@@ -281,6 +281,9 @@ class GSAAT_Trigger_Click {
 
 	public static function describe_link( array $automation ) {
 		$config = self::link_config( $automation['trigger_config'] );
+		if ( '' === $config['destination'] ) {
+			return __( 'Link clicked', 'glocalsaino-automations-based-on-triggers' );
+		}
 		/* translators: %s: destination URL. */
 		return sprintf( __( 'Link clicked → %s', 'glocalsaino-automations-based-on-triggers' ), $config['destination'] );
 	}

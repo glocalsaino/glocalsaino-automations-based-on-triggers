@@ -4,7 +4,7 @@ Tags: automation, webhook, contact form 7, csv import, data table
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.3.2
+Stable tag: 1.3.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,7 +82,7 @@ When an automation fails (or, optionally, when only some of its actions fail), t
 
 = For developers =
 
-The plugin is extensible: add-ons can register new trigger and action types, add settings, editor cards and admin pages, and hook into every execution. The built-in triggers and actions use the same API. The developer documentation (hooks and examples) is published on the plugin website.
+The plugin is extensible: add-ons can register new trigger and action types, add settings, editor cards and admin pages, and hook into every execution. The built-in triggers and actions use the same API. More information on the [plugin website](https://glocalsaino.com/automationsbasedontriggers/).
 
 == Installation ==
 
@@ -153,6 +153,16 @@ It runs again only the actions that failed in that execution, with the same even
 
 Yes. The Logs screen shows the event with the result "Conditions not met", and the run counter does not increase.
 
+== Screenshots ==
+
+1. The automations list: trigger, actions, completed runs, status and creation date of each automation.
+2. Creating an automation: choose the trigger among Contact Form 7, webhooks, links, buttons, embeddable widgets, file uploads and WordPress user events.
+3. Adding actions (webhook, email, calculator, format data, redirect, tables, wait) and setting the number of runs and the dates when the automation is active.
+4. Logs: every execution with its event, the actions run and their result, plus the scheduled actions.
+5. Tables: the data collected by your automations, ready to show anywhere with a shortcode.
+6. Settings: log retention and email notifications when an automation fails.
+7. Settings: caller IP detection for webhook protection, optional hCaptcha for widgets and uninstall options.
+
 == External services ==
 
 This plugin does not connect to any external service by itself.
@@ -164,6 +174,11 @@ The **webhook trigger** works the other way around: external systems you choose 
 **hCaptcha (optional).** Only when you add hCaptcha keys in Settings and choose the captcha for an embeddable widget, the widget loads the hCaptcha script, which shows the challenge to the visitor and may collect information about their browser and device. When the visitor sends the widget, your site sends the challenge response and the visitor's IP address to hCaptcha to verify it. Nothing is sent to hCaptcha otherwise. [Terms of Service](https://www.hcaptcha.com/terms), [Privacy Policy](https://www.hcaptcha.com/privacy).
 
 == Changelog ==
+
+= 1.3.3 =
+* Suggested text for the site's privacy policy (Settings → Privacy).
+* The automation editor only reads its own known fields when saving.
+* Screenshots and plugin website.
 
 = 1.3.2 =
 * The plugin is now called GlocalSaino Automations Based on Triggers (slug and text domain: glocalsaino-automations-based-on-triggers).
@@ -194,6 +209,9 @@ The **webhook trigger** works the other way around: external systems you choose 
 * First release: Contact Form 7 and webhook triggers; webhook security (header token, IP allowlist, HMAC signatures with Stripe, Shopify, WooCommerce and GitHub presets); external webhook and email actions; field and WordPress user conditions; failure email notifications; retry of failed actions from the logs; extension API for add-ons; run limits and dates; logs, webhook logs and log retention settings.
 
 == Upgrade Notice ==
+
+= 1.3.3 =
+Privacy policy text and small improvements.
 
 = 1.3.2 =
 New plugin name.

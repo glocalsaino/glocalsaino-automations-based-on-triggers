@@ -29,6 +29,7 @@ class GSAAT_Admin {
 	public static function init() {
 		add_action( 'admin_menu', array( __CLASS__, 'menu' ) );
 		add_action( 'admin_init', array( __CLASS__, 'register_settings' ) );
+		add_action( 'admin_init', array( __CLASS__, 'privacy_policy_content' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue' ) );
 		add_action( 'admin_post_glocalsaino_aat_save', array( __CLASS__, 'handle_save' ) );
 		add_action( 'admin_post_glocalsaino_aat_row', array( __CLASS__, 'handle_row_action' ) );
@@ -191,6 +192,25 @@ class GSAAT_Admin {
 	 * ---------------------------------------------------------------------
 	 */
 
+	/**
+	 * Suggested text for the site's privacy policy (Settings → Privacy).
+	 */
+	public static function privacy_policy_content() {
+		if ( ! function_exists( 'wp_add_privacy_policy_content' ) ) {
+			return;
+		}
+		$paragraphs = array(
+			__( 'This site uses automations that run when visitors send forms, click certain links or buttons, upload files, use forms embedded on other websites, or register and log in.', 'glocalsaino-automations-based-on-triggers' ),
+			__( 'The data involved in each automation (for example, the fields of a form you send) is stored in the automation logs, together with the date. For calls received from other systems and widgets, the IP address of the sender is stored too. These logs are kept for the number of days set by the site administrator and then deleted automatically.', 'glocalsaino-automations-based-on-triggers' ),
+			__( 'Some automations may store your data in tables, which can be shown on this site to the audience chosen by the administrator, send it by email, or send it to other services chosen by the site administrator. Uploaded files are read and discarded; they are not stored.', 'glocalsaino-automations-based-on-triggers' ),
+			__( 'If a form embedded on another website uses hCaptcha, the challenge is provided by hCaptcha, which receives information about your browser and your IP address to verify that you are a person.', 'glocalsaino-automations-based-on-triggers' ),
+		);
+		wp_add_privacy_policy_content(
+			'GlocalSaino Automations Based on Triggers',
+			wp_kses_post( '<p>' . implode( '</p><p>', array_map( 'esc_html', $paragraphs ) ) . '</p>' )
+		);
+	}
+
 	public static function register_settings() {
 		register_setting(
 			'glocalsaino_aat_settings_group',
@@ -254,9 +274,8 @@ class GSAAT_Admin {
 			$trigger_type = '';
 		}
 
-		// Raw POST data for the trigger / add-on sanitize callbacks, which sanitize every value they use.
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		$post = wp_unslash( $_POST );
+		// Known editor fields only; each value is sanitized by the callback that uses it.
+		$post = self::posted_fields();
 		// JSON payloads built by the editor script; every value is sanitized after decoding.
 		$conditions_json = isset( $post['conditions_json'] ) && is_string( $post['conditions_json'] ) ? $post['conditions_json'] : '{}';
 		$actions_json    = isset( $post['actions_json'] ) && is_string( $post['actions_json'] ) ? $post['actions_json'] : '[]';
@@ -356,6 +375,98 @@ class GSAAT_Admin {
 			)
 		);
 		exit;
+	}
+
+	/**
+	 * The editor fields that trigger / meta sanitize callbacks may read (never the whole $_POST).
+	 * Values are unslashed; strings stay raw (JSON payloads are decoded and sanitized later),
+	 * lists are reduced to sanitized scalars.
+	 *
+	 * @return array
+	 */
+	private static function posted_fields() {
+		$keys = array(
+			'conditions_json',
+			'actions_json',
+			'webhook_keys_json',
+			'cf7_form_id',
+			'cf7_mode',
+			'cf7_field',
+			'cf7_value',
+			'sec_token_enabled',
+			'sec_token_header',
+			'sec_token_value',
+			'sec_ip_enabled',
+			'sec_ip_list',
+			'sec_sig_enabled',
+			'sec_sig_preset',
+			'sec_sig_secret',
+			'sec_sig_header',
+			'sec_sig_algo',
+			'sec_sig_encoding',
+			'sec_sig_timestamp_header',
+			'sec_sig_tolerance',
+			'link_destination',
+			'link_params',
+			'link_pass_params',
+			'link_ignore_bots',
+			'button_label',
+			'button_class',
+			'button_message',
+			'button_redirect',
+			'user_events',
+			'widget_kind',
+			'widget_title',
+			'widget_intro',
+			'widget_text',
+			'widget_destination',
+			'widget_fields_json',
+			'widget_message',
+			'widget_redirect',
+			'widget_primary',
+			'widget_text_color',
+			'widget_background',
+			'widget_radius',
+			'widget_font',
+			'widget_site_css',
+			'widget_domains',
+			'widget_rate_limit',
+			'widget_captcha',
+			'file_mode',
+			'file_columns',
+			'file_max_rows',
+			'file_max_size',
+			'file_access',
+			'file_roles',
+			'file_rate_limit',
+			'file_label',
+			'file_button_text',
+			'file_message',
+		);
+
+		/**
+		 * Filters the editor fields passed to the trigger and automation-meta sanitize callbacks.
+		 * Add-ons add the names of their own fields here.
+		 *
+		 * @param string[] $keys Field names.
+		 */
+		$keys = apply_filters( 'glocalsaino_aat_editor_post_keys', $keys );
+
+		$post = array();
+		foreach ( array_unique( (array) $keys ) as $key ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Called from handle_save() after check_admin_referer().
+			if ( ! is_string( $key ) || ! isset( $_POST[ $key ] ) ) {
+				continue;
+			}
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized by the callback that uses each field (JSON is decoded first).
+			$value = wp_unslash( $_POST[ $key ] );
+			if ( is_array( $value ) ) {
+				$post[ $key ] = array_map( 'sanitize_text_field', array_filter( $value, 'is_scalar' ) );
+			} elseif ( is_string( $value ) ) {
+				$post[ $key ] = $value;
+			}
+		}
+		return $post;
 	}
 
 	/**

@@ -1,3 +1,5 @@
 .gitignore export-ignore
 .gitattributes export-ignore
 EXTENDING.md export-ignore
+README.md export-ignore
+LICENSE export-ignore

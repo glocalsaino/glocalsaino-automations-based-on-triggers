@@ -258,6 +258,47 @@ class GSAAT_Automations {
 	}
 
 	/**
+	 * Hourly limit for runs started by anonymous visitors through the public routes (link, button,
+	 * widget, upload), counted per automation for all visitors together. It caps what a flood of
+	 * requests can make the actions do (emails, webhooks, table rows), whatever the per-IP limits.
+	 * The first refused run of each hour is recorded in the logs.
+	 *
+	 * @param array $automation Automation.
+	 * @return bool True if the run may go ahead.
+	 */
+	public static function public_run_allowed( array $automation ) {
+		$settings = GSAAT_Plugin::settings();
+		$limit    = (int) $settings['public_hourly_limit'];
+		if ( $limit <= 0 ) {
+			return true;
+		}
+		$key   = 'glocalsaino_aat_ph_' . (int) $automation['id'] . '_' . gmdate( 'YmdH' );
+		$count = (int) get_transient( $key );
+		if ( $count < $limit ) {
+			set_transient( $key, $count + 1, HOUR_IN_SECONDS );
+			return true;
+		}
+		if ( ! get_transient( $key . '_logged' ) ) {
+			set_transient( $key . '_logged', 1, HOUR_IN_SECONDS );
+			GSAAT_Logs::add(
+				array(
+					'automation_id'   => $automation['id'],
+					'automation_name' => $automation['name'],
+					'trigger_type'    => $automation['trigger_type'],
+					'event'           => __( 'Hourly limit for anonymous visitors reached', 'glocalsaino-automations-based-on-triggers' ),
+					'trigger_data'    => array(),
+					'context'         => array(),
+					'results'         => array(),
+					'status'          => 'skipped',
+					/* translators: %d: runs per hour. */
+					'message'         => sprintf( __( 'This automation already ran %d times in this hour for anonymous visitors (Settings → Public triggers). Further runs are refused until the next hour and are not logged one by one.', 'glocalsaino-automations-based-on-triggers' ), $limit ),
+				)
+			);
+		}
+		return false;
+	}
+
+	/**
 	 * Decode a database row into a usable automation array.
 	 *
 	 * @param array $row Raw row.

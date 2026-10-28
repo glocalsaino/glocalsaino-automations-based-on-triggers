@@ -303,6 +303,9 @@ class GSAAT_Trigger_File {
 		if ( 'active' !== GSAAT_Automations::availability( $automation ) ) {
 			return self::result( $automation, $back, 'unavailable' );
 		}
+		if ( ! $user_id && ! GSAAT_Automations::public_run_allowed( $automation ) ) {
+			return self::result( $automation, $back, 'rate' );
+		}
 
 		$files  = (array) $request->get_file_params();
 		$upload = self::receive( isset( $files[ self::FILE_FIELD ] ) ? $files[ self::FILE_FIELD ] : null, $config['max_size'], $config['max_rows'] );

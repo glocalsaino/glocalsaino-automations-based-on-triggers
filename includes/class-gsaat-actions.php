@@ -458,12 +458,20 @@ class GSAAT_Actions {
 	public static function email( array $action, array $tokens ) {
 		$to_raw     = GSAAT_Engine::replace_tokens( $action['to'], $tokens );
 		$recipients = array();
-		foreach ( preg_split( '/[,;]+/', $to_raw ) as $address ) {
-			$address = sanitize_email( trim( $address ) );
-			if ( is_email( $address ) ) {
-				$recipients[] = $address;
+		foreach ( preg_split( '/[,;]+/', (string) $action['to'] ) as $part ) {
+			// A {{field}} placeholder gives at most one address, so a visitor cannot add recipients.
+			$from_data = false !== strpos( $part, '{{' );
+			foreach ( preg_split( '/[,;\s]+/', GSAAT_Engine::replace_tokens( $part, $tokens ) ) as $address ) {
+				$address = sanitize_email( trim( $address ) );
+				if ( is_email( $address ) ) {
+					$recipients[] = $address;
+					if ( $from_data ) {
+						break;
+					}
+				}
 			}
 		}
+		$recipients = array_values( array_unique( $recipients ) );
 		$target = implode( ', ', $recipients );
 
 		if ( ! $recipients ) {

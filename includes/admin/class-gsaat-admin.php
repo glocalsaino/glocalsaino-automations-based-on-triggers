@@ -234,6 +234,7 @@ class GSAAT_Admin {
 			'notify_partial'              => empty( $input['notify_partial'] ) ? 0 : 1,
 			'failure_email_to'            => isset( $input['failure_email_to'] ) ? implode( ', ', GSAAT_Notifier::recipients( sanitize_text_field( $input['failure_email_to'] ) ) ) : '',
 			'failure_email_throttle'      => isset( $input['failure_email_throttle'] ) ? min( 1440, absint( $input['failure_email_throttle'] ) ) : 60,
+			'public_hourly_limit'         => isset( $input['public_hourly_limit'] ) ? min( 100000, absint( $input['public_hourly_limit'] ) ) : 100,
 		);
 		foreach ( array( 'hcaptcha_site_key', 'hcaptcha_secret_key' ) as $key ) {
 			$clean[ $key ] = isset( $input[ $key ] ) ? preg_replace( '/[^A-Za-z0-9_\-.]/', '', sanitize_text_field( (string) $input[ $key ] ) ) : '';

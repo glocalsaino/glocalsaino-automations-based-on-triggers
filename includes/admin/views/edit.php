@@ -466,10 +466,10 @@ $glocalsaino_aat_user     = GSAAT_Trigger_User::config( 'wp_user' === $automatio
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><label for="glocalsaino-aat-widget-domains"><?php esc_html_e( 'Allowed websites', 'glocalsaino-automations-based-on-triggers' ); ?></label></th>
+						<th scope="row"><label for="glocalsaino-aat-widget-domains"><?php esc_html_e( 'Websites that can show the widget', 'glocalsaino-automations-based-on-triggers' ); ?></label></th>
 						<td>
 							<textarea class="large-text code" rows="3" id="glocalsaino-aat-widget-domains" name="widget_domains" placeholder="example.com&#10;*.example.org"><?php echo esc_textarea( implode( "\n", (array) $glocalsaino_aat_widget['domains'] ) ); ?></textarea>
-							<p class="description"><?php esc_html_e( 'Only these websites can show the widget (one per line; *.example.org includes its subdomains). Recommended. Leave empty to allow any website.', 'glocalsaino-automations-based-on-triggers' ); ?></p>
+							<p class="description"><?php esc_html_e( 'Browsers will only display the widget on these websites (one per line; *.example.org includes its subdomains). Recommended. Leave empty to allow any website. This controls where the widget can be shown, not who can send data: like a webhook, anyone who knows the widget address can send submissions to it directly, so treat the received values as untrusted. Direct submissions are limited by the single-use code, the anti-spam checks, the hourly limits and the optional captcha.', 'glocalsaino-automations-based-on-triggers' ); ?></p>
 						</td>
 					</tr>
 					<tr>
@@ -517,7 +517,7 @@ $glocalsaino_aat_user     = GSAAT_Trigger_User::config( 'wp_user' === $automatio
 									<code id="glocalsaino-aat-widget-iframe" class="glocalsaino-aat-break"><?php echo esc_html( GSAAT_Trigger_Widget::iframe_code( $automation ) ); ?></code>
 									<button type="button" class="button button-small glocalsaino-aat-copy" data-copy-target="glocalsaino-aat-widget-iframe"><?php esc_html_e( 'Copy', 'glocalsaino-automations-based-on-triggers' ); ?></button>
 								</div>
-								<p class="description"><?php esc_html_e( 'If the widget does not appear on the other website, check that it is in "Allowed websites" and that no security plugin on this site adds an X-Frame-Options header to every page.', 'glocalsaino-automations-based-on-triggers' ); ?></p>
+								<p class="description"><?php esc_html_e( 'If the widget does not appear on the other website, check that it is in "Websites that can show the widget" and that no security plugin on this site adds an X-Frame-Options header to every page.', 'glocalsaino-automations-based-on-triggers' ); ?></p>
 							<?php endif; ?>
 						</td>
 					</tr>

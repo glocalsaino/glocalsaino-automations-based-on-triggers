@@ -86,6 +86,7 @@ class GSAAT_Plugin {
 			'notify_partial'              => 1,
 			'failure_email_to'            => '',
 			'failure_email_throttle'      => 60,
+			'public_hourly_limit'         => 100,
 			'hcaptcha_site_key'           => '',
 			'hcaptcha_secret_key'         => '',
 		) );

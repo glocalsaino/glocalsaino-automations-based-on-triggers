@@ -111,7 +111,8 @@ class GSAAT_Trigger_Click {
 		}
 
 		$is_bot = $config['ignore_bots'] && self::is_bot( (string) $request->get_header( 'user_agent' ) );
-		if ( 'HEAD' !== $request->get_method() && ! $is_bot && ! self::is_repeat( $automation['id'] ) ) {
+		if ( 'HEAD' !== $request->get_method() && ! $is_bot && ! self::is_repeat( $automation['id'] )
+			&& ( get_current_user_id() || GSAAT_Automations::public_run_allowed( $automation ) ) ) {
 			GSAAT_Engine::process(
 				$automation,
 				$params,
@@ -151,7 +152,7 @@ class GSAAT_Trigger_Click {
 		}
 		$config = self::button_config( $automation['trigger_config'] );
 
-		if ( ! self::is_repeat( $automation['id'] ) ) {
+		if ( ! self::is_repeat( $automation['id'] ) && ( get_current_user_id() || GSAAT_Automations::public_run_allowed( $automation ) ) ) {
 			GSAAT_Engine::process(
 				$automation,
 				array(),

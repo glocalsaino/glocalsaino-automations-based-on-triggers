@@ -311,9 +311,20 @@ class GSAAT_Trigger_Widget {
 			return new WP_Error( 'glocalsaino_aat_widget_unavailable', __( 'This form is not available right now.', 'glocalsaino-automations-based-on-triggers' ), array( 'status' => 403 ) );
 		}
 
+		if ( ! self::own_origin( $request ) ) {
+			return new WP_Error( 'glocalsaino_aat_widget_origin', __( 'This widget can only be used from its own page.', 'glocalsaino-automations-based-on-triggers' ), array( 'status' => 403 ) );
+		}
+
 		$config = self::config( $automation['trigger_config'] );
 		$host   = self::host_of( (string) $request->get_param( 'parent' ) );
-		// With allowed websites configured, the embedding site must be known and allowed (an unknown one is refused).
+		/*
+		 * "parent" is reported by the widget page itself, so it is not proof of where a request comes
+		 * from: a script can call this route directly with any value. What really limits the websites
+		 * that can show the widget is the browser enforcing the frame-ancestors header of the widget
+		 * page. This check only keeps statistics and honest embeds consistent with that list; abuse of
+		 * direct submissions is limited by the single-use token, minimum time, honeypot, per-IP and
+		 * per-automation hourly limits and the optional captcha (see rest_submit()).
+		 */
 		if ( $config['domains'] && ! self::host_allowed( $host, $config['domains'] ) ) {
 			GSAAT_Widget_Stats::bump( $automation['id'], $host, 'rejected' );
 			return new WP_Error( 'glocalsaino_aat_widget_domain', __( 'This website is not allowed to show this form.', 'glocalsaino-automations-based-on-triggers' ), array( 'status' => 403 ) );
@@ -356,6 +367,9 @@ class GSAAT_Trigger_Widget {
 			'source'          => 'widget',
 		);
 
+		if ( ! self::own_origin( $request ) ) {
+			return self::reject( $log, $automation['id'], $host, 403, 'glocalsaino_aat_widget_origin', __( 'This widget can only be used from its own page.', 'glocalsaino-automations-based-on-triggers' ) );
+		}
 		if ( is_wp_error( $token ) ) {
 			return self::reject( $log, $automation['id'], $host, 403, $token->get_error_code(), $token->get_error_message() );
 		}
@@ -393,6 +407,10 @@ class GSAAT_Trigger_Widget {
 		if ( $errors ) {
 			$log['received_data'] = $data;
 			return self::reject( $log, $automation['id'], $host, 400, 'glocalsaino_aat_widget_invalid', __( 'Please check the highlighted fields.', 'glocalsaino-automations-based-on-triggers' ), $errors );
+		}
+
+		if ( ! GSAAT_Automations::public_run_allowed( $automation ) ) {
+			return self::reject( $log, $automation['id'], $host, 429, 'glocalsaino_aat_widget_hourly_limit', __( 'This form has received too many submissions. Please try again later.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 
 		self::mark_token_used( $token['nonce'] );
@@ -619,6 +637,23 @@ class GSAAT_Trigger_Widget {
 		}
 		$host = (string) wp_parse_url( $value, PHP_URL_HOST );
 		return preg_match( '/^[a-z0-9.\-]+$/', $host ) ? $host : '';
+	}
+
+	/**
+	 * Browsers add an Origin header to cross-site requests. The widget page calls these routes from
+	 * this site's own origin, so a request from a script on another website is refused. Clients
+	 * that are not browsers can omit the header: this is one more filter, not an authentication.
+	 *
+	 * @param WP_REST_Request $request Request.
+	 * @return bool
+	 */
+	private static function own_origin( WP_REST_Request $request ) {
+		$origin = (string) $request->get_header( 'origin' );
+		if ( '' === $origin ) {
+			return true;
+		}
+		$host = self::host_of( $origin );
+		return '' !== $host && in_array( $host, array( self::host_of( home_url() ), self::host_of( site_url() ), self::host_of( rest_url() ) ), true );
 	}
 
 	/**

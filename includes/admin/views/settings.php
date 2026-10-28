@@ -84,6 +84,19 @@ $glocalsaino_aat_option   = GSAAT_Plugin::SETTINGS_OPTION;
 			</tr>
 		</table>
 
+		<h2><?php esc_html_e( 'Public triggers', 'glocalsaino-automations-based-on-triggers' ); ?></h2>
+		<table class="form-table" role="presentation">
+			<tr>
+				<th scope="row"><label for="glocalsaino-aat-public-limit"><?php esc_html_e( 'Maximum runs per hour of each automation for anonymous visitors', 'glocalsaino-automations-based-on-triggers' ); ?></label></th>
+				<td>
+					<input type="number" min="0" max="100000" step="1" class="small-text" id="glocalsaino-aat-public-limit"
+						name="<?php echo esc_attr( $glocalsaino_aat_option ); ?>[public_hourly_limit]"
+						value="<?php echo esc_attr( (string) $glocalsaino_aat_settings['public_hourly_limit'] ); ?>">
+					<p class="description"><?php esc_html_e( 'Links, buttons, upload forms and widgets can be used by anyone who knows their address, also without visiting your pages. Besides the limits per connection, this caps how many times one automation can run in an hour for visitors who are not logged in, all of them together, so a flood of requests cannot send unlimited emails or webhooks. Use 0 for no limit.', 'glocalsaino-automations-based-on-triggers' ); ?></p>
+				</td>
+			</tr>
+		</table>
+
 		<h2><?php esc_html_e( 'Webhooks', 'glocalsaino-automations-based-on-triggers' ); ?></h2>
 		<table class="form-table" role="presentation">
 			<tr>

@@ -4,7 +4,7 @@ Tags: automation, webhook, contact form 7, csv import, data table
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.3.4
+Stable tag: 1.3.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,7 +37,8 @@ Give a partner, client or another site of yours a widget instead of a webhook UR
 * **Button, link or form** with text, email, number, phone, long text, drop-down, checkbox and privacy-consent fields, validated on your server.
 * **Your design**: colors, font and corner radius, plus, optionally, your site's own Additional CSS (written in WordPress, not in the plugin). It lives in its own iframe, so the other site's styles never break it.
 * **Easy to paste**: a one-line script that adjusts the height automatically and can take the visitor to another page after sending, or a plain iframe where scripts are not allowed.
-* **Protected**: only the websites you allow can show it; every submission needs a single-use code issued when the widget loads; minimum time to send, hidden anti-spam field, per-connection hourly limit and an optional hCaptcha. Rejected submissions are logged with the reason.
+* **Where it is shown**: browsers only display it on the websites you list (frame-ancestors). This controls where the widget appears, not who can send data: like a webhook, anyone who knows its address can send submissions directly, so treat the received values as untrusted.
+* **Abuse protection**: every submission needs a single-use code issued when the widget loads, plus a minimum time to send, a hidden anti-spam field, a per-connection hourly limit, a per-automation hourly limit for all anonymous visitors together and an optional hCaptcha. Rejected submissions are logged with the reason.
 * **Statistics** per website: views, submissions, conversion and rejected submissions over the last 30 days, plus a live preview in the editor.
 
 = Webhook security =
@@ -76,7 +77,7 @@ Each automation can run several actions, in the order you choose; the results of
 * **New Automation** – name, trigger (with optional webhook security), actions, field and WordPress user conditions, status, maximum number of runs or unlimited, and start / end dates or never expires.
 * **Logs** – every execution: the event, the executed actions, whether each one succeeded, and the date. Click an entry to see the event data, the data sent and the external server's response. **Retry** the failed actions of an execution (one by one or in bulk): only the actions that failed run again, with the original event data.
 * **Webhook Logs** – every call received by your webhook URLs and widgets. Click an entry to see the URL used, the HTTP method, the caller IP and the received field / value pairs, or the error message and code when the call was rejected (for example, when no data was received).
-* **Settings** – email notifications to the administrator when an automation fails (recipients, also on partial failures, at most one email per automation every N minutes), how the caller IP is detected (direct, proxy or Cloudflare), how many days to keep the automation logs and the webhook logs (older entries are deleted automatically every day), and whether to delete all data when the plugin is deleted.
+* **Settings** – email notifications to the administrator when an automation fails (recipients, also on partial failures, at most one email per automation every N minutes), how the caller IP is detected (direct, proxy or Cloudflare), how many days to keep the automation logs and the webhook logs (older entries are deleted automatically every day), the hourly limit of runs of each automation for anonymous visitors (links, buttons, upload forms and widgets), and whether to delete all data when the plugin is deleted.
 
 = Failure notifications =
 
@@ -145,7 +146,11 @@ CSV files (comma, semicolon, tab or pipe separated; UTF-8 or Windows / Latin-1 e
 
 = The widget does not appear on the other website. Why? =
 
-Check that the website is listed in the widget's "Allowed websites" (or leave the list empty to allow any site), and that no security plugin or server rule on your site sends an "X-Frame-Options" header for every page, which forbids showing any page inside an iframe.
+Check that the website is listed in the widget's "Websites that can show the widget" (or leave the list empty to allow any site), and that no security plugin or server rule on your site sends an "X-Frame-Options" header for every page, which forbids showing any page inside an iframe.
+
+= Can someone send data to a widget, link or button without visiting my site? =
+
+Yes, as with any webhook or public form: whoever knows the address can send requests to it directly. The list of websites decides where browsers display the widget, not where requests come from. That is why every public trigger has limits: links and buttons ignore repeated clicks, widgets need a single-use code and pass anti-spam checks, upload forms have a per-connection limit, and every automation has an hourly limit for anonymous visitors (Settings → Public triggers). In an email action, each {{field}} in the recipient gives at most one address, so a visitor cannot add recipients. Treat the received values as untrusted, for example by checking them with conditions.
 
 = Do widget visitors count as logged-in users? =
 
@@ -180,6 +185,12 @@ The **webhook trigger** works the other way around: external systems you choose 
 **hCaptcha (optional).** Only when you add hCaptcha keys in Settings and choose the captcha for an embeddable widget, the widget loads the hCaptcha script, which shows the challenge to the visitor and may collect information about their browser and device. When the visitor sends the widget, your site sends the challenge response and the visitor's IP address to hCaptcha to verify it. Nothing is sent to hCaptcha otherwise. [Terms of Service](https://www.hcaptcha.com/terms), [Privacy Policy](https://www.hcaptcha.com/privacy).
 
 == Changelog ==
+
+= 1.3.5 =
+* New setting (Settings → Public triggers): hourly limit of runs of each automation for anonymous visitors of links, buttons, upload forms and widgets, all visitors together (default 100).
+* Email action: each {{field}} in the recipient gives at most one address.
+* Widget: requests sent by scripts on other websites (Origin header) are refused.
+* The widget's "Allowed websites" is now called "Websites that can show the widget", and the help text explains that it controls where the widget is displayed, not who can send data to it.
 
 = 1.3.4 =
 * Security: when a widget has allowed websites, a widget loaded without a known parent website is refused (before, a missing parent was accepted).
@@ -220,6 +231,9 @@ The **webhook trigger** works the other way around: external systems you choose 
 * First release: Contact Form 7 and webhook triggers; webhook security (header token, IP allowlist, HMAC signatures with Stripe, Shopify, WooCommerce and GitHub presets); external webhook and email actions; field and WordPress user conditions; failure email notifications; retry of failed actions from the logs; extension API for add-ons; run limits and dates; logs, webhook logs and log retention settings.
 
 == Upgrade Notice ==
+
+= 1.3.5 =
+New hourly limit for anonymous visitors of public triggers and stricter email recipients.
 
 = 1.3.4 =
 Security fix for the widget allowed websites. Tracked link URLs and widget embed codes changed: copy them again from each automation.

@@ -45,6 +45,19 @@ class GSAAT_Redirect {
 		return $url;
 	}
 
+	/**
+	 * Redirect response for a REST route that is opened directly by the browser (links, forms).
+	 *
+	 * @param string $url Destination (set by an administrator or validated by build_url()).
+	 * @return WP_REST_Response
+	 */
+	public static function rest_redirect( $url ) {
+		$response = new WP_REST_Response( null, 302 );
+		$response->header( 'Location', esc_url_raw( $url ) );
+		$response->header( 'Cache-Control', 'no-store, private' );
+		return $response;
+	}
+
 	public static function cf7_response( $response ) {
 		$url = self::take();
 		if ( '' !== $url && is_array( $response ) ) {

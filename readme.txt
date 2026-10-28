@@ -4,7 +4,7 @@ Tags: automation, webhook, contact form 7, csv import, data table
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.3.3
+Stable tag: 1.3.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -181,6 +181,11 @@ The **webhook trigger** works the other way around: external systems you choose 
 
 == Changelog ==
 
+= 1.3.4 =
+* Security: when a widget has allowed websites, a widget loaded without a known parent website is refused (before, a missing parent was accepted).
+* Tracked links, buttons, upload forms, table CSV downloads and the widget page now run through the plugin REST API (/wp-json/glocalsaino-aat/v1/…) instead of being checked on every page load. Tracked link URLs now look like /wp-json/glocalsaino-aat/v1/link/KEY: copy them again from the automation (the [glocalsaino_aat_link] shortcode updates by itself), and copy the widget embed code again.
+* Logged-in visitors are identified with the WordPress REST nonce.
+
 = 1.3.3 =
 * Suggested text for the site's privacy policy (Settings → Privacy).
 * The automation editor only reads its own known fields when saving.
@@ -215,6 +220,9 @@ The **webhook trigger** works the other way around: external systems you choose 
 * First release: Contact Form 7 and webhook triggers; webhook security (header token, IP allowlist, HMAC signatures with Stripe, Shopify, WooCommerce and GitHub presets); external webhook and email actions; field and WordPress user conditions; failure email notifications; retry of failed actions from the logs; extension API for add-ons; run limits and dates; logs, webhook logs and log retention settings.
 
 == Upgrade Notice ==
+
+= 1.3.4 =
+Security fix for the widget allowed websites. Tracked link URLs and widget embed codes changed: copy them again from each automation.
 
 = 1.3.3 =
 Privacy policy text and small improvements.

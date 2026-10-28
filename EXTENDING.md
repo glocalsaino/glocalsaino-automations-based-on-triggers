@@ -213,7 +213,7 @@ Read settings with `GSAAT_Plugin::settings()`.
 | `glocalsaino_aat_format_operations` | filter | key => [ label, [ [ param label, default ], … ] ] — add "Format data" operations |
 | `glocalsaino_aat_format_value` | filter | null, operation, value, params — apply your operations (return a string) |
 
-**Redirects from an add-on trigger.** If your trigger runs in a browser request, pass `'browser' => true` in the context and, after `GSAAT_Engine::fire()`, send the visitor to `GSAAT_Redirect::take()` when it is not empty.
+**Redirects from an add-on trigger.** If your trigger runs in a browser request, pass `'browser' => true` in the context and, after `GSAAT_Engine::fire()`, send the visitor to `GSAAT_Redirect::take()` when it is not empty. From a REST route callback, return `GSAAT_Redirect::rest_redirect( $url )` (a 302 response). Public entry points should be REST routes rather than checks of `$_GET` / `$_POST` on every page load: the built-in link, button, upload, table CSV and widget routes live under `glocalsaino-aat/v1`, and logged-in visitors are identified by the `wp_rest` nonce (`wp_nonce_field( 'wp_rest', '_wpnonce' )` in forms).
 
 Useful helpers: `GSAAT_Calculator::evaluate()`, `GSAAT_Calculator::to_number()`, `GSAAT_Formatter::apply()`, `GSAAT_Engine::replace_tokens()`, `GSAAT_Engine::flatten()`, `GSAAT_Engine::retry( $log_id )`, `GSAAT_Automations::get()`, `GSAAT_Logs::get()`, `GSAAT_Actions::result()`.
 

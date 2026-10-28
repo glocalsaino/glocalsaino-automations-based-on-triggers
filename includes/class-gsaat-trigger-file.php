@@ -1,7 +1,8 @@
 <?php
 /**
  * Trigger: a CSV or Excel (.xlsx) file is uploaded — from the back end or from the
- * front end with [glocalsaino_aat_upload id="…"]. The file is read and discarded
+ * front end with [glocalsaino_aat_upload id="…"], whose form posts to a public REST route
+ * (logged-in visitors are identified through WordPress's REST cookie authentication). The file is read and discarded
  * (it is never stored). The automation runs once for the whole file (its rows are
  * passed to the "Add rows to a table" action) or once per row.
  *
@@ -14,16 +15,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class GSAAT_Trigger_File {
 
-	const SHORTCODE   = 'glocalsaino_aat_upload';
-	const POST_ARG    = 'glocalsaino_aat_upload';
-	const FILE_FIELD  = 'glocalsaino_aat_file';
-	const NONCE_FIELD = 'glocalsaino_aat_upload_nonce';
-	const RESULT_ARG  = 'glocalsaino_aat_upload_result';
-	const HONEYPOT    = 'glocalsaino_aat_upload_hp';
+	const SHORTCODE  = 'glocalsaino_aat_upload';
+	const FILE_FIELD = 'glocalsaino_aat_file';
+	const HONEYPOT   = 'glocalsaino_aat_upload_hp';
 
 	public static function init() {
 		add_shortcode( self::SHORTCODE, array( __CLASS__, 'shortcode' ) );
-		add_action( 'template_redirect', array( __CLASS__, 'handle_frontend' ), 1 );
+		add_action( 'rest_api_init', array( __CLASS__, 'register_routes' ) );
 		add_action( 'admin_post_glocalsaino_aat_run_file', array( __CLASS__, 'handle_admin' ) );
 		add_action( 'wp_ajax_glocalsaino_aat_detect_columns', array( __CLASS__, 'ajax_detect_columns' ) );
 	}
@@ -126,43 +124,38 @@ class GSAAT_Trigger_File {
 	}
 
 	/**
-	 * Check the uploaded file and read it.
+	 * Check an uploaded file and read it.
 	 *
-	 * @param string $field    $_FILES key.
-	 * @param int    $max_mb   Maximum size in MB.
-	 * @param int    $max_rows Maximum rows.
-	 * @return array|WP_Error { parsed, name }
+	 * @param array|null $file     One entry of the uploaded files ($_FILES format).
+	 * @param int        $max_mb   Maximum size in MB.
+	 * @param int        $max_rows Maximum rows.
+	 * @return array|WP_Error { parsed, name } — error codes glocalsaino_aat_file_{nofile|toobig|badtype|unreadable|empty|noexcel}.
 	 */
-	public static function receive( $field, $max_mb, $max_rows ) {
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce checked by the callers; every part of the upload is validated below.
-		$file = isset( $_FILES[ $field ] ) && is_array( $_FILES[ $field ] ) ? $_FILES[ $field ] : null;
-
-		if ( ! $file || ! isset( $file['error'], $file['tmp_name'], $file['name'], $file['size'] ) || is_array( $file['name'] ) ) {
-			return new WP_Error( 'glocalsaino_aat_no_file', __( 'Choose a file to upload.', 'glocalsaino-automations-based-on-triggers' ) );
+	public static function receive( $file, $max_mb, $max_rows ) {
+		if ( ! is_array( $file ) || ! isset( $file['error'], $file['tmp_name'], $file['name'], $file['size'] ) || is_array( $file['name'] ) ) {
+			return new WP_Error( 'glocalsaino_aat_file_nofile', __( 'Choose a file to upload.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
+		$max_bytes = self::max_bytes( $max_mb );
 		if ( UPLOAD_ERR_OK !== (int) $file['error'] ) {
-			return new WP_Error(
-				'glocalsaino_aat_upload_error',
-				in_array( (int) $file['error'], array( UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE ), true )
-					? __( 'The file is too big.', 'glocalsaino-automations-based-on-triggers' )
-					: __( 'The file could not be uploaded. Please try again.', 'glocalsaino-automations-based-on-triggers' )
-			);
+			return in_array( (int) $file['error'], array( UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE ), true )
+				/* translators: %s: maximum size. */
+				? new WP_Error( 'glocalsaino_aat_file_toobig', sprintf( __( 'The file is too big (maximum %s).', 'glocalsaino-automations-based-on-triggers' ), size_format( $max_bytes ) ) )
+				: new WP_Error( 'glocalsaino_aat_file_unreadable', __( 'The file could not be uploaded. Please try again.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 		$tmp_name = (string) $file['tmp_name'];
 		if ( ! is_uploaded_file( $tmp_name ) ) {
-			return new WP_Error( 'glocalsaino_aat_upload_error', __( 'The file could not be uploaded. Please try again.', 'glocalsaino-automations-based-on-triggers' ) );
+			return new WP_Error( 'glocalsaino_aat_file_unreadable', __( 'The file could not be uploaded. Please try again.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
-		$max_bytes = min( (int) wp_max_upload_size(), max( 1, (int) $max_mb ) * MB_IN_BYTES );
 		if ( (int) $file['size'] > $max_bytes ) {
 			/* translators: %s: maximum size. */
-			return new WP_Error( 'glocalsaino_aat_too_big', sprintf( __( 'The file is too big (maximum %s).', 'glocalsaino-automations-based-on-triggers' ), size_format( $max_bytes ) ) );
+			return new WP_Error( 'glocalsaino_aat_file_toobig', sprintf( __( 'The file is too big (maximum %s).', 'glocalsaino-automations-based-on-triggers' ), size_format( $max_bytes ) ) );
 		}
 
-		$name      = sanitize_file_name( wp_unslash( (string) $file['name'] ) );
+		$name      = sanitize_file_name( (string) $file['name'] );
 		$extension = strtolower( pathinfo( $name, PATHINFO_EXTENSION ) );
 		$head      = (string) file_get_contents( $tmp_name, false, null, 0, 8192 ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local uploaded file.
 		if ( 'xlsx' === $extension && 0 !== strpos( $head, "PK\x03\x04" ) ) {
-			return new WP_Error( 'glocalsaino_aat_bad_file', __( 'This does not look like an Excel (.xlsx) file.', 'glocalsaino-automations-based-on-triggers' ) );
+			return new WP_Error( 'glocalsaino_aat_file_badtype', __( 'This does not look like an Excel (.xlsx) file.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 
 		$parsed = GSAAT_File_Reader::read( $tmp_name, $name, (int) $max_rows );
@@ -173,6 +166,10 @@ class GSAAT_Trigger_File {
 			'parsed' => $parsed,
 			'name'   => $name,
 		);
+	}
+
+	private static function max_bytes( $max_mb ) {
+		return min( (int) wp_max_upload_size(), max( 1, (int) $max_mb ) * MB_IN_BYTES );
 	}
 
 	/*
@@ -200,6 +197,30 @@ class GSAAT_Trigger_File {
 		return false;
 	}
 
+	/**
+	 * Messages shown after an upload from the website, by result code.
+	 *
+	 * @param array $config Trigger settings.
+	 * @return array code => [ success|error, message ]
+	 */
+	private static function result_messages( array $config ) {
+		return array(
+			'ok'          => array( 'success', $config['message'] ),
+			/* translators: %d: maximum rows. */
+			'truncated'   => array( 'success', $config['message'] . ' ' . sprintf( __( 'Only the first %d rows were read.', 'glocalsaino-automations-based-on-triggers' ), (int) $config['max_rows'] ) ),
+			'denied'      => array( 'error', __( 'You are not allowed to upload files here.', 'glocalsaino-automations-based-on-triggers' ) ),
+			'rate'        => array( 'error', __( 'Too many uploads from this connection. Please try again later.', 'glocalsaino-automations-based-on-triggers' ) ),
+			'unavailable' => array( 'error', __( 'Uploads are not available right now.', 'glocalsaino-automations-based-on-triggers' ) ),
+			'nofile'      => array( 'error', __( 'Choose a file to upload.', 'glocalsaino-automations-based-on-triggers' ) ),
+			/* translators: %s: maximum size. */
+			'toobig'      => array( 'error', sprintf( __( 'The file is too big (maximum %s).', 'glocalsaino-automations-based-on-triggers' ), size_format( self::max_bytes( $config['max_size'] ) ) ) ),
+			'badtype'     => array( 'error', __( 'Only CSV and Excel (.xlsx) files are accepted. Save .xls files as .xlsx or .csv first.', 'glocalsaino-automations-based-on-triggers' ) ),
+			'unreadable'  => array( 'error', __( 'The file could not be read. Please check it and try again.', 'glocalsaino-automations-based-on-triggers' ) ),
+			'empty'       => array( 'error', __( 'The file is empty.', 'glocalsaino-automations-based-on-triggers' ) ),
+			'noexcel'     => array( 'error', __( 'This website cannot read Excel files. Save the file as CSV and upload it again.', 'glocalsaino-automations-based-on-triggers' ) ),
+		);
+	}
+
 	public static function shortcode( $atts ) {
 		$atts       = shortcode_atts( array( 'id' => 0 ), $atts, self::SHORTCODE );
 		$automation = GSAAT_Automations::get( absint( $atts['id'] ) );
@@ -207,20 +228,17 @@ class GSAAT_Trigger_File {
 			return '';
 		}
 		$config = self::config( $automation['trigger_config'] );
-		$html   = '';
-		wp_enqueue_style( 'glocalsaino-aat-upload', GSAAT_URL . 'assets/css/upload.css', array(), GSAAT_VERSION );
+		wp_enqueue_style( 'glocalsaino-aat-front', GSAAT_URL . 'assets/css/front.css', array(), GSAAT_VERSION );
 
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Display-only result key.
-		$result_key = isset( $_GET[ self::RESULT_ARG ] ) ? preg_replace( '/[^A-Za-z0-9]/', '', sanitize_text_field( wp_unslash( $_GET[ self::RESULT_ARG ] ) ) ) : '';
-		if ( '' !== $result_key ) {
-			$result = get_transient( 'glocalsaino_aat_upr_' . $result_key );
-			if ( is_array( $result ) && (int) $result['id'] === $automation['id'] ) {
-				$html .= sprintf(
-					'<p class="glocalsaino-aat-upload__result glocalsaino-aat-upload__result--%1$s" role="status">%2$s</p>',
-					esc_attr( 'error' === $result['status'] ? 'error' : 'success' ),
-					esc_html( $result['message'] )
-				);
-			}
+		// Result messages, hidden until the page is reloaded with #glocalsaino-aat-upload-ID-CODE (CSS :target).
+		$html = '';
+		foreach ( self::result_messages( $config ) as $code => $result ) {
+			$html .= sprintf(
+				'<p class="glocalsaino-aat-target-message glocalsaino-aat-upload__result glocalsaino-aat-upload__result--%1$s" id="%2$s" role="status">%3$s</p>',
+				esc_attr( $result[0] ),
+				esc_attr( 'glocalsaino-aat-upload-' . $automation['id'] . '-' . $code ),
+				esc_html( $result[1] )
+			);
 		}
 
 		if ( ! self::visitor_allowed( $config ) ) {
@@ -230,10 +248,10 @@ class GSAAT_Trigger_File {
 			return $html;
 		}
 
-		$html .= '<form method="post" enctype="multipart/form-data" class="glocalsaino-aat-upload">';
-		$html .= '<input type="hidden" name="' . esc_attr( self::POST_ARG ) . '" value="' . esc_attr( $automation['webhook_key'] ) . '">';
+		$html .= '<form method="post" enctype="multipart/form-data" class="glocalsaino-aat-upload" action="' . esc_url( rest_url( GSAAT_Automations::REST_NAMESPACE . '/upload/' . $automation['webhook_key'] ) ) . '">';
 		if ( is_user_logged_in() ) {
-			$html .= wp_nonce_field( 'glocalsaino_aat_upload_' . $automation['id'], self::NONCE_FIELD, false, false );
+			// WordPress's REST nonce: identifies the logged-in visitor (and blocks forged cross-site posts on their behalf).
+			$html .= wp_nonce_field( 'wp_rest', '_wpnonce', false, false );
 		}
 		$html .= '<p class="glocalsaino-aat-upload__hp" aria-hidden="true"><input type="text" name="' . esc_attr( self::HONEYPOT ) . '" tabindex="-1" autocomplete="off"></p>';
 		$html .= '<p><label>' . esc_html( $config['label'] ) . '<br><input type="file" name="' . esc_attr( self::FILE_FIELD ) . '" accept=".csv,.xlsx,.txt,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required></label></p>';
@@ -242,47 +260,54 @@ class GSAAT_Trigger_File {
 		return $html;
 	}
 
-	public static function handle_frontend() {
-		$method = isset( $_SERVER['REQUEST_METHOD'] ) ? sanitize_key( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) : '';
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Verified below for logged-in users.
-		if ( 'post' !== $method || ! isset( $_POST[ self::POST_ARG ] ) ) {
-			return;
-		}
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Verified below for logged-in users.
-		$key        = preg_replace( '/[^A-Za-z0-9]/', '', sanitize_text_field( wp_unslash( $_POST[ self::POST_ARG ] ) ) );
-		$automation = '' !== $key ? GSAAT_Automations::get_by_webhook_key( $key ) : null;
+	public static function register_routes() {
+		register_rest_route(
+			GSAAT_Automations::REST_NAMESPACE,
+			'/upload/(?P<key>[A-Za-z0-9]{20,64})',
+			array(
+				'methods'             => 'POST',
+				'callback'            => array( __CLASS__, 'rest_upload' ),
+				// Public route; who may upload is decided by the automation's access setting below. Logged-in
+				// visitors are identified only through the wp_rest nonce (REST cookie authentication).
+				'permission_callback' => '__return_true',
+			)
+		);
+	}
+
+	/**
+	 * File sent from the [glocalsaino_aat_upload] form.
+	 *
+	 * @param WP_REST_Request $request Request.
+	 * @return WP_REST_Response
+	 */
+	public static function rest_upload( WP_REST_Request $request ) {
+		$url_params = $request->get_url_params();
+		$automation = GSAAT_Automations::get_by_webhook_key( isset( $url_params['key'] ) ? (string) $url_params['key'] : '' );
+		$back       = wp_validate_redirect( (string) $request->get_header( 'referer' ), home_url( '/' ) );
 		if ( ! $automation || 'file' !== $automation['trigger_type'] ) {
-			return;
+			return GSAAT_Redirect::rest_redirect( $back );
 		}
-		$config = self::config( $automation['trigger_config'] );
+		$config  = self::config( $automation['trigger_config'] );
+		$body    = (array) $request->get_body_params();
+		$user_id = get_current_user_id(); // 0 unless the wp_rest nonce was valid.
 
-		$user_id = 0;
-		if ( is_user_logged_in() ) {
-			$nonce = isset( $_POST[ self::NONCE_FIELD ] ) ? sanitize_text_field( wp_unslash( $_POST[ self::NONCE_FIELD ] ) ) : '';
-			if ( wp_verify_nonce( $nonce, 'glocalsaino_aat_upload_' . $automation['id'] ) ) {
-				$user_id = get_current_user_id();
-			} elseif ( 'anyone' !== $config['access'] ) {
-				self::finish( $automation, 'error', __( 'The form expired. Reload the page and try again.', 'glocalsaino-automations-based-on-triggers' ) );
-			}
+		if ( ! self::visitor_allowed( $config ) ) {
+			return self::result( $automation, $back, 'denied' );
 		}
-
-		if ( ! self::visitor_allowed( $config ) || ( 'anyone' !== $config['access'] && ! $user_id ) ) {
-			self::finish( $automation, 'error', __( 'You are not allowed to upload files here.', 'glocalsaino-automations-based-on-triggers' ) );
-		}
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Honeypot of the public form.
-		if ( ! empty( $_POST[ self::HONEYPOT ] ) ) {
-			self::finish( $automation, 'success', $config['message'] );
+		if ( ! empty( $body[ self::HONEYPOT ] ) ) {
+			return self::result( $automation, $back, 'ok' ); // Pretend it worked, so bots do not learn about the trap.
 		}
 		if ( ! $user_id && self::rate_limited( $automation['id'], (int) $config['rate_limit'] ) ) {
-			self::finish( $automation, 'error', __( 'Too many uploads from this connection. Please try again later.', 'glocalsaino-automations-based-on-triggers' ) );
+			return self::result( $automation, $back, 'rate' );
 		}
 		if ( 'active' !== GSAAT_Automations::availability( $automation ) ) {
-			self::finish( $automation, 'error', __( 'Uploads are not available right now.', 'glocalsaino-automations-based-on-triggers' ) );
+			return self::result( $automation, $back, 'unavailable' );
 		}
 
-		$upload = self::receive( self::FILE_FIELD, $config['max_size'], $config['max_rows'] );
+		$files  = (array) $request->get_file_params();
+		$upload = self::receive( isset( $files[ self::FILE_FIELD ] ) ? $files[ self::FILE_FIELD ] : null, $config['max_size'], $config['max_rows'] );
 		if ( is_wp_error( $upload ) ) {
-			self::finish( $automation, 'error', $upload->get_error_message() );
+			return self::result( $automation, $back, str_replace( 'glocalsaino_aat_file_', '', $upload->get_error_code() ) );
 		}
 
 		self::run(
@@ -295,41 +320,24 @@ class GSAAT_Trigger_File {
 			)
 		);
 
-		$message = $config['message'];
-		if ( $upload['parsed']['truncated'] ) {
-			/* translators: %d: maximum rows. */
-			$message .= ' ' . sprintf( __( 'Only the first %d rows were read.', 'glocalsaino-automations-based-on-triggers' ), (int) $config['max_rows'] );
+		$target = GSAAT_Redirect::take();
+		if ( '' !== $target ) {
+			return GSAAT_Redirect::rest_redirect( $target );
 		}
-		self::finish( $automation, 'success', $message );
+		return self::result( $automation, $back, $upload['parsed']['truncated'] ? 'truncated' : 'ok' );
 	}
 
 	/**
-	 * Redirect back (or to a "Redirect the user" target) with the result, and exit.
+	 * Back to the page with the form, showing the message of a result code.
 	 *
 	 * @param array  $automation Automation.
-	 * @param string $status     success|error.
-	 * @param string $message    Message for the visitor.
+	 * @param string $back       Page to return to.
+	 * @param string $code       Result code (see result_messages()).
+	 * @return WP_REST_Response
 	 */
-	private static function finish( array $automation, $status, $message ) {
-		$target = GSAAT_Redirect::take();
-		nocache_headers();
-		if ( '' !== $target ) {
-			wp_redirect( esc_url_raw( $target ) ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- Validated by the Redirect action.
-			exit;
-		}
-		$key = wp_generate_password( 16, false, false );
-		set_transient(
-			'glocalsaino_aat_upr_' . $key,
-			array(
-				'id'      => $automation['id'],
-				'status'  => $status,
-				'message' => $message,
-			),
-			10 * MINUTE_IN_SECONDS
-		);
-		$back = wp_validate_redirect( (string) wp_get_raw_referer(), home_url( '/' ) );
-		wp_safe_redirect( add_query_arg( self::RESULT_ARG, $key, $back ) );
-		exit;
+	private static function result( array $automation, $back, $code ) {
+		$code = preg_replace( '/[^a-z]/', '', (string) $code );
+		return GSAAT_Redirect::rest_redirect( strtok( $back, '#' ) . '#glocalsaino-aat-upload-' . $automation['id'] . '-' . ( '' !== $code ? $code : 'unreadable' ) );
 	}
 
 	private static function rate_limited( $automation_id, $limit ) {
@@ -344,7 +352,6 @@ class GSAAT_Trigger_File {
 		set_transient( $key, $count + 1, HOUR_IN_SECONDS );
 		return false;
 	}
-
 	/*
 	 * ---------------------------------------------------------------------
 	 * Back end
@@ -366,7 +373,9 @@ class GSAAT_Trigger_File {
 			wp_die( esc_html__( 'Automation not found.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 		$config = self::config( $automation['trigger_config'] );
-		$upload = self::receive( self::FILE_FIELD, $config['max_size'], $config['max_rows'] );
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce and capability checked above; every part of the upload is validated by receive().
+		$file   = isset( $_FILES[ self::FILE_FIELD ] ) ? $_FILES[ self::FILE_FIELD ] : null;
+		$upload = self::receive( $file, $config['max_size'], $config['max_rows'] );
 
 		if ( is_wp_error( $upload ) ) {
 			$notice = array( 'error', $upload->get_error_message() );
@@ -410,7 +419,9 @@ class GSAAT_Trigger_File {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( array( 'message' => __( 'You are not allowed to do this.', 'glocalsaino-automations-based-on-triggers' ) ), 403 );
 		}
-		$upload = self::receive( 'file', 50, 1 );
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce and capability checked above; every part of the upload is validated by receive().
+		$file   = isset( $_FILES['file'] ) ? $_FILES['file'] : null;
+		$upload = self::receive( $file, 50, 1 );
 		if ( is_wp_error( $upload ) ) {
 			wp_send_json_error( array( 'message' => $upload->get_error_message() ) );
 		}

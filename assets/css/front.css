@@ -1,0 +1,26 @@
+/* GlocalSaino Automations – front-end forms ([glocalsaino_aat_button], [glocalsaino_aat_upload]). */
+
+/* Messages shown after a redirect back to #their-id (no query string needed). */
+.glocalsaino-aat-target-message {
+	display: none;
+}
+
+.glocalsaino-aat-target-message:target {
+	display: block;
+}
+
+.glocalsaino-aat-upload__hp {
+	position: absolute;
+	left: -10000px;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+.glocalsaino-aat-upload__result--success {
+	color: #007017;
+}
+
+.glocalsaino-aat-upload__result--error {
+	color: #b32d2e;
+}

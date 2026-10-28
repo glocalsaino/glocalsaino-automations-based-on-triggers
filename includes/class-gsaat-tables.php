@@ -17,13 +17,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 class GSAAT_Tables {
 
 	const SHORTCODE  = 'glocalsaino_aat_table';
-	const CSV_ARG    = 'glocalsaino_aat_table_csv';
 	const MAX_VALUE  = 5000;
 	const MAX_INSERT = 10000;
 
 	public static function init() {
 		add_shortcode( self::SHORTCODE, array( __CLASS__, 'shortcode' ) );
-		add_action( 'template_redirect', array( __CLASS__, 'maybe_download' ), 1 );
+		add_action( 'rest_api_init', array( __CLASS__, 'register_routes' ) );
 	}
 
 	/**
@@ -376,7 +375,7 @@ class GSAAT_Tables {
 		if ( $settings['download'] ) {
 			$html .= sprintf(
 				'<p class="glocalsaino-aat-table__download"><a href="%1$s">%2$s</a></p>',
-				esc_url( add_query_arg( self::CSV_ARG, $table['id'], home_url( '/' ) ) ),
+				esc_url( self::download_url( $table['id'] ) ),
 				esc_html__( 'Download as CSV', 'glocalsaino-automations-based-on-triggers' )
 			);
 		}
@@ -439,19 +438,41 @@ class GSAAT_Tables {
 		return '<td>' . esc_html( $value ) . '</td>';
 	}
 
+	public static function register_routes() {
+		register_rest_route(
+			GSAAT_Automations::REST_NAMESPACE,
+			'/table/(?P<id>\\d+)/csv',
+			array(
+				'methods'             => 'GET',
+				'callback'            => array( __CLASS__, 'rest_download' ),
+				// Public route: the table's own visibility setting is checked in the callback (can_view()).
+				'permission_callback' => '__return_true',
+			)
+		);
+	}
+
+	/**
+	 * Download URL of a table. Logged-in visitors get the wp_rest nonce, so REST identifies them.
+	 *
+	 * @param int $table_id Table ID.
+	 * @return string
+	 */
+	public static function download_url( $table_id ) {
+		$url = rest_url( GSAAT_Automations::REST_NAMESPACE . '/table/' . (int) $table_id . '/csv' );
+		return is_user_logged_in() ? add_query_arg( '_wpnonce', wp_create_nonce( 'wp_rest' ), $url ) : $url;
+	}
+
 	/**
 	 * Public CSV download (only when the table allows it and the visitor can see it).
+	 *
+	 * @param WP_REST_Request $request Request.
+	 * @return WP_Error|void Streams the file and exits.
 	 */
-	public static function maybe_download() {
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public download of a table the visitor can already see.
-		$id = isset( $_GET[ self::CSV_ARG ] ) ? absint( wp_unslash( $_GET[ self::CSV_ARG ] ) ) : 0;
-		if ( ! $id ) {
-			return;
-		}
-		$table = self::get( $id );
+	public static function rest_download( WP_REST_Request $request ) {
+		$url_params = $request->get_url_params();
+		$table      = self::get( isset( $url_params['id'] ) ? absint( $url_params['id'] ) : 0 );
 		if ( ! $table || ! $table['settings']['download'] || ! self::can_view( $table ) ) {
-			status_header( 404 );
-			exit;
+			return new WP_Error( 'glocalsaino_aat_no_table', __( 'This table is not available.', 'glocalsaino-automations-based-on-triggers' ), array( 'status' => 404 ) );
 		}
 		self::send_csv( $table, $table['settings']['max_rows'] );
 	}

@@ -21,14 +21,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class GSAAT_Trigger_Widget {
 
-	const PAGE_ARG       = 'glocalsaino_aat_widget';
 	const TOKEN_LIFETIME = 7200;
 	const MIN_SECONDS    = 2;
 	const HONEYPOT       = 'gsaat_hp';
 	const RESERVED       = array( 'token', 'hp', 'captcha', 'page', self::HONEYPOT );
 
 	public static function init() {
-		add_action( 'template_redirect', array( __CLASS__, 'maybe_render' ), 0 );
 		add_action( 'rest_api_init', array( __CLASS__, 'register_routes' ) );
 	}
 
@@ -107,7 +105,7 @@ class GSAAT_Trigger_Widget {
 	 * @return string
 	 */
 	public static function widget_url( $key ) {
-		return add_query_arg( self::PAGE_ARG, $key, home_url( '/' ) );
+		return rest_url( GSAAT_Automations::REST_NAMESPACE . '/widget/' . $key );
 	}
 
 	public static function loader_url() {
@@ -135,20 +133,20 @@ class GSAAT_Trigger_Widget {
 	 * ---------------------------------------------------------------------
 	 */
 
-	public static function maybe_render() {
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public widget page.
-		if ( ! isset( $_GET[ self::PAGE_ARG ] ) ) {
-			return;
+	/**
+	 * The page shown inside the iframe (GET on the widget's public REST route). It is HTML, so it
+	 * is printed directly and the request ends here.
+	 *
+	 * @param WP_REST_Request $request Request.
+	 * @return WP_Error|void
+	 */
+	public static function rest_page( WP_REST_Request $request ) {
+		$automation = self::automation_from_request( $request );
+		if ( ! $automation ) {
+			return new WP_Error( 'glocalsaino_aat_not_found', __( 'Unknown widget.', 'glocalsaino-automations-based-on-triggers' ), array( 'status' => 404 ) );
 		}
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public widget page.
-		$key        = preg_replace( '/[^A-Za-z0-9]/', '', sanitize_text_field( wp_unslash( $_GET[ self::PAGE_ARG ] ) ) );
-		$automation = '' !== $key ? GSAAT_Automations::get_by_webhook_key( $key ) : null;
-
+		$key = $automation['webhook_key'];
 		nocache_headers();
-		if ( ! $automation || 'widget' !== $automation['trigger_type'] ) {
-			status_header( 404 );
-			exit;
-		}
 
 		$config    = self::config( $automation['trigger_config'] );
 		$available = 'active' === GSAAT_Automations::availability( $automation );
@@ -281,10 +279,19 @@ class GSAAT_Trigger_Widget {
 			GSAAT_Automations::REST_NAMESPACE,
 			'/widget/(?P<key>[A-Za-z0-9]{20,64})',
 			array(
-				'methods'             => 'POST',
-				'callback'            => array( __CLASS__, 'rest_submit' ),
-				// Public by design; protected by the signed token, rate limit, honeypot and optional captcha.
-				'permission_callback' => '__return_true',
+				array(
+					'methods'             => 'GET',
+					'callback'            => array( __CLASS__, 'rest_page' ),
+					// Public by design: the page shown inside the iframe on the allowed websites.
+					'permission_callback' => '__return_true',
+				),
+				array(
+					'methods'             => 'POST',
+					'callback'            => array( __CLASS__, 'rest_submit' ),
+					// Public by design; protected by the allowed websites, signed single-use token,
+					// minimum time, honeypot, rate limit and optional captcha.
+					'permission_callback' => '__return_true',
+				),
 			)
 		);
 	}
@@ -306,7 +313,8 @@ class GSAAT_Trigger_Widget {
 
 		$config = self::config( $automation['trigger_config'] );
 		$host   = self::host_of( (string) $request->get_param( 'parent' ) );
-		if ( $config['domains'] && '' !== $host && ! self::host_allowed( $host, $config['domains'] ) ) {
+		// With allowed websites configured, the embedding site must be known and allowed (an unknown one is refused).
+		if ( $config['domains'] && ! self::host_allowed( $host, $config['domains'] ) ) {
 			GSAAT_Widget_Stats::bump( $automation['id'], $host, 'rejected' );
 			return new WP_Error( 'glocalsaino_aat_widget_domain', __( 'This website is not allowed to show this form.', 'glocalsaino-automations-based-on-triggers' ), array( 'status' => 403 ) );
 		}
@@ -350,6 +358,9 @@ class GSAAT_Trigger_Widget {
 
 		if ( is_wp_error( $token ) ) {
 			return self::reject( $log, $automation['id'], $host, 403, $token->get_error_code(), $token->get_error_message() );
+		}
+		if ( $config['domains'] && ! self::host_allowed( $token['host'], $config['domains'] ) ) {
+			return self::reject( $log, $automation['id'], $host, 403, 'glocalsaino_aat_widget_domain', __( 'This website is not allowed to show this form.', 'glocalsaino-automations-based-on-triggers' ) );
 		}
 		if ( time() - $token['issued'] < self::MIN_SECONDS ) {
 			return self::reject( $log, $automation['id'], $host, 400, 'glocalsaino_aat_widget_too_fast', __( 'The form was sent too fast to be a person. Please try again.', 'glocalsaino-automations-based-on-triggers' ) );
@@ -618,6 +629,9 @@ class GSAAT_Trigger_Widget {
 	 * @return bool
 	 */
 	public static function host_allowed( $host, array $domains ) {
+		if ( '' === $host ) {
+			return false;
+		}
 		// This site itself is always allowed (preview in the automation editor).
 		if ( $host === self::host_of( home_url() ) ) {
 			return true;

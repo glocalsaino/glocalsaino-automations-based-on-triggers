@@ -3,3 +3,6 @@
 EXTENDING.md export-ignore
 README.md export-ignore
 LICENSE export-ignore
+.DS_Store export-ignore
+CLAUDE.md export-ignore
+.vscode export-ignore

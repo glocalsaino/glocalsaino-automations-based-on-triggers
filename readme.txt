@@ -2,9 +2,9 @@
 Contributors: glocalsaino, rafammoo
 Tags: automation, webhook, contact form 7, csv import, data table
 Requires at least: 6.2
-Tested up to: 7.1
+Tested up to: 7.2
 Requires PHP: 7.4
-Stable tag: 1.3.5
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -185,6 +185,9 @@ The **webhook trigger** works the other way around: external systems you choose 
 **hCaptcha (optional).** Only when you add hCaptcha keys in Settings and choose the captcha for an embeddable widget, the widget loads the hCaptcha script, which shows the challenge to the visitor and may collect information about their browser and device. When the visitor sends the widget, your site sends the challenge response and the visitor's IP address to hCaptcha to verify it. Nothing is sent to hCaptcha otherwise. [Terms of Service](https://www.hcaptcha.com/terms), [Privacy Policy](https://www.hcaptcha.com/privacy).
 
 == Changelog ==
+
+= 1.4.0 =
+* New Extensions screen (Automations → Extensions) with the paid add-on GlocalSaino Automations Bridge, which adds triggers and actions for the other GlocalSaino plugins, and those plugins.
 
 = 1.3.5 =
 * New setting (Settings → Public triggers): hourly limit of runs of each automation for anonymous visitors of links, buttons, upload forms and widgets, all visitors together (default 100).

@@ -34,6 +34,7 @@ class GSAAT_Plugin {
 		if ( is_admin() ) {
 			GSAAT_Admin::init();
 			GSAAT_Admin_Tables::init();
+			GSAAT_Admin_Extensions::init();
 		}
 
 		/**

@@ -6,3 +6,4 @@ LICENSE export-ignore
 .DS_Store export-ignore
 CLAUDE.md export-ignore
 .vscode export-ignore
+translations export-ignore

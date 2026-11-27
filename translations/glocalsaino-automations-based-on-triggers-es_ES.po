@@ -1,0 +1,3235 @@
+# Copyright (C) 2026 Glocal Saino
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: GlocalSaino Automations Based on Triggers 1.4.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/glocalsaino-automations-based-on-triggers\n"
+"Last-Translator: Glocal Saino\n"
+"Language-Team: Spanish (Spain)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-27T09:09:43+00:00\n"
+"PO-Revision-Date: 2026-11-27 10:00+0100\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: glocalsaino-automations-based-on-triggers\n"
+"Language: es_ES\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Plugin Name of the plugin
+#: glocalsaino-automations-based-on-triggers.php
+msgid "GlocalSaino Automations Based on Triggers"
+msgstr "GlocalSaino Automations Based on Triggers"
+
+#. Plugin URI of the plugin
+#: glocalsaino-automations-based-on-triggers.php
+msgid "https://glocalsaino.com/automationsbasedontriggers/"
+msgstr "https://glocalsaino.com/automationsbasedontriggers/"
+
+#. Description of the plugin
+#: glocalsaino-automations-based-on-triggers.php
+msgid "No-code automations: when a form is sent, a file is uploaded, a link, button or widget is used, a webhook arrives or a user signs up, run emails, webhooks, calculations, tables, redirects and scheduled actions."
+msgstr "Automatizaciones sin código: cuando se envía un formulario, se sube un archivo, se usa un enlace, un botón o un widget, llega un webhook o un usuario se registra, pon en marcha correos electrónicos, webhooks, cálculos, tablas, redirecciones y acciones programadas."
+
+#. Author of the plugin
+#: glocalsaino-automations-based-on-triggers.php
+msgid "Glocal Saino"
+msgstr "Glocal Saino"
+
+#. Author URI of the plugin
+#: glocalsaino-automations-based-on-triggers.php
+msgid "https://glocalsaino.com/"
+msgstr "https://glocalsaino.com/"
+
+#: includes/admin/class-gsaat-admin-extensions.php:25
+#: includes/admin/class-gsaat-admin-extensions.php:26
+#: includes/admin/class-gsaat-admin-extensions.php:64
+msgid "Extensions"
+msgstr "Extensiones"
+
+#: includes/admin/class-gsaat-admin-extensions.php:52
+#: includes/admin/class-gsaat-admin.php:865 includes/admin/views/edit.php:67
+msgid "Active"
+msgstr "Activo"
+
+#: includes/admin/class-gsaat-admin-extensions.php:54
+msgid "Learn more"
+msgstr "Más información"
+
+#: includes/admin/class-gsaat-admin-extensions.php:67
+msgid "GlocalSaino Automations Bridge"
+msgstr "GlocalSaino Automations Bridge"
+
+#: includes/admin/class-gsaat-admin-extensions.php:68
+msgid "Triggers and actions for the other GlocalSaino plugins: a table from every map layer uploaded, points on a map from a form, alerts when an external layer gets new items, magic links to protected pages, booking and SES Hospedajes events, reminders in the booking chat room, and bids and auction endings sent to any webhook."
+msgstr "Disparadores y acciones para los demás plugins GlocalSaino: una tabla por cada capa que se sube a un mapa, puntos en un mapa desde un formulario, avisos cuando una capa externa tiene elementos nuevos, enlaces mágicos a páginas protegidas, eventos de reservas y de SES Hospedajes, recordatorios en la sala de conversación de la reserva, y pujas y finales de subasta enviados a cualquier webhook."
+
+#: includes/admin/class-gsaat-admin-extensions.php:72
+msgid "see Automations → Bridge."
+msgstr "ve a Automatizaciones → Bridge."
+
+#: includes/admin/class-gsaat-admin-extensions.php:76
+msgid "Other GlocalSaino plugins"
+msgstr "Otros plugins GlocalSaino"
+
+#: includes/admin/class-gsaat-admin-extensions.php:77
+msgid "Free plugins that Automations Bridge can connect with your automations."
+msgstr "Plugins gratuitos que Automations Bridge puede conectar con tus automatizaciones."
+
+#: includes/admin/class-gsaat-admin-extensions.php:80
+msgid "GlocalSaino Layer Map Viewer"
+msgstr "GlocalSaino Layer Map Viewer"
+
+#: includes/admin/class-gsaat-admin-extensions.php:81
+msgid "Interactive maps from KML files, with colored layers, filters and transparency."
+msgstr "Mapas interactivos a partir de archivos KML, con capas de colores, filtros y transparencia."
+
+#: includes/admin/class-gsaat-admin-extensions.php:87
+msgid "GlocalSaino Booking Calendars displayed by shortcodes"
+msgstr "GlocalSaino Booking Calendars displayed by shortcodes"
+
+#: includes/admin/class-gsaat-admin-extensions.php:88
+msgid "Accommodation booking calendars with prices, iCal sync and scheduled guest emails."
+msgstr "Calendarios de reservas de alojamientos con precios, sincronización iCal y correos electrónicos programados a los huéspedes."
+
+#: includes/admin/class-gsaat-admin-extensions.php:94
+msgid "GlocalSaino Auctions Displayed by Shortcodes"
+msgstr "GlocalSaino Auctions Displayed by Shortcodes"
+
+#: includes/admin/class-gsaat-admin-extensions.php:95
+msgid "Direct and reverse auctions in any page, with a countdown and an automatic winner."
+msgstr "Subastas directas e inversas en cualquier página, con cuenta atrás y ganador automático."
+
+#: includes/admin/class-gsaat-admin-extensions.php:101
+msgid "GlocalSaino WebPagesPassworded"
+msgstr "GlocalSaino WebPagesPassworded"
+
+#: includes/admin/class-gsaat-admin-extensions.php:102
+msgid "One access page for groups of password-protected pages."
+msgstr "Una página de acceso para grupos de páginas protegidas con contraseña."
+
+#: includes/admin/class-gsaat-admin-tables.php:34
+#: includes/admin/class-gsaat-admin-tables.php:35
+#: includes/admin/views/tables.php:15
+msgid "Tables"
+msgstr "Tablas"
+
+#: includes/admin/class-gsaat-admin-tables.php:72
+#: includes/admin/class-gsaat-admin.php:1248
+msgid "Field name"
+msgstr "Nombre del campo"
+
+#: includes/admin/class-gsaat-admin-tables.php:73
+msgid "Column title"
+msgstr "Título de la columna"
+
+#: includes/admin/class-gsaat-admin-tables.php:74
+#: includes/admin/class-gsaat-admin.php:1250
+msgid "Type"
+msgstr "Tipo"
+
+#: includes/admin/class-gsaat-admin-tables.php:75
+#: includes/admin/class-gsaat-admin.php:1185
+msgid "Remove"
+msgstr "Quitar"
+
+#: includes/admin/class-gsaat-admin-tables.php:76
+#: includes/admin/class-gsaat-admin.php:1186
+msgid "Move up"
+msgstr "Subir"
+
+#: includes/admin/class-gsaat-admin-tables.php:77
+#: includes/admin/class-gsaat-admin.php:1187
+msgid "Move down"
+msgstr "Bajar"
+
+#: includes/admin/class-gsaat-admin-tables.php:78
+msgid "No columns yet."
+msgstr "Todavía no hay columnas."
+
+#: includes/admin/class-gsaat-admin-tables.php:79
+#: includes/admin/class-gsaat-admin.php:1246
+msgid "Reading the file…"
+msgstr "Leyendo el archivo…"
+
+#: includes/admin/class-gsaat-admin-tables.php:80
+msgid "Columns added from the file."
+msgstr "Columnas añadidas desde el archivo."
+
+#: includes/admin/class-gsaat-admin-tables.php:81
+#: includes/admin/class-gsaat-admin.php:1247
+#: includes/class-gsaat-file-reader.php:37
+msgid "The file could not be read."
+msgstr "No se ha podido leer el archivo."
+
+#: includes/admin/class-gsaat-admin-tables.php:82
+msgid "Every column needs a title."
+msgstr "Todas las columnas necesitan un título."
+
+#: includes/admin/class-gsaat-admin-tables.php:91
+msgid "Table saved."
+msgstr "Tabla guardada."
+
+#: includes/admin/class-gsaat-admin-tables.php:92
+msgid "Table saved without columns: add at least one so it can receive rows."
+msgstr "Tabla guardada sin columnas: añade al menos una para que pueda recibir filas."
+
+#: includes/admin/class-gsaat-admin-tables.php:93
+msgid "Table deleted."
+msgstr "Tabla eliminada."
+
+#: includes/admin/class-gsaat-admin-tables.php:94
+msgid "All the rows of the table were deleted."
+msgstr "Se han eliminado todas las filas de la tabla."
+
+#: includes/admin/class-gsaat-admin-tables.php:95
+msgid "Rows deleted."
+msgstr "Filas eliminadas."
+
+#: includes/admin/class-gsaat-admin-tables.php:119
+#: includes/admin/class-gsaat-admin-tables.php:129
+#: includes/admin/class-gsaat-admin-tables.php:242
+msgid "Table not found."
+msgstr "No se ha encontrado la tabla."
+
+#: includes/admin/class-gsaat-admin-tables.php:144
+msgid "Everyone"
+msgstr "Todo el mundo"
+
+#: includes/admin/class-gsaat-admin-tables.php:145
+#: includes/class-gsaat-trigger-file.php:49
+msgid "Logged-in users"
+msgstr "Usuarios con sesión iniciada"
+
+#: includes/admin/class-gsaat-admin-tables.php:146
+msgid "Users with these roles"
+msgstr "Usuarios con estos perfiles"
+
+#: includes/admin/class-gsaat-admin-tables.php:147
+msgid "Nobody (administrators only)"
+msgstr "Nadie (solo administradores)"
+
+#: includes/admin/class-gsaat-admin-tables.php:212
+msgid "Untitled table"
+msgstr "Tabla sin título"
+
+#: includes/admin/class-gsaat-admin-tables.php:219
+msgid "The table could not be saved."
+msgstr "No se ha podido guardar la tabla."
+
+#: includes/admin/class-gsaat-admin-tables.php:313
+#: includes/admin/class-gsaat-admin.php:1004
+#: includes/class-gsaat-trigger-file.php:369
+#: includes/class-gsaat-trigger-file.php:423
+msgid "You are not allowed to do this."
+msgstr "No tienes permiso para hacer esto."
+
+#: includes/admin/class-gsaat-admin.php:44
+#: includes/admin/class-gsaat-admin.php:45
+#: includes/admin/class-gsaat-admin.php:52
+#: includes/admin/class-gsaat-admin.php:115
+#: includes/admin/views/automations.php:15
+msgid "Automations"
+msgstr "Automatizaciones"
+
+#: includes/admin/class-gsaat-admin.php:53
+#: includes/admin/views/automations.php:16 includes/admin/views/edit.php:39
+msgid "New Automation"
+msgstr "Nueva automatización"
+
+#: includes/admin/class-gsaat-admin.php:54
+#: includes/admin/class-gsaat-automations-table.php:102
+#: includes/admin/views/logs.php:19 includes/admin/views/scheduled.php:15
+msgid "Logs"
+msgstr "Registros"
+
+#: includes/admin/class-gsaat-admin.php:55
+#: includes/admin/views/webhook-logs.php:15
+msgid "Webhook Logs"
+msgstr "Registros de webhooks"
+
+#: includes/admin/class-gsaat-admin.php:64
+#: includes/admin/class-gsaat-admin.php:116 includes/admin/views/edit.php:228
+#: includes/admin/views/settings.php:16
+msgid "Settings"
+msgstr "Ajustes"
+
+#: includes/admin/class-gsaat-admin.php:139
+#: includes/admin/class-gsaat-admin.php:270
+#: includes/class-gsaat-trigger-file.php:376
+msgid "Automation not found."
+msgstr "No se ha encontrado la automatización."
+
+#: includes/admin/class-gsaat-admin.php:151
+#: includes/admin/class-gsaat-admin.php:174
+msgid "Log entry not found."
+msgstr "No se ha encontrado la entrada del registro."
+
+#: includes/admin/class-gsaat-admin.php:203
+msgid "This site uses automations that run when visitors send forms, click certain links or buttons, upload files, use forms embedded on other websites, or register and log in."
+msgstr "Este sitio usa automatizaciones que se ejecutan cuando los visitantes envían formularios, hacen clic en determinados enlaces o botones, suben archivos, usan formularios insertados en otros sitios web, o se registran e inician sesión."
+
+#: includes/admin/class-gsaat-admin.php:204
+msgid "The data involved in each automation (for example, the fields of a form you send) is stored in the automation logs, together with the date. For calls received from other systems and widgets, the IP address of the sender is stored too. These logs are kept for the number of days set by the site administrator and then deleted automatically."
+msgstr "Los datos que intervienen en cada automatización (por ejemplo, los campos de un formulario que envías) se guardan en los registros de automatizaciones, junto con la fecha. En las llamadas recibidas desde otros sistemas y widgets también se guarda la dirección IP del remitente. Estos registros se conservan durante el número de días que fija el administrador del sitio y después se eliminan automáticamente."
+
+#: includes/admin/class-gsaat-admin.php:205
+msgid "Some automations may store your data in tables, which can be shown on this site to the audience chosen by the administrator, send it by email, or send it to other services chosen by the site administrator. Uploaded files are read and discarded; they are not stored."
+msgstr "Algunas automatizaciones pueden guardar tus datos en tablas, que se pueden mostrar en este sitio al público que elija el administrador, enviarlos por correo electrónico o enviarlos a otros servicios elegidos por el administrador del sitio. Los archivos subidos se leen y se descartan; no se guardan."
+
+#: includes/admin/class-gsaat-admin.php:206
+msgid "If a form embedded on another website uses hCaptcha, the challenge is provided by hCaptcha, which receives information about your browser and your IP address to verify that you are a person."
+msgstr "Si un formulario insertado en otro sitio web usa hCaptcha, la prueba la proporciona hCaptcha, que recibe información sobre tu navegador y tu dirección IP para comprobar que eres una persona."
+
+#: includes/admin/class-gsaat-admin.php:312
+msgid "Untitled automation"
+msgstr "Automatización sin título"
+
+#: includes/admin/class-gsaat-admin.php:357
+msgid "The automation could not be saved."
+msgstr "No se ha podido guardar la automatización."
+
+#: includes/admin/class-gsaat-admin.php:840
+msgid "No trigger"
+msgstr "Sin disparador"
+
+#. translators: %s: trigger type slug.
+#: includes/admin/class-gsaat-admin.php:842
+#, php-format
+msgid "Unavailable trigger (%s)"
+msgstr "Disparador no disponible (%s)"
+
+#: includes/admin/class-gsaat-admin.php:866 includes/admin/views/edit.php:69
+msgid "Inactive"
+msgstr "Inactiva"
+
+#: includes/admin/class-gsaat-admin.php:867
+msgid "Active — not started yet"
+msgstr "Activa — todavía no ha empezado"
+
+#: includes/admin/class-gsaat-admin.php:868
+msgid "Active — expired"
+msgstr "Activa — caducada"
+
+#: includes/admin/class-gsaat-admin.php:869
+msgid "Active — run limit reached"
+msgstr "Activa — límite de ejecuciones alcanzado"
+
+#: includes/admin/class-gsaat-admin.php:882
+msgid "Success"
+msgstr "Correcto"
+
+#: includes/admin/class-gsaat-admin.php:883
+msgid "Partial"
+msgstr "Parcial"
+
+#: includes/admin/class-gsaat-admin.php:884
+msgid "Error"
+msgstr "Error"
+
+#: includes/admin/class-gsaat-admin.php:885
+msgid "Conditions not met"
+msgstr "Condiciones no cumplidas"
+
+#: includes/admin/class-gsaat-admin.php:908
+msgid "Executions"
+msgstr "Ejecuciones"
+
+#. translators: %d: number of pending scheduled jobs.
+#: includes/admin/class-gsaat-admin.php:910
+#, php-format
+msgid "Scheduled actions (%d)"
+msgstr "Acciones programadas (%d)"
+
+#: includes/admin/class-gsaat-admin.php:931
+msgid "No data."
+msgstr "Sin datos."
+
+#: includes/admin/class-gsaat-admin.php:934
+msgid "Field"
+msgstr "Campo"
+
+#: includes/admin/class-gsaat-admin.php:934
+#: includes/admin/class-gsaat-admin.php:1189
+msgid "Value"
+msgstr "Valor"
+
+#: includes/admin/class-gsaat-admin.php:949
+msgid "Automation saved."
+msgstr "Automatización guardada."
+
+#: includes/admin/class-gsaat-admin.php:950
+msgid "Automation saved as inactive: choose a trigger and complete its settings (form, destination, events…) before activating it."
+msgstr "Automatización guardada como inactiva: elige un disparador y completa sus ajustes (formulario, destino, eventos…) antes de activarla."
+
+#: includes/admin/class-gsaat-admin.php:951
+msgid "Automation saved as inactive: add at least one action before activating it."
+msgstr "Automatización guardada como inactiva: añade al menos una acción antes de activarla."
+
+#: includes/admin/class-gsaat-admin.php:952
+msgid "Automation saved, but the end date is before the start date, so it will never run."
+msgstr "Automatización guardada, pero la fecha de fin es anterior a la de inicio, así que nunca se ejecutará."
+
+#: includes/admin/class-gsaat-admin.php:953
+msgid "Automation activated."
+msgstr "Automatización activada."
+
+#: includes/admin/class-gsaat-admin.php:954
+msgid "Automation deactivated."
+msgstr "Automatización desactivada."
+
+#: includes/admin/class-gsaat-admin.php:955
+msgid "Automation duplicated. The copy is inactive."
+msgstr "Automatización duplicada. La copia está inactiva."
+
+#: includes/admin/class-gsaat-admin.php:956
+msgid "Automation deleted."
+msgstr "Automatización eliminada."
+
+#: includes/admin/class-gsaat-admin.php:957
+msgid "Log entries deleted."
+msgstr "Entradas del registro eliminadas."
+
+#: includes/admin/class-gsaat-admin.php:958
+msgid "Logs cleared."
+msgstr "Registros vaciados."
+
+#: includes/admin/class-gsaat-admin.php:959
+msgid "A new authentication token was generated (tokens must have at least 16 characters). Give it to the sender."
+msgstr "Se ha generado un nuevo token de autenticación (los tokens deben tener al menos 16 caracteres). Dáselo al remitente."
+
+#: includes/admin/class-gsaat-admin.php:960
+msgid "Some entries of the IP list were not valid IP addresses or ranges and were removed."
+msgstr "Algunas entradas de la lista de IP no eran direcciones o rangos IP válidos y se han quitado."
+
+#: includes/admin/class-gsaat-admin.php:961
+msgid "The IP restriction was turned off because the list has no valid address."
+msgstr "Se ha desactivado la restricción por IP porque la lista no tiene ninguna dirección válida."
+
+#: includes/admin/class-gsaat-admin.php:962
+msgid "The signature check was turned off because no signing secret was entered."
+msgstr "Se ha desactivado la comprobación de la firma porque no se ha introducido ningún secreto de firma."
+
+#: includes/admin/class-gsaat-admin.php:963
+msgid "A user condition was removed because no valid user was chosen."
+msgstr "Se ha quitado una condición de usuario porque no se había elegido ningún usuario válido."
+
+#: includes/admin/class-gsaat-admin.php:964
+msgid "The chosen captcha has no keys yet: add them in Settings, otherwise the widget works without captcha."
+msgstr "El captcha elegido todavía no tiene claves: añádelas en Ajustes; si no, el widget funcionará sin captcha."
+
+#: includes/admin/class-gsaat-admin.php:965
+msgid "The scheduled actions were run now. This is the result."
+msgstr "Las acciones programadas se han ejecutado ahora. Este es el resultado."
+
+#: includes/admin/class-gsaat-admin.php:966
+msgid "The scheduled actions were cancelled."
+msgstr "Se han cancelado las acciones programadas."
+
+#: includes/admin/class-gsaat-admin.php:967
+msgid "Those scheduled actions are no longer pending (they already ran or were cancelled)."
+msgstr "Esas acciones programadas ya no están pendientes (ya se ejecutaron o se cancelaron)."
+
+#: includes/admin/class-gsaat-admin.php:968
+msgid "The failed actions were retried. This is the result of the retry."
+msgstr "Se han reintentado las acciones fallidas. Este es el resultado del reintento."
+
+#: includes/admin/class-gsaat-admin.php:969
+msgid "The failed actions of the selected entries were retried. Entries that had not failed were skipped."
+msgstr "Se han reintentado las acciones fallidas de las entradas seleccionadas. Las entradas que no habían fallado se han omitido."
+
+#: includes/admin/class-gsaat-admin.php:970 includes/class-gsaat-engine.php:256
+msgid "Only executions with failed actions can be retried."
+msgstr "Solo se pueden reintentar las ejecuciones con acciones fallidas."
+
+#: includes/admin/class-gsaat-admin.php:971
+msgid "This execution cannot be retried because its automation was deleted."
+msgstr "Esta ejecución no se puede reintentar porque su automatización se ha eliminado."
+
+#: includes/admin/class-gsaat-admin.php:1053
+msgid "Form title"
+msgstr "Título del formulario"
+
+#: includes/admin/class-gsaat-admin.php:1058
+msgid "Logged-in user: name"
+msgstr "Usuario con sesión iniciada: nombre"
+
+#: includes/admin/class-gsaat-admin.php:1059
+msgid "Logged-in user: email"
+msgstr "Usuario con sesión iniciada: correo electrónico"
+
+#: includes/admin/class-gsaat-admin.php:1060
+msgid "Logged-in user: username"
+msgstr "Usuario con sesión iniciada: nombre de usuario"
+
+#: includes/admin/class-gsaat-admin.php:1071
+msgid "HTTP method used"
+msgstr "Método HTTP usado"
+
+#: includes/admin/class-gsaat-admin.php:1104
+msgid "Page where the click happened"
+msgstr "Página donde se hizo clic"
+
+#: includes/admin/class-gsaat-admin.php:1105 includes/admin/views/edit.php:431
+msgid "Link destination"
+msgstr "Destino del enlace"
+
+#: includes/admin/class-gsaat-admin.php:1106 includes/admin/views/edit.php:358
+#: includes/admin/views/edit.php:626
+msgid "Button text"
+msgstr "Texto del botón"
+
+#: includes/admin/class-gsaat-admin.php:1107
+msgid "Website where the widget was used"
+msgstr "Sitio web donde se usó el widget"
+
+#: includes/admin/class-gsaat-admin.php:1108
+msgid "File name"
+msgstr "Nombre del archivo"
+
+#: includes/admin/class-gsaat-admin.php:1109
+msgid "Number of rows in the file"
+msgstr "Número de filas del archivo"
+
+#: includes/admin/class-gsaat-admin.php:1110
+msgid "Row number (once per row)"
+msgstr "Número de fila (una vez por fila)"
+
+#: includes/admin/class-gsaat-admin.php:1111
+msgid "Page where the widget was used"
+msgstr "Página donde se usó el widget"
+
+#. translators: %d: user ID.
+#: includes/admin/class-gsaat-admin.php:1126
+#, php-format
+msgid "Deleted user (#%d)"
+msgstr "Usuario eliminado (n.º %d)"
+
+#: includes/admin/class-gsaat-admin.php:1164 includes/class-gsaat-tables.php:39
+#: includes/class-gsaat-trigger-widget.php:50
+msgid "Email"
+msgstr "Correo electrónico"
+
+#: includes/admin/class-gsaat-admin.php:1179
+msgid "Trigger fields"
+msgstr "Campos del disparador"
+
+#: includes/admin/class-gsaat-admin.php:1180 includes/admin/views/edit.php:57
+msgid "General"
+msgstr "General"
+
+#: includes/admin/class-gsaat-admin.php:1181
+msgid "Insert field…"
+msgstr "Insertar campo…"
+
+#: includes/admin/class-gsaat-admin.php:1182
+msgid "— Choose a field —"
+msgstr "— Elige un campo —"
+
+#: includes/admin/class-gsaat-admin.php:1183 includes/admin/views/edit.php:113
+msgid "— Choose a form —"
+msgstr "— Elige un formulario —"
+
+#: includes/admin/class-gsaat-admin.php:1184
+msgid "(not available)"
+msgstr "(no disponible)"
+
+#: includes/admin/class-gsaat-admin.php:1188
+msgid "Key name"
+msgstr "Nombre de la clave"
+
+#: includes/admin/class-gsaat-admin.php:1190
+msgid "Comparison"
+msgstr "Comparación"
+
+#: includes/admin/class-gsaat-admin.php:1191
+msgid "Key"
+msgstr "Clave"
+
+#: includes/admin/class-gsaat-admin.php:1192
+msgid "Add key / value"
+msgstr "Añadir clave / valor"
+
+#: includes/admin/class-gsaat-admin.php:1193
+msgid "Add header"
+msgstr "Añadir cabecera"
+
+#: includes/admin/class-gsaat-admin.php:1194
+msgid "No keys configured: every received field will be available."
+msgstr "No hay claves configuradas: estarán disponibles todos los campos recibidos."
+
+#: includes/admin/class-gsaat-admin.php:1195
+msgid "No conditions: the actions run every time the trigger fires."
+msgstr "Sin condiciones: las acciones se ejecutan cada vez que salta el disparador."
+
+#: includes/admin/class-gsaat-admin.php:1196
+msgid "No actions yet. Add at least one."
+msgstr "Todavía no hay acciones. Añade al menos una."
+
+#: includes/admin/class-gsaat-admin.php:1197
+msgid "URL"
+msgstr "URL"
+
+#: includes/admin/class-gsaat-admin.php:1198
+#: includes/admin/class-gsaat-webhook-logs-table.php:34
+#: includes/admin/views/webhook-log-detail.php:36
+msgid "Method"
+msgstr "Método"
+
+#: includes/admin/class-gsaat-admin.php:1199
+msgid "Body format"
+msgstr "Formato del cuerpo"
+
+#: includes/admin/class-gsaat-admin.php:1200
+msgid "JSON"
+msgstr "JSON"
+
+#: includes/admin/class-gsaat-admin.php:1201
+msgid "Form (x-www-form-urlencoded)"
+msgstr "Formulario (x-www-form-urlencoded)"
+
+#: includes/admin/class-gsaat-admin.php:1202
+msgid "Data to send"
+msgstr "Datos que se envían"
+
+#: includes/admin/class-gsaat-admin.php:1203
+msgid "With GET and DELETE the data is sent as query string parameters."
+msgstr "Con GET y DELETE los datos se envían como parámetros de la URL."
+
+#: includes/admin/class-gsaat-admin.php:1204
+msgid "Headers (optional)"
+msgstr "Cabeceras (opcional)"
+
+#: includes/admin/class-gsaat-admin.php:1205
+#: includes/admin/views/settings.php:66
+msgid "Send to"
+msgstr "Enviar a"
+
+#: includes/admin/class-gsaat-admin.php:1206
+msgid "One or more addresses separated by commas. You can use fields, e.g. {{your-email}}."
+msgstr "Una o varias direcciones separadas por comas. Puedes usar campos, p. ej. {{your-email}}."
+
+#: includes/admin/class-gsaat-admin.php:1207
+msgid "Reply-To (optional)"
+msgstr "Responder a (opcional)"
+
+#: includes/admin/class-gsaat-admin.php:1208
+#: includes/admin/views/log-detail.php:117
+msgid "Subject"
+msgstr "Asunto"
+
+#: includes/admin/class-gsaat-admin.php:1209
+msgid "Message"
+msgstr "Mensaje"
+
+#: includes/admin/class-gsaat-admin.php:1210
+msgid "Copied!"
+msgstr "¡Copiado!"
+
+#: includes/admin/class-gsaat-admin.php:1211
+msgid "Choose the Contact Form 7 form used as trigger."
+msgstr "Elige el formulario de Contact Form 7 que se usa como disparador."
+
+#: includes/admin/class-gsaat-admin.php:1212
+msgid "Choose the form field used as trigger."
+msgstr "Elige el campo del formulario que se usa como disparador."
+
+#: includes/admin/class-gsaat-admin.php:1213
+msgid "VALUE"
+msgstr "VALOR"
+
+#: includes/admin/class-gsaat-admin.php:1214
+msgid "Also send the header"
+msgstr "Enviar también la cabecera"
+
+#: includes/admin/class-gsaat-admin.php:1215
+msgid "WordPress user"
+msgstr "Usuario de WordPress"
+
+#: includes/admin/class-gsaat-admin.php:1216
+msgid "identified by"
+msgstr "identificado por"
+
+#: includes/admin/class-gsaat-admin.php:1217
+msgid "the logged-in visitor"
+msgstr "el visitante con sesión iniciada"
+
+#: includes/admin/class-gsaat-admin.php:1218
+msgid "Email or username in field"
+msgstr "Correo electrónico o nombre de usuario en el campo"
+
+#: includes/admin/class-gsaat-admin.php:1219
+msgid "Search by name, email or username…"
+msgstr "Buscar por nombre, correo electrónico o nombre de usuario…"
+
+#: includes/admin/class-gsaat-admin.php:1220
+msgid "Choose a user from the list for every \"is the user\" condition."
+msgstr "Elige un usuario de la lista en cada condición «es el usuario»."
+
+#: includes/admin/class-gsaat-admin.php:1221
+msgid "Webhook calls come from an external server, so there is never a logged-in visitor: identify the user with a field."
+msgstr "Las llamadas a un webhook vienen de un servidor externo, así que nunca hay un visitante con sesión iniciada: identifica al usuario con un campo."
+
+#: includes/admin/class-gsaat-admin.php:1222
+msgid "Enter a key name for every row, or remove the empty rows."
+msgstr "Escribe un nombre de clave en cada fila o quita las filas vacías."
+
+#: includes/admin/class-gsaat-admin.php:1223
+#: includes/admin/class-gsaat-admin.php:1229
+msgid "Operation"
+msgstr "Operación"
+
+#: includes/admin/class-gsaat-admin.php:1224
+msgid "Example: ({{price}} * {{quantity}}) * 1.21. Operators: + - * / % ^ and parentheses. Functions: round(x, decimals), floor, ceil, abs, sqrt, pow(x, y), min, max. Commas or dots are accepted as decimal separators in the values; empty values count as 0."
+msgstr "Ejemplo: ({{price}} * {{quantity}}) * 1.21. Operadores: + - * / % ^ y paréntesis. Funciones: round(x, decimales), floor, ceil, abs, sqrt, pow(x, y), min, max. En los valores se aceptan comas o puntos como separador decimal; los valores vacíos cuentan como 0."
+
+#: includes/admin/class-gsaat-admin.php:1225
+msgid "Decimals of the result (empty = as calculated)"
+msgstr "Decimales del resultado (vacío = tal como se calcule)"
+
+#: includes/admin/class-gsaat-admin.php:1226
+msgid "Save the result as"
+msgstr "Guardar el resultado como"
+
+#: includes/admin/class-gsaat-admin.php:1227
+msgid "The following actions can use it as"
+msgstr "Las acciones siguientes pueden usarlo como"
+
+#: includes/admin/class-gsaat-admin.php:1228
+msgid "Value to format"
+msgstr "Valor al que dar formato"
+
+#: includes/admin/class-gsaat-admin.php:1230
+msgid "Redirect to"
+msgstr "Redirigir a"
+
+#: includes/admin/class-gsaat-admin.php:1231
+msgid "An address on this site (e.g. /thank-you/) or a full URL. Field values can be added to the path or query string, but never decide the destination site."
+msgstr "Una dirección de este sitio (p. ej. /gracias/) o una URL completa. Los valores de los campos se pueden añadir a la ruta o a los parámetros, pero nunca deciden el sitio de destino."
+
+#: includes/admin/class-gsaat-admin.php:1232
+msgid "This action only works with triggers that happen in the visitor's browser (link, button, Contact Form 7, login or registration) and never after a wait."
+msgstr "Esta acción solo funciona con disparadores que ocurren en el navegador del visitante (enlace, botón, Contact Form 7, inicio de sesión o registro) y nunca después de una espera."
+
+#: includes/admin/class-gsaat-admin.php:1233
+msgid "Wait"
+msgstr "Esperar"
+
+#: includes/admin/class-gsaat-admin.php:1234
+msgid "The actions below this one run after the wait. Actions above it run immediately."
+msgstr "Las acciones que hay debajo de esta se ejecutan después de la espera. Las que hay encima se ejecutan inmediatamente."
+
+#: includes/admin/class-gsaat-admin.php:1235
+msgid "Results of previous actions"
+msgstr "Resultados de las acciones anteriores"
+
+#: includes/admin/class-gsaat-admin.php:1236
+msgid "Table"
+msgstr "Tabla"
+
+#: includes/admin/class-gsaat-admin.php:1237
+msgid "— Choose a table —"
+msgstr "— Elige una tabla —"
+
+#: includes/admin/class-gsaat-admin.php:1238
+msgid "Create a table"
+msgstr "Crear una tabla"
+
+#: includes/admin/class-gsaat-admin.php:1239
+msgid "There are no tables yet. Create one first (Automations → Tables) and reload this page."
+msgstr "Todavía no hay tablas. Crea una primero (Automatizaciones → Tablas) y vuelve a cargar esta página."
+
+#: includes/admin/class-gsaat-admin.php:1240
+#: includes/admin/class-gsaat-tables-list-table.php:32
+#: includes/admin/views/table-edit.php:97
+msgid "Rows"
+msgstr "Filas"
+
+#: includes/admin/class-gsaat-admin.php:1241
+msgid "Add the new rows to the existing ones"
+msgstr "Añadir las filas nuevas a las existentes"
+
+#: includes/admin/class-gsaat-admin.php:1242
+msgid "Replace all the rows of the table"
+msgstr "Sustituir todas las filas de la tabla"
+
+#: includes/admin/class-gsaat-admin.php:1243
+msgid "Value of each column"
+msgstr "Valor de cada columna"
+
+#: includes/admin/class-gsaat-admin.php:1244
+msgid "Fill in with the fields of the same name"
+msgstr "Rellenar con los campos del mismo nombre"
+
+#: includes/admin/class-gsaat-admin.php:1245
+msgid "With a file uploaded \"once for the whole file\", one row is added for each row of the file, using its columns."
+msgstr "Con un archivo subido «una vez para todo el archivo», se añade una fila por cada fila del archivo, con sus columnas."
+
+#: includes/admin/class-gsaat-admin.php:1249
+msgid "Label"
+msgstr "Etiqueta"
+
+#: includes/admin/class-gsaat-admin.php:1251
+msgid "Required"
+msgstr "Obligatorio"
+
+#: includes/admin/class-gsaat-admin.php:1252
+msgid "Placeholder"
+msgstr "Texto de ejemplo"
+
+#: includes/admin/class-gsaat-admin.php:1253
+msgid "Options (one per line)"
+msgstr "Opciones (una por línea)"
+
+#: includes/admin/class-gsaat-admin.php:1254
+msgid "Privacy policy URL"
+msgstr "URL de la política de privacidad"
+
+#: includes/admin/class-gsaat-admin.php:1255
+msgid "Add at least one field."
+msgstr "Añade al menos un campo."
+
+#: includes/admin/class-gsaat-admin.php:1256
+msgid "Every widget field needs a unique name (letters, digits, - and _)."
+msgstr "Cada campo del widget necesita un nombre único (letras, números, - y _)."
+
+#: includes/admin/class-gsaat-admin.php:1257
+msgid "This action type is not available. If it comes from an add-on, activate the add-on to edit it. It is kept as it is."
+msgstr "Este tipo de acción no está disponible. Si viene de una extensión, activa la extensión para editarla. Se conserva tal como está."
+
+#: includes/admin/class-gsaat-automations-table.php:31
+#: includes/admin/class-gsaat-tables-list-table.php:30
+msgid "Name"
+msgstr "Nombre"
+
+#: includes/admin/class-gsaat-automations-table.php:32
+#: includes/admin/views/edit.php:86 includes/admin/views/log-detail.php:45
+msgid "Trigger"
+msgstr "Disparador"
+
+#: includes/admin/class-gsaat-automations-table.php:33
+#: includes/admin/views/edit.php:688 includes/admin/views/scheduled.php:30
+msgid "Actions"
+msgstr "Acciones"
+
+#: includes/admin/class-gsaat-automations-table.php:34
+msgid "Completed runs"
+msgstr "Ejecuciones completadas"
+
+#: includes/admin/class-gsaat-automations-table.php:35
+#: includes/admin/views/edit.php:64
+msgid "Status"
+msgstr "Estado"
+
+#: includes/admin/class-gsaat-automations-table.php:36
+msgid "Created"
+msgstr "Creada"
+
+#: includes/admin/class-gsaat-automations-table.php:52
+#: includes/admin/class-gsaat-automations-table.php:100
+msgid "Activate"
+msgstr "Activar"
+
+#: includes/admin/class-gsaat-automations-table.php:53
+#: includes/admin/class-gsaat-automations-table.php:100
+msgid "Deactivate"
+msgstr "Desactivar"
+
+#: includes/admin/class-gsaat-automations-table.php:54
+#: includes/admin/class-gsaat-automations-table.php:108
+#: includes/admin/class-gsaat-logs-table.php:49
+#: includes/admin/class-gsaat-logs-table.php:115
+#: includes/admin/class-gsaat-tables-list-table.php:58
+#: includes/admin/class-gsaat-tables-list-table.php:118
+#: includes/admin/class-gsaat-tables-list-table.php:149
+#: includes/admin/class-gsaat-webhook-logs-table.php:42
+#: includes/admin/class-gsaat-webhook-logs-table.php:106
+msgid "Delete"
+msgstr "Eliminar"
+
+#: includes/admin/class-gsaat-automations-table.php:84
+msgid "No automations yet."
+msgstr "Todavía no hay automatizaciones."
+
+#: includes/admin/class-gsaat-automations-table.php:96
+#: includes/admin/class-gsaat-tables-list-table.php:51
+msgid "Edit"
+msgstr "Editar"
+
+#: includes/admin/class-gsaat-automations-table.php:103
+msgid "Duplicate"
+msgstr "Duplicar"
+
+#: includes/admin/class-gsaat-automations-table.php:107
+msgid "Delete this automation? This cannot be undone."
+msgstr "¿Eliminar esta automatización? No se puede deshacer."
+
+#: includes/admin/class-gsaat-automations-table.php:121
+#: includes/admin/views/edit.php:486
+msgid "None"
+msgstr "Ninguna"
+
+#: includes/admin/class-gsaat-logs-table.php:38
+#: includes/admin/class-gsaat-webhook-logs-table.php:31
+#: includes/admin/views/log-detail.php:37
+#: includes/admin/views/webhook-log-detail.php:24
+#: includes/class-gsaat-tables.php:37
+msgid "Date"
+msgstr "Fecha"
+
+#: includes/admin/class-gsaat-logs-table.php:39
+#: includes/admin/class-gsaat-webhook-logs-table.php:32
+#: includes/admin/views/log-detail.php:41 includes/admin/views/scheduled.php:29
+#: includes/admin/views/webhook-log-detail.php:28
+msgid "Automation"
+msgstr "Automatización"
+
+#: includes/admin/class-gsaat-logs-table.php:40
+#: includes/admin/views/log-detail.php:49
+msgid "Event"
+msgstr "Evento"
+
+#: includes/admin/class-gsaat-logs-table.php:41
+#: includes/admin/views/log-detail.php:101
+msgid "Executed actions"
+msgstr "Acciones ejecutadas"
+
+#: includes/admin/class-gsaat-logs-table.php:42
+#: includes/admin/class-gsaat-webhook-logs-table.php:37
+#: includes/admin/views/log-detail.php:53
+#: includes/admin/views/webhook-log-detail.php:44
+msgid "Result"
+msgstr "Resultado"
+
+#: includes/admin/class-gsaat-logs-table.php:48
+#: includes/admin/class-gsaat-logs-table.php:112
+#: includes/admin/views/log-detail.php:24
+msgid "Retry failed actions"
+msgstr "Reintentar las acciones fallidas"
+
+#: includes/admin/class-gsaat-logs-table.php:56
+#: includes/admin/class-gsaat-webhook-logs-table.php:49
+msgid "All"
+msgstr "Todas"
+
+#: includes/admin/class-gsaat-logs-table.php:99
+msgid "No log entries."
+msgstr "No hay entradas en el registro."
+
+#: includes/admin/class-gsaat-logs-table.php:109
+#: includes/admin/class-gsaat-webhook-logs-table.php:105
+msgid "View details"
+msgstr "Ver detalles"
+
+#: includes/admin/class-gsaat-logs-table.php:145
+msgid "OK"
+msgstr "OK"
+
+#: includes/admin/class-gsaat-logs-table.php:145
+msgid "Failed"
+msgstr "Fallida"
+
+#. translators: 1: log entry ID, 2: status of the retry.
+#: includes/admin/class-gsaat-logs-table.php:169
+#, php-format
+msgid "Retried in #%1$d: %2$s"
+msgstr "Reintentada en n.º %1$d: %2$s"
+
+#: includes/admin/class-gsaat-tables-list-table.php:31
+#: includes/admin/views/table-edit.php:55
+msgid "Columns"
+msgstr "Columnas"
+
+#: includes/admin/class-gsaat-tables-list-table.php:33
+#: includes/admin/views/edit.php:380 includes/admin/views/table-edit.php:41
+msgid "Shortcode"
+msgstr "Shortcode"
+
+#: includes/admin/class-gsaat-tables-list-table.php:34
+#: includes/admin/views/table-edit.php:70
+msgid "Visible to"
+msgstr "Visible para"
+
+#: includes/admin/class-gsaat-tables-list-table.php:35
+msgid "Last change"
+msgstr "Último cambio"
+
+#: includes/admin/class-gsaat-tables-list-table.php:45
+msgid "No tables yet."
+msgstr "Todavía no hay tablas."
+
+#: includes/admin/class-gsaat-tables-list-table.php:52
+#: includes/admin/views/table-edit.php:20
+msgid "View rows"
+msgstr "Ver filas"
+
+#: includes/admin/class-gsaat-tables-list-table.php:53
+#: includes/admin/views/table-rows.php:23
+msgid "Export CSV"
+msgstr "Exportar CSV"
+
+#: includes/admin/class-gsaat-tables-list-table.php:57
+msgid "Delete this table and all its rows? Automations that add rows to it will fail."
+msgstr "¿Eliminar esta tabla y todas sus filas? Las automatizaciones que le añaden filas fallarán."
+
+#: includes/admin/class-gsaat-tables-list-table.php:113
+#: includes/class-gsaat-tables.php:387
+msgid "Added"
+msgstr "Añadida"
+
+#: includes/admin/class-gsaat-tables-list-table.php:137
+msgid "This table has no rows yet."
+msgstr "Esta tabla todavía no tiene filas."
+
+#: includes/admin/class-gsaat-webhook-logs-table.php:33
+msgid "Source"
+msgstr "Origen"
+
+#: includes/admin/class-gsaat-webhook-logs-table.php:35
+#: includes/admin/views/webhook-log-detail.php:40
+msgid "Caller IP"
+msgstr "IP de origen"
+
+#: includes/admin/class-gsaat-webhook-logs-table.php:36
+msgid "Received fields"
+msgstr "Campos recibidos"
+
+#: includes/admin/class-gsaat-webhook-logs-table.php:50
+msgid "Received"
+msgstr "Recibidas"
+
+#: includes/admin/class-gsaat-webhook-logs-table.php:51
+msgid "Errors"
+msgstr "Errores"
+
+#: includes/admin/class-gsaat-webhook-logs-table.php:52
+#: includes/admin/views/settings.php:100
+msgid "Webhooks"
+msgstr "Webhooks"
+
+#: includes/admin/class-gsaat-webhook-logs-table.php:53
+msgid "Widgets"
+msgstr "Widgets"
+
+#: includes/admin/class-gsaat-webhook-logs-table.php:95
+msgid "No webhook calls have been received yet."
+msgstr "Todavía no se ha recibido ninguna llamada a un webhook."
+
+#: includes/admin/class-gsaat-webhook-logs-table.php:116
+msgid "Widget"
+msgstr "Widget"
+
+#: includes/admin/class-gsaat-webhook-logs-table.php:116
+msgid "Webhook"
+msgstr "Webhook"
+
+#: includes/admin/views/automations.php:24
+msgid "Search automations"
+msgstr "Buscar automatizaciones"
+
+#: includes/admin/views/edit.php:39
+msgid "Edit Automation"
+msgstr "Editar automatización"
+
+#: includes/admin/views/edit.php:41
+msgid "Back to automations"
+msgstr "Volver a las automatizaciones"
+
+#: includes/admin/views/edit.php:60 includes/class-gsaat-engine.php:62
+msgid "Automation name"
+msgstr "Nombre de la automatización"
+
+#. translators: 1: number of completed runs, 2: creation date.
+#: includes/admin/views/edit.php:75
+#, php-format
+msgid "Completed runs: %1$s · Created: %2$s"
+msgstr "Ejecuciones completadas: %1$s · Creada: %2$s"
+
+#: includes/admin/views/edit.php:87
+msgid "The event that starts the automation."
+msgstr "El evento que pone en marcha la automatización."
+
+#: includes/admin/views/edit.php:90
+msgid "Trigger event"
+msgstr "Evento disparador"
+
+#: includes/admin/views/edit.php:93
+msgid "— Choose a trigger —"
+msgstr "— Elige un disparador —"
+
+#: includes/admin/views/edit.php:104
+msgid "Contact Form 7 is not active. Install and activate it to use this trigger."
+msgstr "Contact Form 7 no está activo. Instálalo y actívalo para usar este disparador."
+
+#: includes/admin/views/edit.php:106
+msgid "There are no Contact Form 7 forms yet. Create one first."
+msgstr "Todavía no hay formularios de Contact Form 7. Crea uno primero."
+
+#: includes/admin/views/edit.php:110
+msgid "Form"
+msgstr "Formulario"
+
+#: includes/admin/views/edit.php:121 includes/admin/views/edit.php:646
+msgid "Fire when"
+msgstr "Disparar cuando"
+
+#: includes/admin/views/edit.php:124
+msgid "The form is submitted"
+msgstr "Se envía el formulario"
+
+#: includes/admin/views/edit.php:125
+msgid "The form is submitted with a specific value in a field"
+msgstr "Se envía el formulario con un valor concreto en un campo"
+
+#: includes/admin/views/edit.php:130
+msgid "Field and value"
+msgstr "Campo y valor"
+
+#: includes/admin/views/edit.php:134
+msgid "Expected value"
+msgstr "Valor esperado"
+
+#: includes/admin/views/edit.php:136
+msgid "Not case-sensitive. Leave the value empty to fire whenever the field is filled in with any value."
+msgstr "No distingue mayúsculas y minúsculas. Deja el valor vacío para que salte siempre que el campo tenga cualquier valor."
+
+#: includes/admin/views/edit.php:145
+#: includes/admin/views/webhook-log-detail.php:32
+msgid "Webhook URL"
+msgstr "URL del webhook"
+
+#: includes/admin/views/edit.php:149 includes/admin/views/edit.php:174
+#: includes/admin/views/edit.php:322 includes/admin/views/edit.php:331
+#: includes/admin/views/edit.php:387 includes/admin/views/edit.php:513
+#: includes/admin/views/edit.php:518 includes/admin/views/edit.php:633
+#: includes/admin/views/table-edit.php:45
+msgid "Copy"
+msgstr "Copiar"
+
+#: includes/admin/views/edit.php:152
+msgid "Paste this URL in the external system. It accepts GET, POST and PUT requests; the data can be sent as query string parameters, as a form body or as a JSON body."
+msgstr "Pega esta URL en el sistema externo. Acepta peticiones GET, POST y PUT; los datos se pueden enviar como parámetros de la URL, como cuerpo de formulario o como cuerpo JSON."
+
+#: includes/admin/views/edit.php:154
+msgid "The URL starts working once the automation is saved."
+msgstr "La URL empieza a funcionar cuando se guarda la automatización."
+
+#: includes/admin/views/edit.php:160
+msgid "Generate a new URL when saving (the current one will stop working)"
+msgstr "Generar una URL nueva al guardar (la actual dejará de funcionar)"
+
+#: includes/admin/views/edit.php:166
+msgid "Keys to receive"
+msgstr "Claves que se reciben"
+
+#: includes/admin/views/edit.php:169
+msgid "Add key"
+msgstr "Añadir clave"
+
+#: includes/admin/views/edit.php:170
+msgid "The values received under these keys can be used in the conditions and actions. Nested JSON keys use dots, e.g. customer.email."
+msgstr "Los valores recibidos con estas claves se pueden usar en las condiciones y las acciones. Las claves JSON anidadas se escriben con puntos, p. ej. customer.email."
+
+#: includes/admin/views/edit.php:171
+msgid "Example call:"
+msgstr "Llamada de ejemplo:"
+
+#: includes/admin/views/edit.php:180
+msgid "Security"
+msgstr "Seguridad"
+
+#: includes/admin/views/edit.php:182
+msgid "Optional. Without any protection, whoever knows the URL can call it. Each option you enable must also be configured in the sending system."
+msgstr "Opcional. Sin ninguna protección, cualquiera que conozca la URL puede llamarla. Cada opción que actives también hay que configurarla en el sistema que envía."
+
+#: includes/admin/views/edit.php:188
+msgid "Require an authentication token in a header"
+msgstr "Exigir un token de autenticación en una cabecera"
+
+#: includes/admin/views/edit.php:192
+msgid "Header name"
+msgstr "Nombre de la cabecera"
+
+#: includes/admin/views/edit.php:196 includes/admin/views/edit.php:198
+msgid "Token"
+msgstr "Token"
+
+#: includes/admin/views/edit.php:199 includes/admin/views/edit.php:266
+msgid "Generate"
+msgstr "Generar"
+
+#: includes/admin/views/edit.php:202
+msgid "You create the token and give it to the sender together with the URL; their system must send it in this header on every call. With the Authorization header, \"Bearer <token>\" is accepted too."
+msgstr "Tú creas el token y se lo das al remitente junto con la URL; su sistema debe enviarlo en esta cabecera en cada llamada. Con la cabecera Authorization también se acepta «Bearer <token>»."
+
+#: includes/admin/views/edit.php:210
+msgid "Only accept calls from these IP addresses"
+msgstr "Aceptar llamadas solo desde estas direcciones IP"
+
+#: includes/admin/views/edit.php:213
+msgid "Allowed IP addresses"
+msgstr "Direcciones IP permitidas"
+
+#: includes/admin/views/edit.php:215
+msgid "One per line. IPv4 or IPv6, single addresses or CIDR ranges. Ask the sender which IP addresses their servers call from."
+msgstr "Una por línea. IPv4 o IPv6, direcciones sueltas o rangos CIDR. Pregunta al remitente desde qué direcciones IP llaman sus servidores."
+
+#. translators: %s: IP address.
+#: includes/admin/views/edit.php:220
+#, php-format
+msgid "The last call to this webhook came from %s."
+msgstr "La última llamada a este webhook vino de %s."
+
+#. translators: %s: link to the Settings screen.
+#: includes/admin/views/edit.php:227
+#, php-format
+msgid "If your site is behind a proxy or Cloudflare, choose how the caller IP is detected in %s."
+msgstr "Si tu sitio está detrás de un proxy o de Cloudflare, elige cómo se detecta la IP de origen en %s."
+
+#: includes/admin/views/edit.php:239
+msgid "Verify an HMAC signature"
+msgstr "Verificar una firma HMAC"
+
+#: includes/admin/views/edit.php:243
+msgid "Sending service"
+msgstr "Servicio que envía"
+
+#: includes/admin/views/edit.php:252
+msgid "The sender computes an HMAC of the raw request body (or of the query string exactly as sent, when there is no body) with the shared secret and sends it in the signature header, optionally prefixed with the algorithm (e.g. sha256=…). If you set a timestamp header, the signed content is \"timestamp.body\" and old calls are rejected."
+msgstr "El remitente calcula un HMAC del cuerpo de la petición tal cual (o de los parámetros de la URL exactamente como se envían, cuando no hay cuerpo) con el secreto compartido y lo envía en la cabecera de la firma, opcionalmente precedido del algoritmo (p. ej. sha256=…). Si indicas una cabecera de fecha y hora, el contenido firmado es «fechahora.cuerpo» y se rechazan las llamadas antiguas."
+
+#: includes/admin/views/edit.php:253
+msgid "In Stripe, go to Developers → Webhooks, add this URL as an endpoint and paste here its signing secret (whsec_…). Calls older than the maximum age are rejected."
+msgstr "En Stripe, ve a Desarrolladores → Webhooks, añade esta URL como endpoint y pega aquí su secreto de firma (whsec_…). Se rechazan las llamadas más antiguas que la antigüedad máxima."
+
+#: includes/admin/views/edit.php:254
+msgid "Paste here the secret Shopify signs your webhooks with (Settings → Notifications → Webhooks), or your app's client secret if the webhook is created by an app."
+msgstr "Pega aquí el secreto con el que Shopify firma tus webhooks (Configuración → Notificaciones → Webhooks), o el secreto de cliente de tu app si el webhook lo crea una app."
+
+#: includes/admin/views/edit.php:255
+msgid "In WooCommerce → Settings → Advanced → Webhooks, use this URL as the Delivery URL and the same Secret as here (you can generate it here and paste it there)."
+msgstr "En WooCommerce → Ajustes → Avanzado → Webhooks, usa esta URL como URL de entrega y el mismo secreto que aquí (puedes generarlo aquí y pegarlo allí)."
+
+#: includes/admin/views/edit.php:256
+msgid "In the repository, go to Settings → Webhooks, use this URL as the Payload URL, \"application/json\" as the content type and the same Secret as here."
+msgstr "En el repositorio, ve a Settings → Webhooks, usa esta URL como Payload URL, «application/json» como tipo de contenido y el mismo secreto que aquí."
+
+#: includes/admin/views/edit.php:263 includes/admin/views/edit.php:265
+msgid "Signing secret"
+msgstr "Secreto de firma"
+
+#: includes/admin/views/edit.php:271
+msgid "Signature header"
+msgstr "Cabecera de la firma"
+
+#: includes/admin/views/edit.php:275
+msgid "Algorithm"
+msgstr "Algoritmo"
+
+#: includes/admin/views/edit.php:283
+msgid "Encoding"
+msgstr "Codificación"
+
+#: includes/admin/views/edit.php:285
+msgid "Hexadecimal"
+msgstr "Hexadecimal"
+
+#: includes/admin/views/edit.php:290
+msgid "Timestamp header (optional)"
+msgstr "Cabecera de fecha y hora (opcional)"
+
+#: includes/admin/views/edit.php:295
+msgid "Maximum age of a call"
+msgstr "Antigüedad máxima de una llamada"
+
+#: includes/admin/views/edit.php:297
+msgid "seconds"
+msgstr "segundos"
+
+#: includes/admin/views/edit.php:298
+msgid "Protects against replayed calls. For the custom HMAC it only applies when a timestamp header is set."
+msgstr "Protege contra llamadas repetidas. En el HMAC personalizado solo se aplica cuando se indica una cabecera de fecha y hora."
+
+#: includes/admin/views/edit.php:311
+msgid "Destination"
+msgstr "Destino"
+
+#: includes/admin/views/edit.php:314
+msgid "Where the visitor lands after clicking. A \"Redirect the user\" action can send them somewhere else instead."
+msgstr "Adónde llega el visitante después de hacer clic. Una acción «Redirigir al usuario» puede enviarlo a otro sitio."
+
+#: includes/admin/views/edit.php:318
+msgid "Link to use"
+msgstr "Enlace que debes usar"
+
+#: includes/admin/views/edit.php:324
+msgid "Use this address in any link, menu, button or email. Each click runs the automation and then takes the visitor to the destination."
+msgstr "Usa esta dirección en cualquier enlace, menú, botón o correo electrónico. Cada clic ejecuta la automatización y después lleva al visitante al destino."
+
+#: includes/admin/views/edit.php:326
+msgid "The link starts working once the automation is saved."
+msgstr "El enlace empieza a funcionar cuando se guarda la automatización."
+
+#: includes/admin/views/edit.php:328
+msgid "Or insert it in a page or post with this shortcode:"
+msgstr "O insértalo en una página o entrada con este shortcode:"
+
+#: includes/admin/views/edit.php:330
+msgid "Link text"
+msgstr "Texto del enlace"
+
+#: includes/admin/views/edit.php:337
+msgid "Parameters (optional)"
+msgstr "Parámetros (opcional)"
+
+#: includes/admin/views/edit.php:340
+msgid "Names of the values you add to the link, e.g. …&email=ana@example.com. They become fields you can use in the conditions and actions. Separate them with commas."
+msgstr "Nombres de los valores que añades al enlace, p. ej. …&email=ana@example.com. Se convierten en campos que puedes usar en las condiciones y las acciones. Sepáralos con comas."
+
+#: includes/admin/views/edit.php:341
+msgid "Pass these values on to the destination URL"
+msgstr "Pasar estos valores a la URL de destino"
+
+#: includes/admin/views/edit.php:345
+msgid "Robots"
+msgstr "Robots"
+
+#: includes/admin/views/edit.php:347
+msgid "Ignore visits from search engines and link previews (recommended)"
+msgstr "Ignorar las visitas de buscadores y de las vistas previas de enlaces (recomendado)"
+
+#: includes/admin/views/edit.php:348
+msgid "Repeated clicks of the same visitor within 10 seconds count once."
+msgstr "Los clics repetidos de un mismo visitante en menos de 10 segundos cuentan como uno."
+
+#: includes/admin/views/edit.php:362 includes/admin/views/table-edit.php:117
+msgid "CSS classes (optional)"
+msgstr "Clases CSS (opcional)"
+
+#: includes/admin/views/edit.php:365
+msgid "The button already uses your theme's button style. Add classes to change it."
+msgstr "El botón ya usa el estilo de botón de tu tema. Añade clases para cambiarlo."
+
+#: includes/admin/views/edit.php:369
+msgid "Message after the click (optional)"
+msgstr "Mensaje después del clic (opcional)"
+
+#: includes/admin/views/edit.php:370 includes/class-gsaat-trigger-widget.php:79
+msgid "Thank you!"
+msgstr "¡Gracias!"
+
+#: includes/admin/views/edit.php:373
+msgid "Go to after the click (optional)"
+msgstr "Ir a después del clic (opcional)"
+
+#: includes/admin/views/edit.php:376
+msgid "Leave empty to stay on the same page and show the message."
+msgstr "Déjalo vacío para quedarse en la misma página y mostrar el mensaje."
+
+#: includes/admin/views/edit.php:383
+msgid "The shortcode is shown once the automation is saved."
+msgstr "El shortcode aparece cuando se guarda la automatización."
+
+#: includes/admin/views/edit.php:389
+msgid "Paste it in any page or post (in the block editor, use a Shortcode block)."
+msgstr "Pégalo en cualquier página o entrada (en el editor de bloques, usa un bloque Shortcode)."
+
+#: includes/admin/views/edit.php:399
+msgid "A button, link or form that other websites show with a small piece of code. When a visitor uses it there, this automation runs here."
+msgstr "Un botón, un enlace o un formulario que otros sitios web muestran con un pequeño código. Cuando un visitante lo usa allí, esta automatización se ejecuta aquí."
+
+#: includes/admin/views/edit.php:402
+msgid "Widget type"
+msgstr "Tipo de widget"
+
+#: includes/admin/views/edit.php:412
+msgid "Heading and text (optional)"
+msgstr "Título y texto (opcional)"
+
+#: includes/admin/views/edit.php:414
+msgid "Heading"
+msgstr "Título"
+
+#: includes/admin/views/edit.php:415
+msgid "Text above the widget"
+msgstr "Texto encima del widget"
+
+#: includes/admin/views/edit.php:419
+msgid "Form fields"
+msgstr "Campos del formulario"
+
+#: includes/admin/views/edit.php:422
+msgid "Add field"
+msgstr "Añadir campo"
+
+#: includes/admin/views/edit.php:423
+msgid "The field name is how you use the value in conditions and actions, e.g. {{email}}. Only these fields are accepted; anything else sent is ignored."
+msgstr "El nombre del campo es como usas el valor en las condiciones y las acciones, p. ej. {{email}}. Solo se aceptan estos campos; cualquier otro dato que se envíe se ignora."
+
+#: includes/admin/views/edit.php:427
+msgid "Button / link text"
+msgstr "Texto del botón / enlace"
+
+#: includes/admin/views/edit.php:434
+msgid "The page the visitor goes to after clicking (a \"Redirect the user\" action can choose another one)."
+msgstr "La página a la que va el visitante después de hacer clic (una acción «Redirigir al usuario» puede elegir otra)."
+
+#: includes/admin/views/edit.php:438
+msgid "After sending"
+msgstr "Después del envío"
+
+#: includes/admin/views/edit.php:440
+msgid "Message shown in the widget"
+msgstr "Mensaje que se muestra en el widget"
+
+#: includes/admin/views/edit.php:441
+msgid "Or go to this page (optional)"
+msgstr "O ir a esta página (opcional)"
+
+#: includes/admin/views/edit.php:441
+msgid "Or go to this page (optional): https://"
+msgstr "O ir a esta página (opcional): https://"
+
+#: includes/admin/views/edit.php:442
+msgid "Going to another page works best with the script embed code; with the plain iframe the visitor may get a \"Continue\" link instead."
+msgstr "Ir a otra página funciona mejor con el código de inserción con script; con el iframe simple, el visitante puede ver en su lugar un enlace «Continuar»."
+
+#: includes/admin/views/edit.php:446
+msgid "Design"
+msgstr "Diseño"
+
+#: includes/admin/views/edit.php:449
+msgid "Main color"
+msgstr "Color principal"
+
+#: includes/admin/views/edit.php:450
+msgid "Text color"
+msgstr "Color del texto"
+
+#: includes/admin/views/edit.php:451
+msgid "Background"
+msgstr "Fondo"
+
+#: includes/admin/views/edit.php:452
+msgid "Corner radius (px)"
+msgstr "Radio de las esquinas (px)"
+
+#: includes/admin/views/edit.php:453
+msgid "Font"
+msgstr "Tipo de letra"
+
+#: includes/admin/views/edit.php:463
+msgid "Also apply the Additional CSS of this site"
+msgstr "Aplicar también el CSS adicional de este sitio"
+
+#: includes/admin/views/edit.php:465
+msgid "For more design changes, write CSS where WordPress keeps it: Appearance → Customize → Additional CSS, or Appearance → Editor → Styles → Additional CSS with block themes. The widget uses the classes .gsaat-w, .gsaat-w__title, .gsaat-w__field, .gsaat-w__button, .gsaat-w__link and .gsaat-w__status. Turn this on only if that CSS does not change the look of the widget in unwanted ways."
+msgstr "Para más cambios de diseño, escribe el CSS donde lo guarda WordPress: Apariencia → Personalizar → CSS adicional, o Apariencia → Editor → Estilos → CSS adicional con los temas de bloques. El widget usa las clases .gsaat-w, .gsaat-w__title, .gsaat-w__field, .gsaat-w__button, .gsaat-w__link y .gsaat-w__status. Actívalo solo si ese CSS no cambia el aspecto del widget de forma no deseada."
+
+#: includes/admin/views/edit.php:469
+msgid "Websites that can show the widget"
+msgstr "Sitios web que pueden mostrar el widget"
+
+#: includes/admin/views/edit.php:472
+msgid "Browsers will only display the widget on these websites (one per line; *.example.org includes its subdomains). Recommended. Leave empty to allow any website. This controls where the widget can be shown, not who can send data: like a webhook, anyone who knows the widget address can send submissions to it directly, so treat the received values as untrusted. Direct submissions are limited by the single-use code, the anti-spam checks, the hourly limits and the optional captcha."
+msgstr "Los navegadores solo mostrarán el widget en estos sitios web (uno por línea; *.example.org incluye sus subdominios). Recomendado. Déjalo vacío para permitir cualquier sitio web. Esto controla dónde se puede mostrar el widget, no quién puede enviar datos: igual que con un webhook, cualquiera que conozca la dirección del widget puede enviarle datos directamente, así que trata los valores recibidos como no fiables. Los envíos directos están limitados por el código de un solo uso, las comprobaciones antispam, los límites por hora y el captcha opcional."
+
+#: includes/admin/views/edit.php:476
+msgid "Anti-spam"
+msgstr "Antispam"
+
+#: includes/admin/views/edit.php:479
+msgid "At most"
+msgstr "Como máximo"
+
+#: includes/admin/views/edit.php:481
+msgid "submissions per hour from the same connection (0 = no limit)"
+msgstr "envíos por hora desde la misma conexión (0 = sin límite)"
+
+#: includes/admin/views/edit.php:484
+msgid "Captcha"
+msgstr "Captcha"
+
+#: includes/admin/views/edit.php:492
+msgid "(add its keys in Settings)"
+msgstr "(añade sus claves en Ajustes)"
+
+#: includes/admin/views/edit.php:500
+msgid "Always active: a single-use code issued when the widget loads, a minimum time to send and a hidden trap field for bots."
+msgstr "Siempre activo: un código de un solo uso que se emite al cargar el widget, un tiempo mínimo para enviar y un campo trampa oculto para los bots."
+
+#: includes/admin/views/edit.php:504
+msgid "Code for the other website"
+msgstr "Código para el otro sitio web"
+
+#: includes/admin/views/edit.php:507
+msgid "The code is shown once the automation is saved."
+msgstr "El código aparece cuando se guarda la automatización."
+
+#: includes/admin/views/edit.php:510
+msgid "Recommended (adjusts its height and can take the visitor to another page):"
+msgstr "Recomendado (ajusta su altura y puede llevar al visitante a otra página):"
+
+#: includes/admin/views/edit.php:515
+msgid "Or, where scripts are not allowed, a plain iframe:"
+msgstr "O, donde no se permiten scripts, un iframe simple:"
+
+#: includes/admin/views/edit.php:520
+msgid "If the widget does not appear on the other website, check that it is in \"Websites that can show the widget\" and that no security plugin on this site adds an X-Frame-Options header to every page."
+msgstr "Si el widget no aparece en el otro sitio web, comprueba que está en «Sitios web que pueden mostrar el widget» y que ningún plugin de seguridad de este sitio añade una cabecera X-Frame-Options a todas las páginas."
+
+#: includes/admin/views/edit.php:526
+msgid "Preview"
+msgstr "Vista previa"
+
+#: includes/admin/views/edit.php:528
+msgid "Widget preview"
+msgstr "Vista previa del widget"
+
+#: includes/admin/views/edit.php:529
+msgid "Shows the saved version. Sending it here really runs the automation."
+msgstr "Muestra la versión guardada. Enviarlo aquí ejecuta la automatización de verdad."
+
+#: includes/admin/views/edit.php:533
+msgid "Statistics (last 30 days)"
+msgstr "Estadísticas (últimos 30 días)"
+
+#: includes/admin/views/edit.php:537
+msgid "No activity yet."
+msgstr "Todavía no hay actividad."
+
+#: includes/admin/views/edit.php:542
+msgid "Website"
+msgstr "Sitio web"
+
+#: includes/admin/views/edit.php:543
+msgid "Views"
+msgstr "Visualizaciones"
+
+#: includes/admin/views/edit.php:544
+msgid "Submissions"
+msgstr "Envíos"
+
+#: includes/admin/views/edit.php:545
+msgid "Conversion"
+msgstr "Conversión"
+
+#: includes/admin/views/edit.php:546
+msgid "Rejected"
+msgstr "Rechazados"
+
+#: includes/admin/views/edit.php:552
+msgid "(unknown)"
+msgstr "(desconocida)"
+
+#: includes/admin/views/edit.php:561
+msgid "A view is counted each time the widget loads; rejected includes spam, expired forms and validation errors (details in Webhook Logs → Widgets)."
+msgstr "Se cuenta una visualización cada vez que se carga el widget; los rechazados incluyen spam, formularios caducados y errores de validación (detalles en Registros de webhooks → Widgets)."
+
+#: includes/admin/views/edit.php:573
+msgid "Run the automation"
+msgstr "Ejecutar la automatización"
+
+#: includes/admin/views/edit.php:576
+msgid "Once for the whole file (recommended for tables: \"Add rows to a table\" adds every row)"
+msgstr "Una vez para todo el archivo (recomendado para tablas: «Añadir filas a una tabla» añade todas las filas)"
+
+#: includes/admin/views/edit.php:577
+msgid "Once for each row (e.g. one email per row)"
+msgstr "Una vez por cada fila (p. ej. un correo electrónico por fila)"
+
+#: includes/admin/views/edit.php:579
+msgid "Once per file: the columns are available in the \"Add rows to a table\" action; the other actions get the file name {{_file_name}} and the number of rows {{_row_count}}. Once per row: every action gets the columns of the row."
+msgstr "Una vez por archivo: las columnas están disponibles en la acción «Añadir filas a una tabla»; las demás acciones reciben el nombre del archivo {{_file_name}} y el número de filas {{_row_count}}. Una vez por fila: cada acción recibe las columnas de la fila."
+
+#: includes/admin/views/edit.php:583
+msgid "Columns of the file"
+msgstr "Columnas del archivo"
+
+#: includes/admin/views/edit.php:587
+msgid "Read them from a sample file…"
+msgstr "Leerlas de un archivo de ejemplo…"
+
+#: includes/admin/views/edit.php:591
+msgid "The first row of the file is its header. Each header becomes a field name: \"Fecha de alta\" → fecha_de_alta. Listing them here offers them in \"Insert field…\"; columns not listed still work."
+msgstr "La primera fila del archivo es su cabecera. Cada título se convierte en un nombre de campo: «Fecha de alta» → fecha_de_alta. Si las escribes aquí, aparecen en «Insertar campo…»; las columnas que no estén en la lista funcionan igualmente."
+
+#: includes/admin/views/edit.php:595
+msgid "Limits"
+msgstr "Límites"
+
+#: includes/admin/views/edit.php:597
+msgid "Read at most"
+msgstr "Leer como máximo"
+
+#: includes/admin/views/edit.php:597 includes/admin/views/table-edit.php:104
+msgid "rows"
+msgstr "filas"
+
+#: includes/admin/views/edit.php:599
+msgid "Maximum size"
+msgstr "Tamaño máximo"
+
+#. translators: %s: maximum upload size of the server.
+#: includes/admin/views/edit.php:603
+#, php-format
+msgid "Accepted: CSV (any separator) and Excel .xlsx (first sheet). The file is read and discarded, never stored. Your server accepts files up to %s."
+msgstr "Se aceptan: CSV (cualquier separador) y Excel .xlsx (primera hoja). El archivo se lee y se descarta; nunca se guarda. Tu servidor acepta archivos de hasta %s."
+
+#: includes/admin/views/edit.php:609
+msgid "Upload from the website"
+msgstr "Subida desde el sitio web"
+
+#: includes/admin/views/edit.php:622
+msgid "Visitors who are not logged in: at most"
+msgstr "Visitantes sin sesión iniciada: como máximo"
+
+#: includes/admin/views/edit.php:622
+msgid "uploads per hour from the same connection"
+msgstr "subidas por hora desde la misma conexión"
+
+#: includes/admin/views/edit.php:625
+msgid "Field text"
+msgstr "Texto del campo"
+
+#: includes/admin/views/edit.php:628
+msgid "Message after the upload"
+msgstr "Mensaje después de la subida"
+
+#: includes/admin/views/edit.php:630
+msgid "Shortcode of the upload form:"
+msgstr "Shortcode del formulario de subida:"
+
+#: includes/admin/views/edit.php:636
+msgid "Administrators can always run the automation with a file from this screen (below, once saved)."
+msgstr "Los administradores siempre pueden ejecutar la automatización con un archivo desde esta pantalla (abajo, una vez guardada)."
+
+#: includes/admin/views/edit.php:653
+msgid "Available fields: user_id, user_login, user_email, display_name, first_name, last_name, roles, registered and event. Passwords are never included."
+msgstr "Campos disponibles: user_id, user_login, user_email, display_name, first_name, last_name, roles, registered y event. Las contraseñas nunca se incluyen."
+
+#: includes/admin/views/edit.php:672
+msgid "Conditions (optional)"
+msgstr "Condiciones (opcional)"
+
+#: includes/admin/views/edit.php:673
+msgid "Extra requirements the event data must meet for the actions to run."
+msgstr "Requisitos adicionales que deben cumplir los datos del evento para que se ejecuten las acciones."
+
+#: includes/admin/views/edit.php:675
+msgid "Run the actions when"
+msgstr "Ejecutar las acciones cuando"
+
+#: includes/admin/views/edit.php:677
+msgid "all the conditions are met"
+msgstr "se cumplan todas las condiciones"
+
+#: includes/admin/views/edit.php:678
+msgid "any of the conditions is met"
+msgstr "se cumpla cualquiera de las condiciones"
+
+#: includes/admin/views/edit.php:682
+msgid "Add field condition"
+msgstr "Añadir condición de campo"
+
+#: includes/admin/views/edit.php:683
+msgid "Add user condition"
+msgstr "Añadir condición de usuario"
+
+#: includes/admin/views/edit.php:689
+msgid "What happens when the trigger fires. Actions run in order. Use \"Insert field…\" to place values from the trigger, written as {{field_name}}."
+msgstr "Lo que pasa cuando salta el disparador. Las acciones se ejecutan en orden. Usa «Insertar campo…» para poner valores del disparador, escritos como {{field_name}}."
+
+#. translators: %s: action type label.
+#: includes/admin/views/edit.php:696
+#, php-format
+msgid "Add: %s"
+msgstr "Añadir: %s"
+
+#: includes/admin/views/edit.php:705
+msgid "Runs and dates"
+msgstr "Ejecuciones y fechas"
+
+#: includes/admin/views/edit.php:708
+msgid "Number of runs"
+msgstr "Número de ejecuciones"
+
+#: includes/admin/views/edit.php:712
+msgid "Unlimited (never expires)"
+msgstr "Ilimitadas (no caduca nunca)"
+
+#: includes/admin/views/edit.php:715
+msgid "Stop after"
+msgstr "Parar después de"
+
+#: includes/admin/views/edit.php:717
+msgid "runs"
+msgstr "ejecuciones"
+
+#: includes/admin/views/edit.php:722
+msgid "Start date"
+msgstr "Fecha de inicio"
+
+#: includes/admin/views/edit.php:725
+msgid "Leave empty to start right away."
+msgstr "Déjala vacía para empezar ya."
+
+#: includes/admin/views/edit.php:729
+msgid "End date"
+msgstr "Fecha de fin"
+
+#: includes/admin/views/edit.php:733
+msgid "Never expires"
+msgstr "No caduca nunca"
+
+#. translators: %s: timezone name.
+#: includes/admin/views/edit.php:741
+#, php-format
+msgid "Dates use the site timezone (%s)."
+msgstr "Las fechas usan la zona horaria del sitio (%s)."
+
+#: includes/admin/views/edit.php:759
+msgid "Create automation"
+msgstr "Crear automatización"
+
+#: includes/admin/views/edit.php:759 includes/admin/views/table-edit.php:123
+msgid "Save changes"
+msgstr "Guardar cambios"
+
+#: includes/admin/views/edit.php:764
+msgid "Run with a file"
+msgstr "Ejecutar con un archivo"
+
+#: includes/admin/views/edit.php:770
+msgid "CSV or Excel file"
+msgstr "Archivo CSV o Excel"
+
+#: includes/admin/views/edit.php:771
+msgid "Upload and run"
+msgstr "Subir y ejecutar"
+
+#: includes/admin/views/edit.php:773
+msgid "Runs the saved version of this automation now, exactly as an upload from the website would."
+msgstr "Ejecuta ahora la versión guardada de esta automatización, exactamente igual que una subida desde el sitio web."
+
+#: includes/admin/views/log-detail.php:21
+msgid "Log entry"
+msgstr "Entrada del registro"
+
+#: includes/admin/views/log-detail.php:22
+msgid "Back to logs"
+msgstr "Volver a los registros"
+
+#: includes/admin/views/log-detail.php:31
+msgid "Retrying runs again only the actions that failed, with the data of this event and the current settings of those actions. It does not count as a new run."
+msgstr "Reintentar vuelve a ejecutar solo las acciones que fallaron, con los datos de este evento y los ajustes actuales de esas acciones. No cuenta como una ejecución nueva."
+
+#: includes/admin/views/log-detail.php:63
+msgid "Scheduled by"
+msgstr "Programada por"
+
+#: includes/admin/views/log-detail.php:69
+msgid "Scheduled actions"
+msgstr "Acciones programadas"
+
+#. translators: %s: date.
+#: includes/admin/views/log-detail.php:74
+#, php-format
+msgid "Pending, scheduled for %s."
+msgstr "Pendiente, programada para el %s."
+
+#: includes/admin/views/log-detail.php:76 includes/admin/views/scheduled.php:32
+msgid "Manage"
+msgstr "Gestionar"
+
+#: includes/admin/views/log-detail.php:78
+msgid "Ran in"
+msgstr "Ejecutada en"
+
+#: includes/admin/views/log-detail.php:81
+msgid "Cancelled."
+msgstr "Cancelada."
+
+#: includes/admin/views/log-detail.php:88
+msgid "Retry of"
+msgstr "Reintento de"
+
+#: includes/admin/views/log-detail.php:94
+msgid "Retried in"
+msgstr "Reintentada en"
+
+#: includes/admin/views/log-detail.php:103
+msgid "No action was executed."
+msgstr "No se ejecutó ninguna acción."
+
+#: includes/admin/views/log-detail.php:109
+msgid "Executed successfully."
+msgstr "Ejecutada correctamente."
+
+#: includes/admin/views/log-detail.php:109
+msgid "Failed."
+msgstr "Fallida."
+
+#: includes/admin/views/log-detail.php:113
+msgid "Data sent"
+msgstr "Datos enviados"
+
+#: includes/admin/views/log-detail.php:120
+msgid "Response"
+msgstr "Respuesta"
+
+#: includes/admin/views/log-detail.php:127
+msgid "Event data"
+msgstr "Datos del evento"
+
+#: includes/admin/views/logs.php:26
+msgid "Every time a trigger fires an automation, the event, the executed actions and their result are recorded here."
+msgstr "Cada vez que un disparador pone en marcha una automatización, aquí se registran el evento, las acciones ejecutadas y su resultado."
+
+#. translators: %s: automation name.
+#: includes/admin/views/logs.php:33
+#, php-format
+msgid "Showing only the logs of \"%s\"."
+msgstr "Se muestran solo los registros de «%s»."
+
+#: includes/admin/views/logs.php:35
+msgid "Show all"
+msgstr "Mostrar todos"
+
+#: includes/admin/views/scheduled.php:22
+msgid "Actions waiting to run after a \"Wait\" step. WordPress runs them with its scheduler (WP-Cron), which depends on visits to the site: on low-traffic sites they may run a little later than planned."
+msgstr "Acciones que esperan para ejecutarse después de un paso «Esperar». WordPress las ejecuta con su programador (WP-Cron), que depende de las visitas al sitio: en sitios con poco tráfico pueden ejecutarse algo más tarde de lo previsto."
+
+#: includes/admin/views/scheduled.php:28
+msgid "Scheduled for"
+msgstr "Programada para"
+
+#: includes/admin/views/scheduled.php:31
+msgid "Started by"
+msgstr "Iniciada por"
+
+#: includes/admin/views/scheduled.php:37
+msgid "There are no scheduled actions."
+msgstr "No hay acciones programadas."
+
+#: includes/admin/views/scheduled.php:53
+msgid "Run now"
+msgstr "Ejecutar ahora"
+
+#: includes/admin/views/scheduled.php:54
+msgid "Cancel these scheduled actions?"
+msgstr "¿Cancelar estas acciones programadas?"
+
+#: includes/admin/views/scheduled.php:54
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: includes/admin/views/settings.php:24
+msgid "Log retention"
+msgstr "Conservación de los registros"
+
+#: includes/admin/views/settings.php:25
+msgid "Older entries are deleted automatically once a day. Use 0 to keep them forever."
+msgstr "Las entradas más antiguas se eliminan automáticamente una vez al día. Usa 0 para conservarlas siempre."
+
+#: includes/admin/views/settings.php:29
+msgid "Keep automation logs for"
+msgstr "Conservar los registros de automatizaciones durante"
+
+#: includes/admin/views/settings.php:34 includes/admin/views/settings.php:43
+#: includes/class-gsaat-scheduler.php:34
+msgid "days"
+msgstr "días"
+
+#: includes/admin/views/settings.php:38
+msgid "Keep webhook logs for"
+msgstr "Conservar los registros de webhooks durante"
+
+#: includes/admin/views/settings.php:48
+msgid "Failure notifications"
+msgstr "Avisos de fallos"
+
+#: includes/admin/views/settings.php:51
+msgid "Email when an automation fails"
+msgstr "Correo electrónico cuando falla una automatización"
+
+#: includes/admin/views/settings.php:56
+msgid "Send an email when all the actions of an automation fail"
+msgstr "Enviar un correo electrónico cuando fallen todas las acciones de una automatización"
+
+#: includes/admin/views/settings.php:60
+msgid "Also when only some of its actions fail"
+msgstr "También cuando solo fallen algunas de sus acciones"
+
+#: includes/admin/views/settings.php:72
+msgid "One or more addresses separated by commas. Leave empty to use the site administration email address."
+msgstr "Una o varias direcciones separadas por comas. Déjalo vacío para usar el correo electrónico de administración del sitio."
+
+#: includes/admin/views/settings.php:76
+msgid "At most one email per automation every"
+msgstr "Como máximo un correo electrónico por automatización cada"
+
+#: includes/admin/views/settings.php:81 includes/class-gsaat-scheduler.php:32
+msgid "minutes"
+msgstr "minutos"
+
+#: includes/admin/views/settings.php:82
+msgid "Avoids a flood of emails when an external service is down. Use 0 to send one email per failure. Every failure is always recorded in the logs."
+msgstr "Evita una avalancha de correos electrónicos cuando un servicio externo está caído. Usa 0 para enviar un correo electrónico por cada fallo. Todos los fallos se guardan siempre en los registros."
+
+#: includes/admin/views/settings.php:87
+msgid "Public triggers"
+msgstr "Disparadores públicos"
+
+#: includes/admin/views/settings.php:90
+msgid "Maximum runs per hour of each automation for anonymous visitors"
+msgstr "Máximo de ejecuciones por hora de cada automatización para visitantes anónimos"
+
+#: includes/admin/views/settings.php:95
+msgid "Links, buttons, upload forms and widgets can be used by anyone who knows their address, also without visiting your pages. Besides the limits per connection, this caps how many times one automation can run in an hour for visitors who are not logged in, all of them together, so a flood of requests cannot send unlimited emails or webhooks. Use 0 for no limit."
+msgstr "Los enlaces, botones, formularios de subida y widgets los puede usar cualquiera que conozca su dirección, incluso sin visitar tus páginas. Además de los límites por conexión, esto limita cuántas veces puede ejecutarse una automatización en una hora para los visitantes sin sesión iniciada, todos juntos, para que una avalancha de peticiones no pueda enviar correos electrónicos o webhooks sin límite. Usa 0 para no poner límite."
+
+#: includes/admin/views/settings.php:103
+msgid "Detect the caller IP from"
+msgstr "Detectar la IP de origen a partir de"
+
+#: includes/admin/views/settings.php:110
+msgid "Used by the IP restriction of incoming webhooks and shown in the webhook logs. Only choose a header if your site really is behind that proxy: otherwise callers could fake their IP by sending the header themselves."
+msgstr "Se usa en la restricción por IP de los webhooks entrantes y se muestra en los registros de webhooks. Elige una cabecera solo si tu sitio está de verdad detrás de ese proxy: si no, cualquiera podría falsear su IP enviando la cabecera."
+
+#: includes/admin/views/settings.php:115
+msgid "Widget captcha (optional)"
+msgstr "Captcha de los widgets (opcional)"
+
+#: includes/admin/views/settings.php:116
+msgid "Embeddable widgets can show an hCaptcha challenge. Get free keys at hcaptcha.com and choose the captcha in each widget. Nothing is sent to hCaptcha unless a widget uses it."
+msgstr "Los widgets insertables pueden mostrar una prueba de hCaptcha. Consigue claves gratuitas en hcaptcha.com y elige el captcha en cada widget. No se envía nada a hCaptcha salvo que un widget lo use."
+
+#: includes/admin/views/settings.php:120
+msgid "hCaptcha site key"
+msgstr "Clave del sitio de hCaptcha"
+
+#: includes/admin/views/settings.php:121
+msgid "hCaptcha secret key"
+msgstr "Clave secreta de hCaptcha"
+
+#: includes/admin/views/settings.php:132
+msgid "Uninstall"
+msgstr "Desinstalación"
+
+#: includes/admin/views/settings.php:135
+msgid "Plugin data"
+msgstr "Datos del plugin"
+
+#: includes/admin/views/settings.php:141
+msgid "Delete all automations, logs and settings when the plugin is deleted"
+msgstr "Eliminar todas las automatizaciones, registros y ajustes cuando se borre el plugin"
+
+#: includes/admin/views/settings.php:162
+msgid "Clear logs now"
+msgstr "Vaciar los registros ahora"
+
+#: includes/admin/views/settings.php:166
+msgid "Clear automation logs"
+msgstr "Vaciar los registros de automatizaciones"
+
+#: includes/admin/views/settings.php:167
+msgid "Clear webhook logs"
+msgstr "Vaciar los registros de webhooks"
+
+#: includes/admin/views/settings.php:175
+msgid "Delete all entries of this log? This cannot be undone."
+msgstr "¿Eliminar todas las entradas de este registro? No se puede deshacer."
+
+#: includes/admin/views/table-edit.php:18 includes/admin/views/tables.php:16
+msgid "New Table"
+msgstr "Nueva tabla"
+
+#: includes/admin/views/table-edit.php:18
+msgid "Edit Table"
+msgstr "Editar tabla"
+
+#: includes/admin/views/table-edit.php:22
+#: includes/admin/views/table-rows.php:25
+msgid "All tables"
+msgstr "Todas las tablas"
+
+#: includes/admin/views/table-edit.php:36
+msgid "Table name"
+msgstr "Nombre de la tabla"
+
+#: includes/admin/views/table-edit.php:47
+msgid "Paste it in any page or post to show the table."
+msgstr "Pégalo en cualquier página o entrada para mostrar la tabla."
+
+#: includes/admin/views/table-edit.php:56
+msgid "The field name identifies the column in the automations; the title is what visitors see. The field name of a saved column cannot change, so the values already stored keep showing."
+msgstr "El nombre del campo identifica la columna en las automatizaciones; el título es lo que ven los visitantes. El nombre del campo de una columna guardada no puede cambiar, para que los valores ya guardados se sigan mostrando."
+
+#: includes/admin/views/table-edit.php:59
+msgid "Add column"
+msgstr "Añadir columna"
+
+#: includes/admin/views/table-edit.php:60
+msgid "Add columns from a CSV / Excel file…"
+msgstr "Añadir columnas desde un archivo CSV / Excel…"
+
+#: includes/admin/views/table-edit.php:67
+msgid "Display"
+msgstr "Visualización"
+
+#: includes/admin/views/table-edit.php:82
+msgid "The roles only apply to \"Users with these roles\". If the table holds personal data (names, emails…), do not make it visible to everyone."
+msgstr "Los perfiles solo se aplican a «Usuarios con estos perfiles». Si la tabla contiene datos personales (nombres, correos electrónicos…), no la hagas visible para todo el mundo."
+
+#: includes/admin/views/table-edit.php:86
+msgid "Features"
+msgstr "Funciones"
+
+#: includes/admin/views/table-edit.php:89
+msgid "Search box"
+msgstr "Buscador"
+
+#: includes/admin/views/table-edit.php:90
+msgid "Sort by clicking the column titles"
+msgstr "Ordenar haciendo clic en los títulos de las columnas"
+
+#: includes/admin/views/table-edit.php:91
+msgid "Show the date each row was added"
+msgstr "Mostrar la fecha en que se añadió cada fila"
+
+#: includes/admin/views/table-edit.php:92
+msgid "Let visitors download the table as CSV"
+msgstr "Permitir que los visitantes descarguen la tabla en CSV"
+
+#: includes/admin/views/table-edit.php:100
+msgid "Rows per page"
+msgstr "Filas por página"
+
+#: includes/admin/views/table-edit.php:101
+msgid "(0 = all on one page)"
+msgstr "(0 = todas en una página)"
+
+#: includes/admin/views/table-edit.php:104
+msgid "Show at most"
+msgstr "Mostrar como máximo"
+
+#: includes/admin/views/table-edit.php:107
+msgid "Order"
+msgstr "Orden"
+
+#: includes/admin/views/table-edit.php:109
+msgid "Newest rows first"
+msgstr "Primero las filas más recientes"
+
+#: includes/admin/views/table-edit.php:110
+msgid "Oldest rows first (as in the file)"
+msgstr "Primero las filas más antiguas (como en el archivo)"
+
+#: includes/admin/views/table-edit.php:123
+msgid "Create table"
+msgstr "Crear tabla"
+
+#. translators: %s: table name.
+#: includes/admin/views/table-rows.php:19
+#, php-format
+msgid "Rows of \"%s\""
+msgstr "Filas de «%s»"
+
+#: includes/admin/views/table-rows.php:22
+msgid "Edit table"
+msgstr "Editar tabla"
+
+#: includes/admin/views/table-rows.php:24
+msgid "Delete all the rows of this table? This cannot be undone."
+msgstr "¿Eliminar todas las filas de esta tabla? No se puede deshacer."
+
+#: includes/admin/views/table-rows.php:24
+msgid "Delete all rows"
+msgstr "Eliminar todas las filas"
+
+#: includes/admin/views/table-rows.php:31
+msgid "Only the first columns are shown here; the export includes all of them."
+msgstr "Aquí solo se muestran las primeras columnas; la exportación las incluye todas."
+
+#: includes/admin/views/tables.php:21
+msgid "Tables collect rows from your automations (action \"Add rows to a table\") and show them on your site with their shortcode."
+msgstr "Las tablas reúnen filas de tus automatizaciones (acción «Añadir filas a una tabla») y las muestran en tu sitio con su shortcode."
+
+#: includes/admin/views/webhook-log-detail.php:17
+msgid "Widget submission"
+msgstr "Envío de un widget"
+
+#: includes/admin/views/webhook-log-detail.php:17
+msgid "Webhook call"
+msgstr "Llamada a un webhook"
+
+#: includes/admin/views/webhook-log-detail.php:18
+msgid "Back to webhook logs"
+msgstr "Volver a los registros de webhooks"
+
+#: includes/admin/views/webhook-log-detail.php:32
+msgid "Page with the widget"
+msgstr "Página con el widget"
+
+#: includes/admin/views/webhook-log-detail.php:50
+msgid "Data received."
+msgstr "Datos recibidos."
+
+#. translators: 1: HTTP status code, 2: error code.
+#: includes/admin/views/webhook-log-detail.php:63
+#, php-format
+msgid "Error %1$s (%2$s)"
+msgstr "Error %1$s (%2$s)"
+
+#: includes/admin/views/webhook-log-detail.php:71
+msgid "Received data"
+msgstr "Datos recibidos"
+
+#: includes/admin/views/webhook-logs.php:21
+msgid "Calls received by the webhook URLs and the embeddable widgets of your automations, including the rejected ones. Click a row to see the details and the received data."
+msgstr "Llamadas recibidas por las URL de webhook y los widgets insertables de tus automatizaciones, incluidas las rechazadas. Haz clic en una fila para ver los detalles y los datos recibidos."
+
+#: includes/class-gsaat-actions.php:45
+msgid "This action type is not available. If it comes from an add-on, check that the add-on is active."
+msgstr "Este tipo de acción no está disponible. Si viene de una extensión, comprueba que la extensión está activa."
+
+#: includes/class-gsaat-actions.php:51
+msgid "The action did not return a valid result."
+msgstr "La acción no ha devuelto un resultado válido."
+
+#. translators: %s: action type slug.
+#: includes/class-gsaat-actions.php:144
+#, php-format
+msgid "Unavailable action (%s)"
+msgstr "Acción no disponible (%s)"
+
+#. translators: 1: HTTP method, 2: host name or URL.
+#: includes/class-gsaat-actions.php:152
+#, php-format
+msgid "Webhook: %1$s %2$s"
+msgstr "Webhook: %1$s %2$s"
+
+#. translators: %s: recipient.
+#: includes/class-gsaat-actions.php:157
+#, php-format
+msgid "Email to %s"
+msgstr "Correo electrónico a %s"
+
+#. translators: %s: error message.
+#: includes/class-gsaat-actions.php:171
+#, php-format
+msgid "The calculation failed: %s"
+msgstr "El cálculo ha fallado: %s"
+
+#. translators: 1: output field, 2: expression.
+#: includes/class-gsaat-actions.php:190
+#, php-format
+msgid "Calculate {{%1$s}} = %2$s"
+msgstr "Calcular {{%1$s}} = %2$s"
+
+#. translators: 1: output field, 2: operation, 3: input.
+#: includes/class-gsaat-actions.php:231
+#, php-format
+msgid "Format {{%1$s}} = %2$s of %3$s"
+msgstr "Formato {{%1$s}} = %2$s de %3$s"
+
+#: includes/class-gsaat-actions.php:242
+msgid "Nobody can be redirected: this trigger, a wait or a retry does not run in the visitor's browser."
+msgstr "No se puede redirigir a nadie: este disparador, una espera o un reintento no se ejecutan en el navegador del visitante."
+
+#: includes/class-gsaat-actions.php:249
+msgid "The visitor is redirected to this address."
+msgstr "El visitante es redirigido a esta dirección."
+
+#. translators: %s: URL.
+#: includes/class-gsaat-actions.php:258
+#, php-format
+msgid "Redirect to %s"
+msgstr "Redirigir a %s"
+
+#: includes/class-gsaat-actions.php:279
+msgid "The table does not exist (it may have been deleted)."
+msgstr "La tabla no existe (puede que se haya eliminado)."
+
+#: includes/class-gsaat-actions.php:283
+msgid "The file had too many rows to keep them for a retry. Upload the file again."
+msgstr "El archivo tenía demasiadas filas para guardarlas para un reintento. Vuelve a subir el archivo."
+
+#. translators: %d: number of rows.
+#: includes/class-gsaat-actions.php:321
+#, php-format
+msgid "The table now has %d row (previous rows replaced)."
+msgid_plural "The table now has %d rows (previous rows replaced)."
+msgstr[0] "La tabla tiene ahora %d fila (se han sustituido las filas anteriores)."
+msgstr[1] "La tabla tiene ahora %d filas (se han sustituido las filas anteriores)."
+
+#. translators: %d: number of rows.
+#: includes/class-gsaat-actions.php:323
+#, php-format
+msgid "%d row added."
+msgid_plural "%d rows added."
+msgstr[0] "%d fila añadida."
+msgstr[1] "%d filas añadidas."
+
+#. translators: %s: table name.
+#: includes/class-gsaat-actions.php:346
+#, php-format
+msgid "Add rows to the table \"%s\""
+msgstr "Añadir filas a la tabla «%s»"
+
+#. translators: 1: amount, 2: unit.
+#: includes/class-gsaat-actions.php:366
+#, php-format
+msgid "Wait %1$d %2$s"
+msgstr "Esperar %1$d %2$s"
+
+#: includes/class-gsaat-actions.php:398
+msgid "The webhook URL is not valid."
+msgstr "La URL del webhook no es válida."
+
+#. translators: %s: error message.
+#: includes/class-gsaat-actions.php:440
+#, php-format
+msgid "Request failed: %s"
+msgstr "La petición ha fallado: %s"
+
+#. translators: %d: HTTP status code.
+#: includes/class-gsaat-actions.php:453
+#, php-format
+msgid "The external server answered with HTTP status %d."
+msgstr "El servidor externo ha respondido con el estado HTTP %d."
+
+#. translators: %s: recipient field after replacing the fields.
+#: includes/class-gsaat-actions.php:479
+#, php-format
+msgid "No valid recipient address in \"%s\"."
+msgstr "No hay ninguna dirección de destinatario válida en «%s»."
+
+#: includes/class-gsaat-actions.php:502
+msgid "Email sent."
+msgstr "Correo electrónico enviado."
+
+#. translators: %s: error message.
+#: includes/class-gsaat-actions.php:510
+#, php-format
+msgid "The email could not be sent: %s"
+msgstr "No se ha podido enviar el correo electrónico: %s"
+
+#: includes/class-gsaat-actions.php:511
+msgid "The email could not be sent."
+msgstr "No se ha podido enviar el correo electrónico."
+
+#. translators: %s: original automation name.
+#: includes/class-gsaat-automations.php:201
+#, php-format
+msgid "%s (copy)"
+msgstr "%s (copia)"
+
+#: includes/class-gsaat-automations.php:288
+msgid "Hourly limit for anonymous visitors reached"
+msgstr "Alcanzado el límite por hora para visitantes anónimos"
+
+#. translators: %d: runs per hour.
+#: includes/class-gsaat-automations.php:294
+#, php-format
+msgid "This automation already ran %d times in this hour for anonymous visitors (Settings → Public triggers). Further runs are refused until the next hour and are not logged one by one."
+msgstr "Esta automatización ya se ha ejecutado %d veces en esta hora para visitantes anónimos (Ajustes → Disparadores públicos). Las ejecuciones siguientes se rechazan hasta la hora siguiente y no se registran una a una."
+
+#. translators: %s: value that is not a number.
+#. translators: %s: value.
+#: includes/class-gsaat-calculator.php:64
+#: includes/class-gsaat-formatter.php:130
+#, php-format
+msgid "\"%s\" is not a number."
+msgstr "«%s» no es un número."
+
+#: includes/class-gsaat-calculator.php:81
+msgid "The expression is empty."
+msgstr "La expresión está vacía."
+
+#. translators: %s: function name.
+#: includes/class-gsaat-calculator.php:155
+#, php-format
+msgid "Unknown function \"%s\"."
+msgstr "Función desconocida «%s»."
+
+#. translators: %s: unexpected character.
+#: includes/class-gsaat-calculator.php:167
+#, php-format
+msgid "Unexpected character \"%s\"."
+msgstr "Carácter inesperado «%s»."
+
+#: includes/class-gsaat-calculator.php:202
+msgid "Misplaced comma."
+msgstr "Coma fuera de lugar."
+
+#: includes/class-gsaat-calculator.php:210
+#: includes/class-gsaat-calculator.php:254
+msgid "Unbalanced parentheses."
+msgstr "Los paréntesis no están equilibrados."
+
+#: includes/class-gsaat-calculator.php:231
+#: includes/class-gsaat-calculator.php:288
+#: includes/class-gsaat-calculator.php:294
+msgid "Misplaced operator."
+msgstr "Operador fuera de lugar."
+
+#. translators: %s: function name.
+#: includes/class-gsaat-calculator.php:274
+#, php-format
+msgid "Wrong number of values for %s()."
+msgstr "Número de valores incorrecto para %s()."
+
+#: includes/class-gsaat-calculator.php:299
+msgid "Division by zero."
+msgstr "División por cero."
+
+#: includes/class-gsaat-calculator.php:324
+msgid "The expression is incomplete."
+msgstr "La expresión está incompleta."
+
+#: includes/class-gsaat-calculator.php:328
+msgid "The result is not a valid number."
+msgstr "El resultado no es un número válido."
+
+#: includes/class-gsaat-calculator.php:344
+msgid "Square root of a negative number."
+msgstr "Raíz cuadrada de un número negativo."
+
+#: includes/class-gsaat-calculator.php:352
+msgid "Unknown function."
+msgstr "Función desconocida."
+
+#: includes/class-gsaat-engine.php:21
+msgid "is equal to"
+msgstr "es igual a"
+
+#: includes/class-gsaat-engine.php:22
+msgid "is not equal to"
+msgstr "no es igual a"
+
+#: includes/class-gsaat-engine.php:23
+msgid "contains"
+msgstr "contiene"
+
+#: includes/class-gsaat-engine.php:24
+msgid "does not contain"
+msgstr "no contiene"
+
+#: includes/class-gsaat-engine.php:25
+msgid "starts with"
+msgstr "empieza por"
+
+#: includes/class-gsaat-engine.php:26
+msgid "ends with"
+msgstr "termina en"
+
+#: includes/class-gsaat-engine.php:27
+msgid "is empty"
+msgstr "está vacío"
+
+#: includes/class-gsaat-engine.php:28
+msgid "is not empty"
+msgstr "no está vacío"
+
+#: includes/class-gsaat-engine.php:29
+msgid "is greater than"
+msgstr "es mayor que"
+
+#: includes/class-gsaat-engine.php:30
+msgid "is less than"
+msgstr "es menor que"
+
+#: includes/class-gsaat-engine.php:48
+msgid "has logged in"
+msgstr "ha iniciado sesión"
+
+#: includes/class-gsaat-engine.php:49
+msgid "has not logged in"
+msgstr "no ha iniciado sesión"
+
+#: includes/class-gsaat-engine.php:50
+msgid "is a registered user"
+msgstr "es un usuario registrado"
+
+#: includes/class-gsaat-engine.php:51
+msgid "is the user"
+msgstr "es el usuario"
+
+#: includes/class-gsaat-engine.php:63
+msgid "Date and time of the event"
+msgstr "Fecha y hora del evento"
+
+#: includes/class-gsaat-engine.php:64
+msgid "Site name"
+msgstr "Nombre del sitio"
+
+#: includes/class-gsaat-engine.php:65
+msgid "Site URL"
+msgstr "URL del sitio"
+
+#: includes/class-gsaat-engine.php:190
+msgid "The conditions were not met, no action was executed."
+msgstr "No se cumplieron las condiciones; no se ejecutó ninguna acción."
+
+#: includes/class-gsaat-engine.php:260
+msgid "The automation of this execution no longer exists."
+msgstr "La automatización de esta ejecución ya no existe."
+
+#: includes/class-gsaat-engine.php:291
+msgid "This action was changed or removed from the automation after the original execution, so it was not retried."
+msgstr "Esta acción se cambió o se quitó de la automatización después de la ejecución original, así que no se ha reintentado."
+
+#. translators: 1: original log ID, 2: original event.
+#: includes/class-gsaat-engine.php:328
+#, php-format
+msgid "Retry of #%1$d: %2$s"
+msgstr "Reintento de n.º %1$d: %2$s"
+
+#. translators: 1: number of actions, 2: date.
+#: includes/class-gsaat-engine.php:376
+#, php-format
+msgid "%1$d action scheduled for %2$s."
+msgid_plural "%1$d actions scheduled for %2$s."
+msgstr[0] "%1$d acción programada para el %2$s."
+msgstr[1] "%1$d acciones programadas para el %2$s."
+
+#: includes/class-gsaat-engine.php:377
+msgid "There are no actions after this wait."
+msgstr "No hay acciones después de esta espera."
+
+#: includes/class-gsaat-engine.php:509 includes/class-gsaat-notifier.php:73
+msgid "This automation has no actions configured."
+msgstr "Esta automatización no tiene acciones configuradas."
+
+#: includes/class-gsaat-file-reader.php:34
+#: includes/class-gsaat-trigger-file.php:217
+msgid "Only CSV and Excel (.xlsx) files are accepted. Save .xls files as .xlsx or .csv first."
+msgstr "Solo se aceptan archivos CSV y Excel (.xlsx). Guarda antes los archivos .xls como .xlsx o .csv."
+
+#: includes/class-gsaat-file-reader.php:60
+#: includes/class-gsaat-trigger-file.php:219
+msgid "The file is empty."
+msgstr "El archivo está vacío."
+
+#: includes/class-gsaat-file-reader.php:124
+msgid "This does not look like a CSV file."
+msgstr "No parece un archivo CSV."
+
+#: includes/class-gsaat-file-reader.php:200
+msgid "This server cannot read Excel files (the PHP zip / XML extensions are missing). Save the file as CSV and upload it again."
+msgstr "Este servidor no puede leer archivos de Excel (faltan las extensiones zip / XML de PHP). Guarda el archivo como CSV y vuelve a subirlo."
+
+#: includes/class-gsaat-file-reader.php:204
+#: includes/class-gsaat-trigger-file.php:158
+msgid "This does not look like an Excel (.xlsx) file."
+msgstr "No parece un archivo de Excel (.xlsx)."
+
+#: includes/class-gsaat-file-reader.php:211
+msgid "The Excel file has no worksheet."
+msgstr "El archivo de Excel no tiene ninguna hoja."
+
+#: includes/class-gsaat-file-reader.php:228
+msgid "The Excel worksheet could not be read."
+msgstr "No se ha podido leer la hoja de Excel."
+
+#: includes/class-gsaat-formatter.php:21
+msgid "First word"
+msgstr "Primera palabra"
+
+#: includes/class-gsaat-formatter.php:22
+msgid "Last word"
+msgstr "Última palabra"
+
+#: includes/class-gsaat-formatter.php:23
+msgid "Word number…"
+msgstr "Palabra número…"
+
+#: includes/class-gsaat-formatter.php:23
+msgid "Position (1 = first)"
+msgstr "Posición (1 = la primera)"
+
+#: includes/class-gsaat-formatter.php:24
+msgid "First letter"
+msgstr "Primera letra"
+
+#: includes/class-gsaat-formatter.php:25
+msgid "Initials (first letter of each word)"
+msgstr "Iniciales (primera letra de cada palabra)"
+
+#: includes/class-gsaat-formatter.php:26
+msgid "UPPERCASE"
+msgstr "MAYÚSCULAS"
+
+#: includes/class-gsaat-formatter.php:27
+msgid "lowercase"
+msgstr "minúsculas"
+
+#: includes/class-gsaat-formatter.php:28
+msgid "Capitalize Each Word"
+msgstr "Mayúscula En Cada Palabra"
+
+#: includes/class-gsaat-formatter.php:29
+msgid "Capitalize first letter"
+msgstr "Mayúscula en la primera letra"
+
+#: includes/class-gsaat-formatter.php:30
+msgid "Remove extra spaces"
+msgstr "Quitar espacios sobrantes"
+
+#: includes/class-gsaat-formatter.php:32
+msgid "Shorten"
+msgstr "Acortar"
+
+#: includes/class-gsaat-formatter.php:34
+msgid "Maximum characters"
+msgstr "Máximo de caracteres"
+
+#: includes/class-gsaat-formatter.php:35
+msgid "Add at the end if shortened"
+msgstr "Añadir al final si se acorta"
+
+#: includes/class-gsaat-formatter.php:39
+msgid "Extract part of the text"
+msgstr "Extraer parte del texto"
+
+#: includes/class-gsaat-formatter.php:41
+msgid "From character (1 = first)"
+msgstr "Desde el carácter (1 = el primero)"
+
+#: includes/class-gsaat-formatter.php:42
+msgid "Number of characters (empty = to the end)"
+msgstr "Número de caracteres (vacío = hasta el final)"
+
+#: includes/class-gsaat-formatter.php:46
+msgid "Replace text"
+msgstr "Reemplazar texto"
+
+#: includes/class-gsaat-formatter.php:48
+msgid "Search for"
+msgstr "Buscar"
+
+#: includes/class-gsaat-formatter.php:49
+msgid "Replace with"
+msgstr "Reemplazar por"
+
+#: includes/class-gsaat-formatter.php:52
+msgid "Keep only digits"
+msgstr "Dejar solo los dígitos"
+
+#: includes/class-gsaat-formatter.php:53
+msgid "Round a number"
+msgstr "Redondear un número"
+
+#: includes/class-gsaat-formatter.php:53 includes/class-gsaat-formatter.php:59
+msgid "Decimals"
+msgstr "Decimales"
+
+#: includes/class-gsaat-formatter.php:54
+msgid "Round up (ceiling)"
+msgstr "Redondear hacia arriba"
+
+#: includes/class-gsaat-formatter.php:55
+msgid "Round down (floor)"
+msgstr "Redondear hacia abajo"
+
+#: includes/class-gsaat-formatter.php:57
+msgid "Format a number (e.g. 1.234,56)"
+msgstr "Dar formato a un número (p. ej. 1.234,56)"
+
+#: includes/class-gsaat-formatter.php:60
+msgid "Decimal separator"
+msgstr "Separador decimal"
+
+#: includes/class-gsaat-formatter.php:61
+msgid "Thousands separator"
+msgstr "Separador de miles"
+
+#: includes/class-gsaat-formatter.php:64
+msgid "Format a date"
+msgstr "Dar formato a una fecha"
+
+#: includes/class-gsaat-formatter.php:64
+msgid "Format (PHP date format, e.g. d/m/Y)"
+msgstr "Formato (formato de fecha de PHP, p. ej. d/m/Y)"
+
+#: includes/class-gsaat-formatter.php:65
+msgid "Default value if empty"
+msgstr "Valor por defecto si está vacío"
+
+#: includes/class-gsaat-formatter.php:65
+msgid "Default value"
+msgstr "Valor por defecto"
+
+#: includes/class-gsaat-formatter.php:66
+msgid "Slug (lowercase-with-dashes)"
+msgstr "Slug (minúsculas-con-guiones)"
+
+#. translators: %s: value.
+#: includes/class-gsaat-formatter.php:146
+#, php-format
+msgid "\"%s\" is not a recognizable date."
+msgstr "«%s» no es una fecha reconocible."
+
+#: includes/class-gsaat-formatter.php:165
+msgid "Unknown format operation."
+msgstr "Operación de formato desconocida."
+
+#. translators: 1: site name, 2: automation name.
+#: includes/class-gsaat-notifier.php:50
+#, php-format
+msgid "[%1$s] Automation failed: %2$s"
+msgstr "[%1$s] Ha fallado una automatización: %2$s"
+
+#. translators: 1: automation name, 2: date.
+#: includes/class-gsaat-notifier.php:55
+#, php-format
+msgid "Some actions of the automation \"%1$s\" failed on %2$s."
+msgstr "Algunas acciones de la automatización «%1$s» fallaron el %2$s."
+
+#. translators: 1: automation name, 2: date.
+#: includes/class-gsaat-notifier.php:57
+#, php-format
+msgid "The automation \"%1$s\" failed on %2$s."
+msgstr "La automatización «%1$s» falló el %2$s."
+
+#. translators: %s: event description.
+#: includes/class-gsaat-notifier.php:62
+#, php-format
+msgid "Event: %s"
+msgstr "Evento: %s"
+
+#: includes/class-gsaat-notifier.php:66
+msgid "Failed actions:"
+msgstr "Acciones fallidas:"
+
+#: includes/class-gsaat-notifier.php:77
+msgid "See the details and retry the failed actions here:"
+msgstr "Consulta los detalles y reintenta las acciones fallidas aquí:"
+
+#. translators: %d: number of minutes.
+#: includes/class-gsaat-notifier.php:89
+#, php-format
+msgid "Further failures of this automation in the next %d minutes will not be emailed; they are still recorded in the logs."
+msgstr "Los siguientes fallos de esta automatización en los próximos %d minutos no se enviarán por correo electrónico; se seguirán guardando en los registros."
+
+#: includes/class-gsaat-notifier.php:90
+msgid "You receive one email per failure."
+msgstr "Recibes un correo electrónico por cada fallo."
+
+#: includes/class-gsaat-notifier.php:91
+msgid "You can change these notifications in Automations → Settings."
+msgstr "Puedes cambiar estos avisos en Automatizaciones → Ajustes."
+
+#: includes/class-gsaat-redirect.php:91
+msgid "The redirect URL is not valid."
+msgstr "La URL de redirección no es válida."
+
+#: includes/class-gsaat-redirect.php:102
+msgid "The redirect was blocked: the destination site cannot come from a field value."
+msgstr "Se ha bloqueado la redirección: el sitio de destino no puede venir del valor de un campo."
+
+#: includes/class-gsaat-registry.php:28
+msgid "Contact Form 7 submission"
+msgstr "Envío de Contact Form 7"
+
+#: includes/class-gsaat-registry.php:35
+msgid "Data received through a webhook"
+msgstr "Datos recibidos a través de un webhook"
+
+#: includes/class-gsaat-registry.php:42
+msgid "Click on a link"
+msgstr "Clic en un enlace"
+
+#: includes/class-gsaat-registry.php:49
+msgid "Click on a button"
+msgstr "Clic en un botón"
+
+#: includes/class-gsaat-registry.php:56
+msgid "Embeddable widget on other websites (button, link or form)"
+msgstr "Widget insertable en otros sitios web (botón, enlace o formulario)"
+
+#: includes/class-gsaat-registry.php:64
+msgid "CSV or Excel file uploaded"
+msgstr "Archivo CSV o Excel subido"
+
+#: includes/class-gsaat-registry.php:71
+msgid "WordPress user event (registration, login, password change)"
+msgstr "Evento de usuario de WordPress (registro, inicio de sesión, cambio de contraseña)"
+
+#: includes/class-gsaat-registry.php:113
+msgid "Send data to an external webhook"
+msgstr "Enviar datos a un webhook externo"
+
+#: includes/class-gsaat-registry.php:127
+msgid "Send an email"
+msgstr "Enviar un correo electrónico"
+
+#: includes/class-gsaat-registry.php:140
+msgid "Calculator"
+msgstr "Calculadora"
+
+#: includes/class-gsaat-registry.php:154
+msgid "Format data"
+msgstr "Dar formato a datos"
+
+#: includes/class-gsaat-registry.php:169
+msgid "Redirect the user"
+msgstr "Redirigir al usuario"
+
+#: includes/class-gsaat-registry.php:178
+msgid "Add rows to a table"
+msgstr "Añadir filas a una tabla"
+
+#: includes/class-gsaat-registry.php:190
+msgid "Wait (schedule the next actions)"
+msgstr "Esperar (programar las acciones siguientes)"
+
+#: includes/class-gsaat-scheduler.php:33
+msgid "hours"
+msgstr "horas"
+
+#: includes/class-gsaat-scheduler.php:35
+msgid "weeks"
+msgstr "semanas"
+
+#. translators: %d: log entry ID.
+#: includes/class-gsaat-scheduler.php:116
+#, php-format
+msgid "Actions scheduled by #%d (after a wait)"
+msgstr "Acciones programadas por n.º %d (después de una espera)"
+
+#: includes/class-gsaat-scheduler.php:130
+msgid "The scheduled actions were not run because the automation is inactive."
+msgstr "Las acciones programadas no se han ejecutado porque la automatización está inactiva."
+
+#: includes/class-gsaat-tables.php:35
+#: includes/class-gsaat-trigger-widget.php:49
+msgid "Text"
+msgstr "Texto"
+
+#: includes/class-gsaat-tables.php:36
+#: includes/class-gsaat-trigger-widget.php:51
+msgid "Number"
+msgstr "Número"
+
+#: includes/class-gsaat-tables.php:38
+msgid "Link (URL)"
+msgstr "Enlace (URL)"
+
+#: includes/class-gsaat-tables.php:209
+msgid "The table does not exist."
+msgstr "La tabla no existe."
+
+#: includes/class-gsaat-tables.php:212
+msgid "The table has no columns."
+msgstr "La tabla no tiene columnas."
+
+#: includes/class-gsaat-tables.php:358
+msgid "Search"
+msgstr "Buscar"
+
+#: includes/class-gsaat-tables.php:359
+msgid "Previous"
+msgstr "Anterior"
+
+#: includes/class-gsaat-tables.php:360
+msgid "Next"
+msgstr "Siguiente"
+
+#. translators: 1: first row, 2: last row, 3: total rows.
+#: includes/class-gsaat-tables.php:362
+#, php-format
+msgid "%1$s–%2$s of %3$s"
+msgstr "%1$s–%2$s de %3$s"
+
+#: includes/class-gsaat-tables.php:363
+msgid "No matching rows."
+msgstr "No hay filas que coincidan."
+
+#: includes/class-gsaat-tables.php:364
+msgid "Sort by this column"
+msgstr "Ordenar por esta columna"
+
+#: includes/class-gsaat-tables.php:379
+msgid "Download as CSV"
+msgstr "Descargar en CSV"
+
+#: includes/class-gsaat-tables.php:407
+msgid "There are no rows yet."
+msgstr "Todavía no hay filas."
+
+#: includes/class-gsaat-tables.php:475
+msgid "This table is not available."
+msgstr "Esta tabla no está disponible."
+
+#. translators: 1: form title, 2: form ID.
+#: includes/class-gsaat-trigger-cf7.php:45
+#, php-format
+msgid "Contact Form 7 form \"%1$s\" (#%2$d) submitted"
+msgstr "Enviado el formulario de Contact Form 7 «%1$s» (n.º %2$d)"
+
+#. translators: %s: form title or ID.
+#: includes/class-gsaat-trigger-cf7.php:117
+#, php-format
+msgid "Contact Form 7: \"%s\" submitted"
+msgstr "Contact Form 7: enviado «%s»"
+
+#. translators: 1: field name, 2: expected value.
+#: includes/class-gsaat-trigger-cf7.php:121
+#, php-format
+msgid "field \"%1$s\" = \"%2$s\""
+msgstr "campo «%1$s» = «%2$s»"
+
+#. translators: %s: field name.
+#: includes/class-gsaat-trigger-cf7.php:123
+#, php-format
+msgid "field \"%s\" filled in"
+msgstr "campo «%s» rellenado"
+
+#: includes/class-gsaat-trigger-click.php:55
+#: includes/class-gsaat-trigger-click.php:282
+#: includes/class-gsaat-trigger-widget.php:76
+#: includes/class-gsaat-trigger-widget.php:722
+msgid "Send"
+msgstr "Enviar"
+
+#: includes/class-gsaat-trigger-click.php:119
+#: includes/class-gsaat-trigger-click.php:292
+msgid "Link clicked"
+msgstr "Clic en el enlace"
+
+#: includes/class-gsaat-trigger-click.php:159
+msgid "Button clicked"
+msgstr "Clic en el botón"
+
+#. translators: %s: destination URL.
+#: includes/class-gsaat-trigger-click.php:295
+#, php-format
+msgid "Link clicked → %s"
+msgstr "Clic en el enlace → %s"
+
+#. translators: %s: button label.
+#: includes/class-gsaat-trigger-click.php:301
+#, php-format
+msgid "Button \"%s\" clicked"
+msgstr "Clic en el botón «%s»"
+
+#: includes/class-gsaat-trigger-file.php:39
+#: includes/class-gsaat-trigger-file.php:463
+msgid "Choose a CSV or Excel file"
+msgstr "Elige un archivo CSV o Excel"
+
+#: includes/class-gsaat-trigger-file.php:40
+#: includes/class-gsaat-trigger-file.php:464
+msgid "Upload"
+msgstr "Subir"
+
+#: includes/class-gsaat-trigger-file.php:41
+#: includes/class-gsaat-trigger-file.php:465
+msgid "Thank you, the file was received."
+msgstr "Gracias, hemos recibido el archivo."
+
+#: includes/class-gsaat-trigger-file.php:50
+msgid "Only users with these roles"
+msgstr "Solo los usuarios con estos perfiles"
+
+#: includes/class-gsaat-trigger-file.php:51
+msgid "Anyone, including visitors who are not logged in"
+msgstr "Cualquiera, también los visitantes sin sesión iniciada"
+
+#: includes/class-gsaat-trigger-file.php:52
+msgid "Nobody on the website (only from the back end)"
+msgstr "Nadie desde el sitio web (solo desde el panel de administración)"
+
+#. translators: 1: row number, 2: file name.
+#: includes/class-gsaat-trigger-file.php:92
+#, php-format
+msgid "Row %1$d of the file \"%2$s\""
+msgstr "Fila %1$d del archivo «%2$s»"
+
+#. translators: 1: file name, 2: number of rows.
+#: includes/class-gsaat-trigger-file.php:105
+#, php-format
+msgid "File \"%1$s\" uploaded (%2$d row)"
+msgid_plural "File \"%1$s\" uploaded (%2$d rows)"
+msgstr[0] "Archivo «%1$s» subido (%2$d fila)"
+msgstr[1] "Archivo «%1$s» subido (%2$d filas)"
+
+#: includes/class-gsaat-trigger-file.php:136
+#: includes/class-gsaat-trigger-file.php:214
+msgid "Choose a file to upload."
+msgstr "Elige un archivo para subir."
+
+#. translators: %s: maximum size.
+#: includes/class-gsaat-trigger-file.php:142
+#: includes/class-gsaat-trigger-file.php:151
+#: includes/class-gsaat-trigger-file.php:216
+#, php-format
+msgid "The file is too big (maximum %s)."
+msgstr "El archivo es demasiado grande (máximo %s)."
+
+#: includes/class-gsaat-trigger-file.php:143
+#: includes/class-gsaat-trigger-file.php:147
+msgid "The file could not be uploaded. Please try again."
+msgstr "No se ha podido subir el archivo. Inténtalo de nuevo."
+
+#. translators: %d: maximum rows.
+#: includes/class-gsaat-trigger-file.php:210
+#: includes/class-gsaat-trigger-file.php:398
+#, php-format
+msgid "Only the first %d rows were read."
+msgstr "Solo se han leído las primeras %d filas."
+
+#: includes/class-gsaat-trigger-file.php:211
+msgid "You are not allowed to upload files here."
+msgstr "No tienes permiso para subir archivos aquí."
+
+#: includes/class-gsaat-trigger-file.php:212
+msgid "Too many uploads from this connection. Please try again later."
+msgstr "Demasiadas subidas desde esta conexión. Inténtalo de nuevo más tarde."
+
+#: includes/class-gsaat-trigger-file.php:213
+msgid "Uploads are not available right now."
+msgstr "Las subidas no están disponibles en este momento."
+
+#: includes/class-gsaat-trigger-file.php:218
+msgid "The file could not be read. Please check it and try again."
+msgstr "No se ha podido leer el archivo. Revísalo e inténtalo de nuevo."
+
+#: includes/class-gsaat-trigger-file.php:220
+msgid "This website cannot read Excel files. Save the file as CSV and upload it again."
+msgstr "Este sitio no puede leer archivos de Excel. Guarda el archivo como CSV y vuelve a subirlo."
+
+#: includes/class-gsaat-trigger-file.php:246
+msgid "Log in to upload a file."
+msgstr "Inicia sesión para subir un archivo."
+
+#: includes/class-gsaat-trigger-file.php:386
+msgid "The automation is not active (or is outside its dates / run limit), so the file was not processed."
+msgstr "La automatización no está activa (o está fuera de sus fechas o de su límite de ejecuciones), así que el archivo no se ha procesado."
+
+#. translators: 1: number of rows, 2: number of executions, 3: failed executions.
+#: includes/class-gsaat-trigger-file.php:391
+#, php-format
+msgid "File processed: %1$d rows read, %2$d executions, %3$d with errors. See the details in Logs."
+msgstr "Archivo procesado: %1$d filas leídas, %2$d ejecuciones, %3$d con errores. Consulta los detalles en Registros."
+
+#: includes/class-gsaat-trigger-file.php:473
+msgid "CSV / Excel file uploaded — once per row"
+msgstr "Archivo CSV / Excel subido — una vez por fila"
+
+#: includes/class-gsaat-trigger-file.php:474
+msgid "CSV / Excel file uploaded — once per file"
+msgstr "Archivo CSV / Excel subido — una vez por archivo"
+
+#: includes/class-gsaat-trigger-user.php:43
+msgid "A user registers"
+msgstr "Un usuario se registra"
+
+#: includes/class-gsaat-trigger-user.php:44
+msgid "A user logs in"
+msgstr "Un usuario inicia sesión"
+
+#: includes/class-gsaat-trigger-user.php:45
+msgid "A user changes their password"
+msgstr "Un usuario cambia su contraseña"
+
+#. translators: 1: event, 2: user login.
+#: includes/class-gsaat-trigger-user.php:126
+#, php-format
+msgid "%1$s: %2$s"
+msgstr "%1$s: %2$s"
+
+#: includes/class-gsaat-trigger-webhook.php:43
+msgid "Unknown webhook."
+msgstr "Webhook desconocido."
+
+#: includes/class-gsaat-trigger-webhook.php:63
+msgid "WooCommerce delivery URL test (ping) accepted. No action was executed."
+msgstr "Prueba (ping) de la URL de entrega de WooCommerce aceptada. No se ha ejecutado ninguna acción."
+
+#: includes/class-gsaat-trigger-webhook.php:75
+msgid "No data was received."
+msgstr "No se ha recibido ningún dato."
+
+#. translators: %s: comma-separated list of keys.
+#: includes/class-gsaat-trigger-webhook.php:91
+#, php-format
+msgid "None of the configured keys were received (expected: %s)."
+msgstr "No se ha recibido ninguna de las claves configuradas (se esperaba: %s)."
+
+#: includes/class-gsaat-trigger-webhook.php:99
+msgid "The automation is inactive."
+msgstr "La automatización está inactiva."
+
+#: includes/class-gsaat-trigger-webhook.php:100
+msgid "The automation has not started yet."
+msgstr "La automatización todavía no ha empezado."
+
+#: includes/class-gsaat-trigger-webhook.php:101
+msgid "The automation has expired."
+msgstr "La automatización ha caducado."
+
+#: includes/class-gsaat-trigger-webhook.php:102
+msgid "The automation has reached its maximum number of runs."
+msgstr "La automatización ha alcanzado su número máximo de ejecuciones."
+
+#. translators: %s: HTTP method.
+#: includes/class-gsaat-trigger-webhook.php:113
+#, php-format
+msgid "Webhook received (%s)"
+msgstr "Webhook recibido (%s)"
+
+#. translators: %s: comma-separated list of keys.
+#: includes/class-gsaat-trigger-webhook.php:161
+#, php-format
+msgid "Webhook (keys: %s)"
+msgstr "Webhook (claves: %s)"
+
+#: includes/class-gsaat-trigger-webhook.php:162
+msgid "Webhook (all received data)"
+msgstr "Webhook (todos los datos recibidos)"
+
+#. translators: %s: comma-separated list of protections.
+#: includes/class-gsaat-trigger-webhook.php:165
+#, php-format
+msgid "protected by %s"
+msgstr "protegido con %s"
+
+#: includes/class-gsaat-trigger-widget.php:41
+msgid "Form with fields"
+msgstr "Formulario con campos"
+
+#: includes/class-gsaat-trigger-widget.php:42
+msgid "Button"
+msgstr "Botón"
+
+#: includes/class-gsaat-trigger-widget.php:43
+msgid "Link"
+msgstr "Enlace"
+
+#: includes/class-gsaat-trigger-widget.php:52
+msgid "Phone"
+msgstr "Teléfono"
+
+#: includes/class-gsaat-trigger-widget.php:53
+msgid "Long text"
+msgstr "Texto largo"
+
+#: includes/class-gsaat-trigger-widget.php:54
+msgid "Drop-down list"
+msgstr "Lista desplegable"
+
+#: includes/class-gsaat-trigger-widget.php:55
+msgid "Checkbox"
+msgstr "Casilla de verificación"
+
+#: includes/class-gsaat-trigger-widget.php:56
+msgid "Privacy consent"
+msgstr "Consentimiento de privacidad"
+
+#: includes/class-gsaat-trigger-widget.php:62
+msgid "System (like the visitor's device)"
+msgstr "Del sistema (como el dispositivo del visitante)"
+
+#: includes/class-gsaat-trigger-widget.php:63
+msgid "Sans-serif"
+msgstr "Sans-serif"
+
+#: includes/class-gsaat-trigger-widget.php:64
+msgid "Serif"
+msgstr "Serif"
+
+#: includes/class-gsaat-trigger-widget.php:65
+msgid "Monospace"
+msgstr "Monoespaciada"
+
+#: includes/class-gsaat-trigger-widget.php:146
+#: includes/class-gsaat-trigger-widget.php:308
+#: includes/class-gsaat-trigger-widget.php:348
+msgid "Unknown widget."
+msgstr "Widget desconocido."
+
+#: includes/class-gsaat-trigger-widget.php:187
+msgid "Sending…"
+msgstr "Enviando…"
+
+#: includes/class-gsaat-trigger-widget.php:188
+msgid "Something went wrong. Please try again."
+msgstr "Algo ha fallado. Inténtalo de nuevo."
+
+#: includes/class-gsaat-trigger-widget.php:189
+msgid "Continue"
+msgstr "Continuar"
+
+#: includes/class-gsaat-trigger-widget.php:190
+msgid "Please complete the verification."
+msgstr "Completa la verificación."
+
+#: includes/class-gsaat-trigger-widget.php:311
+#: includes/class-gsaat-trigger-widget.php:403
+#: includes/views/widget-page.php:28
+msgid "This form is not available right now."
+msgstr "Este formulario no está disponible en este momento."
+
+#: includes/class-gsaat-trigger-widget.php:315
+#: includes/class-gsaat-trigger-widget.php:371
+msgid "This widget can only be used from its own page."
+msgstr "Este widget solo se puede usar desde su propia página."
+
+#: includes/class-gsaat-trigger-widget.php:330
+#: includes/class-gsaat-trigger-widget.php:377
+msgid "This website is not allowed to show this form."
+msgstr "Este sitio web no tiene permiso para mostrar este formulario."
+
+#: includes/class-gsaat-trigger-widget.php:380
+msgid "The form was sent too fast to be a person. Please try again."
+msgstr "El formulario se ha enviado demasiado rápido para ser una persona. Inténtalo de nuevo."
+
+#: includes/class-gsaat-trigger-widget.php:384
+msgid "The hidden anti-spam field was filled in (probably a bot)."
+msgstr "Se ha rellenado el campo antispam oculto (probablemente un bot)."
+
+#: includes/class-gsaat-trigger-widget.php:394
+msgid "Too many submissions from this connection. Please try again later."
+msgstr "Demasiados envíos desde esta conexión. Inténtalo de nuevo más tarde."
+
+#: includes/class-gsaat-trigger-widget.php:399
+msgid "The verification failed. Please try again."
+msgstr "Ha fallado la verificación. Inténtalo de nuevo."
+
+#: includes/class-gsaat-trigger-widget.php:409
+msgid "Please check the highlighted fields."
+msgstr "Revisa los campos marcados."
+
+#: includes/class-gsaat-trigger-widget.php:413
+msgid "This form has received too many submissions. Please try again later."
+msgstr "Este formulario ha recibido demasiados envíos. Inténtalo de nuevo más tarde."
+
+#. translators: %s: website.
+#: includes/class-gsaat-trigger-widget.php:426
+#, php-format
+msgid "Widget used on %s"
+msgstr "Widget usado en %s"
+
+#: includes/class-gsaat-trigger-widget.php:427
+msgid "Widget used"
+msgstr "Widget usado"
+
+#: includes/class-gsaat-trigger-widget.php:501
+msgid "The form expired. Reload the page and try again."
+msgstr "El formulario ha caducado. Vuelve a cargar la página e inténtalo de nuevo."
+
+#: includes/class-gsaat-trigger-widget.php:585
+msgid "You must accept to continue."
+msgstr "Debes aceptar para continuar."
+
+#: includes/class-gsaat-trigger-widget.php:586
+msgid "This field is required."
+msgstr "Este campo es obligatorio."
+
+#: includes/class-gsaat-trigger-widget.php:591
+msgid "Enter a valid email address."
+msgstr "Escribe un correo electrónico válido."
+
+#: includes/class-gsaat-trigger-widget.php:593
+msgid "Enter a number."
+msgstr "Escribe un número."
+
+#: includes/class-gsaat-trigger-widget.php:595
+msgid "Choose one of the options."
+msgstr "Elige una de las opciones."
+
+#. translators: %s: widget kind.
+#: includes/class-gsaat-trigger-widget.php:788
+#, php-format
+msgid "Embeddable widget: %s"
+msgstr "Widget insertable: %s"
+
+#. translators: %s: comma-separated websites.
+#: includes/class-gsaat-trigger-widget.php:793
+#, php-format
+msgid "on %s"
+msgstr "en %s"
+
+#: includes/class-gsaat-webhook-security.php:25
+msgid "Custom (generic HMAC)"
+msgstr "Personalizado (HMAC genérico)"
+
+#: includes/class-gsaat-webhook-security.php:150
+msgid "token"
+msgstr "token"
+
+#: includes/class-gsaat-webhook-security.php:153
+msgid "IP list"
+msgstr "lista de IP"
+
+#. translators: %s: signature preset name.
+#: includes/class-gsaat-webhook-security.php:158
+#, php-format
+msgid "%s signature"
+msgstr "firma de %s"
+
+#. translators: %s: IP address.
+#: includes/class-gsaat-webhook-security.php:177
+#, php-format
+msgid "Calls from the IP address %s are not allowed."
+msgstr "No se permiten llamadas desde la dirección IP %s."
+
+#. translators: %s: header name.
+#: includes/class-gsaat-webhook-security.php:189
+#, php-format
+msgid "The authentication token was not sent (expected in the %s header)."
+msgstr "No se ha enviado el token de autenticación (se esperaba en la cabecera %s)."
+
+#: includes/class-gsaat-webhook-security.php:192
+msgid "The authentication token is not valid."
+msgstr "El token de autenticación no es válido."
+
+#: includes/class-gsaat-webhook-security.php:227
+msgid "The signature is not valid."
+msgstr "La firma no es válida."
+
+#. translators: %s: header name.
+#: includes/class-gsaat-webhook-security.php:300
+#, php-format
+msgid "The timestamp was not sent (expected in the %s header)."
+msgstr "No se ha enviado la fecha y hora (se esperaba en la cabecera %s)."
+
+#. translators: %s: header name.
+#: includes/class-gsaat-webhook-security.php:321
+#, php-format
+msgid "The signature was not sent (expected in the %s header)."
+msgstr "No se ha enviado la firma (se esperaba en la cabecera %s)."
+
+#. translators: %d: number of seconds.
+#: includes/class-gsaat-webhook-security.php:337
+#, php-format
+msgid "The call is too old or its clock is wrong (more than %d seconds of difference). It may be a replayed call."
+msgstr "La llamada es demasiado antigua o su reloj está mal (más de %d segundos de diferencia). Puede ser una llamada repetida."
+
+#: includes/class-gsaat-webhook-security.php:358
+msgid "Direct connection (REMOTE_ADDR) — recommended"
+msgstr "Conexión directa (REMOTE_ADDR) — recomendado"
+
+#: includes/class-gsaat-webhook-security.php:359
+msgid "X-Forwarded-For header (behind a proxy or load balancer)"
+msgstr "Cabecera X-Forwarded-For (detrás de un proxy o un balanceador de carga)"
+
+#: includes/class-gsaat-webhook-security.php:360
+msgid "CF-Connecting-IP header (behind Cloudflare)"
+msgstr "Cabecera CF-Connecting-IP (detrás de Cloudflare)"
+
+#: includes/class-gsaat-webhook-security.php:361
+msgid "X-Real-IP header (behind Nginx proxy)"
+msgstr "Cabecera X-Real-IP (detrás de un proxy Nginx)"
+
+#: includes/views/widget-page.php:51
+msgid "Privacy policy"
+msgstr "Política de privacidad"
+
+#: includes/views/widget-page.php:79
+msgid "Leave this field empty"
+msgstr "Deja este campo vacío"

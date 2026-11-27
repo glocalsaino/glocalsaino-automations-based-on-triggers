@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-25T22:33:28+00:00\n"
+"POT-Creation-Date: 2026-11-26T23:26:03+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: glocalsaino-automations-based-on-triggers\n"
@@ -41,65 +41,69 @@ msgstr ""
 
 #: includes/admin/class-gsaat-admin-extensions.php:25
 #: includes/admin/class-gsaat-admin-extensions.php:26
-#: includes/admin/class-gsaat-admin-extensions.php:58
+#: includes/admin/class-gsaat-admin-extensions.php:64
 msgid "Extensions"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin-extensions.php:47
+#: includes/admin/class-gsaat-admin-extensions.php:52
 #: includes/admin/class-gsaat-admin.php:865
 #: includes/admin/views/edit.php:67
 msgid "Active"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin-extensions.php:49
+#: includes/admin/class-gsaat-admin-extensions.php:54
 msgid "Learn more"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin-extensions.php:61
+#: includes/admin/class-gsaat-admin-extensions.php:67
 msgid "GlocalSaino Automations Bridge"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin-extensions.php:62
+#: includes/admin/class-gsaat-admin-extensions.php:68
 msgid "Triggers and actions for the other GlocalSaino plugins: a table from every map layer uploaded, points on a map from a form, alerts when an external layer gets new items, magic links to protected pages, booking and SES Hospedajes events, reminders in the booking chat room, and bids and auction endings sent to any webhook."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin-extensions.php:68
+#: includes/admin/class-gsaat-admin-extensions.php:72
+msgid "see Automations → Bridge."
+msgstr ""
+
+#: includes/admin/class-gsaat-admin-extensions.php:76
 msgid "Other GlocalSaino plugins"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin-extensions.php:69
+#: includes/admin/class-gsaat-admin-extensions.php:77
 msgid "Free plugins that Automations Bridge can connect with your automations."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin-extensions.php:72
+#: includes/admin/class-gsaat-admin-extensions.php:80
 msgid "GlocalSaino Layer Map Viewer"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin-extensions.php:73
+#: includes/admin/class-gsaat-admin-extensions.php:81
 msgid "Interactive maps from KML files, with colored layers, filters and transparency."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin-extensions.php:78
+#: includes/admin/class-gsaat-admin-extensions.php:87
 msgid "GlocalSaino Booking Calendars displayed by shortcodes"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin-extensions.php:79
+#: includes/admin/class-gsaat-admin-extensions.php:88
 msgid "Accommodation booking calendars with prices, iCal sync and scheduled guest emails."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin-extensions.php:84
+#: includes/admin/class-gsaat-admin-extensions.php:94
 msgid "GlocalSaino Auctions Displayed by Shortcodes"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin-extensions.php:85
+#: includes/admin/class-gsaat-admin-extensions.php:95
 msgid "Direct and reverse auctions in any page, with a countdown and an automatic winner."
 msgstr ""
 
-#: includes/admin/class-gsaat-admin-extensions.php:90
+#: includes/admin/class-gsaat-admin-extensions.php:101
 msgid "GlocalSaino WebPagesPassworded"
 msgstr ""
 
-#: includes/admin/class-gsaat-admin-extensions.php:91
+#: includes/admin/class-gsaat-admin-extensions.php:102
 msgid "One access page for groups of password-protected pages."
 msgstr ""
 

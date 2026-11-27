@@ -188,6 +188,7 @@ The **webhook trigger** works the other way around: external systems you choose 
 
 = 1.4.0 =
 * New Extensions screen (Automations → Extensions) with the paid add-on GlocalSaino Automations Bridge, which adds triggers and actions for the other GlocalSaino plugins, and those plugins.
+* The Extensions screen shows the logo of each plugin.
 
 = 1.3.5 =
 * New setting (Settings → Public triggers): hourly limit of runs of each automation for anonymous visitors of links, buttons, upload forms and widgets, all visitors together (default 100).
